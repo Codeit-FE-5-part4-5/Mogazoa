@@ -1,9 +1,6 @@
 import { hexToRgb } from '@/shared/utils/hexToRgb';
-interface ChipProps {
-  text: string;
-  color?: string;
-}
-const CATEGORY_LIST = [
+
+export const CATEGORY_LIST = [
   { name: '음악', color: '#c5d17c' },
   { name: '영화/드라마', color: '#f75532' },
   { name: '강의/책', color: '#a953ff' },
@@ -15,6 +12,11 @@ const CATEGORY_LIST = [
   { name: '의류/악세서리', color: '#757aff' },
   { name: '앱', color: '#3098e3' },
 ];
+
+interface ChipProps {
+  text: string;
+  color?: string;
+}
 
 export default function Chip({ text = '음악', color = '#c5d17c' }: ChipProps) {
   const { r, g, b } = hexToRgb(color);
