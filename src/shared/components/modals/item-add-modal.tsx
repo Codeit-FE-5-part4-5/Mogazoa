@@ -11,12 +11,15 @@ import {
 
 import { useModal } from '@/shared/hooks/use-modal-store';
 import { ModalDropdown } from './modal-dropdown/modal-dropdown';
+import DropDown from '../DropDown/DropDown';
+
+const frameworks = ['Next.js', 'SvelteKit', 'Nuxt.js', 'Remix', 'Astro'];
 
 export const ItemAddModal = () => {
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'itemAdd';
   const [text, setText] = useState<string>('');
-
+  const [selecteItem, setSelecteItem] = useState('');
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
@@ -39,10 +42,10 @@ export const ItemAddModal = () => {
                   alt="file"
                 />
               </div>
-              <div className="md:order-1">
+              <div className="w-full md:order-1">
                 {/* Dropdown 컴포넌트 추가 */}
-                <ModalDropdown />
-                <ModalDropdown />
+                <DropDown itemList={frameworks} onClick={setSelecteItem} />
+                <DropDown itemList={frameworks} onClick={setSelecteItem} />
               </div>
             </div>
             <div className="flex flex-col items-end rounded-md bg-[#252530]">
