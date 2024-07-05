@@ -14,7 +14,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useModal } from '@/shared/hooks/use-modal-store';
+import Image from 'next/image';
 
 export const ReviewModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -69,7 +72,8 @@ export const ReviewModal = () => {
               />
               <div className="mb-5 mr-5">{text.length} / 500</div>
             </div>
-            {/* Image input */}
+            {/* Image Input 컴포넌트 추가 */}
+            <Image src="/images/file.svg" width={160} height={160} alt="file" />
             <div className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white">
               작성하기
             </div>
