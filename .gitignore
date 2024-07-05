@@ -7,7 +7,7 @@
 .yarn/install-state.gz
 
 # dev
-/pages/dev.tsx
+/src/pages/dev.tsx
 
 # testing
 /coverage
