@@ -59,7 +59,7 @@ export default function DropDown({ itemList, onClick }: DropDownProps) {
     <div
       ref={dropDownElement}
       onClick={() => setShowMenuList((prev) => !prev)}
-      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-gray1'} relative w-full cursor-pointer items-center rounded-[0.6rem] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:py-[19px] xl:py-[22px] xl:text-[16px]`}
+      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-gray1'} relative w-[400px] cursor-pointer items-center rounded-[0.6rem] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:py-[19px] xl:py-[22px] xl:text-[16px]`}
     >
       <div className="flex size-full items-center justify-between py-[2px]">
         <input
