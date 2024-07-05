@@ -31,7 +31,21 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }: { addUtilities: any }) {
+      addUtilities({
+        '.border-gradient-custom': {
+          border: '1px solid transparent',
+          'background-origin': 'border-box',
+          'background-clip': 'padding-box, border-box',
+          'background-image':
+            'linear-gradient(#17171C, #17171C), linear-gradient(to right, #5097FA, #5363FF)',
+        },
+      });
+    },
+  ],
 };
 
 export default config;
+// md : 태블릿
+// xl : pc
