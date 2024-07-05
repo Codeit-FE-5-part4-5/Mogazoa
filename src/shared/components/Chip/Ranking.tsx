@@ -1,4 +1,4 @@
-import { hexToRgb } from '@/shared/utils/hexToRgb';
+import { useHexToRgb } from '@/shared/hooks/useHexToRgb';
 
 interface RankingProps {
   ranking: number;
@@ -7,7 +7,7 @@ interface RankingProps {
 const chipColorList = ['#ff2f9f', '#05d58b', '#9fa6b2'];
 
 export default function Ranking({ ranking }: RankingProps) {
-  const { r, g, b } = hexToRgb(chipColorList[ranking < 2 ? ranking : 2]);
+  const [r, g, b] = useHexToRgb(chipColorList[ranking < 2 ? ranking : 2]);
 
   return (
     <div

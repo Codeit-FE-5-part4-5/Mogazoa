@@ -1,4 +1,4 @@
-import { hexToRgb } from '@/shared/utils/hexToRgb';
+import { useHexToRgb } from '@/shared/hooks/useHexToRgb';
 
 export const CATEGORY_LIST = [
   { name: '음악', color: '#c5d17c' },
@@ -19,7 +19,7 @@ interface ChipProps {
 }
 
 export default function Chip({ text = '음악', color = '#c5d17c' }: ChipProps) {
-  const { r, g, b } = hexToRgb(color);
+  const [r, g, b] = useHexToRgb(color);
   return (
     <div
       className={`flex w-fit rounded-[6px] px-[8px] py-[4px] md:px-[10px]`}

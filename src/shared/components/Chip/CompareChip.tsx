@@ -1,4 +1,5 @@
-import { hexToRgb } from '@/shared/utils/hexToRgb';
+import { useHexToRgb } from '@/shared/hooks/useHexToRgb';
+
 import Image from 'next/image';
 
 export enum ORDER_POSITION {
@@ -19,7 +20,7 @@ export default function CompareChip({
   orderPosition,
   onClick,
 }: CompareChipProps) {
-  const { r, g, b } = hexToRgb(productColorList[orderPosition]);
+  const [r, g, b] = useHexToRgb(productColorList[orderPosition]);
   return (
     <div
       className="flex w-fit items-center gap-[10px] rounded-[6px] px-[10px] py-[8px]"
