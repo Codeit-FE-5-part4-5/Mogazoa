@@ -34,9 +34,9 @@ export const FollowModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[500px] bg-[#1c1c22] text-var-white">
+      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="mb-10 text-2xl">
+          <DialogTitle className="mb-10 self-start text-2xl">
             유저를 팔로우하는 유저
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-6">

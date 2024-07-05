@@ -15,7 +15,7 @@ export const CompareConfirmModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[500px] bg-[#1c1c22] text-var-white">
+      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="mb-10 text-2xl">
             비교 상품이 교체되었습니다. <br />

@@ -15,7 +15,7 @@ export const CompareModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[500px] bg-[#1c1c22] text-var-white">
+      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="mb-10 text-2xl">
             지금 보신 'Sony WH-1300XM3' <br /> 어떤 상품과 비교할까요?
