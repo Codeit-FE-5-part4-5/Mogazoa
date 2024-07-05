@@ -10,9 +10,9 @@ import Image from 'next/image';
 import { ModalDropdown } from './modal-dropdown/modal-dropdown';
 import { ChangeEvent, useState } from 'react';
 
-export const ItemEditModal = () => {
+export const ItemAddModal = () => {
   const { isOpen, onClose, type } = useModal();
-  const isModalOpen = isOpen && type === 'itemEdit';
+  const isModalOpen = isOpen && type === 'itemAdd';
   const [text, setText] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
 
@@ -25,7 +25,7 @@ export const ItemEditModal = () => {
       <DialogContent className="w-[500px] bg-[#1c1c22] text-var-white">
         <DialogHeader>
           <DialogTitle className="mb-10 self-start text-2xl">
-            상품 편집
+            상품 추가
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
             {/* 모바일 화면에서 세로로 배치 */}
@@ -50,7 +50,7 @@ export const ItemEditModal = () => {
             <div className="flex flex-col items-end rounded-md bg-[#252530]">
               <textarea
                 className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
-                placeholder="리뷰를 작성해 주세요"
+                placeholder="상품을 추가해 주세요."
                 value={text}
                 maxLength={500}
                 onChange={handleTextChange}
@@ -58,7 +58,7 @@ export const ItemEditModal = () => {
               <div className="mb-5 mr-5">{text.length} / 500</div>
             </div>
             <div className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white">
-              저장하기
+              추가하기
             </div>
           </DialogDescription>
         </DialogHeader>

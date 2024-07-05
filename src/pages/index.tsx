@@ -39,6 +39,14 @@ export default function Home() {
       >
         상품 편집 모달
       </button>
+      <button
+        className="rounded-md border border-black p-1"
+        onClick={() => {
+          onOpen('itemAdd');
+        }}
+      >
+        상품 추가 모달
+      </button>
     </div>
   );
 }
