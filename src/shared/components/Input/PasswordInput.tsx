@@ -24,16 +24,18 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   return (
     <div>
       <h1 className="pb-3 text-[16px] text-var-white">비밀번호</h1>
-
-      <div className="flex-justify-between flex h-[70px] w-[335px] rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 pr-2 md:w-[440px] lg:w-[640px]">
+      <div className="flex h-[70px] w-[335px] justify-between rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 pr-2 focus-within:border-var-indigo md:w-[440px] lg:w-[640px]">
         <input
           value={value}
           type={inputType ? 'password' : 'text'}
           placeholder={placeholder}
-          className="placeholder-var-gray1::placeholder h-full w-full rounded-lg bg-var-black2 px-2 text-var-white focus:border-[1px] focus:border-var-indigo focus:outline-none"
-        ></input>
-        <button onClick={handleShowClick}>
-          <Image src={icon} width={22} height={22} alt="logo"></Image>
+          className="placeholder-var-gray1::placeholder h-full w-full rounded-lg bg-var-black2 px-2 text-var-white focus:outline-none"
+        />
+        <button
+          onClick={handleShowClick}
+          className="flex items-center justify-center"
+        >
+          <Image src={icon} width={22} height={22} alt="logo" />
         </button>
       </div>
     </div>
