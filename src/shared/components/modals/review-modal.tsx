@@ -1,5 +1,7 @@
 /**TODO:
- * 1. textarea 에서 리뷰가 길어질 때 글자수 계산하는 부분을 침범하는 버그 수정
+ * 1. chip 컴포넌트 추가
+ * 2. 상품명 api 받아와서 추가
+ * 3. image input 컴포넌트 추가
  */
 
 import { ChangeEvent, useState } from 'react';
@@ -22,17 +24,14 @@ export const ReviewModal = () => {
   const [text, setText] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
-  // Catch Rating value
   const handleRating = (rate: number) => {
     setRating(rate);
-
-    // other logic
   };
-  // Optinal callback functions
+
   const onPointerEnter = () => console.log('Enter');
   const onPointerLeave = () => console.log('Leave');
   const onPointerMove = (value: number, index: number) =>
@@ -43,6 +42,7 @@ export const ReviewModal = () => {
       <DialogContent className="w-[500px] bg-[#1c1c22] text-var-white">
         <DialogHeader>
           <DialogTitle className="mb-10 text-2xl">
+            {/* chip */}
             {/* 상품명 */}
             <div>Sony WH-1000XM3</div>
           </DialogTitle>
@@ -59,18 +59,17 @@ export const ReviewModal = () => {
                 />
               </div>
             </div>
-            <div className="relative flex flex-col">
+            <div className="flex flex-col items-end rounded-md bg-[#252530]">
               <textarea
-                className="min-h-[120px] resize-none rounded-md border border-[#353542] bg-[#252530] p-5"
+                className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
                 placeholder="리뷰를 작성해 주세요"
                 value={text}
-                onChange={handleChange}
+                maxLength={500}
+                onChange={handleTextChange}
               />
-              <div className="absolute bottom-5 right-5">
-                {text.length} / 500
-              </div>
+              <div className="mb-5 mr-5">{text.length} / 500</div>
             </div>
-            {/* 사진 input */}
+            {/* Image input */}
             <div className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white">
               작성하기
             </div>
