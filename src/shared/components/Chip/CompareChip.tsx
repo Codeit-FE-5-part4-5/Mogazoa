@@ -21,7 +21,7 @@ export default function CompareChip({
 }: CompareChipProps) {
   const { r, g, b } = hexToRgb(productColorList[orderPosition]);
   return (
-    <button
+    <div
       className="flex w-fit items-center gap-[10px] rounded-[6px] px-[10px] py-[8px]"
       style={{
         backgroundColor: `rgba(${r}, ${g}, ${b}, 0.18)`,
@@ -35,6 +35,6 @@ export default function CompareChip({
       >
         <Image src="/close.svg" alt="삭제 버튼" width={15} height={15} />
       </button>
-    </button>
+    </div>
   );
 }
