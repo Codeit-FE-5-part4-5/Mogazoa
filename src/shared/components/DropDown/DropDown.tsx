@@ -10,7 +10,7 @@ interface ItemListProps {
 const ItemList = ({ itemList, onClick, isOrder }: ItemListProps) => {
   return (
     <div
-      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[66px]'} flex w-full flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
+      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[66px]'} animate-slideDown flex w-full flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
     >
       {itemList.map((item) => (
         <div
