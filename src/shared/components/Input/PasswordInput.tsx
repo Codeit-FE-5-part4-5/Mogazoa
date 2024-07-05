@@ -24,7 +24,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   return (
     <div>
       <h1 className="pb-3 text-[16px] text-var-white">비밀번호</h1>
-      <div className="flex h-[70px] w-[335px] justify-between rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 pr-2 focus-within:border-var-indigo md:w-[440px] lg:w-[640px]">
+      <div className="flex h-full w-full justify-between rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 pr-2 focus-within:border-var-indigo">
         <input
           value={value}
           type={inputType ? 'password' : 'text'}

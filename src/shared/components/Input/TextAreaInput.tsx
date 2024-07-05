@@ -12,7 +12,7 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({ placeholder }) => {
   };
 
   return (
-    <div className="flex h-[120px] w-[295px] flex-col items-end rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 p-4 text-var-white focus-within:border-var-indigo md:w-[370px] lg:w-[400px]">
+    <div className="flex h-full w-full flex-col items-end rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 p-4 text-var-white focus-within:border-var-indigo">
       <textarea
         placeholder={placeholder}
         maxLength={300}

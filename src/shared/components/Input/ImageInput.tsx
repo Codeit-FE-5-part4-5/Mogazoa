@@ -19,7 +19,7 @@ const ImageInput: React.FC = () => {
   };
 
   return (
-    <div className="relative h-[140px] w-[140px] rounded-lg border p-2 md:h-[135px] md:w-[135px] lg:h-[160px] lg:w-[160px]">
+    <div className="relative h-full w-full rounded-lg border p-2 md:h-[135px]">
       {!image ? (
         <div className="flex h-full w-full items-center justify-center">
           <label className="flex cursor-pointer items-center">
