@@ -1,6 +1,6 @@
-import type { Config } from 'tailwindcss';
+const plugin = require('tailwindcss/plugin');
 
-const config = {
+module.exports = {
   darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -86,7 +86,22 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
-} satisfies Config;
-
-export default config;
+  plugins: [
+    require('tailwindcss-animate'),
+    plugin(function ({
+      addUtilities,
+    }: {
+      addUtilities: (utilities: Record<string, any>) => void;
+    }) {
+      addUtilities({
+        '.border-gradient-custom': {
+          border: '1px solid transparent',
+          'background-origin': 'border-box',
+          'background-clip': 'padding-box, border-box',
+          'background-image':
+            'linear-gradient(#17171C, #17171C), linear-gradient(to right, #5097FA, #5363FF)',
+        },
+      });
+    }),
+  ],
+};
