@@ -47,6 +47,14 @@ export default function Home() {
       >
         상품 추가 모달
       </button>
+      <button
+        className="rounded-md border border-black p-1"
+        onClick={() => {
+          onOpen('profileEdit');
+        }}
+      >
+        프로필 편집 모달
+      </button>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { CompareConfirmModal } from '../components/modals/compare-confirm-modal'
 import { ReviewModal } from '../components/modals/review-modal';
 import { ItemEditModal } from '../components/modals/item-edit-modal';
 import { ItemAddModal } from '../components/modals/item-add-modal';
+import { ProfileEditModal } from '../components/modals/profile-edit-modal';
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -25,6 +26,7 @@ export const ModalProvider = () => {
       <ReviewModal />
       <ItemEditModal />
       <ItemAddModal />
+      <ProfileEditModal />
     </>
   );
 };

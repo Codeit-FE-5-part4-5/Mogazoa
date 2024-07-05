@@ -4,7 +4,8 @@ export type ModalType =
   | 'compareConfirm'
   | 'review'
   | 'itemEdit'
-  | 'itemAdd';
+  | 'itemAdd'
+  | 'profileEdit';
 
 export interface ModalStore {
   type: ModalType | null;
