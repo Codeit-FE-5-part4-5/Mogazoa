@@ -59,15 +59,14 @@ export default function DropDown({ itemList, onClick }: DropDownProps) {
     <div
       ref={dropDownElement}
       onClick={() => setShowMenuList((prev) => !prev)}
-      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-gray1'} relative w-full cursor-pointer items-center rounded-[0.6rem] border bg-var-black2 px-[20px] py-[19px]`}
+      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-gray1'} relative w-full cursor-pointer items-center rounded-[0.6rem] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:py-[19px] xl:py-[22px] xl:text-[16px]`}
     >
-      <div className="flex size-full items-center justify-between">
+      <div className="flex size-full items-center justify-between py-[2px]">
         <input
           value={selectMenu}
           readOnly
-          className={`cursor-pointer ${showMenuList ? 'bg-var-black1 text-var-gray2' : 'bg-var-black2 text-var-gray1'} py-[2px] outline-none`}
+          className={`cursor-pointer ${showMenuList ? 'bg-var-black1 text-var-gray2' : 'bg-var-black2 text-var-gray1'} outline-none`}
         />
-
         <Image
           src="/arrow.svg"
           alt="드롭다운 화살표"

@@ -1,13 +1,6 @@
 import { ButtonHTMLAttributes } from 'react';
 
-type Size = 's' | 'm' | 'l';
 type Variant = 'primary' | 'secondary' | 'tertiary';
-
-const buttonSizeList = {
-  l: 'py-[22px] text-[18px]',
-  m: 'py-[18px] text-[16px]',
-  s: 'py-[16px] text-[16px]',
-};
 
 const buttonColorList = {
   primary: {
@@ -26,20 +19,18 @@ const buttonColorList = {
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
-  size?: Size;
   variant?: Variant;
 }
 
 export default function Button({
   text,
-  size = 'm',
   variant = 'primary',
   disabled,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={`w-full rounded-[8px] font-bold ${buttonSizeList[size]} ${buttonColorList[variant].button}`}
+      className={`w-full rounded-[8px] py-[16px] text-[16px] font-bold md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px] ${buttonColorList[variant].button}`}
       disabled={disabled}
       {...props}
     >
