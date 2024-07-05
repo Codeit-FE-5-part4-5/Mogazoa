@@ -1,14 +1,12 @@
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface ItemListProps {
   itemList: string[];
-  onClick: () => void;
-  selectMenu: string;
-  setSelectMenu: Dispatch<SetStateAction<string>>;
+  onClick: (arg: string) => void;
 }
 
-const ItemList = ({ itemList, setSelectMenu }: ItemListProps) => {
+const ItemList = ({ itemList, onClick }: ItemListProps) => {
   return (
     <div
       className={`absolute left-0 top-[75px] flex w-full flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
@@ -16,7 +14,7 @@ const ItemList = ({ itemList, setSelectMenu }: ItemListProps) => {
       {itemList.map((item) => (
         <div
           key={item}
-          onClick={() => setSelectMenu(item)}
+          onClick={() => onClick(item)}
           className={`rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2`}
         >
           {item}
@@ -28,7 +26,7 @@ const ItemList = ({ itemList, setSelectMenu }: ItemListProps) => {
 
 interface DropDownProps {
   itemList: string[];
-  onClick: () => void;
+  onClick: (arg: string) => void;
 }
 
 export default function DropDown({ itemList, onClick }: DropDownProps) {
@@ -45,12 +43,17 @@ export default function DropDown({ itemList, onClick }: DropDownProps) {
     }
   };
 
+  const handleClickEvent = (item: string) => {
+    onClick(item);
+    setSelectMenu(item);
+  };
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  });
+  }, []);
 
   return (
     <div
@@ -74,12 +77,7 @@ export default function DropDown({ itemList, onClick }: DropDownProps) {
         />
       </div>
       {showMenuList && (
-        <ItemList
-          itemList={itemList}
-          onClick={onClick}
-          selectMenu={selectMenu}
-          setSelectMenu={setSelectMenu}
-        />
+        <ItemList itemList={itemList} onClick={handleClickEvent} />
       )}
     </div>
   );
