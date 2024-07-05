@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] px-[20px] py-[23px] md:px-[30px] xl:px-[120px]">
+    <div className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:px-[30px] xl:px-[120px]">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center space-x-4 md:hidden">
           <Image src={MenuIcon} alt="MenuIcon" width={24} height={24} />
