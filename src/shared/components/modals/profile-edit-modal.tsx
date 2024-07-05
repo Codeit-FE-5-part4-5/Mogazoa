@@ -1,3 +1,6 @@
+import { ChangeEvent, useState } from 'react';
+import Image from 'next/image';
+
 import {
   Dialog,
   DialogContent,
@@ -5,10 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+
 import { useModal } from '@/shared/hooks/use-modal-store';
-import Image from 'next/image';
 import { ModalDropdown } from './modal-dropdown/modal-dropdown';
-import { ChangeEvent, useState } from 'react';
 
 export const ProfileEditModal = () => {
   const { isOpen, onClose, type } = useModal();

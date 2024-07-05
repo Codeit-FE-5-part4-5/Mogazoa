@@ -5,6 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+
 import { useModal } from '@/shared/hooks/use-modal-store';
 
 export const CompareModal = () => {

@@ -5,8 +5,9 @@
  */
 
 import { ChangeEvent, useState } from 'react';
-import { Rating } from 'react-simple-star-rating';
+import Image from 'next/image';
 
+import { Rating } from 'react-simple-star-rating';
 import {
   Dialog,
   DialogContent,
@@ -14,10 +15,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+
 import { useModal } from '@/shared/hooks/use-modal-store';
-import Image from 'next/image';
 
 export const ReviewModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -44,10 +43,10 @@ export const ReviewModal = () => {
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="w-[500px] bg-[#1c1c22] text-var-white">
         <DialogHeader>
-          <DialogTitle className="mb-10 text-2xl">
+          <DialogTitle className="mb-10 self-start text-2xl">
             {/* chip */}
             {/* 상품명 */}
-            <div>Sony WH-1000XM3</div>
+            <div className="self-start">Sony WH-1000XM3</div>
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
             <div className="flex items-center gap-x-5">

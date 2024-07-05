@@ -6,6 +6,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
 import { useModal } from '@/shared/hooks/use-modal-store';
 
 const mockUsers = [

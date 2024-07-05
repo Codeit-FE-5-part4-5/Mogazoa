@@ -1,3 +1,6 @@
+import { ChangeEvent, useState } from 'react';
+import Image from 'next/image';
+
 import {
   Dialog,
   DialogContent,
@@ -5,16 +8,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+
 import { useModal } from '@/shared/hooks/use-modal-store';
-import Image from 'next/image';
 import { ModalDropdown } from './modal-dropdown/modal-dropdown';
-import { ChangeEvent, useState } from 'react';
 
 export const ItemEditModal = () => {
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'itemEdit';
   const [text, setText] = useState<string>('');
-  const [rating, setRating] = useState<number>(0);
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -28,7 +29,6 @@ export const ItemEditModal = () => {
             상품 편집
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
-            {/* 모바일 화면에서 세로로 배치 */}
             <div className="flex flex-col md:flex-row md:items-start">
               <div className="md:order-2">
                 {/* Image Input 컴포넌트 추가 */}
@@ -45,12 +45,10 @@ export const ItemEditModal = () => {
                 <ModalDropdown />
               </div>
             </div>
-
-            {/* 텍스트 에디터 및 저장하기 버튼 */}
             <div className="flex flex-col items-end rounded-md bg-[#252530]">
               <textarea
                 className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
-                placeholder="리뷰를 작성해 주세요"
+                placeholder="상품을 수정해 주세요"
                 value={text}
                 maxLength={500}
                 onChange={handleTextChange}
