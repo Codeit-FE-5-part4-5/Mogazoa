@@ -1,3 +1,9 @@
+import { Header } from '@/shared/components/header/header';
+
 export default function Home() {
-  return <div>asd</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 }
