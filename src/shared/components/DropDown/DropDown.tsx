@@ -4,12 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 interface ItemListProps {
   itemList: string[];
   onClick: (arg: string) => void;
+  isOrder?: boolean;
 }
 
-const ItemList = ({ itemList, onClick }: ItemListProps) => {
+const ItemList = ({ itemList, onClick, isOrder }: ItemListProps) => {
+  console.log(isOrder);
   return (
     <div
-      className={`absolute left-0 top-[75px] flex w-full flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
+      className={`absolute left-0 ${isOrder ? 'top-[50px]' : 'top-[75px]'} flex w-full flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
     >
       {itemList.map((item) => (
         <div
@@ -27,9 +29,14 @@ const ItemList = ({ itemList, onClick }: ItemListProps) => {
 interface DropDownProps {
   itemList: string[];
   onClick: (arg: string) => void;
+  isOrder?: boolean;
 }
 
-export default function DropDown({ itemList, onClick }: DropDownProps) {
+export default function DropDown({
+  itemList,
+  onClick,
+  isOrder = false,
+}: DropDownProps) {
   const [selectMenu, setSelectMenu] = useState(itemList[0]);
   const [showMenuList, setShowMenuList] = useState(false);
   const dropDownElement = useRef<HTMLDivElement>(null);
@@ -59,13 +66,13 @@ export default function DropDown({ itemList, onClick }: DropDownProps) {
     <div
       ref={dropDownElement}
       onClick={() => setShowMenuList((prev) => !prev)}
-      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-gray1'} relative w-[400px] cursor-pointer items-center rounded-[0.6rem] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:py-[19px] xl:py-[22px] xl:text-[16px]`}
+      className={`${!isOrder && showMenuList ? 'border-gradient-custom' : 'border-var-gray1'} ${isOrder && 'border-none bg-transparent'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:py-[19px] xl:py-[22px] xl:text-[16px]`}
     >
       <div className="flex size-full items-center justify-between py-[2px]">
         <input
           value={selectMenu}
           readOnly
-          className={`cursor-pointer ${showMenuList ? 'bg-var-black1 text-var-gray2' : 'bg-var-black2 text-var-gray1'} outline-none`}
+          className={`cursor-pointer ${!isOrder && showMenuList ? 'bg-var-black1 text-var-gray2' : 'bg-var-black2 text-var-gray1'} ${isOrder && 'bg-[#1c1c22]'} outline-none`}
         />
         <Image
           src="/arrow.svg"
@@ -76,7 +83,11 @@ export default function DropDown({ itemList, onClick }: DropDownProps) {
         />
       </div>
       {showMenuList && (
-        <ItemList itemList={itemList} onClick={handleClickEvent} />
+        <ItemList
+          itemList={itemList}
+          onClick={handleClickEvent}
+          isOrder={isOrder}
+        />
       )}
     </div>
   );
