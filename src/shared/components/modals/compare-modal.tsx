@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
+import Button from '../Button/Button';
 
 export const CompareModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -27,9 +28,7 @@ export const CompareModal = () => {
             <div className="rounded-md border border-[#353542] py-6 text-lg hover:border-var-pink hover:text-var-pink">
               Air Pods Max
             </div>
-            <div className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white">
-              교체하기
-            </div>
+            <Button text="교체하기" />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
