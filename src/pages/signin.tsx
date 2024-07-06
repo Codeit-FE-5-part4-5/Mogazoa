@@ -1,24 +1,20 @@
 import Button from '@/shared/components/Button/Button';
 import EmailInput from '@/shared/components/Input/EmailInput';
-import NicknameInput from '@/shared/components/Input/NicknameInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
 import useInput from '@/shared/hooks/useInput';
-import useSignUp from '@/shared/models/auth/useSignUp';
+import useSignIn from '@/shared/models/auth/useSignIn';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 export interface IAuthForm {
   email: '';
-  nickname: '';
   password: '';
-  passwordConfirmation: '';
 }
 
-export default function SignUp() {
+export default function SignIn() {
   const [email, onChangeEmail] = useInput('');
-  const [nickname, onChangeNickname] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const [passwordConfirmation, onChangePasswordConfirmation] = useInput('');
-  const { mutate } = useSignUp();
+  const { mutate } = useSignIn();
   const {
     register,
     formState: { errors },
@@ -27,9 +23,9 @@ export default function SignUp() {
     mode: 'onBlur',
   });
 
-  const handleSubmitSignUp = () => {
+  const handleSubmitSignIn = () => {
     mutate(
-      { email, nickname, password, passwordConfirmation },
+      { email, password },
       {
         onSuccess: (data) => console.log(data),
         onError: (error) => console.log(error),
@@ -40,7 +36,7 @@ export default function SignUp() {
   return (
     <div className="flex h-dvh items-center justify-center">
       <form
-        onSubmit={handleSubmit(handleSubmitSignUp)}
+        onSubmit={handleSubmit(handleSubmitSignIn)}
         className="flex w-full flex-col gap-[40px] md:w-[440px] xl:w-[640px]"
       >
         <EmailInput
@@ -50,13 +46,6 @@ export default function SignUp() {
           placeholder="이메일을 입력해 주세요"
           onChange={onChangeEmail}
         />
-        <NicknameInput
-          register={register}
-          error={errors}
-          value={nickname}
-          onChange={onChangeNickname}
-          placeholder="닉네임을 입력해 주세요"
-        />
         <PasswordInput
           register={register}
           error={errors}
@@ -64,14 +53,7 @@ export default function SignUp() {
           onChange={onChangePassword}
           placeholder="비밀번호를 입력해 주세요"
         />
-        <PasswordInput
-          register={register}
-          error={errors}
-          value={passwordConfirmation}
-          onChange={onChangePasswordConfirmation}
-          placeholder="비밀번호를 한번 더 입력해 주세요"
-        />
-        <Button text="가입하기" type="submit" className="mt-[20px]" />
+        <Button text="로그인하기" type="submit" className="mt-[20px]" />
       </form>
     </div>
   );

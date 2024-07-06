@@ -1,9 +1,8 @@
-import { IAuthForm } from '@/pages/signup';
 import { InputHTMLAttributes } from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 interface EmailInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  register: UseFormRegister<IAuthForm>;
+  register: UseFormRegister<any>;
   error?: FieldErrors;
 }
 

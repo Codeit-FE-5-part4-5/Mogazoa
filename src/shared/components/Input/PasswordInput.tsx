@@ -2,9 +2,10 @@ import { InputHTMLAttributes, useState } from 'react';
 import Image from 'next/image';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { IAuthForm } from '@/pages/signup';
+import { ILoginForm } from '@/pages/signin';
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  register: UseFormRegister<IAuthForm>;
+  register: UseFormRegister<IAuthForm | ILoginForm>;
   error?: FieldErrors;
 }
 
@@ -42,7 +43,9 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
           <Image src={icon} width={22} height={22} alt="logo" />
         </button>
       </div>
-      <span className="mt-[12px] block text-var-red">
+      <span
+        className={`mt-[12px] block text-[14px] ${error?.password ? 'text-var-red' : 'text-var-gray1'}`}
+      >
         {error?.password ? '비밀번호는 필수 입력 값 입니다.' : '최소 8자 이상'}
       </span>
     </div>
