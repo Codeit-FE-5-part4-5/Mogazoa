@@ -11,6 +11,9 @@ import {
 
 import { useModal } from '@/shared/hooks/use-modal-store';
 import { ModalDropdown } from './modal-dropdown/modal-dropdown';
+import DropDown from '../DropDown/DropDown';
+
+const frameworks = ['Next.js', 'SvelteKit', 'Nuxt.js', 'Remix', 'Astro'];
 
 export const ProfileEditModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -40,9 +43,12 @@ export const ProfileEditModal = () => {
                 alt="file"
               />
             </div>
-            <div>
+            <div className="w-full">
               {/* Dropdown 컴포넌트 추가 */}
-              <ModalDropdown />
+              <DropDown
+                itemList={frameworks}
+                onClick={() => console.log('...')}
+              />
             </div>
             <div className="flex flex-col items-end rounded-md bg-[#252530]">
               <textarea
