@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { InputHTMLAttributes, useState } from 'react';
 import Image from 'next/image';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { IAuthForm } from '@/pages/signup';
 
-type PasswordInputProps = {
-  value: string;
-  placeholder: string;
-};
+interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  register: UseFormRegister<IAuthForm>;
+  error?: FieldErrors;
+}
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
-  value,
-  placeholder,
+  register,
+  error,
+  ...props
 }) => {
   const [inputType, setInputType] = useState(true);
   const [icon, setIcon] = useState('/images/PasswordShow.png');
@@ -24,20 +27,24 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   return (
     <div>
       <h1 className="pb-3 text-[16px] text-var-white">비밀번호</h1>
-      <div className="flex h-full w-full justify-between rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 pr-2 focus-within:border-var-indigo">
+      <div className="relative">
         <input
-          value={value}
           type={inputType ? 'password' : 'text'}
-          placeholder={placeholder}
-          className="placeholder-var-gray1::placeholder h-full w-full rounded-lg bg-var-black2 px-2 text-var-white focus:outline-none"
+          className={`${error?.password && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none focus:border-gradient-custom`}
+          {...register('password', { required: true })}
+          {...props}
         />
         <button
           onClick={handleShowClick}
-          className="flex items-center justify-center"
+          type="button"
+          className="absolute right-[20px] top-[50%] flex translate-y-[-11px] items-center justify-center"
         >
           <Image src={icon} width={22} height={22} alt="logo" />
         </button>
       </div>
+      <span className="mt-[12px] block text-var-red">
+        {error?.password ? '비밀번호는 필수 입력 값 입니다.' : '최소 8자 이상'}
+      </span>
     </div>
   );
 };

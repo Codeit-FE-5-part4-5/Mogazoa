@@ -3,7 +3,7 @@ import { Cookies } from 'react-cookie';
 
 const cookies = new Cookies();
 
-export const apiInstance = axios.create({
+const apiInstance = axios.create({
   baseURL: 'https://mogazoa-api.vercel.app/5-5/',
 });
 
@@ -38,10 +38,4 @@ apiInstance.interceptors.response.use(
   },
 );
 
-export const awsApiInstance = axios.create();
-
-awsApiInstance.interceptors.request.use((config) => {
-  if (typeof window === 'undefined') return config;
-  config.headers.Authorization = null;
-  return config;
-});
+export default apiInstance;
