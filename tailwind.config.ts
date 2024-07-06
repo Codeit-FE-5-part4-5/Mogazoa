@@ -18,12 +18,6 @@ module.exports = {
       },
     },
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gradient-custom': 'linear-gradient(to right, #5097FA, #5363FF)',
-      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -85,13 +79,8 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
-        slideDown: {
-          '0%': { opacity: '0', transform: 'translateY(-10%)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
       },
       animation: {
-        slideDown: 'slideDown 0.3s ease-in-out forwards',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
@@ -115,7 +104,4 @@ module.exports = {
       });
     }),
   ],
-  fontFamily: {
-    pretendard: ['Pretendard', 'sans-serif'],
-  },
 };

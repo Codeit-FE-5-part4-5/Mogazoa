@@ -37,7 +37,7 @@ export const ReviewModal = () => {
         <DialogHeader>
           <DialogTitle className="mb-10 self-start text-2xl">
             <div className="w-[58px]">
-              <Chip text="전자기기" color="#23B581" />
+              {/* <Chip text="전자기기" color="#23B581" /> */}
             </div>
             <div className="mt-[10px] self-start">Sony WH-1000XM3</div>
           </DialogTitle>

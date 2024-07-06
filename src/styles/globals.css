@@ -228,3 +228,10 @@ body {
 * {
   line-height: normal;
 }
+
+.text-gradient {
+  background: linear-gradient(45deg, #5097fa, #5363ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
