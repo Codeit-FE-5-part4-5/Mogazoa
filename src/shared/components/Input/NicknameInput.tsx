@@ -22,7 +22,9 @@ const NicknameInput: React.FC<NicknameInputProps> = ({
         {...register('nickname', { required: true })}
         {...props}
       />
-      <span className="mt-3 block text-var-red">
+      <span
+        className={`mt-[12px] block text-[14px] ${error?.nickname ? 'text-var-red' : 'text-var-gray1'}`}
+      >
         {error?.nickname ? '닉네임은 필수 입력 값 입니다.' : '최대 10자 가능'}
       </span>
     </div>
