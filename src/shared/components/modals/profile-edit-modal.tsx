@@ -1,6 +1,3 @@
-import { ChangeEvent, useState } from 'react';
-import Image from 'next/image';
-
 import {
   Dialog,
   DialogContent,
@@ -10,8 +7,10 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
-import { ModalDropdown } from './modal-dropdown/modal-dropdown';
 import DropDown from '../DropDown/DropDown';
+import ImageInput from '../Input/ImageInput';
+import TextAreaInput from '../Input/TextAreaInput';
+import Button from '../Button/Button';
 
 const frameworks = ['Next.js', 'SvelteKit', 'Nuxt.js', 'Remix', 'Astro'];
 
@@ -19,12 +18,6 @@ export const ProfileEditModal = () => {
   const { isOpen, onClose, type } = useModal();
 
   const isModalOpen = isOpen && type === 'profileEdit';
-
-  const [text, setText] = useState<string>('');
-
-  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -35,34 +28,20 @@ export const ProfileEditModal = () => {
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
             <div className="flex flex-col md:flex-row md:items-start">
-              {/* Image Input 컴포넌트 추가 */}
-              <Image
-                src="/images/file.svg"
-                width={160}
-                height={160}
-                alt="file"
-              />
+              <div className="h-[160px] w-[160px]">
+                <ImageInput />
+              </div>
             </div>
             <div className="w-full">
-              {/* Dropdown 컴포넌트 추가 */}
               <DropDown
                 itemList={frameworks}
                 onClick={() => console.log('...')}
               />
             </div>
-            <div className="flex flex-col items-end rounded-md bg-[#252530]">
-              <textarea
-                className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
-                placeholder="프로필을 변경해 주세요"
-                value={text}
-                maxLength={500}
-                onChange={handleTextChange}
-              />
-              <div className="mb-5 mr-5">{text.length} / 500</div>
+            <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
+              <TextAreaInput placeholder="리뷰를 작성해 주세요." />
             </div>
-            <div className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white">
-              저장하기
-            </div>
+            <Button text="저장하기" />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
