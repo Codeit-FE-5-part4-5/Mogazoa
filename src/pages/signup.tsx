@@ -38,39 +38,41 @@ export default function SignUp() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleSubmitSignUp)}
-      className="flex flex-col gap-[40px] md:w-[440px] xl:w-[640px]"
-    >
-      <EmailInput
-        register={register}
-        error={errors}
-        value={email}
-        placeholder="이메일을 입력해 주세요"
-        onChange={onChangeEmail}
-      />
-      <NicknameInput
-        register={register}
-        error={errors}
-        value={nickname}
-        onChange={onChangeNickname}
-        placeholder="닉네임을 입력해 주세요"
-      />
-      <PasswordInput
-        register={register}
-        error={errors}
-        value={password}
-        onChange={onChangePassword}
-        placeholder="비밀번호를 입력해 주세요"
-      />
-      <PasswordInput
-        register={register}
-        error={errors}
-        value={passwordConfirmation}
-        onChange={onChangePasswordConfirmation}
-        placeholder="비밀번호를 한번 더 입력해 주세요"
-      />
-      <Button text="가입하기" type="submit" className="mt-[20px]" />
-    </form>
+    <div className="flex h-dvh items-center justify-center">
+      <form
+        onSubmit={handleSubmit(handleSubmitSignUp)}
+        className="flex w-full flex-col gap-[40px] md:w-[440px] xl:w-[640px]"
+      >
+        <EmailInput
+          register={register}
+          error={errors}
+          value={email}
+          placeholder="이메일을 입력해 주세요"
+          onChange={onChangeEmail}
+        />
+        <NicknameInput
+          register={register}
+          error={errors}
+          value={nickname}
+          onChange={onChangeNickname}
+          placeholder="닉네임을 입력해 주세요"
+        />
+        <PasswordInput
+          register={register}
+          error={errors}
+          value={password}
+          onChange={onChangePassword}
+          placeholder="비밀번호를 입력해 주세요"
+        />
+        <PasswordInput
+          register={register}
+          error={errors}
+          value={passwordConfirmation}
+          onChange={onChangePasswordConfirmation}
+          placeholder="비밀번호를 한번 더 입력해 주세요"
+        />
+        <Button text="가입하기" type="submit" className="mt-[20px]" />
+      </form>
+    </div>
   );
 }
