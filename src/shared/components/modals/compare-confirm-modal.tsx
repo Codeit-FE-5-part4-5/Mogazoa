@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
+import Button from '../Button/Button';
 
 export const CompareConfirmModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -22,9 +23,7 @@ export const CompareConfirmModal = () => {
             바로 확인해 보시겠어요?
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
-            <div className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white">
-              바로가기
-            </div>
+            <Button text="바로가기" />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

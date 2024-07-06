@@ -15,12 +15,12 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({ placeholder }) => {
     <div className="flex h-full w-full flex-col items-end rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 p-4 text-var-white focus-within:border-var-indigo">
       <textarea
         placeholder={placeholder}
-        maxLength={300}
+        maxLength={500}
         value={text}
         onChange={handleTextChange}
-        className="h-full w-full bg-var-black2 placeholder-var-gray1 outline-none"
+        className="h-full w-full resize-none bg-var-black2 placeholder-var-gray1 outline-none"
       />
-      <div className="text-sm text-var-gray2">{text.length}/300</div>
+      <div className="text-sm text-var-gray2">{text.length}/500</div>
     </div>
   );
 };
