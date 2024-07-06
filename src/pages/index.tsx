@@ -5,7 +5,15 @@ import { Header } from '@/shared/components/header/header';
 export default function Home() {
   return (
     <div>
-      <Header /> <SlideMenu />
+      <Header />
+      <div className="flex flex-row overflow-hidden">
+        <div>
+          <SlideMenu />
+        </div>
+        <div className="overflow-x-auto">
+          <RankingList />
+        </div>
+      </div>
     </div>
   );
 }
