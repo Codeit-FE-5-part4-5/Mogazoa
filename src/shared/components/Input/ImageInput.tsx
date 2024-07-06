@@ -21,7 +21,7 @@ const ImageInput: React.FC = () => {
   };
 
   return (
-    <div className="relative h-full w-full rounded-lg border p-2">
+    <div className="relative h-full w-full rounded-lg border-[2px] border-var-black3 p-2 hover:border-var-indigo">
       {!image ? (
         <div className="flex h-full w-full items-center justify-center">
           <label className="flex cursor-pointer items-center">
