@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-export const SlideMenu: React.FC = () => {
+interface SlideMenu {
+  categories: Category[];
+}
+
+export const SlideMenu: React.FC<SlideMenu> = ({ categories = [] }) => {
   const [activeItem, setActiveItem] = useState<number | null>(null);
 
   const handleItemClick = (index: number) => {
@@ -13,18 +17,7 @@ export const SlideMenu: React.FC = () => {
         카테고리
       </div>
       <ul className="mx-[10px] inline-flex flex-col items-start gap-[4px]">
-        {[
-          '음악',
-          '영화/드라마',
-          '강의/책',
-          '호텔',
-          '가구/인테리어',
-          '식당',
-          '전자기기',
-          '화장품',
-          '의류/악세사리',
-          '앱',
-        ].map((item, index) => (
+        {categories.map((item: Category, index: number) => (
           <li
             key={index}
             className={`flex h-[45px] w-[160px] cursor-pointer items-center gap-[10px] rounded-2xl px-[20px] py-[15px] text-sm font-medium leading-normal md:w-[200px] ${
@@ -34,7 +27,7 @@ export const SlideMenu: React.FC = () => {
             }`}
             onClick={() => handleItemClick(index)}
           >
-            {item}
+            {item.name}
           </li>
         ))}
       </ul>

@@ -3,6 +3,7 @@ import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
 import { SlideMenu } from '@/shared/components/SlideMenu/SlideMenu';
 import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetCategory from '@/shared/models/category/useGetCategory';
 import { getCookie } from '@/shared/utils/cookie';
 import { useEffect, useState } from 'react';
 
@@ -10,6 +11,7 @@ export default function Home() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const token = getCookie('accessToken');
   const { isSuccess } = useGetMe(token);
+  const { data } = useGetCategory();
 
   useEffect(() => {
     if (isSuccess) {
@@ -22,7 +24,7 @@ export default function Home() {
       <Header me={isLoggedIn} />
       <div className="flex justify-center">
         <div className="hidden md:flex">
-          <SlideMenu />
+          <SlideMenu categories={data} />
         </div>
         <div className="flex flex-col md:pl-[25px] xl:flex-row xl:pl-[90px] xl:pr-[60px]">
           <div className="xl:order-2">
