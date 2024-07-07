@@ -8,7 +8,6 @@ const useGetMe = (token: string) => {
     enabled: !!token,
     staleTime: 60 * 1000 * 30,
     gcTime: 60 * 1000 * 30,
-    refetchOnWindowFocus: false,
   });
 };
 
