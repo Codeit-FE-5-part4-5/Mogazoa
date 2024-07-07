@@ -7,6 +7,7 @@ import searchIcon from '@/../../public/images/search.svg';
 import closedIcon from '@/../../public/images/closedIcon.svg';
 import Button from '../Button/Button';
 import { removeCookie } from '@/shared/utils/cookie';
+import { useRouter } from 'next/router';
 
 interface HeaderProps {
   me?: boolean;
@@ -14,6 +15,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ me }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const router = useRouter();
 
   const handleSearchClick = () => {
     setIsSearchOpen(!isSearchOpen);
@@ -22,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({ me }) => {
   // 테스트를 위한 함수
   const logout = () => {
     removeCookie('accessToken');
+    router.reload();
   };
 
   return (
