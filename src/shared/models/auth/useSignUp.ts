@@ -1,4 +1,5 @@
 import axios from '@/shared/utils/axios';
+import { setCookie } from '@/shared/utils/cookie';
 import { useMutation } from '@tanstack/react-query';
 
 export default function useSignUp() {
@@ -10,7 +11,9 @@ export default function useSignUp() {
       passwordConfirmation: string;
     }) => axios.post(`auth/signUp`, account),
     onSuccess: (data) => {
-      localStorage.setItem('accessToken', data.data.accessToken);
+      setCookie('accessToken', data.data.accessToken, {
+        secure: process.env.NODE_ENV === 'production',
+      });
     },
   });
 }
