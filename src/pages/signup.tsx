@@ -6,6 +6,7 @@ import useSignUp from '@/shared/models/auth/useSignUp';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { Header } from '@/shared/components/header/header';
 
 export interface IAuthForm {
   email: '';
@@ -53,33 +54,36 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex h-dvh items-center justify-center">
-      <form
-        onSubmit={handleSubmit(handleSubmitSignUp)}
-        className="flex w-full flex-col gap-[40px] md:w-[440px] xl:w-[640px]"
-      >
-        <EmailInput
-          register={register('email')}
-          error={errors.email}
-          placeholder="이메일을 입력해 주세요"
-        />
-        <NicknameInput
-          register={register('nickname')}
-          error={errors.nickname}
-          placeholder="닉네임을 입력해 주세요"
-        />
-        <PasswordInput
-          register={register('password')}
-          error={errors.password}
-          placeholder="비밀번호를 입력해 주세요"
-        />
-        <PasswordInput
-          register={register('passwordConfirmation')}
-          error={errors.passwordConfirmation}
-          placeholder="비밀번호를 한번 더 입력해 주세요"
-        />
-        <Button text="가입하기" type="submit" className="mt-[20px]" />
-      </form>
-    </div>
+    <>
+      <Header />
+      <div className="flex h-dvh items-center justify-center">
+        <form
+          onSubmit={handleSubmit(handleSubmitSignUp)}
+          className="flex w-full flex-col gap-[40px] md:w-[440px] xl:w-[640px]"
+        >
+          <EmailInput
+            register={register('email')}
+            error={errors.email}
+            placeholder="이메일을 입력해 주세요"
+          />
+          <NicknameInput
+            register={register('nickname')}
+            error={errors.nickname}
+            placeholder="닉네임을 입력해 주세요"
+          />
+          <PasswordInput
+            register={register('password')}
+            error={errors.password}
+            placeholder="비밀번호를 입력해 주세요"
+          />
+          <PasswordInput
+            register={register('passwordConfirmation')}
+            error={errors.passwordConfirmation}
+            placeholder="비밀번호를 한번 더 입력해 주세요"
+          />
+          <Button text="가입하기" type="submit" className="mt-[20px]" />
+        </form>
+      </div>
+    </>
   );
 }
