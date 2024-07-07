@@ -31,7 +31,7 @@ export const Header: React.FC = () => {
             className="flex h-[50px] w-[300px] flex-col items-start justify-center gap-[10px] rounded-[28px] bg-[#252530] p-[16px_20px] text-white xl:w-[400px]"
           />
           <Link
-            href="/login"
+            href="/signin"
             className="text-right font-sans text-[16px] font-normal text-white"
           >
             로그인
