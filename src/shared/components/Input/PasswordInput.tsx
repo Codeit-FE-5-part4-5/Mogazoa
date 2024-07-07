@@ -22,7 +22,6 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       setIcon('/images/PasswordShow.png');
     }
   };
-  console.log(error);
 
   return (
     <div>

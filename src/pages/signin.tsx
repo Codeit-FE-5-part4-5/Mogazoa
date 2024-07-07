@@ -33,10 +33,7 @@ export default function SignIn() {
   });
 
   const handleSubmitSignIn = (data: ILoginForm) => {
-    mutate(data, {
-      onSuccess: (data) => console.log(data),
-      onError: (error) => console.log(error),
-    });
+    mutate(data);
   };
 
   return (

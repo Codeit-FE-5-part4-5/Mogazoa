@@ -47,10 +47,7 @@ export default function SignUp() {
   });
 
   const handleSubmitSignUp = (data: IAuthForm) => {
-    mutate(data, {
-      onSuccess: (data) => console.log(data),
-      onError: (error) => console.log(error),
-    });
+    mutate(data);
   };
 
   return (
