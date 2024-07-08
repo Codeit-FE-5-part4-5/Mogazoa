@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 interface ItemListProps {
   itemList: string[];
-  onClick: (arg: string) => void;
+  onClick: (arg: any) => void;
   isOrder?: boolean;
 }
 
@@ -27,7 +27,7 @@ const ItemList = ({ itemList, onClick, isOrder }: ItemListProps) => {
 
 interface DropDownProps {
   itemList: string[];
-  onClick: (arg: string) => void;
+  onClick: (arg: any) => void;
   isOrder?: boolean;
 }
 

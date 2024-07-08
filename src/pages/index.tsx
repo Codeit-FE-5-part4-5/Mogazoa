@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 export default function Home() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [showCategory, setShowCategory] = useState(true);
+
   const token = getCookie('accessToken');
   const { isSuccess } = useGetMe(token);
   const router = useRouter();
@@ -24,7 +25,6 @@ export default function Home() {
   const { data: products } = useGetProducts({
     categoryId: Number(currentCategoryId),
   });
-  const categoryNameArr = categories.map((category: Category) => category.name);
 
   const handleItemClick = (value: { name: string; id: number }) => {
     router.push({
@@ -63,13 +63,6 @@ export default function Home() {
                         onClick={() => console.log('정렬 기준')}
                       />
                     </div>
-                  </div>
-                  <div className="relative">
-                    <DropDown
-                      isOrder
-                      itemList={categoryNameArr}
-                      onClick={handleItemClick}
-                    />
                   </div>
                 </>
               ) : (
