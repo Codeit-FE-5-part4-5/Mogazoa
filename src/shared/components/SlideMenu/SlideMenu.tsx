@@ -2,10 +2,14 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 interface SlideMenu {
+  isSlide?: boolean;
   categories: Category[];
 }
 
-export const SlideMenu: React.FC<SlideMenu> = ({ categories = [] }) => {
+export const SlideMenu: React.FC<SlideMenu> = ({
+  isSlide = false,
+  categories = [],
+}) => {
   const [activeItem, setActiveItem] = useState({ name: '', id: 0 });
   const router = useRouter();
   const currentPath = router.pathname;
@@ -18,7 +22,7 @@ export const SlideMenu: React.FC<SlideMenu> = ({ categories = [] }) => {
   };
 
   return (
-    <div className="mt-[45px] hidden w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white md:flex">
+    <div className="mx-[20px] mt-[45px] hidden w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white md:flex">
       <div className="ml-[20px] pb-[15px] text-sm font-normal leading-normal text-white">
         카테고리
       </div>

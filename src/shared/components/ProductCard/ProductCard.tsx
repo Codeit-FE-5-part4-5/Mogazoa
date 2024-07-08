@@ -17,9 +17,14 @@ const ProductCard = ({
   rating,
 }: ProductCard) => {
   return (
-    <div className="rounded-[8px] border border-[#353542] bg-[#252530] px-[10px] py-[10px] hover:border-gradient-custom md:py-[20px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
-      <div className="relative h-[98px] md:h-[160px] xl:h-[200px]">
-        <Image fill src={image} alt="상품 사진" className="object-contain" />
+    <div className="group cursor-pointer rounded-[8px] border border-[#353542] bg-[#252530] px-[10px] py-[10px] hover:border-gradient-custom md:py-[20px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
+      <div className="relative h-[98px] overflow-hidden md:h-[160px] xl:h-[200px]">
+        <Image
+          fill
+          src={image}
+          alt="상품 사진"
+          className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-125"
+        />
       </div>
       <div className="mt-[10px] md:mt-[20px] xl:mt-[25px]">
         <h3 className="text-[14px] font-medium text-var-white md:text-[16px] xl:text-[18px]">

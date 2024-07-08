@@ -1,3 +1,4 @@
+import CategoryFilter from '@/shared/components/Chip/CategoryFilter';
 import { Header } from '@/shared/components/header/header';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
@@ -11,6 +12,7 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [showCategory, setShowCategory] = useState(true);
   const token = getCookie('accessToken');
   const { isSuccess } = useGetMe(token);
   const router = useRouter();
@@ -29,15 +31,21 @@ export default function Home() {
       <Header me={isLoggedIn} />
       <main className="flex justify-center">
         <SlideMenu categories={categories} />
-        <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row">
+        <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <RankingList />
           <div className="mx-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
             <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
               {name ? (
-                `${name}의 모든 상품`
+                <>
+                  <p className="mb-[30px]">{name}의 모든 상품</p>
+                  <CategoryFilter
+                    currentCategory={String(name)}
+                    onClick={() => setShowCategory((prev) => !prev)}
+                  />
+                </>
               ) : (
                 <p>
-                  지금 핫한 상품
+                  지금 핫한 상품&nbsp;
                   <span className="bg-gradient-custom bg-clip-text text-transparent">
                     TOP 6
                   </span>
