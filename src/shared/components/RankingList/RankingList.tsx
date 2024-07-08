@@ -9,7 +9,7 @@ export const RankingList: React.FC = () => {
     review: 1243,
   };
   return (
-    <div className="flex w-[810px] flex-col gap-[20px] bg-[#1C1C22] text-[#F1F1F5] md:w-[828px] xl:h-full xl:w-[250px]">
+    <div className="flex w-full flex-col gap-[20px] bg-[#1C1C22] text-[#F1F1F5] md:w-[828px] xl:h-full xl:w-[250px]">
       <div className="text-[14px] font-normal xl:pb-[20px] xl:pl-[34px] xl:pt-[45px]">
         리뷰어 랭킹
       </div>

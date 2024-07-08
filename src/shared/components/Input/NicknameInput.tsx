@@ -1,10 +1,9 @@
-import { IAuthForm } from '@/pages/signup';
 import { InputHTMLAttributes } from 'react';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 interface NicknameInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  register: UseFormRegister<IAuthForm>;
-  error?: FieldErrors;
+  register: UseFormRegisterReturn;
+  error?: FieldError;
 }
 
 const NicknameInput: React.FC<NicknameInputProps> = ({
@@ -18,14 +17,14 @@ const NicknameInput: React.FC<NicknameInputProps> = ({
       <input
         type="text"
         maxLength={10}
-        className={`${error?.nickname && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none focus:border-gradient-custom`}
-        {...register('nickname', { required: true })}
+        className={`${error && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none focus:border-gradient-custom`}
+        {...register}
         {...props}
       />
       <span
-        className={`mt-[12px] block text-[14px] ${error?.nickname ? 'text-var-red' : 'text-var-gray1'}`}
+        className={`mt-[12px] block text-[14px] ${error ? 'text-var-red' : 'text-var-gray1'}`}
       >
-        {error?.nickname ? '닉네임은 필수 입력 값 입니다.' : '최대 10자 가능'}
+        {error ? error.message : '최대 10자 가능'}
       </span>
     </div>
   );

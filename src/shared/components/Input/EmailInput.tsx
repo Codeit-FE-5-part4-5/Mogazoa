@@ -1,9 +1,9 @@
 import { InputHTMLAttributes } from 'react';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 interface EmailInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  register: UseFormRegister<any>;
-  error?: FieldErrors;
+  register: UseFormRegisterReturn;
+  error?: FieldError;
 }
 
 const EmailInput: React.FC<EmailInputProps> = ({
@@ -16,12 +16,12 @@ const EmailInput: React.FC<EmailInputProps> = ({
       <h1 className="pb-3 text-[16px] text-var-white">이메일</h1>
       <input
         type="email"
-        className={`${error?.email && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none focus:border-gradient-custom`}
-        {...register('email', { required: true })}
+        className={`${error && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none focus:border-gradient-custom`}
+        {...register}
         {...props}
       />
-      <span className="mt-[12px] block text-var-red">
-        {error?.email && '이메일은 필수 입력 값 입니다.'}
+      <span className="mt-[12px] block text-[14px] text-var-red">
+        {error && error.message}
       </span>
     </div>
   );

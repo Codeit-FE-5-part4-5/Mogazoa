@@ -1,12 +1,10 @@
 import { InputHTMLAttributes, useState } from 'react';
 import Image from 'next/image';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { IAuthForm } from '@/pages/signup';
-import { ILoginForm } from '@/pages/signin';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  register: UseFormRegister<IAuthForm | ILoginForm>;
-  error?: FieldErrors;
+  register: UseFormRegisterReturn;
+  error?: FieldError;
 }
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
@@ -31,8 +29,8 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       <div className="relative">
         <input
           type={inputType ? 'password' : 'text'}
-          className={`${error?.password && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none focus:border-gradient-custom`}
-          {...register('password', { required: true })}
+          className={`${error && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none focus:border-gradient-custom`}
+          {...register}
           {...props}
         />
         <button
@@ -44,9 +42,9 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         </button>
       </div>
       <span
-        className={`mt-[12px] block text-[14px] ${error?.password ? 'text-var-red' : 'text-var-gray1'}`}
+        className={`mt-[12px] block text-[14px] ${error ? 'text-var-red' : 'text-var-gray1'}`}
       >
-        {error?.password ? '비밀번호는 필수 입력 값 입니다.' : '최소 8자 이상'}
+        {error ? error.message : '최소 8자 이상'}
       </span>
     </div>
   );

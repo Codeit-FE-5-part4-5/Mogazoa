@@ -5,12 +5,26 @@ import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
 import searchIcon from '@/../../public/images/search.svg';
 import closedIcon from '@/../../public/images/closedIcon.svg';
+import Button from '../Button/Button';
+import { removeCookie } from '@/shared/utils/cookie';
+import { useRouter } from 'next/router';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  me?: boolean;
+}
+
+export const Header: React.FC<HeaderProps> = ({ me }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const router = useRouter();
 
   const handleSearchClick = () => {
     setIsSearchOpen(!isSearchOpen);
+  };
+
+  // 테스트를 위한 함수
+  const logout = () => {
+    removeCookie('accessToken');
+    router.reload();
   };
 
   return (
@@ -31,17 +45,22 @@ export const Header: React.FC = () => {
             className="flex h-[50px] w-[300px] flex-col items-start justify-center gap-[10px] rounded-[28px] bg-[#252530] p-[16px_20px] text-white xl:w-[400px]"
           />
           <Link
-            href="/login"
+            href={me ? '/compare' : '/signin'}
             className="text-right font-sans text-[16px] font-normal text-white"
           >
-            로그인
+            {me ? '비교하기' : '로그인'}
           </Link>
           <Link
-            href="/signup"
+            href={me ? '/mypage' : '/signup'}
             className="text-right font-sans text-[16px] font-normal text-white"
           >
-            회원가입
+            {me ? '내 프로필' : '회원가입'}
           </Link>
+          {me && (
+            <div className="w-[150px]">
+              <Button text="로그아웃" onClick={logout} />
+            </div>
+          )}
         </div>
         <div className="flex md:hidden">
           <button onClick={handleSearchClick}>
