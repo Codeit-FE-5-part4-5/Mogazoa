@@ -1,29 +1,30 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 interface SlideMenu {
-  isSlide?: boolean;
+  isVisible?: boolean;
   categories: Category[];
+  onClick: (arg: { name: string; id: number }) => void;
 }
 
 export const SlideMenu: React.FC<SlideMenu> = ({
-  isSlide = false,
+  isVisible = false,
   categories = [],
+  onClick,
 }) => {
   const [activeItem, setActiveItem] = useState({ name: '', id: 0 });
-  const router = useRouter();
-  const currentPath = router.pathname;
+
   const handleItemClick = (category: { name: string; id: number }) => {
     setActiveItem(category);
-    router.push({
-      pathname: currentPath,
-      query: { name: category.name, id: category.id },
-    });
+    onClick(category);
   };
 
   return (
-    <div className="mx-[20px] mt-[45px] hidden w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white md:flex">
-      <div className="ml-[20px] pb-[15px] text-sm font-normal leading-normal text-white">
+    <div
+      className={` ${isVisible ? 'my-[20px]' : 'mt-[45px]'} mx-[20px] w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white`}
+    >
+      <div
+        className={`${isVisible && 'hidden'} ml-[20px] pb-[15px] text-sm font-normal leading-normal text-white`}
+      >
         카테고리
       </div>
       <ul className="flex flex-col gap-[4px]">

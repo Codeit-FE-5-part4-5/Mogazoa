@@ -18,9 +18,20 @@ export default function Home() {
   const token = getCookie('accessToken');
   const { isSuccess } = useGetMe(token);
   const router = useRouter();
-  const { name, id } = router.query;
+  const currentPath = router.pathname;
+  const { name: currentCategoryName, id: currentCategoryId } = router.query;
   const { data: categories } = useGetCategory();
-  const { data: products } = useGetProducts({ categoryId: Number(id) });
+  const { data: products } = useGetProducts({
+    categoryId: Number(currentCategoryId),
+  });
+  const categoryNameArr = categories.map((category: Category) => category.name);
+
+  const handleItemClick = (value: { name: string; id: number }) => {
+    router.push({
+      pathname: currentPath,
+      query: { name: value.name, id: value.id },
+    });
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -32,27 +43,34 @@ export default function Home() {
     <>
       <Header me={isLoggedIn} />
       <main className="flex justify-center">
-        <SlideMenu categories={categories} />
+        <div className="hidden md:flex">
+          <SlideMenu categories={categories} onClick={handleItemClick} />
+        </div>
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <RankingList />
           <div className="mx-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
             <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
-              {name ? (
+              {currentCategoryName ? (
                 <>
                   <div className="flex justify-between">
-                    <p className="mb-[30px]">{name}의 모든 상품</p>
+                    <p className="mb-[30px]">
+                      {currentCategoryName}의 모든 상품
+                    </p>
                     <div className="w-[110px]">
                       <DropDown
                         isOrder
                         itemList={ORDER_VARIANTS}
-                        onClick={() => console.log('')}
+                        onClick={() => console.log('정렬 기준')}
                       />
                     </div>
                   </div>
-                  <CategoryFilter
-                    currentCategory={String(name)}
-                    onClick={() => setShowCategory((prev) => !prev)}
-                  />
+                  <div className="relative">
+                    <DropDown
+                      isOrder
+                      itemList={categoryNameArr}
+                      onClick={handleItemClick}
+                    />
+                  </div>
                 </>
               ) : (
                 <p>
