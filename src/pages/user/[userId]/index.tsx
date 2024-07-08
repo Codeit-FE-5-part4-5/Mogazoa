@@ -85,7 +85,7 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-      <div className="fixed bottom-[90px] right-[180px]">
+      <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
         <Floating onClick={() => console.log('...')} />
       </div>
     </div>
