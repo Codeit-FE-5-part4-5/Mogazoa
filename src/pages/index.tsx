@@ -1,3 +1,4 @@
+import CategoryFilter from '@/shared/components/Chip/CategoryFilter';
 import { Header } from '@/shared/components/header/header';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
@@ -11,6 +12,7 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [showCategory, setShowCategory] = useState(true);
   const token = getCookie('accessToken');
   const { isSuccess } = useGetMe(token);
   const router = useRouter();
@@ -27,28 +29,30 @@ export default function Home() {
   return (
     <>
       <Header me={isLoggedIn} />
-      <div className="flex justify-center">
-        <div className="hidden md:flex">
-          <SlideMenu categories={categories} />
-        </div>
-        <div className="flex flex-col md:pl-[25px] xl:flex-row xl:pl-[90px] xl:pr-[60px]">
-          <div className="xl:order-2">
-            <RankingList />
-          </div>
-          <div className="mt-[60px] xl:order-1">
+      <main className="flex justify-center">
+        <SlideMenu categories={categories} />
+        <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
+          <RankingList />
+          <div className="mx-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
             <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
               {name ? (
-                `${name}의 모든 상품`
+                <>
+                  <p className="mb-[30px]">{name}의 모든 상품</p>
+                  <CategoryFilter
+                    currentCategory={String(name)}
+                    onClick={() => setShowCategory((prev) => !prev)}
+                  />
+                </>
               ) : (
                 <p>
-                  지금 핫한 상품
+                  지금 핫한 상품&nbsp;
                   <span className="bg-gradient-custom bg-clip-text text-transparent">
                     TOP 6
                   </span>
                 </p>
               )}
             </h1>
-            <div className="flex flex-wrap gap-[20px]">
+            <div className="grid grid-cols-2 gap-[20px] xl:grid-cols-3">
               {products?.length > 0 &&
                 products.map((product: Product) => (
                   <ProductCard
@@ -63,7 +67,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

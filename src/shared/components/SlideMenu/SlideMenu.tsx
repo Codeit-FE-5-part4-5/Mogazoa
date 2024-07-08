@@ -2,10 +2,14 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 interface SlideMenu {
+  isSlide?: boolean;
   categories: Category[];
 }
 
-export const SlideMenu: React.FC<SlideMenu> = ({ categories = [] }) => {
+export const SlideMenu: React.FC<SlideMenu> = ({
+  isSlide = false,
+  categories = [],
+}) => {
   const [activeItem, setActiveItem] = useState({ name: '', id: 0 });
   const router = useRouter();
   const currentPath = router.pathname;
@@ -18,15 +22,15 @@ export const SlideMenu: React.FC<SlideMenu> = ({ categories = [] }) => {
   };
 
   return (
-    <div className="h-full w-[180px] flex-shrink-0 bg-[#1C1C22] text-white md:w-[220px]">
-      <div className="pb-[20px] pl-[34px] pt-[45px] text-sm font-normal leading-normal text-white">
+    <div className="mx-[20px] mt-[45px] hidden w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white md:flex">
+      <div className="ml-[20px] pb-[15px] text-sm font-normal leading-normal text-white">
         카테고리
       </div>
-      <ul className="mx-[10px] inline-flex flex-col items-start gap-[4px]">
+      <ul className="flex flex-col gap-[4px]">
         {categories.map((item: Category, index: number) => (
           <li
             key={index}
-            className={`flex h-[45px] w-[160px] cursor-pointer items-center gap-[10px] rounded-2xl px-[20px] py-[15px] text-sm font-medium leading-normal md:w-[200px] ${
+            className={`flex h-[45px] cursor-pointer items-center rounded-2xl px-[20px] py-[15px] text-sm font-medium leading-normal ${
               activeItem.name === item.name
                 ? 'border-[1px] border-[#353542] bg-[#252530]'
                 : 'bg-[#1C1C22] text-[#6E6E82]'

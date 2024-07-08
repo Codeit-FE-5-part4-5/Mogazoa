@@ -5,9 +5,6 @@ import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
 import searchIcon from '@/../../public/images/search.svg';
 import closedIcon from '@/../../public/images/closedIcon.svg';
-import Button from '../Button/Button';
-import { removeCookie } from '@/shared/utils/cookie';
-import { useRouter } from 'next/router';
 
 interface HeaderProps {
   me?: boolean;
@@ -15,30 +12,27 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ me }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const router = useRouter();
+  const [isOpenMenu, setOpenMenu] = useState(false);
 
   const handleSearchClick = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
-  // 테스트를 위한 함수
-  const logout = () => {
-    removeCookie('accessToken');
-    router.reload();
-  };
-
   return (
     <div className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:px-[30px] xl:px-[120px]">
       <div className="flex w-full items-center justify-between">
-        <div className="flex items-center space-x-4 md:hidden">
+        <button
+          onClick={() => setOpenMenu((prev) => !prev)}
+          className="flex cursor-pointer items-center space-x-4 md:hidden"
+        >
           <Image src={MenuIcon} alt="MenuIcon" width={24} height={24} />
-        </div>
+        </button>
         <div className="flex items-center space-x-4">
           <Link href="/">
             <Image src={LogoIcon} alt="LogoIcon" width={166} height={28} />
           </Link>
         </div>
-        <div className="hidden items-center md:flex md:gap-[30px] xl:gap-[60px]">
+        <div className="hidden flex-shrink-0 items-center md:flex md:gap-[30px] xl:gap-[60px]">
           <input
             type="text"
             placeholder="상품 이름을 검색해 보세요"
@@ -56,11 +50,6 @@ export const Header: React.FC<HeaderProps> = ({ me }) => {
           >
             {me ? '내 프로필' : '회원가입'}
           </Link>
-          {me && (
-            <div className="w-[150px]">
-              <Button text="로그아웃" onClick={logout} />
-            </div>
-          )}
         </div>
         <div className="flex md:hidden">
           <button onClick={handleSearchClick}>
