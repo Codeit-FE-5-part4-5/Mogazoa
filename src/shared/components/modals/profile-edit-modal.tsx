@@ -39,7 +39,7 @@ export const ProfileEditModal = () => {
               />
             </div>
             <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
-              <TextAreaInput placeholder="리뷰를 작성해 주세요." />
+              <TextAreaInput placeholder="수정할 내용을 입력해 주세요." />
             </div>
             <Button text="저장하기" />
           </DialogDescription>
