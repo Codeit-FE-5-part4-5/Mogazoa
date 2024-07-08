@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({ me }) => {
             <Image src={LogoIcon} alt="LogoIcon" width={166} height={28} />
           </Link>
         </div>
-        <div className="hidden items-center md:flex md:gap-[30px] xl:gap-[60px]">
+        <div className="hidden flex-shrink-0 items-center md:flex md:gap-[30px] xl:gap-[60px]">
           <input
             type="text"
             placeholder="상품 이름을 검색해 보세요"
@@ -56,11 +56,6 @@ export const Header: React.FC<HeaderProps> = ({ me }) => {
           >
             {me ? '내 프로필' : '회원가입'}
           </Link>
-          {me && (
-            <div className="w-[150px]">
-              <Button text="로그아웃" onClick={logout} />
-            </div>
-          )}
         </div>
         <div className="flex md:hidden">
           <button onClick={handleSearchClick}>

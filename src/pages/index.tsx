@@ -27,15 +27,11 @@ export default function Home() {
   return (
     <>
       <Header me={isLoggedIn} />
-      <div className="flex justify-center">
-        <div className="hidden md:flex">
-          <SlideMenu categories={categories} />
-        </div>
-        <div className="flex flex-col md:pl-[25px] xl:flex-row xl:pl-[90px] xl:pr-[60px]">
-          <div className="xl:order-2">
-            <RankingList />
-          </div>
-          <div className="mt-[60px] xl:order-1">
+      <main className="flex justify-center">
+        <SlideMenu categories={categories} />
+        <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row">
+          <RankingList />
+          <div className="mx-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
             <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
               {name ? (
                 `${name}의 모든 상품`
@@ -48,7 +44,7 @@ export default function Home() {
                 </p>
               )}
             </h1>
-            <div className="flex flex-wrap gap-[20px]">
+            <div className="grid grid-cols-2 gap-[20px] xl:grid-cols-3">
               {products?.length > 0 &&
                 products.map((product: Product) => (
                   <ProductCard
@@ -63,7 +59,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
