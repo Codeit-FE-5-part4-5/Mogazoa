@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Button from '../Button/Button';
 import { useModal } from '@/shared/hooks/use-modal-store';
 
-export default function ProfileCard() {
+export default function MyProfileCard() {
   const { onOpen } = useModal();
 
   return (
@@ -14,28 +14,28 @@ export default function ProfileCard() {
         height={120}
         className="rounded-[50%]"
       />
-      <h1 className="text-[20px] font-semibold">surisuri마수리</h1>
-      <p className="text-var-gray1">
-        세상에 리뷰 못할 제품은 없다. surisuri마수리와 함께라면 당신도
-        프로쇼핑러! 안녕하세요, 별점의 화신 surisuri마수리입니다!
-      </p>
+      <h1 className="text-[20px] font-semibold">삼다수</h1>
+      <p className="text-var-gray1">하이! 난 제주 삼다수</p>
       <div className="flex w-full">
         <div
           className="flex flex-1 cursor-pointer flex-col items-center border-r border-var-black3"
           onClick={() => onOpen('follow')}
         >
-          <span className="text-[18px]">762</span>
+          <span className="text-[18px]">115</span>
           <span>팔로워</span>
         </div>
         <div
           className="flex flex-1 cursor-pointer flex-col items-center"
           onClick={() => onOpen('follow')}
         >
-          <span className="text-[18px]">102</span>
+          <span className="text-[18px]">98</span>
           <span>팔로잉</span>
         </div>
       </div>
-      <Button text="팔로우" />
+      <div className="w-full space-y-5">
+        <Button text="프로필 편집" onClick={() => onOpen('profileEdit')} />
+        <Button text="로그아웃" variant="tertiary" />
+      </div>
     </div>
   );
 }
