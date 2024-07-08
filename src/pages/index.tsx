@@ -1,8 +1,10 @@
 import CategoryFilter from '@/shared/components/Chip/CategoryFilter';
+import DropDown from '@/shared/components/DropDown/DropDown';
 import { Header } from '@/shared/components/header/header';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
 import { SlideMenu } from '@/shared/components/SlideMenu/SlideMenu';
+import { ORDER_VARIANTS } from '@/shared/constants/products';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetCategory from '@/shared/models/category/useGetCategory';
 import useGetProducts from '@/shared/models/product/useGetProducts';
@@ -37,7 +39,16 @@ export default function Home() {
             <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
               {name ? (
                 <>
-                  <p className="mb-[30px]">{name}의 모든 상품</p>
+                  <div className="flex justify-between">
+                    <p className="mb-[30px]">{name}의 모든 상품</p>
+                    <div className="w-[110px]">
+                      <DropDown
+                        isOrder
+                        itemList={ORDER_VARIANTS}
+                        onClick={() => console.log('')}
+                      />
+                    </div>
+                  </div>
                   <CategoryFilter
                     currentCategory={String(name)}
                     onClick={() => setShowCategory((prev) => !prev)}
