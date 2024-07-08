@@ -39,7 +39,7 @@ export default function SignIn() {
   return (
     <>
       <Header />
-      <div className="flex h-dvh items-center justify-center">
+      <div className="mt-[180px] flex items-center justify-center px-[20px]">
         <form
           onSubmit={handleSubmit(handleSubmitSignIn)}
           className="flex w-full flex-col gap-[40px] md:w-[440px] xl:w-[640px]"
