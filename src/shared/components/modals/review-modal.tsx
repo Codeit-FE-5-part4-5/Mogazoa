@@ -79,12 +79,6 @@ export const ReviewModal = () => {
               <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                 <ImageInput />
               </div>
-              <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                <ImageInput />
-              </div>
-              <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                <ImageInput />
-              </div>
             </div>
             <Button text="작성하기" />
           </DialogDescription>
