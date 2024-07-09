@@ -1,23 +1,19 @@
+import { Category } from '@/shared/types/category/category';
 import { useState } from 'react';
 
 interface SlideMenu {
   isVisible?: boolean;
   categories: Category[];
+  currentCategoryName?: string;
   onClick: (arg: { name: string; id: number }) => void;
 }
 
-export const SlideMenu: React.FC<SlideMenu> = ({
+export const CategoryMenu: React.FC<SlideMenu> = ({
   isVisible = false,
   categories = [],
+  currentCategoryName = '',
   onClick,
 }) => {
-  const [activeItem, setActiveItem] = useState({ name: '', id: 0 });
-
-  const handleItemClick = (category: { name: string; id: number }) => {
-    setActiveItem(category);
-    onClick(category);
-  };
-
   return (
     <div
       className={` ${isVisible ? 'my-[20px]' : 'mt-[45px]'} mx-[20px] w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white`}
@@ -32,11 +28,11 @@ export const SlideMenu: React.FC<SlideMenu> = ({
           <li
             key={index}
             className={`flex h-[45px] cursor-pointer items-center rounded-2xl px-[20px] py-[15px] text-sm font-medium leading-normal ${
-              activeItem.name === item.name
+              currentCategoryName === item.name
                 ? 'border-[1px] border-[#353542] bg-[#252530]'
                 : 'bg-[#1C1C22] text-[#6E6E82]'
             }`}
-            onClick={() => handleItemClick({ name: item.name, id: item.id })}
+            onClick={() => onClick({ name: item.name, id: item.id })}
           >
             {item.name}
           </li>

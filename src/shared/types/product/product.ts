@@ -1,4 +1,4 @@
-interface Product {
+export interface Product {
   categoryId: number;
   createdAt: string;
   favoriteCount: number;
