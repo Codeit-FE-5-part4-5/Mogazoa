@@ -133,6 +133,13 @@ module.exports = {
           'background-image':
             'linear-gradient(#17171C, #17171C), linear-gradient(to right, #5097FA, #5363FF)',
         },
+        '.no-scrollbar::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none', // IE and Edge
+          'scrollbar-width': 'none', // Firefox
+        },
       });
     }),
   ],

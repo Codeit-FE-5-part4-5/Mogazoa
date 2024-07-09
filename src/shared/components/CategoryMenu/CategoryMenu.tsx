@@ -1,5 +1,4 @@
 import { Category } from '@/shared/types/category/category';
-import { useState } from 'react';
 
 interface SlideMenu {
   isVisible?: boolean;
