@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ me }) => {
   };
 
   return (
-    <div className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:px-[30px] xl:px-[120px]">
+    <div className="sticky flex w-full flex-col items-start gap-[10px] border-b border-var-black3 bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:px-[30px] xl:px-[120px]">
       <div className="flex w-full items-center justify-between">
         <button
           onClick={() => setOpenMenu((prev) => !prev)}
