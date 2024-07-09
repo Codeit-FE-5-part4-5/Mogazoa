@@ -23,6 +23,7 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-custom': 'linear-gradient(to right, #5097FA, #5363FF)',
+        'dark-gradient-custom': 'linear-gradient(to right, #2e2e3a, #21212A)',
       },
       colors: {
         border: 'hsl(var(--border))',

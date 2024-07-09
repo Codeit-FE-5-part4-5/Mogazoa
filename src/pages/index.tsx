@@ -15,7 +15,8 @@ import useInput from '@/shared/hooks/useInput';
 import { validateArray } from '@/shared/utils/validateArray';
 
 /**
- * @TODO 사이드바메뉴(카테고리, 로그인, 로그아웃)
+ * @TODO 좌우 스크롤(터치로 구현, 좌우측 남은 공간 있을시 애니메이션)
+ * @TODO 언마운트시 페이드아웃 애니메이션 이왕이면 커스텀훅으로
  */
 
 export default function Home() {
@@ -77,7 +78,6 @@ export default function Home() {
   return (
     <>
       <Header
-        me={isLoggedIn}
         logout={logout}
         isLoggedIn={isLoggedIn}
         onChange={changeSearchKeyword}

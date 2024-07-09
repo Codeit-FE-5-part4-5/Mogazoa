@@ -9,9 +9,9 @@ import SlideMenuBar from '../SlideMenuBar/SlideMenuBar';
 import { Category } from '@/shared/types/category/category';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 import { Portal } from '@/shared/providers/portal-provider';
+import { useAnimation } from '@/shared/hooks/useAnimation';
 
 interface HeaderProps {
-  me?: boolean;
   logout: () => void;
   isLoggedIn: boolean;
   onChange: (keyword: ChangeEvent) => void;
@@ -22,7 +22,6 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  me,
   logout,
   isLoggedIn,
   onChange,
@@ -33,6 +32,8 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
+  const [shouldRender, animationTrigger, handleTransitionEnd] =
+    useAnimation(isOpenMenu);
 
   const handleSearchClick = () => {
     setIsSearchOpen(!isSearchOpen);
@@ -41,9 +42,14 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      {isOpenMenu && (
+      {shouldRender && (
         <Portal>
-          <SideBarMenu setOpenMenu={setOpenMenu} logout={logout} />
+          <SideBarMenu
+            setOpenMenu={setOpenMenu}
+            logout={logout}
+            animationTrigger={animationTrigger}
+            handleTransitionEnd={handleTransitionEnd}
+          />
         </Portal>
       )}
       <div className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:px-[30px] xl:px-[120px]">
@@ -75,16 +81,16 @@ export const Header: React.FC<HeaderProps> = ({
               className="flex h-[50px] w-[300px] flex-col items-start justify-center gap-[10px] rounded-[28px] bg-[#252530] p-[16px_20px] text-white xl:w-[400px]"
             />
             <Link
-              href={me ? '/compare' : '/signin'}
+              href={isLoggedIn ? '/compare' : '/signin'}
               className="text-right font-sans text-[16px] font-normal text-white"
             >
-              {me ? '비교하기' : '로그인'}
+              {isLoggedIn ? '비교하기' : '로그인'}
             </Link>
             <Link
-              href={me ? '/mypage' : '/signup'}
+              href={isLoggedIn ? '/mypage' : '/signup'}
               className="text-right font-sans text-[16px] font-normal text-white"
             >
-              {me ? '내 프로필' : '회원가입'}
+              {isLoggedIn ? '내 프로필' : '회원가입'}
             </Link>
           </div>
           <div className="flex md:hidden">
