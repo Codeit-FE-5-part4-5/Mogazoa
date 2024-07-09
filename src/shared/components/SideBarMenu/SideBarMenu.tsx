@@ -6,19 +6,19 @@ interface SideBarMenuProps {
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
   logout: () => void;
   animationTrigger: boolean | ((arg: boolean) => void);
-  handleTransitionEnd: () => void;
+  handleAnimationEnd: () => void;
 }
 
 export default function SideBarMenu({
   setOpenMenu,
   logout,
   animationTrigger,
-  handleTransitionEnd,
+  handleAnimationEnd,
 }: SideBarMenuProps) {
   return (
     <div className={`fixed left-0 top-0 h-screen w-full`}>
       <div
-        onAnimationEnd={handleTransitionEnd}
+        onAnimationEnd={handleAnimationEnd}
         className={`${animationTrigger ? 'animate-slideRight' : 'animate-slideLeft'} bg-dark-gradient-custom size-full`}
       >
         <button

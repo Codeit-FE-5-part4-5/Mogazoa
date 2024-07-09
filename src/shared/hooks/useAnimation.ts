@@ -14,11 +14,11 @@ export const useAnimation = (
   let shouldRender = condition || isComplete;
   let animationTrigger = condition && isComplete;
 
-  const handleTransitionEnd = () => {
+  const handleAnimationEnd = () => {
     if (!condition) {
       setComplete(false);
     }
   };
 
-  return [shouldRender, animationTrigger, handleTransitionEnd];
+  return [shouldRender, animationTrigger, handleAnimationEnd];
 };

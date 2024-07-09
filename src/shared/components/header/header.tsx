@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
-  const [shouldRender, animationTrigger, handleTransitionEnd] =
+  const [shouldRender, animationTrigger, handleAnimationEnd] =
     useAnimation(isOpenMenu);
 
   const handleSearchClick = () => {
@@ -48,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
             setOpenMenu={setOpenMenu}
             logout={logout}
             animationTrigger={animationTrigger}
-            handleTransitionEnd={handleTransitionEnd}
+            handleAnimationEnd={handleAnimationEnd}
           />
         </Portal>
       )}
