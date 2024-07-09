@@ -45,7 +45,7 @@ export default function Home() {
     setCurrentSortOrder(sortConverter(order));
   };
 
-  const validateArray = (arr: any, idx?: number = 0) => {
+  const validateArray = (arr: any, idx = 0) => {
     return Array.isArray(arr) ? arr[idx] : arr;
   };
 
