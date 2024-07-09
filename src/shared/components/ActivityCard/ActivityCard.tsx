@@ -18,7 +18,7 @@ const ActivityCard = ({ status, conScore, text, color }: ActivityCardProps) => {
       conScore: conScore,
     },
 
-    interest: {
+    reviewsLeft: {
       name: '남긴 리뷰',
       imgComponent: (
         <img
@@ -30,7 +30,7 @@ const ActivityCard = ({ status, conScore, text, color }: ActivityCardProps) => {
       conScore: conScore,
     },
 
-    reviewsLeft: {
+    interest: {
       name: '관심 카테고리',
       imgComponent: <Chip text={text ?? ''} color={color} size="s" />,
       conScore: conScore,
@@ -50,7 +50,7 @@ const ActivityCard = ({ status, conScore, text, color }: ActivityCardProps) => {
           </div>
           <div className="flex items-center justify-center gap-[5px] text-[16px] font-light text-var-gray2 md:mt-[15px] md:text-[20px] xl:mt-[20px] xl:text-[24px]">
             {changeImgComponent}
-            {changeScore ? changeScore : ''}
+            {changeScore}
           </div>
         </div>
       </div>
