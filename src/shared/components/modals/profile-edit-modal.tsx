@@ -1,5 +1,4 @@
-import { ChangeEvent, useState } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
 
 import {
   Dialog,
@@ -10,20 +9,35 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
-import { ModalDropdown } from './modal-dropdown/modal-dropdown';
-import DropDown from '../DropDown/DropDown';
+import { useUpdateProfile } from '@/shared/models/user/useUpdateProfile';
 
-const frameworks = ['Next.js', 'SvelteKit', 'Nuxt.js', 'Remix', 'Astro'];
+import ImageInput from '../Input/ImageInput';
+import TextAreaInput from '../Input/TextAreaInput';
+import Button from '../Button/Button';
+import TextFieldInput from '../Input/TextFieldInput';
 
 export const ProfileEditModal = () => {
   const { isOpen, onClose, type } = useModal();
 
+  const [nickname, setNickname] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [image, setImage] = useState<string | null>(null);
+
+  const mutation = useUpdateProfile();
+
   const isModalOpen = isOpen && type === 'profileEdit';
 
-  const [text, setText] = useState<string>('');
-
-  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
+  const handleSaveButton = async () => {
+    try {
+      await mutation.mutateAsync({
+        nickname,
+        description,
+        image: image ?? '',
+      });
+      onClose();
+    } catch (error) {
+      console.error('Profile update failed:', error);
+    }
   };
 
   return (
@@ -35,34 +49,25 @@ export const ProfileEditModal = () => {
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
             <div className="flex flex-col md:flex-row md:items-start">
-              {/* Image Input 컴포넌트 추가 */}
-              <Image
-                src="/images/file.svg"
-                width={160}
-                height={160}
-                alt="file"
-              />
+              <div className="h-[160px] w-[160px]">
+                <ImageInput onChange={setImage} />
+              </div>
             </div>
             <div className="w-full">
-              {/* Dropdown 컴포넌트 추가 */}
-              <DropDown
-                itemList={frameworks}
-                onClick={() => console.log('...')}
+              <TextFieldInput
+                placeholder="닉네임을 입력해 주세요."
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
               />
             </div>
-            <div className="flex flex-col items-end rounded-md bg-[#252530]">
-              <textarea
-                className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
-                placeholder="프로필을 변경해 주세요"
-                value={text}
-                maxLength={500}
-                onChange={handleTextChange}
+            <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
+              <TextAreaInput
+                placeholder="수정할 내용을 입력해 주세요."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
-              <div className="mb-5 mr-5">{text.length} / 500</div>
             </div>
-            <div className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white">
-              저장하기
-            </div>
+            <Button text="저장하기" onClick={handleSaveButton} type="submit" />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

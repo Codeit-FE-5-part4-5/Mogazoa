@@ -1,47 +1,39 @@
 import axios from 'axios';
-import { Cookies } from 'react-cookie';
+import { getCookie, removeCookie } from './cookie';
 
-const cookies = new Cookies();
-
-export const apiInstance = axios.create({
+const apiInstance = axios.create({
   baseURL: 'https://mogazoa-api.vercel.app/5-5/',
 });
 
-apiInstance.interceptors.request.use((configOrigin) => {
-  const config = configOrigin;
-  if (typeof window !== 'undefined') {
-    const token = cookies.get('token');
-
-    if (config.headers && token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-  }
-
-  return config;
-});
-
-apiInstance.interceptors.response.use(
+apiInstance.interceptors.request.use(
   (configOrigin) => {
     const config = configOrigin;
+    if (typeof window !== 'undefined') {
+      const token = getCookie('accessToken');
+
+      if (config.headers && token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
 
     return config;
   },
   (error) => {
+    throw new Error(error);
+  },
+);
+
+apiInstance.interceptors.response.use(
+  (res) => res,
+  (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.clear();
-      cookies.remove('token', { path: '/' });
+      removeCookie('accessToken', { path: '/' });
       window.location.href = '/signin';
     } else {
-      console.log(error.response.status);
-      throw new Error(error.response.status);
+      console.log(error);
+      throw new Error(error);
     }
   },
 );
 
-export const awsApiInstance = axios.create();
-
-awsApiInstance.interceptors.request.use((config) => {
-  if (typeof window === 'undefined') return config;
-  config.headers.Authorization = null;
-  return config;
-});
+export default apiInstance;

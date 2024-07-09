@@ -1,6 +1,3 @@
-import { ChangeEvent, useState } from 'react';
-import Image from 'next/image';
-import axios from 'axios'; // axios import
 import {
   Dialog,
   DialogContent,
@@ -8,10 +5,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import axios from 'axios';
+import Image from 'next/image';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
 import DropDown from '../DropDown/DropDown';
+import ImageInput from '../Input/ImageInput';
+import TextAreaInput from '../Input/TextAreaInput';
+import Button from '../Button/Button';
 import { apiInstance } from '@/shared/utils/axios'; // axios instance import
+import { useState, ChangeEvent } from 'react';
 
 const frameworks = ['Next.js', 'SvelteKit', 'Nuxt.js', 'Remix', 'Astro'];
 
@@ -83,6 +86,7 @@ export const ItemEditModal = () => {
             >
               저장하기
             </div>
+            <Button text="저장하기" />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

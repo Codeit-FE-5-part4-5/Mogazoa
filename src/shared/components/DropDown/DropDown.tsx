@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 interface ItemListProps {
   itemList: string[];
-  onClick: (arg: string) => void;
+  onClick: (arg: any) => void;
   isOrder?: boolean;
 }
 
@@ -27,7 +27,7 @@ const ItemList = ({ itemList, onClick, isOrder }: ItemListProps) => {
 
 interface DropDownProps {
   itemList: string[];
-  onClick: (arg: string) => void;
+  onClick: (arg: any) => void;
   isOrder?: boolean;
 }
 
@@ -65,13 +65,13 @@ export default function DropDown({
     <div
       ref={dropDownElement}
       onClick={() => setShowMenuList((prev) => !prev)}
-      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-gray1'} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:${!isOrder && 'py-[19px]'} xl:${!isOrder && 'py-[22px]'} xl:text-[16px]`}
+      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-black3'} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:${!isOrder && 'py-[19px]'} xl:${!isOrder && 'py-[22px]'} xl:text-[16px]`}
     >
-      <div className="flex size-full items-center justify-between py-[2px]">
+      <div className="flex items-center justify-between py-[2px]">
         <input
           value={selectMenu}
           readOnly
-          className={`cursor-pointer ${showMenuList ? 'bg-var-black1 text-var-gray2' : 'bg-var-black2 text-var-gray1'} ${isOrder && 'bg-[#1c1c22]'} outline-none`}
+          className={`cursor-pointer ${showMenuList ? 'bg-var-black1 text-var-gray2' : 'bg-var-black2 text-var-gray1'} ${isOrder && 'bg-[#1c1c22]'} w-full outline-none`}
         />
         <Image
           src="/arrow.svg"
