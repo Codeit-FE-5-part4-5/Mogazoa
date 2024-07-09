@@ -4,11 +4,11 @@ import axios from '@/shared/utils/axios';
 export default function useGetProducts({
   keyword,
   categoryId,
-  order = 'recent',
+  order,
 }: {
   keyword?: string;
   categoryId?: number;
-  order?: string;
+  order: string;
 }) {
   return useQuery({
     queryKey: ['products', keyword, categoryId, order],

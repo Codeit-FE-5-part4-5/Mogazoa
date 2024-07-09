@@ -1,28 +1,57 @@
-import CategoryFilter from '@/shared/components/Chip/CategoryFilter';
 import { Header } from '@/shared/components/header/header';
-import ProductCard from '@/shared/components/ProductCard/ProductCard';
+import ProductList from '@/shared/components/ProductList/ProductList';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
-import { SlideMenu } from '@/shared/components/SlideMenu/SlideMenu';
+import { CategoryMenu } from '@/shared/components/CategoryMenu/CategoryMenu';
+import { ORDER_VARIANTS } from '@/shared/constants/products';
+import useMe from '@/shared/hooks/use-me';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetCategory from '@/shared/models/category/useGetCategory';
 import useGetProducts from '@/shared/models/product/useGetProducts';
 import { getCookie } from '@/shared/utils/cookie';
+import sortConverter from '@/shared/utils/sortConverter';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+/**
+ * @TODO 검색기능, 사이드바메뉴(카테고리, 로그인, 로그아웃)
+ */
+
 export default function Home() {
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  const [showCategory, setShowCategory] = useState(true);
-  const token = getCookie('accessToken');
-  const { isSuccess } = useGetMe(token);
+  const [currentSortOrder, setCurrentSortOrder] = useState(
+    sortConverter(ORDER_VARIANTS[0]),
+  );
+  const [searchKeyword, setSearchKeyword] = useState('');
   const router = useRouter();
-  const { name, id } = router.query;
+  const currentPath = router.pathname;
+  const { name: currentCategoryName, id: currentCategoryId } = router.query;
+  const token = getCookie('accessToken');
+  const { login, isLoggedIn } = useMe();
+  const { data, isSuccess } = useGetMe(token);
   const { data: categories } = useGetCategory();
-  const { data: products } = useGetProducts({ categoryId: Number(id) });
+  const { data: products } = useGetProducts({
+    categoryId: Number(currentCategoryId),
+    order: currentSortOrder,
+    keyword: searchKeyword,
+  });
+
+  const handleItemClick = (value: { name: string; id: number }) => {
+    router.push({
+      pathname: currentPath,
+      query: { name: value.name, id: value.id },
+    });
+  };
+
+  const changeSortOrder = (order: string) => {
+    setCurrentSortOrder(sortConverter(order));
+  };
+
+  const validateArray = (arr: any, idx = 0) => {
+    return Array.isArray(arr) ? arr[idx] : arr;
+  };
 
   useEffect(() => {
     if (isSuccess) {
-      setLoggedIn(true);
+      login(data.data);
     }
   }, [isSuccess]);
 
@@ -30,42 +59,22 @@ export default function Home() {
     <>
       <Header me={isLoggedIn} />
       <main className="flex justify-center">
-        <SlideMenu categories={categories} />
+        <div className="hidden md:flex">
+          <CategoryMenu
+            categories={categories}
+            onClick={handleItemClick}
+            currentCategoryName={validateArray(currentCategoryName)}
+          />
+        </div>
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <RankingList />
-          <div className="mx-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
-            <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
-              {name ? (
-                <>
-                  <p className="mb-[30px]">{name}의 모든 상품</p>
-                  <CategoryFilter
-                    currentCategory={String(name)}
-                    onClick={() => setShowCategory((prev) => !prev)}
-                  />
-                </>
-              ) : (
-                <p>
-                  지금 핫한 상품&nbsp;
-                  <span className="bg-gradient-custom bg-clip-text text-transparent">
-                    TOP 6
-                  </span>
-                </p>
-              )}
-            </h1>
-            <div className="grid grid-cols-2 gap-[20px] xl:grid-cols-3">
-              {products?.length > 0 &&
-                products.map((product: Product) => (
-                  <ProductCard
-                    key={product.id}
-                    image={product.image}
-                    name={product.name}
-                    favoriteCount={product.favoriteCount}
-                    rating={product.rating}
-                    reviewCount={product.reviewCount}
-                  />
-                ))}
-            </div>
-          </div>
+          <ProductList
+            currentCategoryName={validateArray(
+              currentCategoryName,
+            )} /** 라우터에서 받은 스트링은 string | string[] | undefined 타입이라서 필요한 검증 */
+            products={products}
+            handleChangeOrder={changeSortOrder}
+          />
         </div>
       </main>
     </>

@@ -85,10 +85,36 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        slideDown: {
+          '0%': { opacity: '0', transform: 'translateY(-10%)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideUp: {
+          '0%': { opacity: '1', transform: 'translateY(0)' },
+          '100%': { opacity: '0', transform: 'translateY(-10%)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+        timer: {
+          '0%': { width: '28rem' },
+          '100%': { width: '0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        slideDown: 'slideDown 0.2s ease-in-out forwards',
+        slideUp: 'slideUp 0.3s ease-in-out forwards',
+        fadeIn: 'fadeIn 0.3s ease-in-out forwards',
+        fadeOut: 'fadeOut 0.3s ease-in-out forwards',
+        timer: 'timer 2.9s linear forwards',
+        spin: 'spin 2s linear infinite',
       },
     },
   },
