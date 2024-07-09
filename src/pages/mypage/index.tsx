@@ -3,6 +3,8 @@ import Floating from '@/shared/components/Floating/Floating';
 import { Header } from '@/shared/components/header/header';
 import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
+import useGetMe from '@/shared/models/auth/useGetMe';
+import { getCookie } from '@/shared/utils/cookie';
 
 const mockAverageScore = 5;
 const mockProductCard = {
@@ -13,12 +15,15 @@ const mockProductCard = {
 };
 
 const MyPage = () => {
+  const token = getCookie('accessToken');
+  const { data: user } = useGetMe(token);
+
   return (
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
-          <MyProfileCard />
+          <MyProfileCard user={user?.data} />
         </div>
         <div className="w-full space-y-20 xl:w-[940px]">
           <div className="mt-[50px] space-y-[30px] xl:mt-0">
@@ -27,16 +32,19 @@ const MyPage = () => {
               <div className="w-full">
                 <ActivityCard
                   status="averageLeft"
-                  conScore={mockAverageScore}
+                  conScore={user?.data?.averageRating}
                 />
-              </div>
-              <div className="w-full">
-                <ActivityCard status="interest" conScore={mockAverageScore} />
               </div>
               <div className="w-full">
                 <ActivityCard
                   status="reviewsLeft"
-                  text="전자기기"
+                  conScore={user?.data?.reviewCount}
+                />
+              </div>
+              <div className="w-full">
+                <ActivityCard
+                  status="interest"
+                  text={user?.data?.mostFavoriteCategory?.name}
                   color="#23b581"
                 />
               </div>

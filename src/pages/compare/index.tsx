@@ -1,22 +1,54 @@
 import Button from '@/shared/components/Button/Button';
-import CompareDropDown from '@/shared/components/DropDown/CompareDropDown';
+import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownInput';
 import { Table } from '@/shared/components/Table/Table';
-import { useState } from 'react';
+import useGetProducts from '@/shared/models/product/useGetProducts';
+import React, { SetStateAction, useState } from 'react';
 
 const Compare = () => {
-  const itemList = ['아이폰 4', '아이폰 5', '아이폰 6', '아이폰 7'];
-  const [value, setValue] = useState('');
+  const [value1, setValue1] = useState('');
+  const [Bedge1, setBedge1] = useState('');
+  const [value2, setValue2] = useState('');
+  const [Bedge2, setBedge2] = useState('');
+  const { data: keywordList1 } = useGetProducts({ keyword: value1 });
+  const { data: keywordList2 } = useGetProducts({ keyword: value2 });
+
+  const onChangeEvent = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setValue: React.Dispatch<SetStateAction<string>>,
+  ) => {
+    setValue(e.target.value);
+  };
+
+  console.log(keywordList1);
 
   return (
     <div className="items-centers flex flex-col justify-center px-5 md:items-center">
       <div className="text-var-white grid w-auto items-end gap-[20px] md:grid-cols-3 xl:w-[940px]">
         <div>
           <h3 className="mb-[10px] text-[14px] xl:text-[16px]">상품 1</h3>
-          <CompareDropDown itemList={itemList} onClick={setValue} />
+          <CompareDropDownInput
+            itemList={keywordList1}
+            onClick={setValue1}
+            Bedge={Bedge1}
+            setBedge={setBedge1}
+            value={value1}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChangeEvent(e, setValue1)
+            }
+          />
         </div>
         <div>
           <h3 className="mb-[10px] text-[14px] xl:text-[16px]">상품 2</h3>
-          <CompareDropDown itemList={itemList} onClick={setValue} />
+          <CompareDropDownInput
+            itemList={keywordList2}
+            onClick={setValue2}
+            Bedge={Bedge2}
+            setBedge={setBedge2}
+            value={value2}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChangeEvent(e, setValue2)
+            }
+          />
         </div>
         <div>
           <Button variant="primary" text="비교하기" />
