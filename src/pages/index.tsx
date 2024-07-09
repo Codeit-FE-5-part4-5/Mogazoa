@@ -19,17 +19,17 @@ import { validateArray } from '@/shared/utils/validateArray';
  */
 
 export default function Home() {
+  const router = useRouter();
+  const currentPath = router.pathname;
+  const { name: currentCategoryName, id: currentCategoryId } = router.query;
   const [currentSortOrder, setCurrentSortOrder] = useState(
     sortConverter(ORDER_VARIANTS[0]),
   );
   const [searchQuery, setSearchQuery] = useState('');
   const [searchKeyword, onChangeSearchKeyword, initSearchKeyword] =
     useInput('');
-  const router = useRouter();
-  const currentPath = router.pathname;
-  const { name: currentCategoryName, id: currentCategoryId } = router.query;
   const token = getCookie('accessToken');
-  const { login, isLoggedIn } = useMe();
+  const { login, isLoggedIn, logout } = useMe();
   const { data, isSuccess: loginSuccess } = useGetMe(token);
   const { data: categories } = useGetCategory();
   const { data: products, isSuccess: productsSuccess } = useGetProducts({
@@ -78,6 +78,8 @@ export default function Home() {
     <>
       <Header
         me={isLoggedIn}
+        logout={logout}
+        isLoggedIn={isLoggedIn}
         onChange={changeSearchKeyword}
         initSearchKeyword={initSearchKeyword}
         categories={categories}
