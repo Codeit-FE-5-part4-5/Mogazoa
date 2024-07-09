@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import {
   Dialog,
   DialogContent,
@@ -7,17 +9,36 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
-import DropDown from '../DropDown/DropDown';
+import { useUpdateProfile } from '@/shared/models/user/useUpdateProfile';
+
 import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
 import Button from '../Button/Button';
-
-const frameworks = ['Next.js', 'SvelteKit', 'Nuxt.js', 'Remix', 'Astro'];
+import TextFieldInput from '../Input/TextFieldInput';
 
 export const ProfileEditModal = () => {
   const { isOpen, onClose, type } = useModal();
 
+  const [nickname, setNickname] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [image, setImage] = useState<string | null>(null);
+
+  const mutation = useUpdateProfile();
+
   const isModalOpen = isOpen && type === 'profileEdit';
+
+  const handleSaveButton = async () => {
+    try {
+      await mutation.mutateAsync({
+        nickname,
+        description,
+        image: image ?? '',
+      });
+      onClose();
+    } catch (error) {
+      console.error('Profile update failed:', error);
+    }
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -29,19 +50,24 @@ export const ProfileEditModal = () => {
           <DialogDescription className="flex flex-col gap-y-5 text-center">
             <div className="flex flex-col md:flex-row md:items-start">
               <div className="h-[160px] w-[160px]">
-                <ImageInput />
+                <ImageInput onChange={setImage} />
               </div>
             </div>
             <div className="w-full">
-              <DropDown
-                itemList={frameworks}
-                onClick={() => console.log('...')}
+              <TextFieldInput
+                placeholder="닉네임을 입력해 주세요."
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
               />
             </div>
             <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
-              <TextAreaInput placeholder="수정할 내용을 입력해 주세요." />
+              <TextAreaInput
+                placeholder="수정할 내용을 입력해 주세요."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </div>
-            <Button text="저장하기" />
+            <Button text="저장하기" onClick={handleSaveButton} />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
