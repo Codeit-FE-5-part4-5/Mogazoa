@@ -1,11 +1,4 @@
-/**TODO:
- * 1. chip 컴포넌트 추가
- * 2. 상품명 api 받아와서 추가
- * 3. image input 컴포넌트 추가
- */
-
-import { ChangeEvent, useState } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
 
 import { Rating } from 'react-simple-star-rating';
 import {
@@ -17,23 +10,22 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
+import Button from '../Button/Button';
+import TextAreaInput from '../Input/TextAreaInput';
+import ImageInput from '../Input/ImageInput';
+import Chip from '../Chip/Chip';
+import Image from 'next/image';
 
 export const ReviewModal = () => {
   const { isOpen, onClose, type } = useModal();
 
   const isModalOpen = isOpen && type === 'review';
 
-  const [text, setText] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
-
-  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-  };
 
   const handleRating = (rate: number) => {
     setRating(rate);
   };
-
   const onPointerEnter = () => console.log('Enter');
   const onPointerLeave = () => console.log('Leave');
   const onPointerMove = (value: number, index: number) =>
@@ -41,12 +33,13 @@ export const ReviewModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
+      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[620px]">
         <DialogHeader>
           <DialogTitle className="mb-10 self-start text-2xl">
-            {/* chip */}
-            {/* 상품명 */}
-            <div className="self-start">Sony WH-1000XM3</div>
+            <div className="w-[58px]">
+              {/* <Chip text="전자기기" color="#23B581" /> */}
+            </div>
+            <div className="mt-[10px] self-start">Sony WH-1000XM3</div>
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
             <div className="flex items-center gap-x-5">
@@ -58,24 +51,36 @@ export const ReviewModal = () => {
                   onPointerLeave={onPointerLeave}
                   onPointerMove={onPointerMove}
                   SVGclassName={`inline-block`}
+                  fillIcon={
+                    <Image
+                      className="mr-[2px] inline-block xl:mr-[5px]"
+                      src="images/star.svg"
+                      alt="star"
+                      width={32}
+                      height={32}
+                    />
+                  }
+                  emptyIcon={
+                    <Image
+                      className="mr-[2px] inline-block xl:mr-[5px]"
+                      src="images/empty-star.svg"
+                      alt="empty-star"
+                      width={32}
+                      height={32}
+                    />
+                  }
                 />
               </div>
             </div>
-            <div className="flex flex-col items-end rounded-md bg-[#252530]">
-              <textarea
-                className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
-                placeholder="리뷰를 작성해 주세요"
-                value={text}
-                maxLength={500}
-                onChange={handleTextChange}
-              />
-              <div className="mb-5 mr-5">{text.length} / 500</div>
+            <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
+              <TextAreaInput placeholder="리뷰를 작성해 주세요." />
             </div>
-            {/* Image Input 컴포넌트 추가 */}
-            <Image src="/images/file.svg" width={160} height={160} alt="file" />
-            <div className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white">
-              작성하기
+            <div className="flex space-x-4">
+              <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+                <ImageInput />
+              </div>
             </div>
+            <Button text="작성하기" />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

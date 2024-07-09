@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 const ImageInput: React.FC = () => {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImage(e.target?.result);
+        if (typeof e.target?.result === 'string') {
+          setImage(e.target.result);
+        }
       };
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -19,7 +21,7 @@ const ImageInput: React.FC = () => {
   };
 
   return (
-    <div className="relative h-full w-full rounded-lg border p-2 md:h-[135px]">
+    <div className="relative h-full w-full rounded-lg border-[2px] border-var-black3 p-2 hover:border-var-indigo">
       {!image ? (
         <div className="flex h-full w-full items-center justify-center">
           <label className="flex cursor-pointer items-center">
@@ -43,7 +45,7 @@ const ImageInput: React.FC = () => {
             </button>
           </div>
           <img
-            src={image as string}
+            src={image}
             alt="Preview"
             className="h-full w-full rounded-lg object-cover"
           />

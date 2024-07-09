@@ -13,24 +13,40 @@ export const CATEGORY_LIST = [
   { name: '앱', color: '#3098e3' },
 ];
 
+type ChipSize = 's' | 'm';
+
 interface ChipProps {
   text: string;
   color?: string;
+  size: ChipSize;
 }
 
-export default function Chip({ text = '음악', color = '#c5d17c' }: ChipProps) {
+const chipSizeTypeStyle = {
+  s: {
+    wrapper: 'px-[8px]',
+    text: 'text-[12px] font-[400]',
+  },
+  m: {
+    wrapper: 'px-[10px]',
+    text: 'text-[18px] font-[500]',
+  },
+};
+
+export default function Chip({
+  text = '음악',
+  color = '#c5d17c',
+  size = 's',
+}: ChipProps) {
   const [r, g, b] = useHexToRgb(color);
   return (
     <div
-      className={`flex w-fit rounded-[6px] px-[8px] py-[4px] md:px-[10px]`}
+      className={`flex w-fit rounded-[6px] py-[4px] ${chipSizeTypeStyle[size].wrapper}`}
       style={{
         backgroundColor: `rgba(${r},${g},${b}, 0.2)`,
         color: color,
       }}
     >
-      <span className="text-[12px] font-[400] md:text-[18px] md:font-[500]">
-        {text}
-      </span>
+      <span className={`${chipSizeTypeStyle[size].text}`}>{text}</span>
     </div>
   );
 }
