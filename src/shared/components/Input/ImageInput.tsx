@@ -27,8 +27,6 @@ const ImageInput: React.FC<ImageInputProps> = ({ onChange }) => {
       try {
         const response = await apiInstance.post('images/upload', formData);
 
-        console.log(response.data);
-
         if (response.status === 201) {
           setImageUrl(response.data.url);
           onChange(response.data.url);

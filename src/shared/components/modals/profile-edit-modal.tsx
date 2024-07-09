@@ -67,7 +67,7 @@ export const ProfileEditModal = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <Button text="저장하기" onClick={handleSaveButton} />
+            <Button text="저장하기" onClick={handleSaveButton} type="submit" />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
