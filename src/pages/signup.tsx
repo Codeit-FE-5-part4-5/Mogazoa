@@ -4,9 +4,9 @@ import NicknameInput from '@/shared/components/Input/NicknameInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
 import useSignUp from '@/shared/models/auth/useSignUp';
 import { useForm } from 'react-hook-form';
+import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Header } from '@/shared/components/header/header';
 
 export interface IAuthForm {
   email: '';
@@ -51,9 +51,8 @@ export default function SignUp() {
   };
 
   return (
-    <>
-      <Header />
-      <div className="mt-[180px] flex items-center justify-center px-[20px]">
+    <MogazoaLayout>
+      <div className="flex items-center justify-center px-[20px] py-[80px]">
         <form
           onSubmit={handleSubmit(handleSubmitSignUp)}
           className="flex w-full flex-col gap-[40px] md:w-[440px] xl:w-[640px]"
@@ -81,6 +80,6 @@ export default function SignUp() {
           <Button text="가입하기" type="submit" className="mt-[20px]" />
         </form>
       </div>
-    </>
+    </MogazoaLayout>
   );
 }
