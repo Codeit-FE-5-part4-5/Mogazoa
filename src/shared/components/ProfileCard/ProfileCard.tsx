@@ -54,7 +54,7 @@ export default function ProfileCard({ user }: { user: UserType }) {
         </div>
         <div
           className="flex flex-1 cursor-pointer flex-col items-center"
-          onClick={() => onOpen('follow')}
+          onClick={() => onOpen('following')}
         >
           <span className="text-[18px]">{user?.followeesCount}</span>
           <span>팔로잉</span>

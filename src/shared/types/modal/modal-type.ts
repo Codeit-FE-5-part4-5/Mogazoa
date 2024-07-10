@@ -3,6 +3,7 @@ import { Followers } from '../follow/followers/followers-type';
 
 export type ModalType =
   | 'follow'
+  | 'following'
   | 'compare'
   | 'compareConfirm'
   | 'review'

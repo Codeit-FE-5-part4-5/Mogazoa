@@ -10,16 +10,16 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useModal } from '@/shared/hooks/use-modal-store';
 import { getCookie } from '@/shared/utils/cookie';
 import useGetMe from '@/shared/models/auth/useGetMe';
-import useGetUserFollowers from '@/shared/models/user/follow/followers/useGetUserFollowers';
-import { FollowerItem } from '@/shared/types/follow/followers/followers-type';
 import { useRouter } from 'next/router';
+import useGetUserFollowees from '@/shared/models/user/follow/followees/useGetUserFollowees';
+import { FolloweeItem } from '@/shared/types/follow/followees/followees-type';
 
-export const FollowModal = () => {
+export const FollowingModal = () => {
   const router = useRouter();
   const path = router.pathname;
 
   const { isOpen, onClose, type } = useModal();
-  const isModalOpen = isOpen && type === 'follow';
+  const isModalOpen = isOpen && type === 'following';
 
   const token = getCookie('accessToken');
   const { data: user } = useGetMe(token);
@@ -32,30 +32,32 @@ export const FollowModal = () => {
     userId = Number(router.query.userId);
   }
 
-  const { data: followers } = useGetUserFollowers(userId);
+  const { data: followees } = useGetUserFollowees(userId);
+
+  console.log(followees);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="mb-5 self-start text-xl xl:mb-10 xl:text-2xl">
-            유저를 팔로우하는 유저
+            유저가 팔로잉하는 유저
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-6">
-            {followers?.data.list.map((follower: FollowerItem) => {
+            {followees?.data.list.map((followee: FolloweeItem) => {
               return (
-                <div className="flex items-center gap-x-5" key={follower?.id}>
+                <div className="flex items-center gap-x-5" key={followee?.id}>
                   <Avatar>
                     <AvatarImage
                       className="w-[48px] xl:w-[52px]"
-                      src={follower?.follower?.image}
+                      src={followee?.followee?.image}
                     />
                     <AvatarFallback>
-                      {follower?.follower?.nickname}
+                      {followee?.followee?.nickname}
                     </AvatarFallback>
                   </Avatar>
                   <div className="text-base text-var-white xl:text-lg">
-                    {follower?.follower?.nickname}
+                    {followee?.followee?.nickname}
                   </div>
                 </div>
               );

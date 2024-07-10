@@ -8,7 +8,7 @@ export interface Followee {
   id: number;
 }
 
-interface FolloweeItem {
+export interface FolloweeItem {
   followee: Followee;
   id: number;
 }
