@@ -34,8 +34,6 @@ export const FollowingModal = () => {
 
   const { data: followees } = useGetUserFollowees(userId);
 
-  console.log(followees);
-
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">

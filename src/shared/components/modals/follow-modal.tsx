@@ -41,27 +41,28 @@ export const FollowModal = () => {
           <DialogTitle className="mb-5 self-start text-xl xl:mb-10 xl:text-2xl">
             유저를 팔로우하는 유저
           </DialogTitle>
-          <DialogDescription className="flex flex-col gap-y-6">
-            {followers?.data.list.map((follower: FollowerItem) => {
-              return (
-                <div className="flex items-center gap-x-5" key={follower?.id}>
-                  <Avatar>
-                    <AvatarImage
-                      className="w-[48px] xl:w-[52px]"
-                      src={follower?.follower?.image}
-                    />
-                    <AvatarFallback>
-                      {follower?.follower?.nickname}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="text-base text-var-white xl:text-lg">
-                    {follower?.follower?.nickname}
-                  </div>
-                </div>
-              );
-            })}
-          </DialogDescription>
         </DialogHeader>
+        <DialogDescription />
+        <div className="flex flex-col gap-y-6">
+          {followers?.data.list.map((follower: FollowerItem) => {
+            return (
+              <div className="flex items-center gap-x-5" key={follower?.id}>
+                <Avatar>
+                  <AvatarImage
+                    className="w-[48px] xl:w-[52px]"
+                    src={follower?.follower?.image}
+                  />
+                  <AvatarFallback>
+                    {follower?.follower?.nickname}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="text-base text-var-white xl:text-lg">
+                  {follower?.follower?.nickname}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </DialogContent>
     </Dialog>
   );
