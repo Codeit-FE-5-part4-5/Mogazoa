@@ -47,7 +47,7 @@ export default function useChangeRouter(): {
     currentCategoryName, // 현재 선택한 카테고리이름
     currentCategoryId, // 현재 선택한 카테고리아이디
     handleClickCategory, // 클릭한 카테고리의 이름과 아이디를 url 쿼리로 넘겨주는 함수
-    changeSearchKeyword,
-    searchKeyword,
+    changeSearchKeyword, // 입력한 검색어 쿼리로 푸쉬하는 함수
+    searchKeyword, // 현재 입력한 검색어
   };
 }
