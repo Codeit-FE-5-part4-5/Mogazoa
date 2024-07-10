@@ -5,6 +5,7 @@ import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import { getCookie } from '@/shared/utils/cookie';
+import { useModal } from '@/shared/hooks/use-modal-store';
 
 const mockAverageScore = 5;
 const mockProductCard = {
@@ -17,6 +18,7 @@ const mockProductCard = {
 const MyPage = () => {
   const token = getCookie('accessToken');
   const { data: user } = useGetMe(token);
+  const { onOpen } = useModal();
 
   return (
     <div>
@@ -94,7 +96,7 @@ const MyPage = () => {
         </div>
       </div>
       <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
-        <Floating onClick={() => console.log('...')} />
+        <Floating onClick={() => onOpen('itemAdd')} />
       </div>
     </div>
   );

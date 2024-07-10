@@ -13,17 +13,28 @@ import DropDown from '../DropDown/DropDown';
 import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
 import Button from '../Button/Button';
-import { apiInstance } from '@/shared/utils/axios'; // axios instance import
+import apiInstance from '@/shared/utils/axios';
 import { useState, ChangeEvent } from 'react';
 
-const frameworks = ['Next.js', 'SvelteKit', 'Nuxt.js', 'Remix', 'Astro'];
+const frameworks = [
+  '음악',
+  '영화/드라마',
+  '강의/책',
+  '호텔',
+  '가구/인테리어',
+  '식당',
+  '전자기기',
+  '화장품',
+  '의류/잡화',
+  '앱',
+];
 
 export const ItemEditModal = () => {
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'itemEdit';
   const [text, setText] = useState<string>('');
   const [selectedItem, setSelectedItem] = useState('');
-  const [image, setImage] = useState('/images/file.svg'); // 이미지 상태 추가
+  const [image, setImage] = useState('/images/file.svg');
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -41,7 +52,6 @@ export const ItemEditModal = () => {
     try {
       const response = await apiInstance.post('/your-endpoint', requestBody);
       console.log('Response:', response.data);
-      // 성공적인 요청 후 추가 작업
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('Error:', error.message);
@@ -53,7 +63,7 @@ export const ItemEditModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="text-var-white mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] md:max-w-[500px]">
+      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="mb-10 self-start text-2xl">
             상품 편집
@@ -72,7 +82,7 @@ export const ItemEditModal = () => {
             </div>
             <div className="flex flex-col items-end rounded-md bg-[#252530]">
               <textarea
-                className="text-var-white h-full w-full resize-none rounded-md bg-[#252530] p-5 outline-none"
+                className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
                 placeholder="상품을 수정해 주세요"
                 value={text}
                 maxLength={500}
@@ -81,7 +91,7 @@ export const ItemEditModal = () => {
               <div className="mb-5 mr-5">{text.length} / 500</div>
             </div>
             <div
-              className="from-var-blue to-var-indigo text-var-white mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r py-6 text-lg"
+              className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white"
               onClick={handleSave}
             >
               저장하기

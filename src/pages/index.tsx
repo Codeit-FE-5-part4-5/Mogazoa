@@ -20,11 +20,6 @@ import { validateArray } from '@/shared/utils/validateArray';
  */
 
 export default function Home() {
-  const [currentSortOrder, setCurrentSortOrder] = useState(
-    sortConverter(ORDER_VARIANTS[0]),
-  );
-  const [searchKeyword, setSearchKeyword] = useState('');
-
   const router = useRouter();
   const currentPath = router.pathname;
   const { name: currentCategoryName, id: currentCategoryId } = router.query;
