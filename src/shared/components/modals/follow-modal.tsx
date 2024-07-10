@@ -8,29 +8,23 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
-
-const mockUsers = [
-  {
-    id: 1,
-    name: 'first user',
-    imgUrl: 'https://github.com/shadcn.png',
-  },
-  {
-    id: 2,
-    name: 'second user',
-    imgUrl: 'https://github.com/shadcn.png',
-  },
-  {
-    id: 3,
-    name: 'third user',
-    imgUrl: 'https://github.com/shadcn.png',
-  },
-];
+import { getCookie } from '@/shared/utils/cookie';
+import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetUserFollowers from '@/shared/models/user/followers/useGetUserFollowers';
+import { Follower, Followers } from '@/shared/types/followers/followers-type';
 
 export const FollowModal = () => {
   const { isOpen, onClose, type } = useModal();
 
   const isModalOpen = isOpen && type === 'follow';
+
+  const token = getCookie('accessToken');
+
+  const { data: user } = useGetMe(token);
+  const { data: followers } = useGetUserFollowers(user?.data.id);
+
+  // console.log(followers?.data.list);
+  // console.log(user?.data.id);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -40,18 +34,18 @@ export const FollowModal = () => {
             유저를 팔로우하는 유저
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-6">
-            {mockUsers.map((mockUser) => {
+            {followers?.data.list.map((follower: Follower) => {
               return (
-                <div className="flex items-center gap-x-5">
+                <div className="flex items-center gap-x-5" key={follower?.id}>
                   <Avatar>
                     <AvatarImage
                       className="w-[48px] xl:w-[52px]"
-                      src={mockUser.imgUrl}
+                      src={follower?.image}
                     />
-                    <AvatarFallback>{mockUser.name}</AvatarFallback>
+                    <AvatarFallback>{follower?.nickname}</AvatarFallback>
                   </Avatar>
                   <div className="text-base text-var-white xl:text-lg">
-                    {mockUser.name}
+                    {follower?.nickname}
                   </div>
                 </div>
               );

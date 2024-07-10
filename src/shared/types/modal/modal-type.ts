@@ -1,3 +1,5 @@
+import { Followers } from '../followers/followers-type';
+
 export type ModalType =
   | 'follow'
   | 'compare'
@@ -7,9 +9,14 @@ export type ModalType =
   | 'itemAdd'
   | 'profileEdit';
 
+interface ModalData {
+  followers?: Followers;
+}
+
 export interface ModalStore {
   type: ModalType | null;
+  data: ModalData;
   isOpen: boolean;
-  onOpen: (type: ModalType) => void;
+  onOpen: (type: ModalType, data?: ModalData) => void;
   onClose: () => void;
 }
