@@ -1,5 +1,5 @@
+import AppLayout from '@/shared/components/App/AppLayout';
 import Button from '@/shared/components/Button/Button';
-import { Header } from '@/shared/components/header/header';
 import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
 import useSignIn from '@/shared/models/auth/useSignIn';
@@ -37,8 +37,7 @@ export default function SignIn() {
   };
 
   return (
-    <>
-      <Header />
+    <AppLayout>
       <div className="mt-[180px] flex items-center justify-center px-[20px]">
         <form
           onSubmit={handleSubmit(handleSubmitSignIn)}
@@ -78,6 +77,6 @@ export default function SignIn() {
           </div>
         </form>
       </div>
-    </>
+    </AppLayout>
   );
 }

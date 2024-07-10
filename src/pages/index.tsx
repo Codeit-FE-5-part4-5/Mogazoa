@@ -12,6 +12,7 @@ import sortConverter from '@/shared/utils/sortConverter';
 import { useEffect, useState } from 'react';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
+import AppLayout from '@/shared/components/App/AppLayout';
 
 export default function Home() {
   const {
@@ -40,8 +41,7 @@ export default function Home() {
   }, [loginSuccess]);
 
   return (
-    <>
-      <Header />
+    <AppLayout>
       <div className="flex border-b border-var-black3 md:hidden">
         <SlideMenuBar
           categories={categories}
@@ -68,6 +68,6 @@ export default function Home() {
           />
         </div>
       </main>
-    </>
+    </AppLayout>
   );
 }

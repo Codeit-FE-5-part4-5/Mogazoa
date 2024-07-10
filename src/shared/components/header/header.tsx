@@ -11,9 +11,7 @@ import { useAnimation } from '@/shared/hooks/useAnimation';
 import useMe from '@/shared/hooks/use-me';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 
-interface HeaderProps {}
-
-export const Header: React.FC<HeaderProps> = ({}) => {
+export const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { isLoggedIn, logout } = useMe();
