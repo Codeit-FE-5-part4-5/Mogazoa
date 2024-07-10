@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import CompareDropDownInput from '../DropDown/CompareDropDownInput';
 import useGetProducts from '@/shared/models/product/useGetProducts';
+import { usePathname } from 'next/navigation';
 
 import {
   Dialog,
@@ -42,11 +43,9 @@ export const ItemEditModal = () => {
   const { data: keywordList } = useGetProducts({ keyword: selectedItem });
   const [Bedge1, setBedge1] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [image, setImage] = useState(
-    'https://www.google.com/imgres?q=%EC%9D%B4%EB%AF%B8%EC%A7%80&',
-  );
+  const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const productId = usePathname().split('/').pop();
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
@@ -67,7 +66,10 @@ export const ItemEditModal = () => {
     };
 
     try {
-      const response = await apiInstance.post('/products', requestBody);
+      const response = await apiInstance.post(
+        `/products/${productId}`,
+        requestBody,
+      );
       console.log('Response:', response.data);
       router.push('/mypage');
     } catch (error) {
