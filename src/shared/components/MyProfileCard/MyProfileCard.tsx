@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Button from '../Button/Button';
 import { useModal } from '@/shared/hooks/use-modal-store';
 import { UserType } from '@/shared/types/user/user-type';
-import { getCookie, removeCookie } from '@/shared/utils/cookie';
+import { removeCookie } from '@/shared/utils/cookie';
 import { useRouter } from 'next/router';
 
 export default function MyProfileCard({ user }: { user: UserType }) {

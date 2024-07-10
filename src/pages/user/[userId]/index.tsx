@@ -3,6 +3,8 @@ import Floating from '@/shared/components/Floating/Floating';
 import { Header } from '@/shared/components/header/header';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
+import useUserProfile from '@/shared/models/user/useUserProfile';
+import { useParams } from 'next/navigation';
 
 const mockAverageScore = 5;
 const mockProductCard = {
@@ -13,12 +15,16 @@ const mockProductCard = {
 };
 
 const UserProfile = () => {
+  const params = useParams();
+
+  const { data: user } = useUserProfile(Number(params?.userId));
+
   return (
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
-          <ProfileCard />
+          <ProfileCard user={user?.data} />
         </div>
         <div className="w-full space-y-20 xl:w-[940px]">
           <div className="mt-[50px] space-y-[30px] xl:mt-0">

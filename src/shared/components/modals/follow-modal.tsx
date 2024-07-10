@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useModal } from '@/shared/hooks/use-modal-store';
 import { getCookie } from '@/shared/utils/cookie';
 import useGetMe from '@/shared/models/auth/useGetMe';
-import useGetUserFollowers from '@/shared/models/user/followers/useGetUserFollowers';
+import useGetUserFollowers from '@/shared/models/user/follow/followers/useGetUserFollowers';
 import { Follower } from '@/shared/types/follow/followers/followers-type';
 
 export const FollowModal = () => {

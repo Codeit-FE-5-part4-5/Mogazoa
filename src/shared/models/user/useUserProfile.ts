@@ -1,13 +1,13 @@
 import axios from '@/shared/utils/axios';
 import { useQuery } from '@tanstack/react-query';
 
-const useGetUserFollowers = (userId: number) => {
+const useUserProfile = (userId: number) => {
   return useQuery({
-    queryKey: ['followers'],
-    queryFn: () => axios.get(`users/${userId}/followers`),
+    queryKey: ['userProfile', userId],
+    queryFn: () => axios.get(`users/${userId}`),
     staleTime: 60 * 1000 * 30,
     gcTime: 60 * 1000 * 30,
   });
 };
 
-export default useGetUserFollowers;
+export default useUserProfile;
