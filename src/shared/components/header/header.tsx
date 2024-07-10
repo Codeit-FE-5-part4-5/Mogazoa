@@ -1,43 +1,27 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
 import searchIcon from '@/../../public/images/search.svg';
 import closedIcon from '@/../../public/images/closedIcon.svg';
-import SlideMenuBar from '../SlideMenuBar/SlideMenuBar';
-import { Category } from '@/shared/types/category/category';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 import { Portal } from '@/shared/providers/portal-provider';
 import { useAnimation } from '@/shared/hooks/useAnimation';
+import useMe from '@/shared/hooks/use-me';
+import useChangeRouter from '@/shared/hooks/useChangeRouter';
 
-interface HeaderProps {
-  logout: () => void;
-  isLoggedIn: boolean;
-  onChange: (keyword: ChangeEvent) => void;
-  onClick: (category: { name: string; id: number }) => void;
-  initSearchKeyword: () => void;
-  categories: Category[];
-  currentCategory: string;
-}
+interface HeaderProps {}
 
-export const Header: React.FC<HeaderProps> = ({
-  logout,
-  isLoggedIn,
-  onChange,
-  onClick,
-  initSearchKeyword,
-  categories,
-  currentCategory,
-}) => {
+export const Header: React.FC<HeaderProps> = ({}) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
+  const { isLoggedIn, logout } = useMe();
+  const { changeSearchKeyword } = useChangeRouter();
   const [shouldRender, animationTrigger, handleAnimationEnd] =
     useAnimation(isOpenMenu);
-
   const handleSearchClick = () => {
     setIsSearchOpen(!isSearchOpen);
-    initSearchKeyword();
   };
 
   return (
@@ -77,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
             <input
               type="text"
               placeholder="상품 이름을 검색해 보세요"
-              onChange={onChange}
+              onChange={changeSearchKeyword}
               className="flex h-[50px] w-[300px] flex-col items-start justify-center gap-[10px] rounded-[28px] bg-[#252530] p-[16px_20px] text-white xl:w-[400px]"
             />
             <Link
@@ -118,18 +102,11 @@ export const Header: React.FC<HeaderProps> = ({
             <input
               type="text"
               placeholder="상품 이름을 검색해 보세요"
-              onChange={onChange}
+              onChange={changeSearchKeyword}
               className="w-full rounded bg-gray-800 px-4 py-2 text-white"
             />
           </div>
         )}
-      </div>
-      <div className="flex border-b border-var-black3 md:hidden">
-        <SlideMenuBar
-          categories={categories}
-          currentCategory={currentCategory}
-          onClick={onClick}
-        />
       </div>
     </>
   );
