@@ -102,6 +102,14 @@ module.exports = {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-100%)' },
         },
+        bigger: {
+          from: { right: 0, width: '0' },
+          to: { right: 0, width: '100%' },
+        },
+        smaller: {
+          from: { width: '100%' },
+          to: { width: '0' },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
@@ -109,10 +117,6 @@ module.exports = {
         fadeOut: {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' },
-        },
-        timer: {
-          '0%': { width: '28rem' },
-          '100%': { width: '0' },
         },
       },
       animation: {
@@ -122,9 +126,10 @@ module.exports = {
         slideUp: 'slideUp 0.3s ease-in-out forwards',
         slideRight: 'slideRight 0.3s ease-in-out forwards',
         slideLeft: 'slideLeft 0.3s ease-in-out forwards',
+        bigger: 'bigger 0.2s ease-in-out forwards',
+        smaller: 'smaller 0.3s ease-in-out forwards',
         fadeIn: 'fadeIn 0.3s ease-in-out forwards',
         fadeOut: 'fadeOut 0.3s ease-in-out forwards',
-        timer: 'timer 2.9s linear forwards',
         spin: 'spin 2s linear infinite',
       },
     },

@@ -5,21 +5,21 @@ import { Dispatch, SetStateAction } from 'react';
 interface SideBarMenuProps {
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
   logout: () => void;
-  animationTrigger: boolean | ((arg: boolean) => void);
-  handleAnimationEnd: () => void;
+  animationOpenMenu: boolean | ((arg: boolean) => void);
+  handleOpenMenuEnd: () => void;
 }
 
 export default function SideBarMenu({
   setOpenMenu,
   logout,
-  animationTrigger,
-  handleAnimationEnd,
+  animationOpenMenu,
+  handleOpenMenuEnd,
 }: SideBarMenuProps) {
   return (
     <div className={`fixed left-0 top-0 h-screen w-full`}>
       <div
-        onAnimationEnd={handleAnimationEnd}
-        className={`${animationTrigger ? 'animate-slideRight' : 'animate-slideLeft'} bg-dark-gradient-custom size-full`}
+        onAnimationEnd={handleOpenMenuEnd}
+        className={`${animationOpenMenu ? 'animate-slideRight' : 'animate-slideLeft'} size-full bg-dark-gradient-custom`}
       >
         <button
           onClick={() => setOpenMenu(false)}

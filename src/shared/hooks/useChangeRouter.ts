@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { validateArray } from '../utils/validateArray';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 export default function useChangeRouter(): {
   currentPath: string;
@@ -9,11 +9,14 @@ export default function useChangeRouter(): {
   handleClickCategory: (value: { name: string; id: number }) => void;
   changeSearchKeyword: (keyword: ChangeEvent<HTMLInputElement>) => void;
   searchKeyword: string;
+  searchInputValue: string;
+  initInputValue: () => void;
 } {
   const router = useRouter();
   const currentPath = router.pathname;
   const currentQuery = router.query;
   const { name, id, search } = router.query;
+  const [searchInputValue, setSearchInputValue] = useState('');
   let searchTimerId: NodeJS.Timeout;
 
   const currentCategoryName = validateArray(name);
@@ -30,17 +33,35 @@ export default function useChangeRouter(): {
   };
 
   const changeSearchKeyword = (keyword: ChangeEvent<HTMLInputElement>) => {
-    if (searchTimerId) {
-      clearTimeout(searchTimerId);
-    }
-
-    searchTimerId = setTimeout(() => {
-      router.push({
-        pathname: currentPath,
-        query: { ...currentQuery, search: keyword.target.value },
-      });
-    }, 500);
+    setSearchInputValue(keyword.target.value);
   };
+
+  const initInputValue = () => {
+    setSearchInputValue('');
+  };
+
+  const changeSearchQuery = () => {
+    router.push({
+      pathname: currentPath,
+      query: { ...currentQuery, search: searchInputValue },
+    });
+  };
+
+  useEffect(() => {
+    if (searchInputValue) {
+      if (searchTimerId) {
+        clearTimeout(searchTimerId);
+      }
+
+      searchTimerId = setTimeout(() => {
+        changeSearchQuery();
+      }, 500);
+
+      return () => {
+        clearTimeout(searchTimerId);
+      };
+    }
+  }, [searchInputValue]);
 
   return {
     currentPath, // 현재 Pathname
@@ -49,5 +70,7 @@ export default function useChangeRouter(): {
     handleClickCategory, // 클릭한 카테고리의 이름과 아이디를 url 쿼리로 넘겨주는 함수
     changeSearchKeyword, // 입력한 검색어 쿼리로 푸쉬하는 함수
     searchKeyword, // 현재 입력한 검색어
+    searchInputValue,
+    initInputValue,
   };
 }
