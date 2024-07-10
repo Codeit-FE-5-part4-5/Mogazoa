@@ -23,6 +23,7 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-custom': 'linear-gradient(to right, #5097FA, #5363FF)',
+        'dark-gradient-custom': 'linear-gradient(to right, #2e2e3a, #21212A)',
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -93,6 +94,14 @@ module.exports = {
           '0%': { opacity: '1', transform: 'translateY(0)' },
           '100%': { opacity: '0', transform: 'translateY(-10%)' },
         },
+        slideRight: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        slideLeft: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
@@ -111,6 +120,8 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
         slideDown: 'slideDown 0.2s ease-in-out forwards',
         slideUp: 'slideUp 0.3s ease-in-out forwards',
+        slideRight: 'slideRight 0.3s ease-in-out forwards',
+        slideLeft: 'slideLeft 0.3s ease-in-out forwards',
         fadeIn: 'fadeIn 0.3s ease-in-out forwards',
         fadeOut: 'fadeOut 0.3s ease-in-out forwards',
         timer: 'timer 2.9s linear forwards',
@@ -132,6 +143,13 @@ module.exports = {
           'background-clip': 'padding-box, border-box',
           'background-image':
             'linear-gradient(#17171C, #17171C), linear-gradient(to right, #5097FA, #5363FF)',
+        },
+        '.no-scrollbar::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none', // IE and Edge
+          'scrollbar-width': 'none', // Firefox
         },
       });
     }),
