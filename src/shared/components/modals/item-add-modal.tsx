@@ -1,6 +1,9 @@
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, SetStateAction } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
+import { useRouter } from 'next/router';
+import CompareDropDownInput from '../DropDown/CompareDropDownInput';
+import useGetProducts from '@/shared/models/product/useGetProducts';
 
 import {
   Dialog,
@@ -31,21 +34,34 @@ const frameworks = [
 ];
 
 export const ItemAddModal = () => {
+  const router = useRouter();
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'itemAdd';
   const [text, setText] = useState<string>('');
   const [selectedItem, setSelectedItem] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null); // selectedCategory를 숫자로 저장
-  const [image, setImage] = useState('/images/file.svg'); // 이미지 상태 추가
+  const { data: keywordList } = useGetProducts({ keyword: selectedItem });
+  const [Bedge1, setBedge1] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [image, setImage] = useState(
+    'https://www.google.com/imgres?q=%EC%9D%B4%EB%AF%B8%EC%A7%80&',
+  );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
+  const onChangeEvent = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setValue: React.Dispatch<SetStateAction<string>>,
+  ) => {
+    setValue(e.target.value);
+  };
+
   const handleSave = async () => {
     const requestBody = {
       categoryId: selectedCategory,
-      image: image, // 실제 이미지 URL로 대체 필요
+      image: image,
       description: text,
       name: selectedItem,
     };
@@ -53,11 +69,17 @@ export const ItemAddModal = () => {
     try {
       const response = await apiInstance.post('/products', requestBody);
       console.log('Response:', response.data);
+      router.push('/mypage');
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error('Error:', error.message);
+      if (axios.isAxiosError(error) && error.response) {
+        const errorDetails = error.response.data.details;
+        if (errorDetails && errorDetails.name) {
+          setErrorMessage(errorDetails.name.message);
+        } else {
+          setErrorMessage('An unexpected error occurred.');
+        }
       } else {
-        console.error('Unexpected Error:', error);
+        setErrorMessage('Unexpected Error');
       }
     }
   };
@@ -65,7 +87,8 @@ export const ItemAddModal = () => {
   const handleCategorySelect = (item: string) => {
     const index = frameworks.indexOf(item);
     if (index !== -1) {
-      setSelectedCategory(index + 1); // 1부터 시작하는 숫자로 변환
+      setSelectedCategory(index + 1);
+      console.log(`Category '${item}' selected with index: ${index + 1}`);
     }
   };
 
@@ -80,12 +103,23 @@ export const ItemAddModal = () => {
             <div className="flex flex-col gap-x-5 md:flex-row md:items-start">
               <div className="h-[140px] w-[140px] md:order-2 md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                 <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                  <ImageInput />
+                  <ImageInput
+                    onChange={(image: string | null) => setImage(image || '')}
+                  />
                 </div>
               </div>
               <div className="w-full md:order-1">
                 {/* Dropdown 컴포넌트 추가 */}
-                <DropDown itemList={frameworks} onClick={setSelectedItem} />
+                <CompareDropDownInput
+                  itemList={keywordList}
+                  onClick={setSelectedItem}
+                  Bedge={Bedge1}
+                  setBedge={setBedge1}
+                  value={selectedItem}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    onChangeEvent(e, setSelectedItem)
+                  }
+                />
                 <DropDown
                   itemList={frameworks}
                   onClick={handleCategorySelect}
@@ -102,6 +136,9 @@ export const ItemAddModal = () => {
               />
               <div className="mb-5 mr-5">{text.length} / 500</div>
             </div>
+            {errorMessage && (
+              <div className="mb-5 text-red-500">{errorMessage}</div>
+            )}
             <div
               className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white"
               onClick={handleSave}
