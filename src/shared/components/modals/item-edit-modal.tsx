@@ -33,7 +33,7 @@ const frameworks = [
   '앱',
 ];
 
-export const ItemAddModal = () => {
+export const ItemEditModal = () => {
   const router = useRouter();
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'itemAdd';
