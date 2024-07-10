@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import { RankingList } from '@/shared/components/RankingList/RankingList';
-import { SlideMenu } from '@/shared/components/SlideMenu/SlideMenu';
-import { Header } from '@/shared/components/header/header';
-
-export default function Home() {
-  return (
-    <div>
-      <Header /> <SlideMenu /> <RankingList />
-    </div>
-=======
 import { Header } from '@/shared/components/header/header';
 import ProductList from '@/shared/components/ProductList/ProductList';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
@@ -89,6 +78,5 @@ export default function Home() {
         </div>
       </main>
     </>
->>>>>>> 208100815a7b44a851d0f54159c0d3fee3d78fa3
   );
 }
