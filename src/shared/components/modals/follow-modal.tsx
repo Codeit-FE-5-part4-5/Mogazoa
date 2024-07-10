@@ -11,7 +11,7 @@ import { useModal } from '@/shared/hooks/use-modal-store';
 import { getCookie } from '@/shared/utils/cookie';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetUserFollowers from '@/shared/models/user/followers/useGetUserFollowers';
-import { Follower, Followers } from '@/shared/types/followers/followers-type';
+import { Follower } from '@/shared/types/follow/followers/followers-type';
 
 export const FollowModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -22,9 +22,6 @@ export const FollowModal = () => {
 
   const { data: user } = useGetMe(token);
   const { data: followers } = useGetUserFollowers(user?.data.id);
-
-  // console.log(followers?.data.list);
-  // console.log(user?.data.id);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>

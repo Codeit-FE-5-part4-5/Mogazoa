@@ -1,4 +1,5 @@
-import { Followers } from '../followers/followers-type';
+import { Followees } from '../follow/followees/followees-type';
+import { Followers } from '../follow/followers/followers-type';
 
 export type ModalType =
   | 'follow'
@@ -11,6 +12,7 @@ export type ModalType =
 
 interface ModalData {
   followers?: Followers;
+  followees?: Followees;
 }
 
 export interface ModalStore {
