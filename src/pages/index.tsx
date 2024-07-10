@@ -3,7 +3,7 @@ import ProductList from '@/shared/components/ProductList/ProductList';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
 import { CategoryMenu } from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
-import AppLayout from '@/shared/components/App/AppLayout';
+import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
 import useGetCategory from '@/shared/models/category/useGetCategory';
 import useGetProducts from '@/shared/models/product/useGetProducts';
@@ -28,7 +28,7 @@ export default function Home() {
   });
 
   return (
-    <AppLayout>
+    <MogazoaLayout>
       <div className="flex border-b border-var-black3 md:hidden">
         <SlideMenuBar
           categories={categories}
@@ -55,6 +55,6 @@ export default function Home() {
           />
         </div>
       </main>
-    </AppLayout>
+    </MogazoaLayout>
   );
 }

@@ -1,4 +1,4 @@
-import AppLayout from '@/shared/components/App/AppLayout';
+import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import Button from '@/shared/components/Button/Button';
 import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
@@ -38,7 +38,7 @@ export default function SignIn() {
   };
 
   return (
-    <AppLayout>
+    <MogazoaLayout>
       <div className="flex items-center justify-center px-[20px] py-[100px]">
         <form
           onSubmit={handleSubmit(handleSubmitSignIn)}
@@ -88,6 +88,6 @@ export default function SignIn() {
           </div>
         </form>
       </div>
-    </AppLayout>
+    </MogazoaLayout>
   );
 }

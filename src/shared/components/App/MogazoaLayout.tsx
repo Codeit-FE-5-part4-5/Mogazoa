@@ -5,11 +5,11 @@ import useGetMe from '@/shared/models/auth/useGetMe';
 import useMe from '@/shared/hooks/use-me';
 import useRouterGuard from '@/shared/hooks/useRouterGuard';
 
-interface AppLayoutProps {
+interface MogazoaLayoutProps {
   children: ReactNode;
 }
 
-export default function AppLayout({ children }: AppLayoutProps) {
+export default function MogazoaLayout({ children }: MogazoaLayoutProps) {
   const token = getCookie('accessToken');
   const { data: me, isSuccess: loginSuccess } = useGetMe(token);
   const { login } = useMe();

@@ -45,7 +45,7 @@ export const Header: React.FC = () => {
             </button>
           ) : (
             <Link href="/signin">
-              <button className="text-var-gray2 hover:text-var-white">
+              <button className="text-var-gray2 hover:text-var-white md:hidden">
                 <Image src="/me.svg" alt="로그인" width={24} height={24} />
               </button>
             </Link>
