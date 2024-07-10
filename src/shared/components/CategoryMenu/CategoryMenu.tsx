@@ -1,18 +1,18 @@
+import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import { Category } from '@/shared/types/category/category';
-import { useState } from 'react';
 
 interface SlideMenu {
   isVisible?: boolean;
   categories: Category[];
-  currentCategoryName?: string;
-  onClick: (arg: { name: string; id: number }) => void;
+  currentCategoryName: string;
+  handleClickCategory: (value: { name: string; id: number }) => void;
 }
 
 export const CategoryMenu: React.FC<SlideMenu> = ({
   isVisible = false,
   categories = [],
-  currentCategoryName = '',
-  onClick,
+  currentCategoryName,
+  handleClickCategory,
 }) => {
   return (
     <div
@@ -32,7 +32,9 @@ export const CategoryMenu: React.FC<SlideMenu> = ({
                 ? 'border-[1px] border-[#353542] bg-[#252530]'
                 : 'bg-[#1C1C22] text-[#6E6E82]'
             }`}
-            onClick={() => onClick({ name: item.name, id: item.id })}
+            onClick={() =>
+              handleClickCategory({ name: item.name, id: item.id })
+            }
           >
             {item.name}
           </li>
