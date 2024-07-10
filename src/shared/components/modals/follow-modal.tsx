@@ -11,7 +11,10 @@ import { useModal } from '@/shared/hooks/use-modal-store';
 import { getCookie } from '@/shared/utils/cookie';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetUserFollowers from '@/shared/models/user/follow/followers/useGetUserFollowers';
-import { Follower } from '@/shared/types/follow/followers/followers-type';
+import {
+  Follower,
+  FollowerItem,
+} from '@/shared/types/follow/followers/followers-type';
 
 export const FollowModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -31,18 +34,21 @@ export const FollowModal = () => {
             유저를 팔로우하는 유저
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-6">
-            {followers?.data.list.map((follower: Follower) => {
+            {followers?.data.list.map((follower: FollowerItem) => {
+              console.log(follower.follower);
               return (
                 <div className="flex items-center gap-x-5" key={follower?.id}>
                   <Avatar>
                     <AvatarImage
                       className="w-[48px] xl:w-[52px]"
-                      src={follower?.image}
+                      src={follower?.follower?.image}
                     />
-                    <AvatarFallback>{follower?.nickname}</AvatarFallback>
+                    <AvatarFallback>
+                      {follower?.follower?.nickname}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="text-base text-var-white xl:text-lg">
-                    {follower?.nickname}
+                    {follower?.follower?.nickname}
                   </div>
                 </div>
               );
