@@ -1,18 +1,14 @@
-import { Header } from '@/shared/components/header/header';
+import { useState } from 'react';
 import ProductList from '@/shared/components/ProductList/ProductList';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
 import { CategoryMenu } from '@/shared/components/CategoryMenu/CategoryMenu';
-import { ORDER_VARIANTS } from '@/shared/constants/products';
-import useMe from '@/shared/hooks/use-me';
-import useGetMe from '@/shared/models/auth/useGetMe';
-import useGetCategory from '@/shared/models/category/useGetCategory';
-import useGetProducts from '@/shared/models/product/useGetProducts';
-import { getCookie } from '@/shared/utils/cookie';
-import sortConverter from '@/shared/utils/sortConverter';
-import { useEffect, useState } from 'react';
-import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import AppLayout from '@/shared/components/App/AppLayout';
+import { ORDER_VARIANTS } from '@/shared/constants/products';
+import useGetCategory from '@/shared/models/category/useGetCategory';
+import useGetProducts from '@/shared/models/product/useGetProducts';
+import sortConverter from '@/shared/utils/sortConverter';
+import useChangeRouter from '@/shared/hooks/useChangeRouter';
 
 export default function Home() {
   const {
@@ -24,21 +20,12 @@ export default function Home() {
   const [currentSortOrder, setCurrentSortOrder] = useState(
     sortConverter(ORDER_VARIANTS[0]),
   );
-  const token = getCookie('accessToken');
-  const { login } = useMe();
-  const { data: me, isSuccess: loginSuccess } = useGetMe(token);
   const { data: categories } = useGetCategory();
   const { data: products } = useGetProducts({
     categoryId: Number(currentCategoryId),
     order: currentSortOrder,
     keyword: searchKeyword,
   });
-
-  useEffect(() => {
-    if (loginSuccess) {
-      login(me.data);
-    }
-  }, [loginSuccess]);
 
   return (
     <AppLayout>

@@ -52,7 +52,7 @@ export default function SignUp() {
 
   return (
     <AppLayout>
-      <div className="mt-[180px] flex items-center justify-center px-[20px]">
+      <div className="flex items-center justify-center px-[20px] py-[80px]">
         <form
           onSubmit={handleSubmit(handleSubmitSignUp)}
           className="flex w-full flex-col gap-[40px] md:w-[440px] xl:w-[640px]"
