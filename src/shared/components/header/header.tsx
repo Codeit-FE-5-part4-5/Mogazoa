@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
-import searchIcon from '@/../../public/images/search.svg';
-import closedIcon from '@/../../public/images/closedIcon.svg';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 import { Portal } from '@/shared/providers/portal-provider';
 import { useAnimation } from '@/shared/hooks/useAnimation';
 import useMe from '@/shared/hooks/use-me';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import SearchInput from '../Input/SearchInput';
-import useIsMobile from '@/shared/hooks/useIsMobile';
+import useClickOutside from '@/shared/hooks/useClickOutside';
 
 export const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
-  const isMobileSize = useIsMobile();
   const { isLoggedIn, logout } = useMe();
-  const { changeSearchKeyword, searchInputValue } = useChangeRouter();
+  const {
+    currentPath,
+    currentCategoryName,
+    onChangeSearchKeyword,
+    initKeyword,
+    searchKeyword,
+  } = useChangeRouter();
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
     useAnimation(isOpenMenu);
-  const [shouldSearchOpen, animationSearchOpen, handleSearchOpenEnd] =
-    useAnimation(isSearchOpen);
+  const searchBarRef = useRef(null);
+  useClickOutside(searchBarRef, setIsSearchOpen);
 
   useEffect(() => {
-    setIsSearchOpen(!isMobileSize);
-  }, [isMobileSize]);
+    initKeyword();
+  }, [currentCategoryName]);
 
   return (
     <>
@@ -50,7 +53,7 @@ export const Header: React.FC = () => {
               <Image src={MenuIcon} alt="MenuIcon" width={24} height={24} />
             </button>
           ) : (
-            <Link href="/signin" className="flex md:hidden">
+            <Link href="/signin" className="flex h-[42px] md:hidden">
               <button className="text-var-gray2 hover:text-var-white">
                 <Image src="/me.svg" alt="로그인" width={24} height={24} />
               </button>
@@ -63,46 +66,29 @@ export const Header: React.FC = () => {
               <Image src={LogoIcon} alt="LogoIcon" width={166} height={28} />
             </Link>
           </div>
-          <div className="flex">
-            <div
-              className={`${shouldSearchOpen ? 'flex' : 'hidden'} absolute left-[50%] top-[50%] w-[70%] -translate-x-1/2 -translate-y-1/2 md:relative md:left-0 md:mr-[30px] md:-translate-x-0 md:-translate-y-0`}
-            >
-              <div
-                onAnimationEnd={handleSearchOpenEnd}
-                className={`w-full ${animationSearchOpen ? 'animate-slideDown' : 'animate-slideUp'}`}
-              >
-                <SearchInput
-                  value={searchInputValue}
-                  type="text"
-                  onChange={changeSearchKeyword}
-                  placeholder="상품 이름을 검색해 보세요"
-                />
-              </div>
-            </div>
-            <div className="hidden flex-shrink-0 items-center md:flex md:gap-[30px] xl:gap-[60px]">
-              <Link
-                href={isLoggedIn ? '/compare' : '/signin'}
-                className="text-right font-sans text-[16px] font-normal text-white"
-              >
+          <div
+            ref={searchBarRef}
+            className={`${isSearchOpen && 'flex-1'} flex justify-end gap-[30px] xl:gap-[60px]`}
+          >
+            {currentPath.includes('signin') ||
+            currentPath.includes('signup') ? null : (
+              <SearchInput
+                value={searchKeyword}
+                type="text"
+                onChange={onChangeSearchKeyword}
+                isOpen={isSearchOpen}
+                setOpen={setIsSearchOpen}
+                placeholder="상품 이름을 검색해 보세요"
+              />
+            )}
+            <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-normal text-white md:flex md:gap-[30px] xl:gap-[60px]">
+              <Link href={isLoggedIn ? '/compare' : '/signin'}>
                 {isLoggedIn ? '비교하기' : '로그인'}
               </Link>
-              <Link
-                href={isLoggedIn ? '/mypage' : '/signup'}
-                className="text-right font-sans text-[16px] font-normal text-white"
-              >
+              <Link href={isLoggedIn ? '/mypage' : '/signup'}>
                 {isLoggedIn ? '내 프로필' : '회원가입'}
               </Link>
             </div>
-          </div>
-          <div className="flex md:hidden">
-            <button onClick={() => setIsSearchOpen((prev) => !prev)}>
-              <Image
-                src={isSearchOpen ? closedIcon : searchIcon}
-                alt={isSearchOpen ? 'closedIcon' : 'searchIcon'}
-                width={24}
-                height={24}
-              />
-            </button>
           </div>
         </div>
       </div>

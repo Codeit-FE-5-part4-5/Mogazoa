@@ -18,10 +18,10 @@ const CategoryButton = ({
   onClick,
 }: CategoryButtonProps) => {
   return (
-    <li className="w-fit flex-shrink-0 translate-x-[20px]">
+    <li className="group w-fit flex-shrink-0 translate-x-[20px]">
       <button
         onClick={() => onClick(category)}
-        className={`border-b-[2px] text-[16px] text-var-gray2 ${category.name === currentCategory ? 'border-var-gray2' : 'border-[#1C1C22]'} pb-[10px] hover:border-var-gray1`}
+        className={`border-b-[2px] text-[16px] text-var-gray1 transition-all duration-300 group-hover:text-var-gray2 ${category.name === currentCategory ? 'border-var-gray2 text-var-gray2' : 'border-[#1C1C22]'} pb-[10px] hover:border-var-gray1`}
       >
         {category.name}
       </button>
@@ -29,13 +29,13 @@ const CategoryButton = ({
   );
 };
 
-export default function SlideMenuBar({
+const SlideMenuBar = ({
   categories,
   currentCategory,
   onClick,
-}: SlideMenuBarProps) {
+}: SlideMenuBarProps) => {
   return (
-    <ul className="no-scrollbar flex gap-[40px] overflow-x-auto">
+    <ul className="flex gap-[40px] overflow-x-auto no-scrollbar">
       {categories?.map((category, idx) => {
         if (categories.length - 1 === idx) {
           return (
@@ -60,4 +60,6 @@ export default function SlideMenuBar({
       })}
     </ul>
   );
-}
+};
+
+export default SlideMenuBar;
