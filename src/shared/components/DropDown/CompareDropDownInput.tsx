@@ -28,12 +28,12 @@ const ItemList = ({
   const [ref, inView] = useInView();
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetching) fetchNextPage();
-  }, [inView, hasNextPage, isFetching]);
+    if (inView && hasNextPage) fetchNextPage();
+  }, [inView, hasNextPage]);
 
   return (
     <div
-      className={`'top-[76px]' absolute left-0 z-10 flex max-h-[200px] w-full animate-slideDown flex-col gap-[5px] overflow-scroll rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
+      className={`absolute left-0 top-[60px] z-10 flex max-h-[200px] w-full animate-slideDown flex-col gap-[5px] overflow-scroll rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
     >
       {itemList.map((item) => (
         <div
@@ -45,7 +45,7 @@ const ItemList = ({
         </div>
       ))}
       <div ref={ref}></div>
-      {isFetching && <div>Loading</div>}
+      {isFetching && <div>Loading...</div>}
     </div>
   );
 };
@@ -76,7 +76,6 @@ export default function CompareDropDownInput({
 }: CompareDropDownProps) {
   const handleClickEvent = (item: string) => {
     setBedge(item);
-    setIsItem(false);
     setValue('');
   };
 
@@ -87,28 +86,28 @@ export default function CompareDropDownInput({
 
   // 다중 배열 맵핑을 위해 flatMap 사용
   const flatItemList = itemList?.flatMap((page) => page.list) || [];
-  const [isItem, setIsItem] = useState<boolean>(
-    value.length > 1 && flatItemList.length > 0,
-  );
-
-  useEffect(() => {
-    if (value.length > 1 && flatItemList.length > 0) {
-      setIsItem(true);
-    } else {
-      setIsItem(false);
-    }
-  }, [value, flatItemList]);
+  const isItem = value.length > 1 && flatItemList.length > 0;
 
   // 드롭다운
+  const [isOpen, setIsOpen] = useState(false);
+
   const dropDownElement = useRef<HTMLDivElement>(null);
   const handleClickOutside = (e: MouseEvent) => {
     if (
       dropDownElement.current &&
       !dropDownElement.current.contains(e.target as Node)
     ) {
-      setIsItem(false);
+      setIsOpen(false);
     }
   };
+
+  useEffect(() => {
+    if (isItem) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [value, isFetching]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -144,7 +143,7 @@ export default function CompareDropDownInput({
           )}
         </label>
       </div>
-      {isItem && (
+      {isOpen && (
         <ItemList
           itemList={flatItemList}
           onClick={handleClickEvent}
