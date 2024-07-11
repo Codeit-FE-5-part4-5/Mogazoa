@@ -20,10 +20,6 @@ const UserProfile = () => {
 
   const { data: user } = useUserProfile(Number(params?.userId));
 
-  // if (isUserLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
   return (
     <div>
       <Header />
