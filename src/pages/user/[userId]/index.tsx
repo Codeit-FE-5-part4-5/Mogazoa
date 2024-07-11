@@ -5,6 +5,7 @@ import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
 import useUserProfile from '@/shared/models/user/useUserProfile';
 import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 const mockAverageScore = 5;
 const mockProductCard = {
@@ -18,6 +19,10 @@ const UserProfile = () => {
   const params = useParams();
 
   const { data: user } = useUserProfile(Number(params?.userId));
+
+  // if (isUserLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div>

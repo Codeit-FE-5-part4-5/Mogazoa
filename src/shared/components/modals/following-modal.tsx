@@ -44,7 +44,14 @@ export const FollowingModal = () => {
           <DialogDescription className="flex flex-col gap-y-6">
             {followees?.data.list.map((followee: FolloweeItem) => {
               return (
-                <div className="flex items-center gap-x-5" key={followee?.id}>
+                <div
+                  className="flex cursor-pointer items-center gap-x-5"
+                  key={followee?.id}
+                  onClick={() => {
+                    router.push(`/user/${followee?.followee?.id}`);
+                    onClose();
+                  }}
+                >
                   <Avatar>
                     <AvatarImage
                       className="w-[48px] xl:w-[52px]"

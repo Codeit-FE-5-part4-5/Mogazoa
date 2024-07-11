@@ -46,7 +46,14 @@ export const FollowModal = () => {
         <div className="flex flex-col gap-y-6">
           {followers?.data.list.map((follower: FollowerItem) => {
             return (
-              <div className="flex items-center gap-x-5" key={follower?.id}>
+              <div
+                className="flex cursor-pointer items-center gap-x-5"
+                key={follower?.id}
+                onClick={() => {
+                  router.push(`/user/${follower?.follower?.id}`);
+                  onClose();
+                }}
+              >
                 <Avatar>
                   <AvatarImage
                     className="w-[48px] xl:w-[52px]"
