@@ -32,6 +32,11 @@ const mockProduct = {
   },
 };
 
+const exUser = {
+  name: '박준영',
+  star: 4,
+};
+
 export default function ProductDetails() {
   const [heart, setHeart] = useState(false);
 
@@ -132,7 +137,34 @@ export default function ProductDetails() {
             상품 리뷰
           </h1>
         </div>
-        <div className=""></div>
+        <div className="mb-[15px] rounded-lg border border-[#353542] bg-[#252530] px-[20px] py-[20px] text-[#F1F1F5]">
+          <div className="inline-flex items-center gap-[10px] pb-[30px]">
+            <ReviewProfileCard user={exUser} />
+          </div>
+          <div className="flex flex-shrink-0 flex-col items-start gap-[20px]">
+            <p className="font-pretendard text-[12px] font-normal leading-[16px] text-[#F1F1F5]">
+              음질 미칩니다ㅎㅎ 최고예용~ 어플 연동으로 음향 설정 및 설정모드
+              되고, 설정별로 사운드감이 틀려요 서라운드 느낌까지 들고, 따로는
+              베이스깐 우퍼 느낌도 있어요
+            </p>
+            <div className="flex w-full items-center justify-between">
+              <p className="font-pretendard text-[12px] font-normal leading-normal text-[#6E6E82]">
+                2024-12-28
+              </p>
+              <div className="flex items-start justify-center gap-[10px] rounded-full border border-[#353542] bg-[#252530] p-[6px_10px]">
+                <div className="flex items-center gap-2.5">
+                  <Icon
+                    src={'/images/heart.svg'}
+                    alt="좋아요"
+                    width={14}
+                    height={14}
+                  />
+                  <div>7</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
