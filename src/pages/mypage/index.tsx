@@ -4,18 +4,17 @@ import { Header } from '@/shared/components/header/header';
 import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
+import { Product } from '@/shared/types/product/product';
 import { getCookie } from '@/shared/utils/cookie';
-
-const mockProductCard = {
-  name: '다이슨 슈퍼소닉 블루',
-  reviews: 129,
-  steamed: 34,
-  score: 4.8,
-};
 
 const MyPage = () => {
   const token = getCookie('accessToken');
+
   const { data: user } = useGetMe(token);
+  const { data: createdProducts } = useGetCreatedProducts(
+    Number(user?.data.id),
+  );
 
   return (
     <div>
@@ -50,44 +49,24 @@ const MyPage = () => {
             </div>
           </div>
           <div className="space-y-[30px]">
-            <div>리뷰 남긴 상품</div>
+            <div className="flex space-x-10 text-var-gray1">
+              <div className="hover:text-var-white">리뷰 남긴 상품</div>
+              <div className="hover:text-var-white">등록한 상품</div>
+              <div className="hover:text-var-white">찜한 상품</div>
+            </div>
             <div className="grid grid-cols-2 gap-5 xl:grid-cols-3">
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
+              {createdProducts?.data.list.map((createdProduct: Product) => {
+                return (
+                  <ProductCard
+                    key={createdProduct.id}
+                    name={createdProduct.name}
+                    image={createdProduct.image}
+                    reviewCount={createdProduct.reviewCount}
+                    favoriteCount={createdProduct.favoriteCount}
+                    rating={createdProduct.rating}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
