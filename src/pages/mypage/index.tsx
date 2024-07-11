@@ -3,6 +3,7 @@ import Floating from '@/shared/components/Floating/Floating';
 import { Header } from '@/shared/components/header/header';
 import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
+import useMe from '@/shared/hooks/use-me';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import { getCookie } from '@/shared/utils/cookie';
 import { useModal } from '@/shared/hooks/use-modal-store';

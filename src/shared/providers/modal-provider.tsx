@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FollowModal } from '../components/modals/follow-modal';
+import { FollowingModal } from '../components/modals/following-modal';
 import { CompareModal } from '../components/modals/compare-modal';
 import { CompareConfirmModal } from '../components/modals/compare-confirm-modal';
 import { ReviewModal } from '../components/modals/review-modal';
@@ -21,6 +22,7 @@ export const ModalProvider = () => {
   return (
     <>
       <FollowModal />
+      <FollowingModal />
       <CompareModal />
       <CompareConfirmModal />
       <ReviewModal />
