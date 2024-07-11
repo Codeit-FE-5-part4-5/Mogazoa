@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 type TextAreaInputProps = {
   placeholder: string;
   value: string;
+  textLength: number;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
 const TextAreaInput: React.FC<TextAreaInputProps> = ({
   placeholder,
   value,
+  textLength,
   onChange,
 }) => {
   const [text, setText] = useState('');
@@ -28,7 +30,7 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
       /> */}
       <textarea
         placeholder={placeholder}
-        maxLength={500}
+        maxLength={textLength}
         value={value}
         onChange={onChange}
         className="h-full w-full resize-none bg-var-black2 placeholder-var-gray1 outline-none"

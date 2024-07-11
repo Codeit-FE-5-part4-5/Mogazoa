@@ -105,6 +105,7 @@ export const ReviewModal = () => {
               <TextAreaInput
                 placeholder="리뷰를 작성해 주세요."
                 value={review} // Add this line
+                textLength={300}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   setReview(e.target.value)
                 }
