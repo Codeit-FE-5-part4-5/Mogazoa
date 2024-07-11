@@ -32,11 +32,7 @@ const chipSizeTypeStyle = {
   },
 };
 
-export default function Chip({
-  text = '음악',
-  color = '#c5d17c',
-  size = 's',
-}: ChipProps) {
+const Chip = ({ text = '음악', color = '#c5d17c', size = 's' }: ChipProps) => {
   const [r, g, b] = useHexToRgb(color);
   return (
     <div
@@ -49,4 +45,6 @@ export default function Chip({
       <span className={`${chipSizeTypeStyle[size].text}`}>{text}</span>
     </div>
   );
-}
+};
+
+export default Chip;

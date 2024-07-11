@@ -15,11 +15,7 @@ interface CompareChipProps {
 
 const productColorList = ['#05d58b', '#ff2f9f'];
 
-export default function CompareChip({
-  name,
-  orderPosition,
-  onClick,
-}: CompareChipProps) {
+const CompareChip = ({ name, orderPosition, onClick }: CompareChipProps) => {
   const [r, g, b] = useHexToRgb(productColorList[orderPosition]);
   return (
     <div
@@ -38,4 +34,6 @@ export default function CompareChip({
       </button>
     </div>
   );
-}
+};
+
+export default CompareChip;

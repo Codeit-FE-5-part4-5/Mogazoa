@@ -1,6 +1,7 @@
 import { useAnimation } from '@/shared/hooks/useAnimation';
+import useClickOutside from '@/shared/hooks/useClickOutside';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface ItemListProps {
   itemList: string[];
@@ -41,48 +42,31 @@ interface DropDownProps {
   isOrder?: boolean;
 }
 
-export default function DropDown({
-  itemList,
-  onClick,
-  isOrder = false,
-}: DropDownProps) {
+const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
   const [selectMenu, setSelectMenu] = useState(itemList[0]);
   const [showMenuList, setShowMenuList] = useState(false);
   const dropDownElement = useRef<HTMLDivElement>(null);
   const [shouldRender, animationTrigger, handleAnimationEnd] =
     useAnimation(showMenuList);
-  const handleClickOutside = (e: MouseEvent) => {
-    if (
-      dropDownElement.current &&
-      !dropDownElement.current.contains(e.target as Node)
-    ) {
-      setShowMenuList(false);
-    }
-  };
+
+  useClickOutside(dropDownElement, setShowMenuList);
 
   const handleClickEvent = (item: string) => {
     onClick(item);
     setSelectMenu(item);
   };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
     <div
       ref={dropDownElement}
       onClick={() => setShowMenuList((prev) => !prev)}
-      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-black3'} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:${!isOrder && 'py-[19px]'} xl:${!isOrder && 'py-[22px]'} xl:text-[16px]`}
+      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-black3'} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] hover:border-gradient-custom md:${!isOrder && 'py-[19px]'} transition-all duration-300 xl:${!isOrder && 'py-[22px]'} group xl:text-[16px]`}
     >
       <div className="flex items-center justify-between py-[2px]">
         <input
           value={selectMenu}
           readOnly
-          className={`cursor-pointer ${showMenuList ? 'bg-var-black1 text-var-gray2' : 'bg-var-black2 text-var-gray1'} ${isOrder && 'bg-[#1c1c22]'} w-full outline-none`}
+          className={`cursor-pointer ${showMenuList ? 'bg-var-black1 text-var-gray2' : 'bg-var-black2 text-var-gray1'} ${isOrder && 'bg-[#1c1c22]'} w-full outline-none group-hover:bg-[#17171C]`}
         />
         <Image
           src="/arrow.svg"
@@ -103,4 +87,6 @@ export default function DropDown({
       )}
     </div>
   );
-}
+};
+
+export default DropDown;

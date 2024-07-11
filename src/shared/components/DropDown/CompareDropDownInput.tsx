@@ -16,13 +16,13 @@ interface ItemListProps {
 const ItemList = ({ itemList, onClick, isOrder }: ItemListProps) => {
   return (
     <div
-      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[76px]'} animate-slideDown border-var-black3 bg-var-black2 flex w-full flex-col gap-[5px] rounded-[6px] border p-[10px] shadow-lg`}
+      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[76px]'} flex w-full animate-slideDown flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
     >
       {itemList?.map((item) => (
         <div
           key={item?.id}
           onClick={() => onClick(item?.name)}
-          className={`bg-var-black2 text-var-gray1 hover:bg-var-black3 hover:text-var-gray2 flex flex-row items-center justify-between rounded-[6px] px-[20px] py-[6px]`}
+          className={`flex flex-row items-center justify-between rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2`}
         >
           {item?.name}
         </div>
@@ -41,14 +41,14 @@ interface CompareDropDownProps {
   onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-export default function CompareDropDownInput({
+const CompareDropDownInput = ({
   itemList,
   isOrder = false,
   Bedge,
   setBedge,
   value,
   onChange,
-}: CompareDropDownProps) {
+}: CompareDropDownProps) => {
   const dropDownElement = useRef<HTMLDivElement>(null);
   const handleClickOutside = (e: MouseEvent) => {
     if (
@@ -81,7 +81,7 @@ export default function CompareDropDownInput({
   return (
     <div
       ref={dropDownElement}
-      className={`${`focus:border-gradient-custom border-var-black3`} ${isOrder && 'border-var-black2 py-[6px]'} bg-var-black2 relative w-full cursor-pointer items-center rounded-[6px] border px-[20px] py-[17px] text-[14px] md:${!isOrder && 'py-[19px]'} xl:${!isOrder && 'py-[22px]'} xl:text-[16px]`}
+      className={`${`border-var-black3 focus:border-gradient-custom`} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:${!isOrder && 'py-[19px]'} xl:${!isOrder && 'py-[22px]'} xl:text-[16px]`}
     >
       <div className="relative flex size-full items-center justify-between py-[2px]">
         <label htmlFor="text">
@@ -99,7 +99,7 @@ export default function CompareDropDownInput({
               id="text"
               name="text"
               value={value}
-              className={`bg-var-black2 text-var-gray1 w-full cursor-pointer ${isOrder && 'bg-[#1c1c22]'} outline-none`}
+              className={`w-full cursor-pointer bg-var-black2 text-var-gray1 ${isOrder && 'bg-[#1c1c22]'} outline-none`}
               onChange={onChange}
             />
           )}
@@ -114,4 +114,6 @@ export default function CompareDropDownInput({
       )}
     </div>
   );
-}
+};
+
+export default CompareDropDownInput;

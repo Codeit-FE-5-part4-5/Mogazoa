@@ -3,7 +3,7 @@ import Button from '../Button/Button';
 import { useModal } from '@/shared/hooks/use-modal-store';
 import { UserType } from '@/shared/types/user/user-type';
 
-export default function MyProfileCard({ user }: { user: UserType }) {
+const MyProfileCard = ({ user }: { user: UserType }) => {
   const { onOpen } = useModal();
 
   return (
@@ -49,4 +49,6 @@ export default function MyProfileCard({ user }: { user: UserType }) {
       </div>
     </div>
   );
-}
+};
+
+export default MyProfileCard;

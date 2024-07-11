@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Button from '../Button/Button';
 import { useModal } from '@/shared/hooks/use-modal-store';
 
-export default function ProfileCard() {
+const ProfileCard = () => {
   const { onOpen } = useModal();
 
   return (
@@ -38,4 +38,6 @@ export default function ProfileCard() {
       <Button text="팔로우" />
     </div>
   );
-}
+};
+
+export default ProfileCard;

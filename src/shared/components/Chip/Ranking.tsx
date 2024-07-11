@@ -6,7 +6,7 @@ interface RankingProps {
 
 const chipColorList = ['#ff2f9f', '#05d58b', '#9fa6b2'];
 
-export default function Ranking({ ranking }: RankingProps) {
+const Ranking = ({ ranking }: RankingProps) => {
   const [r, g, b] = useHexToRgb(chipColorList[ranking < 2 ? ranking : 2]);
 
   return (
@@ -20,4 +20,6 @@ export default function Ranking({ ranking }: RankingProps) {
       <span className="text-[10px] md:text-[12px]">{ranking + 1}등</span>
     </div>
   );
-}
+};
+
+export default Ranking;

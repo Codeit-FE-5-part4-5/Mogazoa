@@ -9,12 +9,12 @@ interface SideBarMenuProps {
   handleOpenMenuEnd: () => void;
 }
 
-export default function SideBarMenu({
+const SideBarMenu = ({
   setOpenMenu,
   logout,
   animationOpenMenu,
   handleOpenMenuEnd,
-}: SideBarMenuProps) {
+}: SideBarMenuProps) => {
   return (
     <div className={`fixed left-0 top-0 h-screen w-full`}>
       <div
@@ -58,4 +58,6 @@ export default function SideBarMenu({
       </div>
     </div>
   );
-}
+};
+
+export default SideBarMenu;
