@@ -29,7 +29,7 @@ const ProductDetailCard = ({
   return (
     <div className="gap-[20px] text-var-white md:flex">
       <div className="flex items-center justify-center">
-        <div className="relative h-[249px] w-[289px] md:h-[197px] md:w-[280px] xl:h-full xl:w-[355px]">
+        <div className="relative mb-5 h-[249px] w-[289px] md:m-0 md:h-[197px] md:h-full md:w-[280px] xl:w-[355px]">
           <Image
             className="rounded-lg"
             src={image}
