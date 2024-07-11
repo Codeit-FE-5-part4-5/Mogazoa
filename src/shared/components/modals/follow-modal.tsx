@@ -8,29 +8,31 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
-
-const mockUsers = [
-  {
-    id: 1,
-    name: 'first user',
-    imgUrl: 'https://github.com/shadcn.png',
-  },
-  {
-    id: 2,
-    name: 'second user',
-    imgUrl: 'https://github.com/shadcn.png',
-  },
-  {
-    id: 3,
-    name: 'third user',
-    imgUrl: 'https://github.com/shadcn.png',
-  },
-];
+import { getCookie } from '@/shared/utils/cookie';
+import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetUserFollowers from '@/shared/models/user/follow/followers/useGetUserFollowers';
+import { FollowerItem } from '@/shared/types/follow/followers/followers-type';
+import { useRouter } from 'next/router';
 
 export const FollowModal = () => {
-  const { isOpen, onClose, type } = useModal();
+  const router = useRouter();
+  const path = router.pathname;
 
+  const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'follow';
+
+  const token = getCookie('accessToken');
+  const { data: user } = useGetMe(token);
+
+  let userId: number | undefined;
+
+  if (path === '/mypage' && user && user.data) {
+    userId = user.data.id;
+  } else if (router.query.userId) {
+    userId = Number(router.query.userId);
+  }
+
+  const { data: followers } = useGetUserFollowers(userId);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -39,25 +41,35 @@ export const FollowModal = () => {
           <DialogTitle className="mb-5 self-start text-xl xl:mb-10 xl:text-2xl">
             유저를 팔로우하는 유저
           </DialogTitle>
-          <DialogDescription className="flex flex-col gap-y-6">
-            {mockUsers.map((mockUser) => {
-              return (
-                <div className="flex items-center gap-x-5">
-                  <Avatar>
-                    <AvatarImage
-                      className="w-[48px] xl:w-[52px]"
-                      src={mockUser.imgUrl}
-                    />
-                    <AvatarFallback>{mockUser.name}</AvatarFallback>
-                  </Avatar>
-                  <div className="text-base text-var-white xl:text-lg">
-                    {mockUser.name}
-                  </div>
-                </div>
-              );
-            })}
-          </DialogDescription>
         </DialogHeader>
+        <DialogDescription />
+        <div className="flex flex-col gap-y-6">
+          {followers?.data.list.map((follower: FollowerItem) => {
+            return (
+              <div
+                className="flex cursor-pointer items-center gap-x-5"
+                key={follower?.id}
+                onClick={() => {
+                  router.push(`/user/${follower?.follower?.id}`);
+                  onClose();
+                }}
+              >
+                <Avatar>
+                  <AvatarImage
+                    className="w-[48px] xl:w-[52px]"
+                    src={follower?.follower?.image}
+                  />
+                  <AvatarFallback>
+                    {follower?.follower?.nickname}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="text-base text-var-white xl:text-lg">
+                  {follower?.follower?.nickname}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </DialogContent>
     </Dialog>
   );
