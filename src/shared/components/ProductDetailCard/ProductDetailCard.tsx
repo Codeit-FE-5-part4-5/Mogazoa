@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from '../Button/Button';
 import Chip from '../Chip/Chip';
+import Image from 'next/image';
 
 interface Props {
   name: string;
@@ -8,6 +9,7 @@ interface Props {
   description: string;
   text: string;
   color: string;
+  image: string;
 }
 
 const ProductDetailCard = ({
@@ -16,6 +18,7 @@ const ProductDetailCard = ({
   description,
   text,
   color,
+  image,
 }: Props) => {
   const [isSave, setIsSave] = useState(false);
 
@@ -26,7 +29,14 @@ const ProductDetailCard = ({
   return (
     <div className="gap-[20px] text-var-white md:flex">
       <div className="flex items-center justify-center">
-        <img src="/images/product_detail_image.png" alt="" />
+        <div className="relative h-[249px] w-[289px] md:h-[197px] md:w-[280px] xl:h-full xl:w-[355px]">
+          <Image
+            className="rounded-lg"
+            src={image}
+            alt="리뷰이미지"
+            layout="fill"
+          />
+        </div>
       </div>
       <div className="w-full">
         <div className="grid grid-cols-2 items-center">

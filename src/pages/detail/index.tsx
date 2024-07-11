@@ -53,7 +53,7 @@ export default function ProductDetails() {
   return (
     <>
       <Header />
-      <div className="px-[20px]">
+      <div className="px-[20px] xl:container md:px-[30px] xl:mx-auto">
         <div className="mb-[60px]">
           <ProductDetailCard
             name={mockProduct.name}
@@ -61,6 +61,7 @@ export default function ProductDetails() {
             description={mockProduct.description}
             text={mockProduct.category.name}
             color={'#ffffff'}
+            image={mockProduct.image}
           />
         </div>
         <h1 className="font-pretendard pb-[30px] text-[18px] font-semibold leading-normal text-[#F1F1F5]">
