@@ -1,6 +1,7 @@
 /**
  * TODO:
  * - 상품 클릭 시 /product/[productId] 페이지로 이동하는 기능 구현
+ * - 로그인한 유저가 접속했을 경우 /mypage 로 이동하는 기능 구현
  */
 
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
@@ -8,9 +9,11 @@ import Floating from '@/shared/components/Floating/Floating';
 import { Header } from '@/shared/components/header/header';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
+import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
 import useUserProfile from '@/shared/models/user/profile/useUserProfile';
 import { Product } from '@/shared/types/product/product';
+import { getCookie } from '@/shared/utils/cookie';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -19,13 +22,16 @@ const UserProfile = () => {
   const params = useParams();
   const router = useRouter();
 
+  const token = getCookie('accessToken');
+
+  const { data: me } = useGetMe(token);
   const { data: user } = useUserProfile(Number(params?.userId));
   const { data: createdProducts } = useGetCreatedProducts(
     Number(params?.userId),
   );
 
   useEffect(() => {
-    if (user?.data.id === Number(params?.userId)) {
+    if (me?.data.id === Number(params?.userId)) {
       alert('마이페이지로 이동합니다.');
       router.push('/mypage');
     }
