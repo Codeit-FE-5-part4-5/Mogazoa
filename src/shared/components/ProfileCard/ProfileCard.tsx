@@ -8,12 +8,12 @@ import { useQueryClient } from '@tanstack/react-query';
 export default function ProfileCard({ user }: { user: UserType }) {
   const { onOpen } = useModal();
 
-  const mutation = usePostFollow();
+  const followMutation = usePostFollow();
   const queryClient = useQueryClient();
 
   const handleFollowButton = async () => {
     try {
-      await mutation.mutateAsync({
+      await followMutation.mutateAsync({
         userId: user?.id,
       });
 
@@ -60,7 +60,11 @@ export default function ProfileCard({ user }: { user: UserType }) {
           <span>팔로잉</span>
         </div>
       </div>
-      <Button text="팔로우" onClick={handleFollowButton} />
+      {user?.isFollowing ? (
+        <Button text="팔로우 취소" variant="tertiary" />
+      ) : (
+        <Button text="팔로우" onClick={handleFollowButton} />
+      )}
     </div>
   );
 }
