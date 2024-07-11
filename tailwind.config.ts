@@ -87,24 +87,24 @@ module.exports = {
           to: { height: '0' },
         },
         slideDown: {
-          '0%': { opacity: '0', transform: 'translateY(-10%)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+          from: { opacity: '0', transform: 'translateY(-10%)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
         },
         slideUp: {
-          '0%': { opacity: '1', transform: 'translateY(0)' },
-          '100%': { opacity: '0', transform: 'translateY(-10%)' },
+          from: { opacity: '1', transform: 'translateY(0)' },
+          to: { opacity: '0', transform: 'translateY(-10%)' },
         },
         slideRight: {
-          '0%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(0)' },
+          from: { transform: 'translateX(-100%)' },
+          to: { transform: 'translateX(0)' },
         },
         slideLeft: {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-100%)' },
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
         },
         bigger: {
-          from: { right: 0, width: '0' },
-          to: { right: 0, width: '100%' },
+          from: { width: '0' },
+          to: { width: '100%' },
         },
         smaller: {
           from: { width: '100%' },
@@ -123,10 +123,10 @@ module.exports = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         slideDown: 'slideDown 0.2s ease-in-out forwards',
-        slideUp: 'slideUp 0.3s ease-in-out forwards',
+        slideUp: 'slideUp 0.2s ease-in-out forwards',
         slideRight: 'slideRight 0.3s ease-in-out forwards',
         slideLeft: 'slideLeft 0.3s ease-in-out forwards',
-        bigger: 'bigger 0.2s ease-in-out forwards',
+        bigger: 'bigger 0.3s ease-in-out forwards',
         smaller: 'smaller 0.3s ease-in-out forwards',
         fadeIn: 'fadeIn 0.3s ease-in-out forwards',
         fadeOut: 'fadeOut 0.3s ease-in-out forwards',
@@ -144,17 +144,17 @@ module.exports = {
       addUtilities({
         '.border-gradient-custom': {
           border: '1px solid transparent',
-          'background-origin': 'border-box',
-          'background-clip': 'padding-box, border-box',
-          'background-image':
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'padding-box, border-box',
+          backgroundImage:
             'linear-gradient(#17171C, #17171C), linear-gradient(to right, #5097FA, #5363FF)',
         },
         '.no-scrollbar::-webkit-scrollbar': {
           display: 'none',
         },
         '.no-scrollbar': {
-          '-ms-overflow-style': 'none', // IE and Edge
-          'scrollbar-width': 'none', // Firefox
+          scrollbarWidth: 'none', // Firefox
+          msOverflowStyle: 'none', // IE and Edge
         },
       });
     }),
