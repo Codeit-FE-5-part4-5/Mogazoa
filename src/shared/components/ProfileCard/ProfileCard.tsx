@@ -4,16 +4,30 @@ import { useModal } from '@/shared/hooks/use-modal-store';
 import { UserType } from '@/shared/types/user/user-type';
 import { usePostFollow } from '@/shared/models/user/follow/post-follow/usePostFollow';
 import { useQueryClient } from '@tanstack/react-query';
+import { useCancelFollow } from '@/shared/models/user/follow/cancel-follow/useCancelFollow';
 
 export default function ProfileCard({ user }: { user: UserType }) {
   const { onOpen } = useModal();
 
-  const followMutation = usePostFollow();
   const queryClient = useQueryClient();
+  const followMutation = usePostFollow();
+  const unfollowMutation = useCancelFollow();
 
   const handleFollowButton = async () => {
     try {
       await followMutation.mutateAsync({
+        userId: user?.id,
+      });
+
+      queryClient.invalidateQueries({ queryKey: ['followers'] });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUnfollowButton = async () => {
+    try {
+      await unfollowMutation.mutateAsync({
         userId: user?.id,
       });
 
@@ -61,7 +75,11 @@ export default function ProfileCard({ user }: { user: UserType }) {
         </div>
       </div>
       {user?.isFollowing ? (
-        <Button text="팔로우 취소" variant="tertiary" />
+        <Button
+          text="팔로우 취소"
+          variant="tertiary"
+          onClick={handleUnfollowButton}
+        />
       ) : (
         <Button text="팔로우" onClick={handleFollowButton} />
       )}
