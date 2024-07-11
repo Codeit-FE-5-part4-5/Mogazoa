@@ -10,5 +10,9 @@ export default function useInput(initialValue: any) {
     [],
   );
 
-  return [value, handler, setValue];
+  const initValue = () => {
+    setValue(initialValue);
+  };
+
+  return [value, handler, initValue];
 }

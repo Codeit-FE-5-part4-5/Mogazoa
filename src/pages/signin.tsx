@@ -1,10 +1,11 @@
+import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import Button from '@/shared/components/Button/Button';
-import { Header } from '@/shared/components/header/header';
 import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
 import useSignIn from '@/shared/models/auth/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -37,9 +38,8 @@ export default function SignIn() {
   };
 
   return (
-    <>
-      <Header />
-      <div className="mt-[180px] flex items-center justify-center px-[20px]">
+    <MogazoaLayout>
+      <div className="flex items-center justify-center px-[20px] py-[100px]">
         <form
           onSubmit={handleSubmit(handleSubmitSignIn)}
           className="flex w-full flex-col gap-[40px] md:w-[440px] xl:w-[640px]"
@@ -54,7 +54,17 @@ export default function SignIn() {
             error={errors.password}
             placeholder="비밀번호를 입력해 주세요"
           />
-          <Button text="로그인하기" type="submit" className="mt-[20px]" />
+          <div className="mt-[20px] flex flex-col gap-[4px]">
+            <Button text="로그인하기" type="submit" />
+            <Link href="/signup">
+              <Button
+                text="회원가입 하러가기"
+                variant="secondary"
+                type="button"
+                className="mt-[20px]"
+              />
+            </Link>
+          </div>
           <div className="mt-[20px] flex flex-col items-center justify-center gap-[20px]">
             <h3 className="text-var-gray1">SNS로 바로 시작하기</h3>
             <div className="flex gap-[20px]">
@@ -78,6 +88,6 @@ export default function SignIn() {
           </div>
         </form>
       </div>
-    </>
+    </MogazoaLayout>
   );
 }

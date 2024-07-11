@@ -1,3 +1,4 @@
+import { useAnimation } from '@/shared/hooks/useAnimation';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -5,12 +6,21 @@ interface ItemListProps {
   itemList: string[];
   onClick: (arg: any) => void;
   isOrder?: boolean;
+  animationTrigger: boolean;
+  handleAnimationEnd: () => void;
 }
 
-const ItemList = ({ itemList, onClick, isOrder }: ItemListProps) => {
+const ItemList = ({
+  itemList,
+  onClick,
+  isOrder,
+  animationTrigger,
+  handleAnimationEnd,
+}: ItemListProps) => {
   return (
     <div
-      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[76px]'} animate-slideDown flex w-full flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
+      onAnimationEnd={handleAnimationEnd}
+      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[76px]'} flex w-full ${animationTrigger ? 'animate-slideDown' : 'animate-slideUp'} flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
     >
       {itemList.map((item) => (
         <div
@@ -39,7 +49,8 @@ export default function DropDown({
   const [selectMenu, setSelectMenu] = useState(itemList[0]);
   const [showMenuList, setShowMenuList] = useState(false);
   const dropDownElement = useRef<HTMLDivElement>(null);
-
+  const [shouldRender, animationTrigger, handleAnimationEnd] =
+    useAnimation(showMenuList);
   const handleClickOutside = (e: MouseEvent) => {
     if (
       dropDownElement.current &&
@@ -81,11 +92,13 @@ export default function DropDown({
           className={showMenuList ? 'rotate-180' : ''}
         />
       </div>
-      {showMenuList && (
+      {shouldRender && (
         <ItemList
           itemList={itemList}
           onClick={handleClickEvent}
           isOrder={isOrder}
+          animationTrigger={animationTrigger}
+          handleAnimationEnd={handleAnimationEnd}
         />
       )}
     </div>
