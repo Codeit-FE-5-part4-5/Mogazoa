@@ -3,7 +3,9 @@ import Floating from '@/shared/components/Floating/Floating';
 import { Header } from '@/shared/components/header/header';
 import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
-import useUserProfile from '@/shared/models/user/useUserProfile';
+import useGetCreatedProducts from '@/shared/models/user/products/useGetCreatedProducts';
+import useUserProfile from '@/shared/models/user/profile/useUserProfile';
+import { Product } from '@/shared/types/product/product';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 
@@ -19,6 +21,11 @@ const UserProfile = () => {
   const params = useParams();
 
   const { data: user } = useUserProfile(Number(params?.userId));
+  const { data: createdProducts } = useGetCreatedProducts(
+    Number(params?.userId),
+  );
+
+  // console.log(createdProducts?.data.list);
 
   return (
     <div>
@@ -38,11 +45,14 @@ const UserProfile = () => {
                 />
               </div>
               <div className="w-full">
-                <ActivityCard status="interest" conScore={mockAverageScore} />
+                <ActivityCard
+                  status="reviewsLeft"
+                  conScore={mockAverageScore}
+                />
               </div>
               <div className="w-full">
                 <ActivityCard
-                  status="reviewsLeft"
+                  status="interest"
                   text="전자기기"
                   color="#23b581"
                 />
@@ -50,44 +60,24 @@ const UserProfile = () => {
             </div>
           </div>
           <div className="space-y-[30px]">
-            <div>리뷰 남긴 상품</div>
+            <div className="flex space-x-10">
+              <div>리뷰 남긴 상품</div>
+              <div>등록한 상품</div>
+              <div>찜한 상품</div>
+            </div>
             <div className="grid grid-cols-2 gap-5 xl:grid-cols-3">
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
+              {createdProducts?.data.list.map((createdProduct: Product) => {
+                return (
+                  <ProductCard
+                    key={createdProduct.id}
+                    name={createdProduct.name}
+                    image={createdProduct.image}
+                    reviewCount={createdProduct.reviewCount}
+                    favoriteCount={createdProduct.favoriteCount}
+                    rating={createdProduct.rating}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

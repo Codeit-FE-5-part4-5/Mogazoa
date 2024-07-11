@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/hooks/use-modal-store';
-import { useUpdateProfile } from '@/shared/models/user/useUpdateProfile';
+import { useUpdateProfile } from '@/shared/models/user/profile/useUpdateProfile';
 
 import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
