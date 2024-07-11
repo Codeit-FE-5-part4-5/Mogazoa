@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import CompareChip from '../Chip/CompareChip';
 import { Product } from '@/shared/types/product/product';
+import { BEDGE_COLORS } from '@/shared/constants/products';
 
 interface ItemListProps {
   itemList: Product[];
@@ -16,7 +17,7 @@ interface ItemListProps {
 const ItemList = ({ itemList, onClick, isOrder }: ItemListProps) => {
   return (
     <div
-      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[76px]'} flex w-full animate-slideDown flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
+      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[76px]'} flex max-h-[200px] w-full animate-slideDown flex-col gap-[5px] overflow-scroll rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
     >
       {itemList?.map((item) => (
         <div
@@ -34,7 +35,6 @@ const ItemList = ({ itemList, onClick, isOrder }: ItemListProps) => {
 interface CompareDropDownProps {
   itemList: Product[];
   onClick: (arg: string) => void;
-  isOrder?: boolean;
   Bedge: string;
   setBedge: React.Dispatch<SetStateAction<string>>;
   value: string;
@@ -43,7 +43,6 @@ interface CompareDropDownProps {
 
 const CompareDropDownInput = ({
   itemList,
-  isOrder = false,
   Bedge,
   setBedge,
   value,
@@ -56,11 +55,6 @@ const CompareDropDownInput = ({
       !dropDownElement.current.contains(e.target as Node)
     ) {
     }
-  };
-
-  const BedgeColor = {
-    green: 0,
-    red: 1,
   };
 
   const handleClickEvent = (item: string) => {
@@ -81,7 +75,7 @@ const CompareDropDownInput = ({
   return (
     <div
       ref={dropDownElement}
-      className={`${`border-var-black3 focus:border-gradient-custom`} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] md:${!isOrder && 'py-[19px]'} xl:${!isOrder && 'py-[22px]'} xl:text-[16px]`}
+      className={`${`border-var-black3 focus:border-gradient-custom`} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] xl:text-[16px]`}
     >
       <div className="relative flex size-full items-center justify-between py-[2px]">
         <label htmlFor="text">
@@ -89,7 +83,7 @@ const CompareDropDownInput = ({
             {Bedge && (
               <CompareChip
                 name={Bedge}
-                orderPosition={BedgeColor.green}
+                orderPosition={BEDGE_COLORS.green}
                 onClick={onClickDelete}
               />
             )}
@@ -99,18 +93,14 @@ const CompareDropDownInput = ({
               id="text"
               name="text"
               value={value}
-              className={`w-full cursor-pointer bg-var-black2 text-var-gray1 ${isOrder && 'bg-[#1c1c22]'} outline-none`}
+              className={`w-full cursor-pointer bg-var-black2 text-var-gray1 outline-none`}
               onChange={onChange}
             />
           )}
         </label>
       </div>
       {value.length > 1 && itemList?.length !== 0 && (
-        <ItemList
-          itemList={itemList}
-          onClick={handleClickEvent}
-          isOrder={isOrder}
-        />
+        <ItemList itemList={itemList} onClick={handleClickEvent} />
       )}
     </div>
   );
