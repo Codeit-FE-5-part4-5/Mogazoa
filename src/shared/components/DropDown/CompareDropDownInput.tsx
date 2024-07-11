@@ -45,7 +45,7 @@ const ItemList = ({
         </div>
       ))}
       <div ref={ref}></div>
-      {isFetching && <div>Loading...</div>}
+      {isFetching && <div className="px-[20px] py-[6px]">Loading...</div>}
     </div>
   );
 };
