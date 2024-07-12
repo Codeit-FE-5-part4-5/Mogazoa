@@ -1,6 +1,9 @@
 import { useState } from 'react';
-
+import apiInstance from '@/shared/utils/axios';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { Rating } from 'react-simple-star-rating';
+import axios from 'axios';
 import {
   Dialog,
   DialogContent,
@@ -18,6 +21,7 @@ import Image from 'next/image';
 
 export const ReviewModal = () => {
   const { isOpen, onClose, type } = useModal();
+  const router = useRouter();
 
   const isModalOpen = isOpen && type === 'review';
 
@@ -26,10 +30,35 @@ export const ReviewModal = () => {
   const handleRating = (rate: number) => {
     setRating(rate);
   };
+
+  const productId = usePathname().split('/').pop();
+
+  const [review, setReview] = useState<string>('');
+  const [image, setImage] = useState('');
   const onPointerEnter = () => console.log('Enter');
   const onPointerLeave = () => console.log('Leave');
   const onPointerMove = (value: number, index: number) =>
     console.log(value, index);
+
+  const handleSave = async () => {
+    const requestBody = {
+      productId: productId,
+      images: image,
+      content: review,
+      rating: rating,
+    };
+
+    try {
+      const response = await apiInstance.post('/reviews', requestBody);
+      console.log('Response:', response.data);
+      router.push('/mypage');
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const errorDetails = error.response.data.details;
+        console.log('Error:', errorDetails);
+      }
+    }
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -73,14 +102,23 @@ export const ReviewModal = () => {
               </div>
             </div>
             <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
-              <TextAreaInput placeholder="리뷰를 작성해 주세요." />
+              <TextAreaInput
+                placeholder="리뷰를 작성해 주세요."
+                value={review} // Add this line
+                textLength={300}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setReview(e.target.value)
+                }
+              />
             </div>
             <div className="flex space-x-4">
               <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                <ImageInput />
+                <ImageInput
+                  onChange={(image: string | null) => setImage(image || '')}
+                />
               </div>
             </div>
-            <Button text="작성하기" />
+            <Button text="작성하기" onClick={handleSave} />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

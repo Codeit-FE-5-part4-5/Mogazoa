@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Dialog,
@@ -22,12 +22,31 @@ export const ProfileEditModal = () => {
   const [nickname, setNickname] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [image, setImage] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{
+    nickname?: string;
+  }>({});
 
   const mutation = useUpdateProfile();
 
   const isModalOpen = isOpen && type === 'profileEdit';
 
   const handleSaveButton = async () => {
+    if (!nickname) {
+      setErrors((prev) => ({ ...prev, nickname: '닉네임은 필수 입력입니다.' }));
+      return;
+    }
+    if (nickname.length > 10) {
+      setErrors((prev) => ({
+        ...prev,
+        nickname: '닉네임은 최대 10자까지 가능합니다.',
+      }));
+      return;
+    }
+    if (!image) {
+      alert('이미지 파일을 추가해 주세요.');
+      return;
+    }
+
     try {
       await mutation.mutateAsync({
         nickname,
@@ -39,6 +58,28 @@ export const ProfileEditModal = () => {
       console.error('Profile update failed:', error);
     }
   };
+
+  const handleNicknameBlur = () => {
+    if (!nickname) {
+      setErrors((prev) => ({ ...prev, nickname: '닉네임은 필수 입력입니다.' }));
+    } else if (nickname.length > 10) {
+      setErrors((prev) => ({
+        ...prev,
+        nickname: '닉네임은 최대 10자까지 가능합니다.',
+      }));
+    } else {
+      setErrors((prev) => ({ ...prev, nickname: '' }));
+    }
+  };
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setNickname('');
+      setDescription('');
+      setImage(null);
+      setErrors({});
+    }
+  }, [isModalOpen]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -53,12 +94,18 @@ export const ProfileEditModal = () => {
                 <ImageInput onChange={setImage} />
               </div>
             </div>
-            <div className="w-full">
+            <div className="flex w-full flex-col">
               <TextFieldInput
                 placeholder="닉네임을 입력해 주세요."
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
+                onBlur={handleNicknameBlur}
               />
+              {errors.nickname && (
+                <div className="mt-2 self-start text-rose-500">
+                  {errors.nickname}
+                </div>
+              )}
             </div>
             <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
               <TextAreaInput
