@@ -26,24 +26,45 @@ export const ReviewModal = () => {
   const isModalOpen = isOpen && type === 'review';
 
   const [rating, setRating] = useState<number>(0);
+  const [review, setReview] = useState<string>('');
+  const [image1, setImage1] = useState<string | null>(null);
+  const [image2, setImage2] = useState<string | null>(null);
+  const [image3, setImage3] = useState<string | null>(null);
+  const images = [image1, image2, image3].filter(
+    (image) => image !== null,
+  ) as string[];
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // const productId = usePathname().split('/').pop();
+  const productId = '1';
 
   const handleRating = (rate: number) => {
     setRating(rate);
   };
 
-  const productId = usePathname().split('/').pop();
-
-  const [review, setReview] = useState<string>('');
-  const [image, setImage] = useState('');
-  const onPointerEnter = () => console.log('Enter');
-  const onPointerLeave = () => console.log('Leave');
-  const onPointerMove = (value: number, index: number) =>
-    console.log(value, index);
+  const validateForm = () => {
+    if (!review) {
+      setErrorMessage('리뷰 내용을 입력해주세요.');
+      return false;
+    }
+    if (review.length < 10) {
+      setErrorMessage('최소 10자 이상 적어주세요.');
+      return false;
+    }
+    if (rating === 0) {
+      setErrorMessage('별점으로 상품을 평가해주세요.');
+      return false;
+    }
+    setErrorMessage(null);
+    return true;
+  };
 
   const handleSave = async () => {
+    if (!validateForm()) return;
+
     const requestBody = {
       productId: productId,
-      images: image,
+      images: images,
       content: review,
       rating: rating,
     };
@@ -76,9 +97,6 @@ export const ReviewModal = () => {
               <div>
                 <Rating
                   onClick={handleRating}
-                  onPointerEnter={onPointerEnter}
-                  onPointerLeave={onPointerLeave}
-                  onPointerMove={onPointerMove}
                   SVGclassName={`inline-block`}
                   fillIcon={
                     <Image
@@ -91,7 +109,7 @@ export const ReviewModal = () => {
                   }
                   emptyIcon={
                     <Image
-                      className="mr-[2px] inline-block xl:mr-[5px]"
+                      className="xl:mr/[5px] mr-[2px] inline-block"
                       src="images/empty-star.svg"
                       alt="empty-star"
                       width={32}
@@ -104,18 +122,31 @@ export const ReviewModal = () => {
             <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
               <TextAreaInput
                 placeholder="리뷰를 작성해 주세요."
-                value={review} // Add this line
+                value={review}
                 textLength={300}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   setReview(e.target.value)
                 }
               />
             </div>
+            {errorMessage && (
+              <div className="mb-5 text-red-500">{errorMessage}</div>
+            )}
             <div className="flex space-x-4">
               <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                 <ImageInput
-                  onChange={(image: string | null) => setImage(image || '')}
+                  onChange={(image: string | null) => setImage1(image)}
                 />
+                {image1 && (
+                  <ImageInput
+                    onChange={(image: string | null) => setImage2(image)}
+                  />
+                )}
+                {image2 && (
+                  <ImageInput
+                    onChange={(image: string | null) => setImage3(image)}
+                  />
+                )}
               </div>
             </div>
             <Button text="작성하기" onClick={handleSave} />
