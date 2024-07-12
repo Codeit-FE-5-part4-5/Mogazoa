@@ -6,7 +6,7 @@ import { usePostFollow } from '@/shared/models/user/follow/post-follow/usePostFo
 import { useQueryClient } from '@tanstack/react-query';
 import { useCancelFollow } from '@/shared/models/user/follow/cancel-follow/useCancelFollow';
 
-export default function ProfileCard({ user }: { user: UserType }) {
+const ProfileCard = () => {
   const { onOpen } = useModal();
 
   const queryClient = useQueryClient();
@@ -85,4 +85,6 @@ export default function ProfileCard({ user }: { user: UserType }) {
       )}
     </div>
   );
-}
+};
+
+export default ProfileCard;

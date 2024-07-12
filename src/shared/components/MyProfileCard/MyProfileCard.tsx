@@ -5,7 +5,7 @@ import { UserType } from '@/shared/types/user/user-type';
 import { removeCookie } from '@/shared/utils/cookie';
 import { useRouter } from 'next/router';
 
-export default function MyProfileCard({ user }: { user: UserType }) {
+const MyProfileCard = ({ user }: { user: UserType }) => {
   const { onOpen } = useModal();
   const router = useRouter();
 
@@ -63,4 +63,6 @@ export default function MyProfileCard({ user }: { user: UserType }) {
       </div>
     </div>
   );
-}
+};
+
+export default MyProfileCard;
