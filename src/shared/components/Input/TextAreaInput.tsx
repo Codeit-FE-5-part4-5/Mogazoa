@@ -22,7 +22,9 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
         onChange={onChange}
         className="h-full w-full resize-none bg-var-black2 placeholder-var-gray1 outline-none"
       />
-      <div className="text-sm text-var-gray2">{value.length}/500</div>
+      <div className="text-sm text-var-gray2">
+        {value.length}/{textLength}
+      </div>
     </div>
   );
 };
