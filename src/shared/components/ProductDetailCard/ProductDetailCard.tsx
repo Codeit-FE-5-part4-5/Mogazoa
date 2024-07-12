@@ -24,7 +24,7 @@ const ProductDetailCard = ({
   };
 
   return (
-    <div className="text-var-white gap-[20px] md:flex">
+    <div className="gap-[20px] text-var-white md:flex">
       <div className="flex items-center justify-center">
         <img src="/images/product_detail_image.png" alt="" />
       </div>
@@ -59,7 +59,7 @@ const ProductDetailCard = ({
             </button>
           </div>
         </div>
-        <div className="text-var-gray1 text-[14px] font-light xl:text-[16px]">
+        <div className="text-[14px] font-light text-var-gray1 xl:text-[16px]">
           조회 {reviews}
         </div>
         <div className="mt-[20px] text-[14px] leading-[20px] xl:text-[16px] xl:leading-[22px]">

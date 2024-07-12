@@ -11,10 +11,6 @@ import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 import ProductList from '@/shared/components/ProductList/ProductList';
 
-/**
- * @TODO 6개씩 정렬 기준에 맞게 배치해서 프롭스로 넘겨주기
- */
-
 export default function Home() {
   const {
     currentCategoryName,
@@ -59,6 +55,7 @@ export default function Home() {
             {currentCategoryName ? (
               <ProductList
                 products={products}
+                searchQuery={searchQuery}
                 currentCategoryName={currentCategoryName}
                 changeSortOrder={changeSortOrder}
               />

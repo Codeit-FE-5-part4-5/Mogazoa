@@ -43,7 +43,10 @@ export const Header: React.FC = () => {
           />
         </Portal>
       )}
-      <div className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:px-[30px] xl:px-[120px]">
+      <div
+        ref={searchBarRef}
+        className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:border-b md:border-var-black3 md:px-[30px] xl:px-[120px]"
+      >
         <div className="flex w-full items-center justify-between py-[20px]">
           {isLoggedIn ? (
             <button
@@ -67,7 +70,6 @@ export const Header: React.FC = () => {
             </Link>
           </div>
           <div
-            ref={searchBarRef}
             className={`${isSearchOpen && 'flex-1'} flex justify-end gap-[30px] xl:gap-[60px]`}
           >
             {currentPath.includes('signin') ||
@@ -76,16 +78,23 @@ export const Header: React.FC = () => {
                 value={searchKeyword}
                 type="text"
                 onChange={onChangeSearchKeyword}
+                initKeyword={initKeyword}
                 isOpen={isSearchOpen}
                 setOpen={setIsSearchOpen}
                 placeholder="상품 이름을 검색해 보세요"
               />
             )}
-            <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-normal text-white md:flex md:gap-[30px] xl:gap-[60px]">
-              <Link href={isLoggedIn ? '/compare' : '/signin'}>
+            <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-normal text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
+              <Link
+                href={isLoggedIn ? '/compare' : '/signin'}
+                className="transition-colors duration-300 hover:text-var-gray2"
+              >
                 {isLoggedIn ? '비교하기' : '로그인'}
               </Link>
-              <Link href={isLoggedIn ? '/mypage' : '/signup'}>
+              <Link
+                href={isLoggedIn ? '/mypage' : '/signup'}
+                className="transition-colors duration-300 hover:text-var-gray2"
+              >
                 {isLoggedIn ? '내 프로필' : '회원가입'}
               </Link>
             </div>

@@ -30,19 +30,25 @@ const SideBarMenu = ({
         <div className="flex size-full flex-col justify-between px-[48px] pb-[30px] pt-[150px] text-[28px] font-semibold text-var-gray1">
           <div className="flex flex-col gap-[40px]">
             <Link href="/compare">
-              <button type="button" className="cursor-pointer">
+              <button
+                type="button"
+                className="cursor-pointer transition-colors duration-300 hover:text-var-indigo"
+              >
                 비교하기
               </button>
             </Link>
             <Link href="/mypage">
               <button
                 type="button"
-                className="cursor-pointer bg-gradient-custom bg-clip-text text-transparent"
+                className="cursor-pointer bg-gradient-custom bg-clip-text text-transparent transition-colors duration-300 hover:text-var-gray2"
               >
                 내 프로필
               </button>
             </Link>
-            <button onClick={logout} className="w-fit cursor-pointer">
+            <button
+              onClick={logout}
+              className="w-fit cursor-pointer transition-colors duration-300 hover:text-var-indigo"
+            >
               로그아웃
             </button>
           </div>
