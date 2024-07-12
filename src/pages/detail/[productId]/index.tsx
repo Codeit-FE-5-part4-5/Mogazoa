@@ -2,32 +2,9 @@ import ProductDetailCard from '@/shared/components/ProductDetailCard/ProductDeta
 import ProductDetailReview from '@/shared/components/ProductDetailReview/ProductDetailReview';
 import StatisticsCard from '@/shared/components/StatisticsCard/StatisticsCard';
 import { Header } from '@/shared/components/header/header';
+import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
-
-const mockProduct = {
-  id: 1,
-  name: '에어팟 프로',
-  description: '노이즈 캔슬링이 잘 되는 이어폰',
-  image:
-    'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MWP22?wid=1144&hei=1144&fmt=jpeg&qlt=80&.v=1591634795000',
-  rating: 4.5,
-  reviewCount: 100,
-  favoriteCount: 1000,
-  categoryId: 1,
-  createdAt: '2024-06-21T10:53:49.062Z',
-  updatedAt: '2024-06-21T10:53:49.062Z',
-  writerId: 1,
-  isFavorite: false,
-  category: {
-    id: 1,
-    name: '전자제품',
-  },
-  categoryMetric: {
-    rating: 4.5,
-    favoriteCount: 1000,
-    reviewCount: 100,
-  },
-};
 
 const mockUser = {
   name: '박준영',
@@ -41,7 +18,12 @@ const mockCon = {
 };
 
 export default function ProductDetails() {
-  const [heart, setHeart] = useState(false);
+  const router = useRouter();
+  const { productId } = router.query;
+  const { data } = useGetProductDetail({
+    productId: Number(productId),
+  });
+
   const [likedByMe, setLikedByMe] = useState<boolean>(false);
   const likeCount = 24;
   const ThumbInfo = {
@@ -56,12 +38,12 @@ export default function ProductDetails() {
       <div className="px-[20px] xl:container md:px-[30px] xl:mx-auto">
         <div className="mb-[60px]">
           <ProductDetailCard
-            name={mockProduct.name}
+            name={data?.name}
             reviews={1}
-            description={mockProduct.description}
-            text={mockProduct.category.name}
+            description={data?.description}
+            text={data?.category?.name}
             color={'#ffffff'}
-            image={mockProduct.image}
+            image={data?.image}
           />
         </div>
         <h1 className="font-pretendard pb-[30px] text-[18px] font-semibold leading-normal text-[#F1F1F5]">
@@ -69,19 +51,13 @@ export default function ProductDetails() {
         </h1>
         <div className="flex flex-col gap-[15px] pb-[60px] md:flex-row">
           <div className="w-full">
-            <StatisticsCard status={'average'} conScore={mockProduct.rating} />
+            <StatisticsCard status={'average'} conScore={data?.rating} />
           </div>
           <div className="w-full">
-            <StatisticsCard
-              status={'steamed'}
-              conScore={mockProduct.favoriteCount}
-            />
+            <StatisticsCard status={'steamed'} conScore={data?.favoriteCount} />
           </div>
           <div className="w-full">
-            <StatisticsCard
-              status={'review'}
-              conScore={mockProduct.reviewCount}
-            />
+            <StatisticsCard status={'review'} conScore={data?.reviewCount} />
           </div>
         </div>
         <div className="">

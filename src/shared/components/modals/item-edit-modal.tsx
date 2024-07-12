@@ -45,7 +45,7 @@ export const ItemEditModal = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const productId = usePathname().split('/').pop();
+  // const productId = usePathname().split('/').pop();
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };

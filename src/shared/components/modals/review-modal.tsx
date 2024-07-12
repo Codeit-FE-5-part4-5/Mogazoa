@@ -31,7 +31,7 @@ export const ReviewModal = () => {
     setRating(rate);
   };
 
-  const productId = usePathname().split('/').pop();
+  // const productId = usePathname().split('/').pop();
 
   const [review, setReview] = useState<string>('');
   const [image, setImage] = useState('');
