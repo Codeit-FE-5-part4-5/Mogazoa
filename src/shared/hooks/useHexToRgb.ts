@@ -3,7 +3,7 @@
  * @param hexString rgb로 변환시킬 헥스값 문자열
  * @returns
  */
-export const useHexToRgb = (hexString: string) => {
+const useHexToRgb = (hexString: string) => {
   const hex = hexString?.replace('#', '');
 
   const r = parseInt(hex?.substring(0, 2), 16);
@@ -12,3 +12,5 @@ export const useHexToRgb = (hexString: string) => {
 
   return [r, g, b];
 };
+
+export default useHexToRgb;

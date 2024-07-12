@@ -5,21 +5,21 @@ import { Dispatch, SetStateAction } from 'react';
 interface SideBarMenuProps {
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
   logout: () => void;
-  animationTrigger: boolean | ((arg: boolean) => void);
-  handleAnimationEnd: () => void;
+  animationOpenMenu: boolean | ((arg: boolean) => void);
+  handleOpenMenuEnd: () => void;
 }
 
-export default function SideBarMenu({
+const SideBarMenu = ({
   setOpenMenu,
   logout,
-  animationTrigger,
-  handleAnimationEnd,
-}: SideBarMenuProps) {
+  animationOpenMenu,
+  handleOpenMenuEnd,
+}: SideBarMenuProps) => {
   return (
     <div className={`fixed left-0 top-0 h-screen w-full`}>
       <div
-        onAnimationEnd={handleAnimationEnd}
-        className={`${animationTrigger ? 'animate-slideRight' : 'animate-slideLeft'} bg-dark-gradient-custom size-full`}
+        onAnimationEnd={handleOpenMenuEnd}
+        className={`${animationOpenMenu ? 'animate-slideRight' : 'animate-slideLeft'} size-full bg-dark-gradient-custom`}
       >
         <button
           onClick={() => setOpenMenu(false)}
@@ -30,19 +30,25 @@ export default function SideBarMenu({
         <div className="flex size-full flex-col justify-between px-[48px] pb-[30px] pt-[150px] text-[28px] font-semibold text-var-gray1">
           <div className="flex flex-col gap-[40px]">
             <Link href="/compare">
-              <button type="button" className="cursor-pointer">
+              <button
+                type="button"
+                className="cursor-pointer transition-colors duration-300 hover:text-var-indigo"
+              >
                 비교하기
               </button>
             </Link>
             <Link href="/mypage">
               <button
                 type="button"
-                className="cursor-pointer bg-gradient-custom bg-clip-text text-transparent"
+                className="cursor-pointer bg-gradient-custom bg-clip-text text-transparent transition-colors duration-300 hover:text-var-gray2"
               >
                 내 프로필
               </button>
             </Link>
-            <button onClick={logout} className="w-fit cursor-pointer">
+            <button
+              onClick={logout}
+              className="w-fit cursor-pointer transition-colors duration-300 hover:text-var-indigo"
+            >
               로그아웃
             </button>
           </div>
@@ -53,9 +59,21 @@ export default function SideBarMenu({
               width={166}
               height={28}
             />
+            <div className="mt-[10px] flex flex-col gap-[10px] text-[12px]">
+              <h3>Made by SPRINT FE5 TEAM5</h3>
+              <div className="flex gap-[8px] text-var-gray2">
+                <p>김한샘</p>
+                <p>박준영</p>
+                <p>유호민</p>
+                <p>임상훈</p>
+                <p>이진욱</p>
+              </div>
+            </div>
           </Link>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default SideBarMenu;

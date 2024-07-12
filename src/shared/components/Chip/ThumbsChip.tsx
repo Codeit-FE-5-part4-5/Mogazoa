@@ -7,11 +7,11 @@ interface ThumbsChipProps {
   setLikedByMe: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function ThumbsChip({
+const ThumbsChip = ({
   count = 0,
   isLikedByMe = false,
   setLikedByMe,
-}: ThumbsChipProps) {
+}: ThumbsChipProps) => {
   return (
     <button
       className="flex w-fit items-center gap-[5px] rounded-[100px] border border-var-black3 bg-var-black2 px-[12px] py-[6px] md:px-[10px]"
@@ -31,4 +31,6 @@ export default function ThumbsChip({
       </span>
     </button>
   );
-}
+};
+
+export default ThumbsChip;
