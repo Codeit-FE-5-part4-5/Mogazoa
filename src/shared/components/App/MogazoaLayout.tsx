@@ -9,7 +9,7 @@ interface MogazoaLayoutProps {
   children: ReactNode;
 }
 
-export default function MogazoaLayout({ children }: MogazoaLayoutProps) {
+const MogazoaLayout = ({ children }: MogazoaLayoutProps) => {
   const token = getCookie('accessToken');
   const { data: me, isSuccess: loginSuccess } = useGetMe(token);
   const { login } = useMe();
@@ -27,4 +27,6 @@ export default function MogazoaLayout({ children }: MogazoaLayoutProps) {
       {children}
     </>
   );
-}
+};
+
+export default MogazoaLayout;

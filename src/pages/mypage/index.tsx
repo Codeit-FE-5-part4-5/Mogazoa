@@ -2,23 +2,45 @@ import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
 import Floating from '@/shared/components/Floating/Floating';
 import { Header } from '@/shared/components/header/header';
 import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
-import ProductCard from '@/shared/components/ProductCard/ProductCard';
 import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
 import { getCookie } from '@/shared/utils/cookie';
 import { useModal } from '@/shared/hooks/use-modal-store';
-
-const mockAverageScore = 5;
-const mockProductCard = {
-  name: '다이슨 슈퍼소닉 블루',
-  reviews: 129,
-  steamed: 34,
-  score: 4.8,
-};
+import useGetFavoriteProducts from '@/shared/models/user/products/favorite-products/useGetFavoriteProducts';
+import useGetReviewedProducts from '@/shared/models/user/products/reviewed-products/useGetReviewedProducts';
+import { useState } from 'react';
+import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
 
 const MyPage = () => {
   const token = getCookie('accessToken');
+
   const { data: user } = useGetMe(token);
+  const { data: createdProducts } = useGetCreatedProducts(
+    Number(user?.data.id),
+  );
+  const { data: favoriteProducts } = useGetFavoriteProducts(
+    Number(user?.data.id),
+  );
+  const { data: reviewedProducts } = useGetReviewedProducts(
+    Number(user?.data.id),
+  );
+
   const { onOpen } = useModal();
+
+  const [selectedCategory, setSelectedCategory] = useState('created');
+
+  const getProducts = () => {
+    switch (selectedCategory) {
+      case 'created':
+        return createdProducts?.data.list || [];
+      case 'favorite':
+        return favoriteProducts?.data.list || [];
+      case 'reviewed':
+        return reviewedProducts?.data.list || [];
+      default:
+        return [];
+    }
+  };
 
   return (
     <div>
@@ -53,45 +75,27 @@ const MyPage = () => {
             </div>
           </div>
           <div className="space-y-[30px]">
-            <div>리뷰 남긴 상품</div>
-            <div className="grid grid-cols-2 gap-5 xl:grid-cols-3">
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
+            <div className="flex space-x-10 text-var-gray1">
+              <div
+                className={`hover:text-var-white ${selectedCategory === 'reviewed' ? 'text-var-white' : ''}`}
+                onClick={() => setSelectedCategory('reviewed')}
+              >
+                리뷰 남긴 상품
+              </div>
+              <div
+                className={`hover:text-var-white ${selectedCategory === 'created' ? 'text-var-white' : ''}`}
+                onClick={() => setSelectedCategory('created')}
+              >
+                등록한 상품
+              </div>
+              <div
+                className={`hover:text-var-white ${selectedCategory === 'favorite' ? 'text-var-white' : ''}`}
+                onClick={() => setSelectedCategory('favorite')}
+              >
+                찜한 상품
+              </div>
             </div>
+            <ProductCardList products={getProducts()} />
           </div>
         </div>
       </div>

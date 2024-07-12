@@ -1,41 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
-import searchIcon from '@/../../public/images/search.svg';
-import closedIcon from '@/../../public/images/closedIcon.svg';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 import { Portal } from '@/shared/providers/portal-provider';
-import { useAnimation } from '@/shared/hooks/useAnimation';
+import useAnimation from '@/shared/hooks/useAnimation';
 import useMe from '@/shared/hooks/use-me';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
+import SearchInput from '../Input/SearchInput';
+import useClickOutside from '@/shared/hooks/useClickOutside';
 
 export const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { isLoggedIn, logout } = useMe();
-  const { changeSearchKeyword } = useChangeRouter();
-  const [shouldRender, animationTrigger, handleAnimationEnd] =
+  const {
+    currentPath,
+    currentCategoryName,
+    onChangeSearchKeyword,
+    initKeyword,
+    searchKeyword,
+  } = useChangeRouter();
+  const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
     useAnimation(isOpenMenu);
-  const handleSearchClick = () => {
-    setIsSearchOpen(!isSearchOpen);
-  };
+  const searchBarRef = useClickOutside<HTMLDivElement>(setIsSearchOpen);
+
+  useEffect(() => {
+    initKeyword();
+  }, [currentCategoryName]);
 
   return (
     <>
-      {shouldRender && (
+      {shouldOpenMenu && (
         <Portal>
           <SideBarMenu
             setOpenMenu={setOpenMenu}
             logout={logout}
-            animationTrigger={animationTrigger}
-            handleAnimationEnd={handleAnimationEnd}
+            animationOpenMenu={animationOpenMenu}
+            handleOpenMenuEnd={handleOpenMenuEnd}
           />
         </Portal>
       )}
-      <div className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:px-[30px] xl:px-[120px]">
-        <div className="flex w-full items-center justify-between">
+      <div
+        ref={searchBarRef}
+        className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:border-b md:border-var-black3 md:px-[30px] xl:px-[120px]"
+      >
+        <div className="flex w-full items-center justify-between py-[20px]">
           {isLoggedIn ? (
             <button
               onClick={() => setOpenMenu((prev) => !prev)}
@@ -44,67 +55,50 @@ export const Header: React.FC = () => {
               <Image src={MenuIcon} alt="MenuIcon" width={24} height={24} />
             </button>
           ) : (
-            <Link href="/signin">
-              <button className="text-var-gray2 hover:text-var-white md:hidden">
+            <Link href="/signin" className="flex h-[42px] md:hidden">
+              <button className="text-var-gray2 hover:text-var-white">
                 <Image src="/me.svg" alt="로그인" width={24} height={24} />
               </button>
             </Link>
           )}
-          <div className="flex items-center space-x-4">
+          <div
+            className={`absolute left-[50%] ${isSearchOpen ? 'hidden' : 'flex'} -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0`}
+          >
             <Link href="/">
               <Image src={LogoIcon} alt="LogoIcon" width={166} height={28} />
             </Link>
           </div>
-          <div className="hidden flex-shrink-0 items-center md:flex md:gap-[30px] xl:gap-[60px]">
-            <input
-              type="text"
-              placeholder="상품 이름을 검색해 보세요"
-              onChange={changeSearchKeyword}
-              className="flex h-[50px] w-[300px] flex-col items-start justify-center gap-[10px] rounded-[28px] bg-[#252530] p-[16px_20px] text-white xl:w-[400px]"
-            />
-            <Link
-              href={isLoggedIn ? '/compare' : '/signin'}
-              className="text-right font-sans text-[16px] font-normal text-white"
-            >
-              {isLoggedIn ? '비교하기' : '로그인'}
-            </Link>
-            <Link
-              href={isLoggedIn ? '/mypage' : '/signup'}
-              className="text-right font-sans text-[16px] font-normal text-white"
-            >
-              {isLoggedIn ? '내 프로필' : '회원가입'}
-            </Link>
-          </div>
-          <div className="flex md:hidden">
-            <button onClick={handleSearchClick}>
-              {isSearchOpen ? (
-                <Image
-                  src={closedIcon}
-                  alt="closedIcon"
-                  width={24}
-                  height={24}
-                />
-              ) : (
-                <Image
-                  src={searchIcon}
-                  alt="searchIcon"
-                  width={24}
-                  height={24}
-                />
-              )}
-            </button>
+          <div
+            className={`${isSearchOpen && 'flex-1'} flex justify-end gap-[30px] xl:gap-[60px]`}
+          >
+            {currentPath.includes('signin') ||
+            currentPath.includes('signup') ? null : (
+              <SearchInput
+                value={searchKeyword}
+                type="text"
+                onChange={onChangeSearchKeyword}
+                initKeyword={initKeyword}
+                isOpen={isSearchOpen}
+                setOpen={setIsSearchOpen}
+                placeholder="상품 이름을 검색해 보세요"
+              />
+            )}
+            <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-normal text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
+              <Link
+                href={isLoggedIn ? '/compare' : '/signin'}
+                className="transition-colors duration-300 hover:text-var-gray2"
+              >
+                {isLoggedIn ? '비교하기' : '로그인'}
+              </Link>
+              <Link
+                href={isLoggedIn ? '/mypage' : '/signup'}
+                className="transition-colors duration-300 hover:text-var-gray2"
+              >
+                {isLoggedIn ? '내 프로필' : '회원가입'}
+              </Link>
+            </div>
           </div>
         </div>
-        {isSearchOpen && (
-          <div className="mt-4 w-full md:hidden">
-            <input
-              type="text"
-              placeholder="상품 이름을 검색해 보세요"
-              onChange={changeSearchKeyword}
-              className="w-full rounded bg-gray-800 px-4 py-2 text-white"
-            />
-          </div>
-        )}
       </div>
     </>
   );

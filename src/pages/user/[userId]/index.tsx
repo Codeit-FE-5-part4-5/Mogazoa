@@ -1,24 +1,62 @@
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
+
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
 import Floating from '@/shared/components/Floating/Floating';
 import { Header } from '@/shared/components/header/header';
-import ProductCard from '@/shared/components/ProductCard/ProductCard';
+import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
 import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
 
-const mockAverageScore = 5;
-const mockProductCard = {
-  name: '다이슨 슈퍼소닉 블루',
-  reviews: 129,
-  steamed: 34,
-  score: 4.8,
-};
+import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
+import useGetFavoriteProducts from '@/shared/models/user/products/favorite-products/useGetFavoriteProducts';
+import useGetReviewedProducts from '@/shared/models/user/products/reviewed-products/useGetReviewedProducts';
+import useUserProfile from '@/shared/models/user/profile/useUserProfile';
+
+import { getCookie } from '@/shared/utils/cookie';
 
 const UserProfile = () => {
+  const params = useParams();
+
+  const token = getCookie('accessToken');
+
+  const { data: me } = useGetMe(token);
+  const { data: user } = useUserProfile(Number(params?.userId));
+  const { data: createdProducts } = useGetCreatedProducts(
+    Number(params?.userId),
+  );
+  const { data: favoriteProducts } = useGetFavoriteProducts(
+    Number(params?.userId),
+  );
+  const { data: reviewedProducts } = useGetReviewedProducts(
+    Number(params?.userId),
+  );
+
+  const [selectedCategory, setSelectedCategory] = useState('created');
+
+  const getProducts = () => {
+    switch (selectedCategory) {
+      case 'created':
+        return createdProducts?.data.list || [];
+      case 'favorite':
+        return favoriteProducts?.data.list || [];
+      case 'reviewed':
+        return reviewedProducts?.data.list || [];
+      default:
+        return [];
+    }
+  };
+
+  if (me?.data.id === Number(params?.userId)) {
+    window.location.replace('/mypage');
+  }
+
   return (
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
-          <ProfileCard />
+          <ProfileCard user={user?.data} />
         </div>
         <div className="w-full space-y-20 xl:w-[940px]">
           <div className="mt-[50px] space-y-[30px] xl:mt-0">
@@ -27,61 +65,46 @@ const UserProfile = () => {
               <div className="w-full">
                 <ActivityCard
                   status="averageLeft"
-                  conScore={mockAverageScore}
+                  conScore={user?.data?.averageRating}
                 />
-              </div>
-              <div className="w-full">
-                <ActivityCard status="interest" conScore={mockAverageScore} />
               </div>
               <div className="w-full">
                 <ActivityCard
                   status="reviewsLeft"
-                  text="전자기기"
+                  conScore={user?.data?.reviewCount}
+                />
+              </div>
+              <div className="w-full">
+                <ActivityCard
+                  status="interest"
+                  text={user?.data?.mostFavoriteCategory?.name}
                   color="#23b581"
                 />
               </div>
             </div>
           </div>
           <div className="space-y-[30px]">
-            <div>리뷰 남긴 상품</div>
-            <div className="grid grid-cols-2 gap-5 xl:grid-cols-3">
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
-              <ProductCard
-                name={mockProductCard.name}
-                reviews={mockProductCard.reviews}
-                steamed={mockProductCard.steamed}
-                score={mockProductCard.score}
-              />
+            <div className="flex space-x-10 text-var-gray1">
+              <div
+                className={`hover:text-var-white ${selectedCategory === 'reviewed' ? 'text-var-white' : ''}`}
+                onClick={() => setSelectedCategory('reviewed')}
+              >
+                리뷰 남긴 상품
+              </div>
+              <div
+                className={`hover:text-var-white ${selectedCategory === 'created' ? 'text-var-white' : ''}`}
+                onClick={() => setSelectedCategory('created')}
+              >
+                등록한 상품
+              </div>
+              <div
+                className={`hover:text-var-white ${selectedCategory === 'favorite' ? 'text-var-white' : ''}`}
+                onClick={() => setSelectedCategory('favorite')}
+              >
+                찜한 상품
+              </div>
             </div>
+            <ProductCardList products={getProducts()} />
           </div>
         </div>
       </div>

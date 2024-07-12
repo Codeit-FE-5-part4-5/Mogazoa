@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from '../Button/Button';
 import Chip from '../Chip/Chip';
+import Image from 'next/image';
 
 interface Props {
   name: string;
@@ -8,6 +9,7 @@ interface Props {
   description: string;
   text: string;
   color: string;
+  image: string;
 }
 
 const ProductDetailCard = ({
@@ -16,6 +18,7 @@ const ProductDetailCard = ({
   description,
   text,
   color,
+  image,
 }: Props) => {
   const [isSave, setIsSave] = useState(false);
 
@@ -24,11 +27,18 @@ const ProductDetailCard = ({
   };
 
   return (
-    <div className="text-var-white gap-[20px] md:flex">
+    <div className="gap-[20px] text-var-white md:flex">
       <div className="flex items-center justify-center">
-        <img src="/images/product_detail_image.png" alt="" />
+        <div className="relative mb-5 h-[249px] w-[289px] md:m-0 md:h-[197px] md:h-full md:w-[280px] xl:w-[355px]">
+          <Image
+            className="rounded-lg"
+            src={image}
+            alt="리뷰이미지"
+            layout="fill"
+          />
+        </div>
       </div>
-      <div>
+      <div className="w-full">
         <div className="grid grid-cols-2 items-center">
           <div className="md:order-1 md:col-span-2">
             <Chip text={text} color={color} />
@@ -59,7 +69,7 @@ const ProductDetailCard = ({
             </button>
           </div>
         </div>
-        <div className="text-var-gray1 text-[14px] font-light xl:text-[16px]">
+        <div className="text-[14px] font-light text-var-gray1 xl:text-[16px]">
           조회 {reviews}
         </div>
         <div className="mt-[20px] text-[14px] leading-[20px] xl:text-[16px] xl:leading-[22px]">

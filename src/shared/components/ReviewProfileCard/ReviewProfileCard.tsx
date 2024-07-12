@@ -10,7 +10,7 @@ const ReviewProfileCard = ({ user }: any) => {
           <Image src={reviewImg1} alt="테스트" fill />
         </div>
         <div className="flex flex-col gap-[5px]">
-          <div className="text-var-white text-[14px] font-normal md:text-[16px]">
+          <div className="text-[14px] font-normal text-var-white md:text-[16px]">
             {user.name}
           </div>
           <div className="flex gap-[3px]">

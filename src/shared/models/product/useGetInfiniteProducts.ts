@@ -4,20 +4,21 @@ import axios from '@/shared/utils/axios';
 export default function useGetInfiniteProducts({
   keyword,
   categoryId,
-  order = 'recent',
+  order,
 }: {
   keyword?: string;
   categoryId?: number;
   order?: string;
 }) {
   return useInfiniteQuery({
-    queryKey: ['products'],
+    queryKey: ['products', keyword, categoryId, order],
     queryFn: async ({ pageParam = 0 }) => {
       const categoryParam = categoryId ? `&category=${categoryId}` : '';
       const keywordParam = keyword ? `&keyword=${keyword}` : '';
       const cursorParam = pageParam > 0 ? `&cursor=${pageParam}` : '';
+      const orderParam = order ? `order=${order}` : '';
       const { data } = await axios.get(
-        `products?order=${order}${cursorParam}${keywordParam}${categoryParam}`,
+        `products?${orderParam}${keywordParam}${categoryParam}${cursorParam}`,
       );
 
       return {
