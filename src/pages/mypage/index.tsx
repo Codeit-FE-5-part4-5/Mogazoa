@@ -7,6 +7,7 @@ import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
 import { Product } from '@/shared/types/product/product';
 import { getCookie } from '@/shared/utils/cookie';
+import { useModal } from '@/shared/hooks/use-modal-store';
 
 const MyPage = () => {
   const token = getCookie('accessToken');
@@ -15,6 +16,8 @@ const MyPage = () => {
   const { data: createdProducts } = useGetCreatedProducts(
     Number(user?.data.id),
   );
+
+  const { onOpen } = useModal();
 
   return (
     <div>
@@ -72,7 +75,7 @@ const MyPage = () => {
         </div>
       </div>
       <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
-        <Floating onClick={() => console.log('...')} />
+        <Floating onClick={() => onOpen('itemAdd')} />
       </div>
     </div>
   );

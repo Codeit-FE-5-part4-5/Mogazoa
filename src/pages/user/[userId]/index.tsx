@@ -1,7 +1,6 @@
 /**
  * TODO:
  * - 상품 클릭 시 /product/[productId] 페이지로 이동하는 기능 구현
- * - 로그인한 유저가 접속했을 경우 /mypage 로 이동하는 기능 구현
  */
 
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';

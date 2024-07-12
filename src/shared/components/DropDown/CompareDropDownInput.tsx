@@ -3,73 +3,111 @@ import React, {
   SetStateAction,
   useEffect,
   useRef,
+  useState,
 } from 'react';
 import CompareChip from '../Chip/CompareChip';
 import { Product } from '@/shared/types/product/product';
+import { BEDGE_COLORS } from '@/shared/constants/products';
+import { useInView } from 'react-intersection-observer';
 
 interface ItemListProps {
   itemList: Product[];
   onClick: (arg: string) => void;
-  isOrder?: boolean;
+  fetchNextPage: () => void;
+  isFetching: boolean;
+  hasNextPage: boolean | undefined;
 }
 
-const ItemList = ({ itemList, onClick, isOrder }: ItemListProps) => {
+const ItemList = ({
+  itemList,
+  onClick,
+  fetchNextPage,
+  isFetching,
+  hasNextPage,
+}: ItemListProps) => {
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage) fetchNextPage();
+  }, [inView, hasNextPage]);
+
   return (
     <div
-      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[76px]'} animate-slideDown border-var-black3 bg-var-black2 flex w-full flex-col gap-[5px] rounded-[6px] border p-[10px] shadow-lg`}
+      className={`absolute left-0 top-[60px] z-10 flex max-h-[200px] w-full animate-slideDown flex-col gap-[5px] overflow-scroll rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
     >
-      {itemList?.map((item) => (
+      {itemList.map((item) => (
         <div
-          key={item?.id}
-          onClick={() => onClick(item?.name)}
-          className={`bg-var-black2 text-var-gray1 hover:bg-var-black3 hover:text-var-gray2 flex flex-row items-center justify-between rounded-[6px] px-[20px] py-[6px]`}
+          key={item.id}
+          onClick={() => onClick(item.name)}
+          className="flex flex-row items-center justify-between rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2"
         >
-          {item?.name}
+          {item.name}
         </div>
       ))}
+      <div ref={ref}></div>
+      {isFetching && <div className="px-[20px] py-[6px]">Loading...</div>}
     </div>
   );
 };
 
 interface CompareDropDownProps {
-  itemList: Product[];
+  itemList: any[]; // 페이지 데이터의 타입을 설정합니다.
   onClick: (arg: string) => void;
-  isOrder?: boolean;
   Bedge: string;
   setBedge: React.Dispatch<SetStateAction<string>>;
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
+  fetchNextPage: () => void;
+  isFetching: boolean;
+  hasNextPage: boolean | undefined;
+  setValue: React.Dispatch<SetStateAction<string>>;
 }
 
 export default function CompareDropDownInput({
   itemList,
-  isOrder = false,
   Bedge,
   setBedge,
   value,
   onChange,
+  fetchNextPage,
+  isFetching,
+  hasNextPage,
+  setValue,
 }: CompareDropDownProps) {
+  const handleClickEvent = (item: string) => {
+    setBedge(item);
+    setValue('');
+  };
+
+  const onClickDelete = () => {
+    setBedge('');
+    setValue('');
+  };
+
+  // 다중 배열 맵핑을 위해 flatMap 사용
+  const flatItemList = itemList?.flatMap((page) => page.list) || [];
+  const isItem = value.length > 1 && flatItemList.length > 0;
+
+  // 드롭다운
+  const [isOpen, setIsOpen] = useState(false);
+
   const dropDownElement = useRef<HTMLDivElement>(null);
   const handleClickOutside = (e: MouseEvent) => {
     if (
       dropDownElement.current &&
       !dropDownElement.current.contains(e.target as Node)
     ) {
+      setIsOpen(false);
     }
   };
 
-  const BedgeColor = {
-    green: 0,
-    red: 1,
-  };
-
-  const handleClickEvent = (item: string) => {
-    setBedge(item);
-  };
-
-  const onClickDelete = () => {
-    setBedge('');
-  };
+  useEffect(() => {
+    if (isItem) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [value, isFetching]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -81,7 +119,7 @@ export default function CompareDropDownInput({
   return (
     <div
       ref={dropDownElement}
-      className={`${`focus:border-gradient-custom border-var-black3`} ${isOrder && 'border-var-black2 py-[6px]'} bg-var-black2 relative w-full cursor-pointer items-center rounded-[6px] border px-[20px] py-[17px] text-[14px] md:${!isOrder && 'py-[19px]'} xl:${!isOrder && 'py-[22px]'} xl:text-[16px]`}
+      className="relative w-full cursor-pointer items-center rounded-[6px] border border-var-black3 bg-var-black2 px-[20px] py-[17px] text-[14px] focus:border-gradient-custom xl:text-[16px]"
     >
       <div className="relative flex size-full items-center justify-between py-[2px]">
         <label htmlFor="text">
@@ -89,7 +127,7 @@ export default function CompareDropDownInput({
             {Bedge && (
               <CompareChip
                 name={Bedge}
-                orderPosition={BedgeColor.green}
+                orderPosition={BEDGE_COLORS.green}
                 onClick={onClickDelete}
               />
             )}
@@ -99,17 +137,19 @@ export default function CompareDropDownInput({
               id="text"
               name="text"
               value={value}
-              className={`bg-var-black2 text-var-gray1 w-full cursor-pointer ${isOrder && 'bg-[#1c1c22]'} outline-none`}
+              className="w-full cursor-pointer bg-var-black2 text-var-gray1 outline-none"
               onChange={onChange}
             />
           )}
         </label>
       </div>
-      {value.length > 1 && itemList?.length !== 0 && (
+      {isOpen && (
         <ItemList
-          itemList={itemList}
+          itemList={flatItemList}
           onClick={handleClickEvent}
-          isOrder={isOrder}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetching={isFetching}
         />
       )}
     </div>
