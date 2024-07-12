@@ -42,9 +42,7 @@ export const ItemAddModal = () => {
   const { data: keywordList } = useGetProducts({ keyword: selectedItem });
   const [Bedge1, setBedge1] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [image, setImage] = useState(
-    'https://www.google.com/imgres?q=%EC%9D%B4%EB%AF%B8%EC%A7%80&',
-  );
+  const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
