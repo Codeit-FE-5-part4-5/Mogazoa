@@ -95,9 +95,7 @@ const MyPage = () => {
                 찜한 상품
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-5 xl:grid-cols-3">
-              <ProductCardList products={getProducts()} />
-            </div>
+            <ProductCardList products={getProducts()} />
           </div>
         </div>
       </div>
