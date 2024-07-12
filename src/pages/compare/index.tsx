@@ -2,13 +2,17 @@ import Button from '@/shared/components/Button/Button';
 import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownInput';
 import { Table } from '@/shared/components/Table/Table';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
-import React, { SetStateAction, useState } from 'react';
+import { Product } from '@/shared/types/product/product';
+import React, { SetStateAction, useEffect, useState } from 'react';
 
 const Compare = () => {
   const [value1, setValue1] = useState('');
-  const [Bedge1, setBedge1] = useState('');
+  const [bedge1, setBedge1] = useState('');
   const [value2, setValue2] = useState('');
-  const [Bedge2, setBedge2] = useState('');
+  const [bedge2, setBedge2] = useState('');
+
+  const [product1, setProduct1] = useState<Product | null>(null);
+  const [product2, setProduct2] = useState<Product | null>(null);
 
   const {
     fetchNextPage: fetchNextPage1,
@@ -33,6 +37,26 @@ const Compare = () => {
     setValue(e.target.value);
   };
 
+  useEffect(() => {
+    if (bedge1) {
+      const selectedProducts1 = keywordList1?.pages
+        ?.flatMap((page) => page.list)
+        .find((item) => item.name === bedge1);
+      setProduct1(selectedProducts1 || null);
+      console.log(selectedProducts1);
+    }
+  }, [bedge1, keywordList1]);
+
+  useEffect(() => {
+    if (bedge2) {
+      const selectedProducts2 = keywordList2?.pages
+        ?.flatMap((page) => page.list)
+        .find((item) => item.name === bedge2);
+      setProduct2(selectedProducts2 || null);
+      console.log(selectedProducts2);
+    }
+  }, [bedge2, keywordList2]);
+
   return (
     <div className="items-centers flex flex-col justify-center px-5 md:items-center">
       <div className="grid w-auto items-end gap-[20px] text-var-white md:grid-cols-3 xl:w-[940px]">
@@ -41,7 +65,7 @@ const Compare = () => {
           <CompareDropDownInput
             itemList={keywordList1?.pages || []}
             onClick={setValue1}
-            Bedge={Bedge1}
+            Bedge={bedge1}
             setBedge={setBedge1}
             value={value1}
             setValue={setValue1}
@@ -58,7 +82,7 @@ const Compare = () => {
           <CompareDropDownInput
             itemList={keywordList2?.pages || []}
             onClick={setValue2}
-            Bedge={Bedge2}
+            Bedge={bedge2}
             setBedge={setBedge2}
             value={value2}
             setValue={setValue2}

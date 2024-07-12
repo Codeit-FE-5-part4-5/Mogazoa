@@ -4,7 +4,7 @@ import axios from '@/shared/utils/axios';
 export default function useGetInfiniteProducts({
   keyword,
   categoryId,
-  order = 'recent',
+  order,
 }: {
   keyword?: string;
   categoryId?: number;
@@ -16,8 +16,9 @@ export default function useGetInfiniteProducts({
       const categoryParam = categoryId ? `&category=${categoryId}` : '';
       const keywordParam = keyword ? `&keyword=${keyword}` : '';
       const cursorParam = pageParam > 0 ? `&cursor=${pageParam}` : '';
+      const orderParam = order ? `order=${order}` : '';
       const { data } = await axios.get(
-        `products?order=${order}${keywordParam}${categoryParam}${cursorParam}`,
+        `products?${orderParam}${keywordParam}${categoryParam}${cursorParam}`,
       );
 
       return {
