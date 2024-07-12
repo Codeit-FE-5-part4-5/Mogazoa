@@ -39,6 +39,7 @@ const ProductList = ({
           products.map((product: Product) => (
             <ProductCard
               key={product.id}
+              id={product.id}
               image={product.image}
               name={product.name}
               favoriteCount={product.favoriteCount}

@@ -35,7 +35,7 @@ export default function ProductDetails() {
   return (
     <>
       <Header />
-      <div className="px-[20px] xl:container md:px-[30px] xl:mx-auto">
+      <div className="px-[20px] xl:container md:px-[30px] md:pt-[20px] xl:mx-auto">
         <div className="mb-[60px]">
           <ProductDetailCard
             name={data?.name}
