@@ -22,13 +22,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
 }
 
-export default function Button({
+const Button = ({
   text,
   variant = 'primary',
   className,
   disabled,
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   return (
     <button
       className={`${className} w-full rounded-[8px] py-[16px] text-[16px] font-bold md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px] ${buttonColorList[variant].button}`}
@@ -38,4 +38,6 @@ export default function Button({
       <span className={`${buttonColorList[variant].span}`}>{text}</span>
     </button>
   );
-}
+};
+
+export default Button;

@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const useAnimation = (
-  condition: boolean,
-): [boolean, boolean, () => void] => {
+const useAnimation = (condition: boolean): [boolean, boolean, () => void] => {
   const [isComplete, setComplete] = useState(false);
 
   useEffect(() => {
@@ -22,3 +20,5 @@ export const useAnimation = (
 
   return [shouldRender, animationTrigger, handleAnimationEnd];
 };
+
+export default useAnimation;

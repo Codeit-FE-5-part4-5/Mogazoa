@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import ProductList from '@/shared/components/ProductList/ProductList';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
 import { CategoryMenu } from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
@@ -9,13 +8,15 @@ import useGetCategory from '@/shared/models/category/useGetCategory';
 import useGetProducts from '@/shared/models/product/useGetProducts';
 import sortConverter from '@/shared/utils/sortConverter';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
+import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
+import ProductList from '@/shared/components/ProductList/ProductList';
 
 export default function Home() {
   const {
     currentCategoryName,
     currentCategoryId,
     handleClickCategory,
-    searchKeyword,
+    searchQuery,
   } = useChangeRouter();
   const [currentSortOrder, setCurrentSortOrder] = useState(
     sortConverter(ORDER_VARIANTS[0]),
@@ -24,7 +25,7 @@ export default function Home() {
   const { data: products } = useGetProducts({
     categoryId: Number(currentCategoryId),
     order: currentSortOrder,
-    keyword: searchKeyword,
+    keyword: searchQuery,
   });
 
   return (
@@ -46,13 +47,24 @@ export default function Home() {
         </div>
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <RankingList />
-          <ProductList
-            currentCategoryName={currentCategoryName}
-            products={products}
-            handleChangeOrder={(order: string) =>
-              setCurrentSortOrder(sortConverter(order))
-            }
-          />
+          <div className="flex-1">
+            {currentCategoryName ? (
+              <ProductList
+                products={products}
+                searchQuery={searchQuery}
+                currentCategoryName={currentCategoryName}
+                changeSortOrder={(order) =>
+                  setCurrentSortOrder(sortConverter(order))
+                }
+              />
+            ) : (
+              <>
+                <SortedProductList sortBy="reviewCount" />
+                <SortedProductList sortBy="rating" />
+                <SortedProductList sortBy="recent" />
+              </>
+            )}
+          </div>
         </div>
       </main>
     </MogazoaLayout>

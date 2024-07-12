@@ -63,7 +63,7 @@ interface CompareDropDownProps {
   setValue: React.Dispatch<SetStateAction<string>>;
 }
 
-export default function CompareDropDownInput({
+const CompareDropDownInput = ({
   itemList,
   Bedge,
   setBedge,
@@ -73,7 +73,7 @@ export default function CompareDropDownInput({
   isFetching,
   hasNextPage,
   setValue,
-}: CompareDropDownProps) {
+}: CompareDropDownProps) => {
   const handleClickEvent = (item: string) => {
     setBedge(item);
     setValue('');
@@ -154,4 +154,6 @@ export default function CompareDropDownInput({
       )}
     </div>
   );
-}
+};
+
+export default CompareDropDownInput;

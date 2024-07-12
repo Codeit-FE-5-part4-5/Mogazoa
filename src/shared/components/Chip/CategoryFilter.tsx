@@ -5,10 +5,7 @@ interface CategoryFilterProps {
   onClick: () => void;
 }
 
-export default function CategoryFilter({
-  currentCategory,
-  onClick,
-}: CategoryFilterProps) {
+const CategoryFilter = ({ currentCategory, onClick }: CategoryFilterProps) => {
   return (
     <button
       onClick={onClick}
@@ -18,4 +15,6 @@ export default function CategoryFilter({
       <span>{currentCategory}</span>
     </button>
   );
-}
+};
+
+export default CategoryFilter;
