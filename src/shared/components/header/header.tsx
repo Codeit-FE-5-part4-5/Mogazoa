@@ -24,8 +24,7 @@ export const Header: React.FC = () => {
   } = useChangeRouter();
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
     useAnimation(isOpenMenu);
-  const searchBarRef = useRef(null);
-  useClickOutside(searchBarRef, setIsSearchOpen);
+  const searchBarRef = useClickOutside<HTMLDivElement>(setIsSearchOpen);
 
   useEffect(() => {
     initKeyword();

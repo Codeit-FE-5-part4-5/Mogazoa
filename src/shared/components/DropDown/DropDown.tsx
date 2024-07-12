@@ -45,10 +45,9 @@ interface DropDownProps {
 const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
   const [selectMenu, setSelectMenu] = useState(itemList[0]);
   const [showMenuList, setShowMenuList] = useState(false);
-  const dropDownElement = useRef<HTMLDivElement>(null);
   const [shouldRender, animationTrigger, handleAnimationEnd] =
     useAnimation(showMenuList);
-  useClickOutside(dropDownElement, setShowMenuList);
+  const ref = useClickOutside<HTMLDivElement>(setShowMenuList);
 
   const handleClickEvent = (item: string) => {
     onClick(item);
@@ -57,7 +56,7 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
 
   return (
     <div
-      ref={dropDownElement}
+      ref={ref}
       onClick={() => setShowMenuList((prev) => !prev)}
       className={`${showMenuList ? 'border-gradient-custom' : 'border-var-black3'} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] hover:border-gradient-custom md:${!isOrder && 'py-[19px]'} select-none transition-all duration-300 xl:${!isOrder && 'py-[22px]'} group xl:text-[16px]`}
     >

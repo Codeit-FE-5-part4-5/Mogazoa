@@ -1,11 +1,12 @@
-import { Dispatch, RefObject, SetStateAction, useEffect } from 'react';
+import { Dispatch, RefObject, SetStateAction, useEffect, useRef } from 'react';
 
-const useClickOutside = (
-  ref: RefObject<HTMLElement>,
+const useClickOutside = <T extends HTMLElement>(
   setter: Dispatch<SetStateAction<boolean>>,
-): void => {
+): RefObject<T> => {
+  const target = useRef<T>(null);
+
   const handleClickOutside = (e: MouseEvent) => {
-    if (ref.current && !ref.current.contains(e.target as Node)) {
+    if (target.current && !target.current.contains(e.target as Node)) {
       setter(false);
     }
   };
@@ -15,7 +16,9 @@ const useClickOutside = (
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [target.current]);
+
+  return target;
 };
 
 export default useClickOutside;

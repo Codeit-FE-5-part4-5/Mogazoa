@@ -66,7 +66,7 @@ const useChangeRouter = (): {
     handleClickCategory, // 클릭한 카테고리의 이름과 아이디를 url 쿼리로 넘겨주는 함수
     searchKeyword, // 현재 입력한 검색어
     onChangeSearchKeyword, // 검색어 onChange 함수
-    initKeyword,
+    initKeyword, // 검색창 입력값 초기화
     searchQuery, // 쿼리로 보낼 준비가 된 검색어
   };
 };
