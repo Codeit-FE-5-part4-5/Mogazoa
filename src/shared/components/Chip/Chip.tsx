@@ -1,4 +1,4 @@
-import { useHexToRgb } from '@/shared/hooks/useHexToRgb';
+import useHexToRgb from '@/shared/hooks/useHexToRgb';
 
 export const CATEGORY_LIST = [
   { name: '음악', color: '#c5d17c' },

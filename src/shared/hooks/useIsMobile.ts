@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function useIsMobile() {
+const useIsMobile = () => {
   const [isMobileSize, setMobileSize] = useState(false);
 
   const ChangeIsMobileSize = () => {
@@ -17,4 +17,6 @@ export default function useIsMobile() {
   }, []);
 
   return isMobileSize;
-}
+};
+
+export default useIsMobile;

@@ -5,7 +5,7 @@ import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 import { Portal } from '@/shared/providers/portal-provider';
-import { useAnimation } from '@/shared/hooks/useAnimation';
+import useAnimation from '@/shared/hooks/useAnimation';
 import useMe from '@/shared/hooks/use-me';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import SearchInput from '../Input/SearchInput';

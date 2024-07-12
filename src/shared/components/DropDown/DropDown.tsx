@@ -1,4 +1,4 @@
-import { useAnimation } from '@/shared/hooks/useAnimation';
+import useAnimation from '@/shared/hooks/useAnimation';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -27,7 +27,7 @@ const ItemList = ({
         <div
           key={item}
           onClick={() => onClick(item)}
-          className={`rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2`}
+          className={`select-none rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2`}
         >
           {item}
         </div>
@@ -48,7 +48,6 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
   const dropDownElement = useRef<HTMLDivElement>(null);
   const [shouldRender, animationTrigger, handleAnimationEnd] =
     useAnimation(showMenuList);
-
   useClickOutside(dropDownElement, setShowMenuList);
 
   const handleClickEvent = (item: string) => {
@@ -60,7 +59,7 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
     <div
       ref={dropDownElement}
       onClick={() => setShowMenuList((prev) => !prev)}
-      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-black3'} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] hover:border-gradient-custom md:${!isOrder && 'py-[19px]'} transition-all duration-300 xl:${!isOrder && 'py-[22px]'} group xl:text-[16px]`}
+      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-black3'} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] hover:border-gradient-custom md:${!isOrder && 'py-[19px]'} select-none transition-all duration-300 xl:${!isOrder && 'py-[22px]'} group xl:text-[16px]`}
     >
       <div className="flex items-center justify-between py-[2px]">
         <input

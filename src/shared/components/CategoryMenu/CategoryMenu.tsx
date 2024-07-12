@@ -26,7 +26,7 @@ export const CategoryMenu: React.FC<SlideMenu> = ({
         {categories.map((item: Category, index: number) => (
           <li
             key={index}
-            className={`flex h-[45px] cursor-pointer items-center rounded-2xl px-[20px] py-[15px] text-sm font-medium leading-normal transition-all duration-300 hover:text-var-gray2 ${
+            className={`flex h-[45px] cursor-pointer items-center rounded-2xl px-[20px] py-[15px] text-sm font-medium leading-normal transition-colors duration-300 hover:text-var-gray2 ${
               currentCategoryName === item.name
                 ? 'border-[#353542] bg-[#252530]'
                 : 'bg-[#1C1C22] text-[#6E6E82]'

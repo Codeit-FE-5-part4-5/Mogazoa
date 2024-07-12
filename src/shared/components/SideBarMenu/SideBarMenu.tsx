@@ -59,6 +59,16 @@ const SideBarMenu = ({
               width={166}
               height={28}
             />
+            <div className="mt-[10px] flex flex-col gap-[10px] text-[12px]">
+              <h3>Made by SPRINT FE5 TEAM5</h3>
+              <div className="flex gap-[8px] text-var-gray2">
+                <p>김한샘</p>
+                <p>박준영</p>
+                <p>유호민</p>
+                <p>임상훈</p>
+                <p>이진욱</p>
+              </div>
+            </div>
           </Link>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useHexToRgb } from '@/shared/hooks/useHexToRgb';
+import useHexToRgb from '@/shared/hooks/useHexToRgb';
 
 import Image from 'next/image';
 

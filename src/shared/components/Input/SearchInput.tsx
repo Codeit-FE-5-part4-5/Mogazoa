@@ -30,6 +30,7 @@ const SearchInput = ({
   useEffect(() => {
     if (!isOpen) initKeyword();
   }, [isOpen]);
+
   return (
     <label
       onClick={() => setOpen((prev) => !prev)}

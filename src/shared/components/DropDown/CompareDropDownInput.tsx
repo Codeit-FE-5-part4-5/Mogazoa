@@ -73,7 +73,7 @@ const CompareDropDownInput = ({
   isFetching,
   hasNextPage,
   setValue,
-}: CompareDropDownProps) {
+}: CompareDropDownProps) => {
   const handleClickEvent = (item: string) => {
     setBedge(item);
     setValue('');

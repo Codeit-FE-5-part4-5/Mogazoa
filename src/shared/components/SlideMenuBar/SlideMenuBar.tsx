@@ -1,7 +1,7 @@
 import useIntersectionObserver from '@/shared/hooks/useIntersectionObserver';
 import { Category } from '@/shared/types/category/category';
 import Image from 'next/image';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef } from 'react';
 
 interface CategoryButtonProps {
   category: Category;

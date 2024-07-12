@@ -28,10 +28,6 @@ export default function Home() {
     keyword: searchQuery,
   });
 
-  const changeSortOrder = (order: string) => {
-    setCurrentSortOrder(sortConverter(order));
-  };
-
   return (
     <MogazoaLayout>
       <div className="flex border-b border-var-black3 md:hidden">
@@ -57,7 +53,9 @@ export default function Home() {
                 products={products}
                 searchQuery={searchQuery}
                 currentCategoryName={currentCategoryName}
-                changeSortOrder={changeSortOrder}
+                changeSortOrder={(order) =>
+                  setCurrentSortOrder(sortConverter(order))
+                }
               />
             ) : (
               <>
