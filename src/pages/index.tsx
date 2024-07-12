@@ -10,14 +10,12 @@ import sortConverter from '@/shared/utils/sortConverter';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 import ProductList from '@/shared/components/ProductList/ProductList';
+import useSearchRouter from '@/shared/hooks/useSearchRouter';
 
 export default function Home() {
-  const {
-    currentCategoryName,
-    currentCategoryId,
-    handleClickCategory,
-    searchQuery,
-  } = useChangeRouter();
+  const { currentCategoryName, currentCategoryId, handleClickCategory } =
+    useChangeRouter();
+  const { searchQuery } = useSearchRouter();
   const [currentSortOrder, setCurrentSortOrder] = useState(
     sortConverter(ORDER_VARIANTS[0]),
   );
