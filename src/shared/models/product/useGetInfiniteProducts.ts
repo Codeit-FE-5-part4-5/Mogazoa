@@ -11,13 +11,13 @@ export default function useGetInfiniteProducts({
   order?: string;
 }) {
   return useInfiniteQuery({
-    queryKey: ['products'],
+    queryKey: ['products', keyword, categoryId, order],
     queryFn: async ({ pageParam = 0 }) => {
       const categoryParam = categoryId ? `&category=${categoryId}` : '';
       const keywordParam = keyword ? `&keyword=${keyword}` : '';
       const cursorParam = pageParam > 0 ? `&cursor=${pageParam}` : '';
       const { data } = await axios.get(
-        `products?order=${order}${cursorParam}${keywordParam}${categoryParam}`,
+        `products?order=${order}${keywordParam}${categoryParam}${cursorParam}`,
       );
 
       return {
