@@ -11,6 +11,7 @@ import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 import ProductList from '@/shared/components/ProductList/ProductList';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
+import Spinner from '@/shared/components/Spinner/Spinner';
 
 export default function Home() {
   const { currentCategoryName, currentCategoryId, handleClickCategory } =
@@ -20,7 +21,7 @@ export default function Home() {
     sortConverter(ORDER_VARIANTS[0]),
   );
   const { data: categories } = useGetCategory();
-  const { data: products } = useGetProducts({
+  const { data: products, isLoading } = useGetProducts({
     categoryId: Number(currentCategoryId),
     order: currentSortOrder,
     keyword: searchQuery,
@@ -62,6 +63,7 @@ export default function Home() {
                 <SortedProductList sortBy="recent" />
               </>
             )}
+            <Spinner isLoading={isLoading} />
           </div>
         </div>
       </main>

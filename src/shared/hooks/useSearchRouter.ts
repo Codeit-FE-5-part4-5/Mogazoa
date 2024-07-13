@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import useInput from './useInput';
 import { validateArray } from '../utils/validateArray';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 const useSearchRouter = (): {
   searchKeyword: string;
@@ -20,6 +20,8 @@ const useSearchRouter = (): {
   const searchQuery = validateArray(search);
 
   const changeSearchQuery = (currentValue: string) => {
+    if (!currentValue) return;
+
     router.push({
       pathname: currentPath,
       query: { ...currentQuery, search: currentValue },

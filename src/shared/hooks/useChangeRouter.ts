@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { validateArray } from '../utils/validateArray';
+import { useCallback } from 'react';
 
 const useChangeRouter = (): {
   currentPath: string;
@@ -14,14 +15,17 @@ const useChangeRouter = (): {
   const currentCategoryName = validateArray(name);
   const currentCategoryId = validateArray(id);
 
-  const handleClickCategory = (value: { name: string; id: number }) => {
-    if (value) {
-      router.push({
-        pathname: currentPath,
-        query: { name: value.name, id: value.id },
-      });
-    }
-  };
+  const handleClickCategory = useCallback(
+    (value: { name: string; id: number }) => {
+      if (value) {
+        router.push({
+          pathname: currentPath,
+          query: { name: value.name, id: value.id },
+        });
+      }
+    },
+    [],
+  );
 
   return {
     currentPath, // 현재 Pathname

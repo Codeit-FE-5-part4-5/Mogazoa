@@ -11,21 +11,19 @@ import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import SearchInput from '../Input/SearchInput';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
+import { useSession } from 'next-auth/react';
 
 export const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { isLoggedIn, logout } = useMe();
-  const { currentPath, currentCategoryName } = useChangeRouter();
+  const { currentPath } = useChangeRouter();
   const { onChangeSearchKeyword, initKeyword, searchKeyword } =
     useSearchRouter();
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
     useAnimation(isOpenMenu);
   const searchBarRef = useClickOutside<HTMLDivElement>(setIsSearchOpen);
-
-  useEffect(() => {
-    initKeyword();
-  }, [currentCategoryName]);
+  const { data: session } = useSession();
 
   return (
     <>

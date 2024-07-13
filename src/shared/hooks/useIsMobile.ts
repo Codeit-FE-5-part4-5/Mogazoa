@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const useIsMobile = () => {
   const [isMobileSize, setMobileSize] = useState(false);
 
-  const ChangeIsMobileSize = () => {
+  const ChangeIsMobileSize = useCallback(() => {
     setMobileSize(window.innerWidth <= 767);
-  };
+  }, []);
 
   useEffect(() => {
     ChangeIsMobileSize();

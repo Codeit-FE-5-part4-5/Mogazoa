@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const useAnimation = (condition: boolean): [boolean, boolean, () => void] => {
   const [isComplete, setComplete] = useState(false);
@@ -12,11 +12,11 @@ const useAnimation = (condition: boolean): [boolean, boolean, () => void] => {
   let shouldRender = condition || isComplete;
   let animationTrigger = condition && isComplete;
 
-  const handleAnimationEnd = () => {
+  const handleAnimationEnd = useCallback(() => {
     if (!condition) {
       setComplete(false);
     }
-  };
+  }, [condition]);
 
   return [shouldRender, animationTrigger, handleAnimationEnd];
 };

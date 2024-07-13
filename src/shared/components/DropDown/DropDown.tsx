@@ -1,7 +1,7 @@
 import useAnimation from '@/shared/hooks/useAnimation';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 interface ItemListProps {
   itemList: string[];
@@ -49,10 +49,10 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
     useAnimation(showMenuList);
   const ref = useClickOutside<HTMLDivElement>(setShowMenuList);
 
-  const handleClickEvent = (item: string) => {
+  const handleClickEvent = useCallback((item: string) => {
     onClick(item);
     setSelectMenu(item);
-  };
+  }, []);
 
   return (
     <div
