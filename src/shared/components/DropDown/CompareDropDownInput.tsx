@@ -6,13 +6,13 @@ import React, {
   useState,
 } from 'react';
 import CompareChip from '../Chip/CompareChip';
-import { Product } from '@/shared/types/product/product';
+import { ItemListResponse, Product } from '@/shared/types/product/product';
 import { BEDGE_COLORS } from '@/shared/constants/products';
 import { useInView } from 'react-intersection-observer';
 
 interface ItemListProps {
   itemList: Product[];
-  onClick: (arg: string) => void;
+  onClick: (name: string, id: number) => void;
   fetchNextPage: () => void;
   isFetching: boolean;
   hasNextPage: boolean | undefined;
@@ -33,12 +33,12 @@ const ItemList = ({
 
   return (
     <div
-      className={`absolute left-0 top-[60px] z-10 flex max-h-[200px] w-full animate-slideDown flex-col gap-[5px] overflow-scroll rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
+      className={`absolute left-0 top-[60px] z-10 flex max-h-[200px] w-full animate-slideDown flex-col gap-[5px] overflow-scroll rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg xl:top-[75px]`}
     >
       {itemList.map((item) => (
         <div
           key={item.id}
-          onClick={() => onClick(item.name)}
+          onClick={() => onClick(item.name, item.id)}
           className="flex flex-row items-center justify-between rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2"
         >
           {item.name}
@@ -51,7 +51,7 @@ const ItemList = ({
 };
 
 interface CompareDropDownProps {
-  itemList: any[]; // 페이지 데이터의 타입을 설정합니다.
+  itemList: ItemListResponse[];
   onClick: (arg: string) => void;
   Bedge: string;
   setBedge: React.Dispatch<SetStateAction<string>>;
@@ -61,6 +61,7 @@ interface CompareDropDownProps {
   isFetching: boolean;
   hasNextPage: boolean | undefined;
   setValue: React.Dispatch<SetStateAction<string>>;
+  setProductId: React.Dispatch<SetStateAction<number | null>>;
 }
 
 const CompareDropDownInput = ({
@@ -73,20 +74,24 @@ const CompareDropDownInput = ({
   isFetching,
   hasNextPage,
   setValue,
+  setProductId,
 }: CompareDropDownProps) => {
-  const handleClickEvent = (item: string) => {
-    setBedge(item);
-    setValue('');
-  };
-
   const onClickDelete = () => {
     setBedge('');
     setValue('');
   };
 
+  console.log(itemList);
+
   // 다중 배열 맵핑을 위해 flatMap 사용
   const flatItemList = itemList?.flatMap((page) => page.list) || [];
   const isItem = value.length > 1 && flatItemList.length > 0;
+
+  const handleClickEvent = (name: string, id: number) => {
+    setBedge(name);
+    setValue('');
+    setProductId(id);
+  };
 
   // 드롭다운
   const [isOpen, setIsOpen] = useState(false);
@@ -119,25 +124,25 @@ const CompareDropDownInput = ({
   return (
     <div
       ref={dropDownElement}
-      className="relative w-full cursor-pointer items-center rounded-[6px] border border-var-black3 bg-var-black2 px-[20px] py-[17px] text-[14px] focus:border-gradient-custom xl:text-[16px]"
+      className="relative w-full cursor-pointer items-center rounded-[6px] border border-var-black3 bg-var-black2 text-[14px] focus:border-gradient-custom"
     >
-      <div className="relative flex size-full items-center justify-between py-[2px]">
-        <label htmlFor="text">
-          <div>
-            {Bedge && (
+      <div className="relative flex size-full items-center justify-between">
+        <label htmlFor="text" className="w-full">
+          {Bedge && (
+            <div className="min-h-[55px] px-[15px] py-[10px] xl:min-h-[68px] xl:px-[20px] xl:py-[15px]">
               <CompareChip
                 name={Bedge}
                 orderPosition={BEDGE_COLORS.green}
                 onClick={onClickDelete}
               />
-            )}
-          </div>
+            </div>
+          )}
           {!Bedge && (
             <input
               id="text"
               name="text"
               value={value}
-              className="w-full cursor-pointer bg-var-black2 text-var-gray1 outline-none"
+              className="min-h-[55px] w-full cursor-pointer bg-var-black2 px-[15px] py-[10px] text-var-white outline-none xl:min-h-[68px] xl:px-[20px] xl:py-[15px]"
               onChange={onChange}
             />
           )}
