@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from '@/../../public/images/logo.svg';
