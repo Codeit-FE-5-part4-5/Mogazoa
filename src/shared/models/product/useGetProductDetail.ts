@@ -10,7 +10,6 @@ const useGetProductDetail = ({ productId }: UseGetProductDetailProps) => {
     queryKey: ['product', productId],
     queryFn: async () => {
       const { data } = await axios.get(`/products/${productId}`);
-      console.log(data);
       return data;
     },
     enabled: !!productId && !isNaN(productId),
