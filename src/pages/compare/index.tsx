@@ -3,7 +3,6 @@ import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownIn
 import { Table } from '@/shared/components/Table/Table';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 import useProduct from '@/shared/models/product/useProduct';
-import { Product } from '@/shared/types/product/product';
 import React, { SetStateAction, useState } from 'react';
 
 const Compare = () => {
