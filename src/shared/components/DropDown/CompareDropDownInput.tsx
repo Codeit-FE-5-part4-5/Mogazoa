@@ -9,6 +9,7 @@ import CompareChip from '../Chip/CompareChip';
 import { ItemListResponse, Product } from '@/shared/types/product/product';
 import { BEDGE_COLORS } from '@/shared/constants/products';
 import { useInView } from 'react-intersection-observer';
+import useCompareDropdown from '@/shared/hooks/useCompareDropdown';
 
 interface ItemListProps {
   itemList: Product[];
@@ -81,29 +82,18 @@ const CompareDropDownInput = ({
     setValue('');
   };
 
-  console.log(itemList);
-
   // 다중 배열 맵핑을 위해 flatMap 사용
   const flatItemList = itemList?.flatMap((page) => page.list) || [];
   const isItem = value.length > 1 && flatItemList.length > 0;
+
+  //드롭다운
+  const { isOpen, setIsOpen, dropDownElementRef } = useCompareDropdown();
+  //
 
   const handleClickEvent = (name: string, id: number) => {
     setBedge(name);
     setValue('');
     setProductId(id);
-  };
-
-  // 드롭다운
-  const [isOpen, setIsOpen] = useState(false);
-
-  const dropDownElement = useRef<HTMLDivElement>(null);
-  const handleClickOutside = (e: MouseEvent) => {
-    if (
-      dropDownElement.current &&
-      !dropDownElement.current.contains(e.target as Node)
-    ) {
-      setIsOpen(false);
-    }
   };
 
   useEffect(() => {
@@ -114,16 +104,9 @@ const CompareDropDownInput = ({
     }
   }, [value, isFetching]);
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
     <div
-      ref={dropDownElement}
+      ref={dropDownElementRef}
       className="relative w-full cursor-pointer items-center rounded-[6px] border border-var-black3 bg-var-black2 text-[14px] focus:border-gradient-custom"
     >
       <div className="relative flex size-full items-center justify-between">
