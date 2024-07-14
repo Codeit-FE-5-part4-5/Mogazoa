@@ -1,37 +1,32 @@
 import { useRouter } from 'next/router';
-import { validateArray } from '../utils/validateArray';
 import { useCallback } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 
 const useChangeRouter = (): {
   currentPath: string;
-  currentCategoryName: string;
-  currentCategoryId: string;
-  handleClickCategory: (value: { name: string; id: number }) => void;
+  currentQuery: ParsedUrlQuery;
+  handleRouterPush: (value: string | Record<string, string | number>) => void;
 } => {
   const router = useRouter();
   const currentPath = router.pathname;
-  const { name, id } = router.query;
+  const currentQuery = router.query;
 
-  const currentCategoryName = validateArray(name);
-  const currentCategoryId = validateArray(id);
-
-  const handleClickCategory = useCallback(
-    (value: { name: string; id: number }) => {
+  const handleRouterPush = useCallback(
+    (value: string | Record<string, string | number>) => {
       if (value) {
         router.push({
           pathname: currentPath,
-          query: { name: value.name, id: value.id },
+          query: value,
         });
       }
     },
-    [],
+    [currentPath],
   );
 
   return {
     currentPath, // 현재 Pathname
-    currentCategoryName, // 현재 선택한 카테고리이름
-    currentCategoryId, // 현재 선택한 카테고리아이디
-    handleClickCategory, // 클릭한 카테고리의 이름과 아이디를 url 쿼리로 넘겨주는 함수
+    currentQuery, // 현재 Query
+    handleRouterPush, // 파라미터 값을 url 쿼리로 넘겨주는 함수
   };
 };
 

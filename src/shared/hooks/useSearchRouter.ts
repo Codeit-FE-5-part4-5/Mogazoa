@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import useInput from './useInput';
 import { validateArray } from '../utils/validateArray';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
 const useSearchRouter = (): {
   searchKeyword: string;

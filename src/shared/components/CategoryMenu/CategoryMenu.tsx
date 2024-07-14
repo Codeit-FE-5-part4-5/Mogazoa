@@ -4,7 +4,9 @@ interface SlideMenu {
   isVisible?: boolean;
   categories: Category[];
   currentCategoryName: string;
-  handleClickCategory: (value: { name: string; id: number }) => void;
+  handleClickCategory: (
+    value: string | Record<string, string | number>,
+  ) => void;
 }
 
 export const CategoryMenu: React.FC<SlideMenu> = ({
@@ -32,7 +34,7 @@ export const CategoryMenu: React.FC<SlideMenu> = ({
                 : 'bg-[#1C1C22] text-[#6E6E82]'
             }`}
             onClick={() =>
-              handleClickCategory({ name: item.name, id: item.id })
+              handleClickCategory({ category: item.name, categoryId: item.id })
             }
           >
             {item.name}
