@@ -1,10 +1,4 @@
-import React, {
-  ChangeEventHandler,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { ChangeEventHandler, SetStateAction, useEffect } from 'react';
 import CompareChip from '../Chip/CompareChip';
 import { ItemListResponse, Product } from '@/shared/types/product/product';
 import { BEDGE_COLORS } from '@/shared/constants/products';
@@ -80,6 +74,7 @@ const CompareDropDownInput = ({
   const onClickDelete = () => {
     setBedge('');
     setValue('');
+    setProductId(null);
   };
 
   // 다중 배열 맵핑을 위해 flatMap 사용
@@ -125,7 +120,7 @@ const CompareDropDownInput = ({
               id="text"
               name="text"
               value={value}
-              className="min-h-[55px] w-full cursor-pointer bg-var-black2 px-[15px] py-[10px] text-var-white outline-none xl:min-h-[68px] xl:px-[20px] xl:py-[15px]"
+              className="min-h-[57px] w-full cursor-pointer bg-var-black2 px-[15px] py-[10px] text-var-white outline-none xl:min-h-[68px] xl:px-[20px] xl:py-[15px]"
               onChange={onChange}
             />
           )}
