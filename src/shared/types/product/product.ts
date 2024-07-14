@@ -10,3 +10,7 @@ export interface Product {
   updatedAt: string;
   writerId: number;
 }
+export interface ItemListResponse {
+  list: Product[];
+  nextCursor: number;
+}
