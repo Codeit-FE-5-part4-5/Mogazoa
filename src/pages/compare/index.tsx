@@ -15,6 +15,7 @@ const Compare = () => {
   const [productId1, setProductId1] = useState<number | null>(null);
   const [productId2, setProductId2] = useState<number | null>(null);
 
+  // 무한 스크롤 itemList api
   const {
     fetchNextPage: fetchNextPage1,
     hasNextPage: hasNextPage1,
@@ -22,7 +23,6 @@ const Compare = () => {
     isFetching: isFetching1,
     data: keywordList1,
   } = useGetInfiniteProducts({ keyword: value1 });
-  console.log(keywordList1);
 
   const {
     fetchNextPage: fetchNextPage2,
@@ -39,6 +39,7 @@ const Compare = () => {
     setValue(e.target.value);
   };
 
+  // 클릭시 아이템 조회 api
   const { data: productIdData1 } = useProduct({ productId: productId1 });
   const { data: productIdData2 } = useProduct({ productId: productId2 });
 
