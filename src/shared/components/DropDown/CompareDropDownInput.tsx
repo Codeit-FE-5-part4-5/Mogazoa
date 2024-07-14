@@ -1,63 +1,9 @@
-import React, { ChangeEventHandler, SetStateAction, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import CompareChip from '../Chip/CompareChip';
-import { ItemListResponse, Product } from '@/shared/types/product/product';
+import { CompareDropDownProps } from '@/shared/types/product/product';
 import { BEDGE_COLORS } from '@/shared/constants/products';
-import { useInView } from 'react-intersection-observer';
 import useCompareDropdown from '@/shared/hooks/useCompareDropdown';
-
-interface ItemListProps {
-  itemList: Product[];
-  onClick: (name: string, id: number) => void;
-  fetchNextPage: () => void;
-  isFetching: boolean;
-  hasNextPage: boolean | undefined;
-}
-
-const ItemList = ({
-  itemList,
-  onClick,
-  fetchNextPage,
-  isFetching,
-  hasNextPage,
-}: ItemListProps) => {
-  const [ref, inView] = useInView();
-
-  useEffect(() => {
-    if (inView && hasNextPage) fetchNextPage();
-  }, [inView, hasNextPage]);
-
-  return (
-    <div
-      className={`absolute left-0 top-[60px] z-10 flex max-h-[200px] w-full animate-slideDown flex-col gap-[5px] overflow-scroll rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg xl:top-[75px]`}
-    >
-      {itemList.map((item) => (
-        <div
-          key={item.id}
-          onClick={() => onClick(item.name, item.id)}
-          className="flex flex-row items-center justify-between rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2"
-        >
-          {item.name}
-        </div>
-      ))}
-      <div ref={ref}></div>
-      {isFetching && <div className="px-[20px] py-[6px]">Loading...</div>}
-    </div>
-  );
-};
-
-interface CompareDropDownProps {
-  itemList: ItemListResponse[];
-  onClick: (arg: string) => void;
-  Bedge: string;
-  setBedge: React.Dispatch<SetStateAction<string>>;
-  value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
-  fetchNextPage: () => void;
-  isFetching: boolean;
-  hasNextPage: boolean | undefined;
-  setValue: React.Dispatch<SetStateAction<string>>;
-  setProductId: React.Dispatch<SetStateAction<number | null>>;
-}
+import CompareDropDownItemList from './CompareDropDownItemList';
 
 const CompareDropDownInput = ({
   itemList,
@@ -83,13 +29,6 @@ const CompareDropDownInput = ({
 
   //드롭다운
   const { isOpen, setIsOpen, dropDownElementRef } = useCompareDropdown();
-  //
-
-  const handleClickEvent = (name: string, id: number) => {
-    setBedge(name);
-    setValue('');
-    setProductId(id);
-  };
 
   useEffect(() => {
     if (isItem) {
@@ -98,6 +37,13 @@ const CompareDropDownInput = ({
       setIsOpen(false);
     }
   }, [value, isFetching]);
+  //
+
+  const handleClickEvent = (name: string, id: number) => {
+    setBedge(name);
+    setValue('');
+    setProductId(id);
+  };
 
   return (
     <div
@@ -127,7 +73,7 @@ const CompareDropDownInput = ({
         </label>
       </div>
       {isOpen && (
-        <ItemList
+        <CompareDropDownItemList
           itemList={flatItemList}
           onClick={handleClickEvent}
           fetchNextPage={fetchNextPage}
