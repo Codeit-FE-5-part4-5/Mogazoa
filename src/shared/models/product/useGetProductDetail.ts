@@ -7,7 +7,7 @@ interface UseGetProductDetailProps {
 
 const useGetProductDetail = ({ productId }: UseGetProductDetailProps) => {
   return useQuery({
-    queryKey: ['product', productId],
+    queryKey: ['productDetail'],
     queryFn: async () => {
       const { data } = await axios.get(`/products/${productId}`);
       return data;

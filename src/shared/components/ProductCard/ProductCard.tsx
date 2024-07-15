@@ -19,10 +19,9 @@ const ProductCard = ({
   favoriteCount,
   rating,
 }: ProductCard) => {
-  console.log(id);
   return (
     <Link href={`/detail/${id}`}>
-      <div className="hover:border-gradient-custom group cursor-pointer rounded-[8px] border border-[#353542] bg-[#252530] px-[10px] py-[10px] md:py-[20px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
+      <div className="group cursor-pointer rounded-[8px] border border-[#353542] bg-[#252530] px-[10px] py-[10px] hover:border-gradient-custom md:py-[20px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
         <div className="relative h-[98px] overflow-hidden md:h-[160px] xl:h-[200px]">
           <Image
             fill

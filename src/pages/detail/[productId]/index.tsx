@@ -13,7 +13,6 @@ export default function ProductDetails() {
   const { productId } = router.query;
 
   const token = getCookie('accessToken');
-
   const { data: me } = useGetMe(token);
   const userId = me?.data.id;
 
@@ -37,6 +36,10 @@ export default function ProductDetails() {
             text={productDetail?.category?.name}
             color={'#ffffff'}
             image={productDetail?.image}
+            userId={userId}
+            writerId={productDetail?.writerId}
+            accessToken={token}
+            productId={productDetail?.id}
           />
         </div>
         <h1 className="font-pretendard pb-[30px] text-[18px] font-semibold leading-normal text-[#F1F1F5]">

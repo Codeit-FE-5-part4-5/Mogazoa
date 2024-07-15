@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import Chip from '../Chip/Chip';
 import Image from 'next/image';
+import useFavoriteProduct from '@/shared/models/product/useFavoriteMark';
 
 interface Props {
   name: string;
@@ -10,6 +11,10 @@ interface Props {
   text: string;
   color: string;
   image: string;
+  userId: number | null;
+  writerId: number;
+  accessToken: string;
+  productId: number;
 }
 
 const ProductDetailCard = ({
@@ -19,17 +24,30 @@ const ProductDetailCard = ({
   text,
   color,
   image,
+  userId = null,
+  writerId,
+  accessToken,
+  productId,
 }: Props) => {
-  const [isSave, setIsSave] = useState(false);
+  const { isFavorite, setIsFavorite, toggleFavorite } = useFavoriteProduct({
+    productId,
+    accessToken,
+    initialIsFavorite: false,
+  });
 
-  const onClickSave = () => {
-    setIsSave(!isSave);
+  const handleToggleFavorite = async () => {
+    try {
+      await toggleFavorite();
+      setIsFavorite((prev) => !prev);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className="gap-[50px] text-var-white md:flex">
       <div className="flex items-center justify-center">
-        <div className="relative mb-5 h-[249px] w-[289px] md:m-0 md:h-[197px] md:h-full md:w-[280px] xl:w-[355px]">
+        <div className="relative mb-5 h-[249px] w-[289px] md:m-0 md:h-full md:w-[280px] xl:w-[355px]">
           <Image
             className="rounded-lg"
             src={image}
@@ -41,7 +59,7 @@ const ProductDetailCard = ({
       <div className="w-full">
         <div className="grid grid-cols-2 items-center">
           <div className="md:order-1 md:col-span-2">
-            <Chip text={text} color={color} />
+            <Chip text={text} color={color} size={'s'} />
           </div>
           <ul className="flex justify-end gap-[10px] md:order-3">
             <li className="flex h-[24px] w-[24px] items-center justify-center rounded-[6px] bg-[#252530] xl:h-[28px] xl:w-[28px]">
@@ -61,10 +79,12 @@ const ProductDetailCard = ({
           </ul>
           <div className="col-span-2 flex items-center justify-between md:order-2 md:col-span-1 md:justify-normal md:gap-[15px]">
             <h3 className="my-[10px] text-[20px] xl:text-[24px]">{name}</h3>
-            <button onClick={onClickSave}>
+            <button onClick={handleToggleFavorite}>
               <img
-                src={isSave ? '/images/save_300.svg' : '/images/unsave_300.svg'}
-                alt={isSave ? '찜풀기' : '찜하기'}
+                src={
+                  isFavorite ? '/images/save_300.svg' : '/images/unsave_300.svg'
+                }
+                alt={isFavorite ? '찜풀기' : '찜하기'}
               />
             </button>
           </div>
@@ -75,11 +95,18 @@ const ProductDetailCard = ({
         <div className="mt-[20px] text-[14px] leading-[20px] xl:text-[16px] xl:leading-[22px]">
           {description}
         </div>
-        <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
-          <Button text="리뷰 작성하기" />
-          <Button text="비교하기" variant="secondary" />
-          <Button text="편집하기" variant="tertiary" />
-        </div>
+        {userId === writerId ? (
+          <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
+            <Button text="리뷰 작성하기" />
+            <Button text="비교하기" variant="secondary" />
+            <Button text="편집하기" variant="tertiary" />
+          </div>
+        ) : (
+          <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
+            <Button text="리뷰 작성하기" />
+            <Button text="비교하기" variant="secondary" />
+          </div>
+        )}
       </div>
     </div>
   );

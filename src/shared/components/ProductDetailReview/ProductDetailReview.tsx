@@ -16,8 +16,7 @@ const ProductDetailReview = ({ review }: Props) => {
     minute: '2-digit',
     second: '2-digit',
   });
-
-  console.log(review);
+  
   return (
     <div className="mb-[15px] justify-between rounded-[12px] border border-[#353542] bg-[#252530] px-[20px] py-[20px] md:flex md:gap-[30px] md:py-[20px] xl:mb-[20px] xl:gap-[70px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
       <div className="mb-[20px] flex gap-[10px] md:min-w-[160px]">
