@@ -5,10 +5,17 @@ import { Header } from '@/shared/components/header/header';
 import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
 import useGetProductDetailReviews from '../../../shared/models/reviews/useGetProductReview';
 import { useRouter } from 'next/router';
+import useGetMe from '@/shared/models/auth/useGetMe';
+import { getCookie } from '@/shared/utils/cookie';
 
 export default function ProductDetails() {
   const router = useRouter();
   const { productId } = router.query;
+
+  const token = getCookie('accessToken');
+
+  const { data: me } = useGetMe(token);
+  const userId = me?.data.id;
 
   const { data: productDetail } = useGetProductDetail({
     productId: Number(productId),
@@ -17,8 +24,6 @@ export default function ProductDetails() {
   const { data: productDetailReview } = useGetProductDetailReviews({
     productId: Number(productId),
   });
-
-  console.log(productDetail);
 
   return (
     <>

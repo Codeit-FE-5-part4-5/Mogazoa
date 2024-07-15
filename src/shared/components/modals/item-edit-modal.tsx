@@ -1,10 +1,9 @@
 import React, { ChangeEvent, useState, SetStateAction } from 'react';
-import Image from 'next/image';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import CompareDropDownInput from '../DropDown/CompareDropDownInput';
 import useGetProducts from '@/shared/models/product/useGetProducts';
-import { usePathname } from 'next/navigation';
+import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 
 import {
   Dialog,
@@ -18,8 +17,6 @@ import { useModal } from '@/shared/hooks/use-modal-store';
 import DropDown from '../DropDown/DropDown';
 import apiInstance from '@/shared/utils/axios';
 import ImageInput from '../Input/ImageInput';
-import TextAreaInput from '../Input/TextAreaInput';
-import Button from '../Button/Button';
 
 const frameworks = [
   '음악',
@@ -45,7 +42,15 @@ export const ItemEditModal = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  // const productId = usePathname().split('/').pop();
+  const productId = '1';
+  const {
+    fetchNextPage: fetchNextPage1,
+    hasNextPage: hasNextPage1,
+    isFetchingNextPage: isFetchingNextPage1,
+    isFetching: isFetching1,
+    data: keywordList1,
+  } = useGetInfiniteProducts({ keyword: selectedItem });
+
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
@@ -57,7 +62,34 @@ export const ItemEditModal = () => {
     setValue(e.target.value);
   };
 
+  const validateForm = () => {
+    if (!selectedItem) {
+      setErrorMessage('상품 이름은 필수 입력입니다.');
+      return false;
+    }
+    if (!selectedCategory) {
+      setErrorMessage('카테고리를 선택해주세요.');
+      return false;
+    }
+    if (!image) {
+      setErrorMessage('대표 이미지를 추가해주세요.');
+      return false;
+    }
+    if (!text) {
+      setErrorMessage('상품 설명은 필수 입력입니다.');
+      return false;
+    }
+    if (text.length < 10) {
+      setErrorMessage('최소 10자 이상 적어주세요.');
+      return false;
+    }
+    setErrorMessage(null); // Clear any existing error messages
+    return true;
+  };
+
   const handleSave = async () => {
+    if (!validateForm()) return;
+
     const requestBody = {
       categoryId: selectedCategory,
       image: image,
@@ -66,7 +98,7 @@ export const ItemEditModal = () => {
     };
 
     try {
-      const response = await apiInstance.post(
+      const response = await apiInstance.patch(
         `/products/${productId}`,
         requestBody,
       );
@@ -111,16 +143,19 @@ export const ItemEditModal = () => {
                 </div>
               </div>
               <div className="w-full md:order-1">
-                {/* Dropdown 컴포넌트 추가 */}
                 <CompareDropDownInput
                   itemList={keywordList}
                   onClick={setSelectedItem}
                   Bedge={Bedge1}
                   setBedge={setBedge1}
+                  setValue={setSelectedItem}
                   value={selectedItem}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     onChangeEvent(e, setSelectedItem)
                   }
+                  fetchNextPage={fetchNextPage1}
+                  isFetching={isFetching1}
+                  hasNextPage={hasNextPage1}
                 />
                 <DropDown
                   itemList={frameworks}
