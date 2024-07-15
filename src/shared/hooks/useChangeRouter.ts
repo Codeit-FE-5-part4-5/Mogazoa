@@ -24,11 +24,11 @@ const useChangeRouter = (): {
     [currentPath],
   );
 
-  const handleRedirect = (value: string) => {
+  const handleRedirect = useCallback((value: string) => {
     if (value) {
       router.replace(value);
     }
-  };
+  }, []);
 
   return {
     currentPath, // 현재 Pathname
