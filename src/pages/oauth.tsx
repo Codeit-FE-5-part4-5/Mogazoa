@@ -68,12 +68,6 @@ const OAuthSignUp = () => {
             placeholder="닉네임을 입력해 주세요"
           />
           <Button text="가입하기" type="submit" className="mt-[20px]" />
-          <Button
-            text="로그인하기"
-            type="button"
-            onClick={() => signInKakao()}
-            className="mt-[20px]"
-          />
         </form>
       </div>
     </MogazoaLayout>
