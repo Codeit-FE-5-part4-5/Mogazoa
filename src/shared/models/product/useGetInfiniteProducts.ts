@@ -1,5 +1,10 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  UseInfiniteQueryResult,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
 import axios from '@/shared/utils/axios';
+import { ItemListResponse } from '@/shared/types/product/product';
 
 export default function useGetInfiniteProducts({
   keyword,
@@ -9,14 +14,15 @@ export default function useGetInfiniteProducts({
   keyword?: string;
   categoryId?: number;
   order?: string;
-}) {
-  return useInfiniteQuery({
+}): UseInfiniteQueryResult<InfiniteData<ItemListResponse>, Error> {
+  return useInfiniteQuery<ItemListResponse, Error>({
     queryKey: ['products', keyword, categoryId, order],
     queryFn: async ({ pageParam = 0 }) => {
       const categoryParam = categoryId ? `&category=${categoryId}` : '';
       const keywordParam = keyword ? `&keyword=${keyword}` : '';
-      const cursorParam = pageParam > 0 ? `&cursor=${pageParam}` : '';
+      const cursorParam = pageParam ? `&cursor=${pageParam}` : '';
       const orderParam = order ? `order=${order}` : '';
+
       const { data } = await axios.get(
         `products?${orderParam}${keywordParam}${categoryParam}${cursorParam}`,
       );
@@ -27,8 +33,6 @@ export default function useGetInfiniteProducts({
       };
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
-      return lastPage.nextCursor !== null ? lastPage.nextCursor : undefined;
-    },
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 }
