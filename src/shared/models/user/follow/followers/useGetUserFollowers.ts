@@ -1,5 +1,5 @@
 import axios from '@/shared/utils/axios';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 const useGetUserFollowers = (userId: number | undefined) => {
   return useInfiniteQuery({
