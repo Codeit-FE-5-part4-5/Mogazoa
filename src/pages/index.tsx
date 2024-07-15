@@ -13,6 +13,7 @@ import ProductList from '@/shared/components/ProductList/ProductList';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import Spinner from '@/shared/components/Spinner/Spinner';
 import { validateArray } from '@/shared/utils/validateArray';
+import { useSession } from 'next-auth/react';
 
 export default function Home() {
   const { currentQuery, handleRouterPush } = useChangeRouter();
@@ -26,6 +27,8 @@ export default function Home() {
     order: currentSortOrder,
     keyword: searchQuery,
   });
+  const { data } = useSession();
+  console.log(data);
 
   return (
     <MogazoaLayout>
