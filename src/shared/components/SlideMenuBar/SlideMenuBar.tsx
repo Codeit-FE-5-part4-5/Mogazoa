@@ -6,7 +6,7 @@ import { forwardRef } from 'react';
 interface CategoryButtonProps {
   category: Category;
   currentCategory: string;
-  onClick: (value: { name: string; id: number }) => void;
+  onClick: (value: string | Record<string, string | number>) => void;
 }
 
 const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
@@ -14,7 +14,7 @@ const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
     return (
       <li ref={ref} className="group w-fit flex-shrink-0 px-[20px]">
         <button
-          onClick={() => onClick(category)}
+          onClick={() => onClick({ name: category.name, id: category.id })}
           className={`border-b-[2px] text-[16px] text-var-gray1 transition-all duration-300 group-hover:text-var-gray2 ${category.name === currentCategory ? 'border-var-gray2 text-var-gray2' : 'border-[#1C1C22]'} pb-[10px] hover:border-var-gray1`}
         >
           {category.name}
@@ -27,7 +27,7 @@ const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
 interface SlideMenuBarProps {
   categories: Category[];
   currentCategory: string;
-  onClick: (value: { name: string; id: number }) => void;
+  onClick: (value: string | Record<string, string | number>) => void;
 }
 
 const SlideMenuBar = ({
