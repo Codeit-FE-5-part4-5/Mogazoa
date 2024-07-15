@@ -1,12 +1,16 @@
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import Button from '@/shared/components/Button/Button';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
-import apiInstance from '@/shared/utils/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { IAuthForm } from '../signup';
+import { IAuthForm } from './signup';
 import { z } from 'zod';
+import useAuthKakaoSignUp from '@/shared/models/auth/useAuthKakaoSignUp';
+import { useEffect } from 'react';
+import { getCookie } from '@/shared/utils/cookie';
+import useAuthKakaoSignIn from '@/shared/models/auth/useAuthKakaoSignIn';
+import useChangeRouter from '@/shared/hooks/useChangeRouter';
 /**
  *
  * @TODO
@@ -31,14 +35,26 @@ const OAuthSignUp = () => {
     resolver: zodResolver(oauthSchema),
     mode: 'onBlur',
   });
-  const handleSubmitSignUp = () => {};
-  const authorizeKakao = () => {
-    return axios.get('https://kauth.kakao.com/oauth/authorize');
+  const { mutate: signUpKakao } = useAuthKakaoSignUp();
+  const { mutate: signInKakao } = useAuthKakaoSignIn();
+  const {
+    currentQuery: { code },
+  } = useChangeRouter();
+
+  const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
+    signUpKakao(data.nickname);
   };
 
-  const tokenKaKao = (account: { redirectUri: string; token: string }) => {
-    return apiInstance.post('auth/signIn/kakao', account);
+  const handleSubmitSignIn = () => {
+    signInKakao();
   };
+
+  useEffect(() => {
+    if (code) {
+      handleSubmitSignIn();
+    }
+  }, [code]);
+
   return (
     <MogazoaLayout>
       <div className="flex items-center justify-center px-[20px] py-[80px]">
@@ -52,8 +68,16 @@ const OAuthSignUp = () => {
             placeholder="닉네임을 입력해 주세요"
           />
           <Button text="가입하기" type="submit" className="mt-[20px]" />
+          <Button
+            text="로그인하기"
+            type="button"
+            onClick={() => signInKakao()}
+            className="mt-[20px]"
+          />
         </form>
       </div>
     </MogazoaLayout>
   );
 };
+
+export default OAuthSignUp;

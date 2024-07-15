@@ -2,9 +2,9 @@ import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import Button from '@/shared/components/Button/Button';
 import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
+import KakaoButton from '@/shared/components/KakaoButton/KakaoButton';
 import useSignIn from '@/shared/models/auth/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -34,12 +34,6 @@ export default function SignIn() {
     resolver: zodResolver(signInSchema),
     mode: 'onBlur',
   });
-
-  const authorizeKakao = async () => {
-    const result = await axios.get('https://kauth.kakao.com/oauth/authorize');
-    console.log(result);
-    return result;
-  };
 
   const handleSubmitSignIn = async (data: ILoginForm) => {
     mutate(data);
@@ -84,18 +78,7 @@ export default function SignIn() {
                   height={28}
                 />
               </div>
-              <button
-                type="button"
-                onClick={() => authorizeKakao()}
-                className="flex size-[56px] cursor-pointer items-center justify-center rounded-[50%] border border-var-black3"
-              >
-                <Image
-                  src="/kakao.svg"
-                  alt="카카오 로그인"
-                  width={28}
-                  height={28}
-                />
-              </button>
+              <KakaoButton />
             </div>
           </div>
         </form>
