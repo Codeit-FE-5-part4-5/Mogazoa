@@ -2,8 +2,8 @@ import Button from '@/shared/components/Button/Button';
 import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownInput';
 import { Table } from '@/shared/components/Table/Table';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
-import { Product } from '@/shared/types/product/product';
-import React, { SetStateAction, useEffect, useState } from 'react';
+import useProduct from '@/shared/models/product/useProduct';
+import React, { SetStateAction, useState } from 'react';
 
 const Compare = () => {
   const [value1, setValue1] = useState('');
@@ -11,9 +11,10 @@ const Compare = () => {
   const [value2, setValue2] = useState('');
   const [bedge2, setBedge2] = useState('');
 
-  const [product1, setProduct1] = useState<Product | null>(null);
-  const [product2, setProduct2] = useState<Product | null>(null);
+  const [productId1, setProductId1] = useState<number | null>(null);
+  const [productId2, setProductId2] = useState<number | null>(null);
 
+  // 무한 스크롤 itemList api
   const {
     fetchNextPage: fetchNextPage1,
     hasNextPage: hasNextPage1,
@@ -37,25 +38,9 @@ const Compare = () => {
     setValue(e.target.value);
   };
 
-  useEffect(() => {
-    if (bedge1) {
-      const selectedProducts1 = keywordList1?.pages
-        ?.flatMap((page) => page.list)
-        .find((item) => item.name === bedge1);
-      setProduct1(selectedProducts1 || null);
-      console.log(selectedProducts1);
-    }
-  }, [bedge1, keywordList1]);
-
-  useEffect(() => {
-    if (bedge2) {
-      const selectedProducts2 = keywordList2?.pages
-        ?.flatMap((page) => page.list)
-        .find((item) => item.name === bedge2);
-      setProduct2(selectedProducts2 || null);
-      console.log(selectedProducts2);
-    }
-  }, [bedge2, keywordList2]);
+  // 클릭시 아이템 조회 api
+  const { data: productIdData1 } = useProduct({ productId: productId1 });
+  const { data: productIdData2 } = useProduct({ productId: productId2 });
 
   return (
     <div className="items-centers flex flex-col justify-center px-5 md:items-center">
@@ -72,6 +57,7 @@ const Compare = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               onChangeEvent(e, setValue1)
             }
+            setProductId={setProductId1}
             fetchNextPage={fetchNextPage1}
             isFetching={isFetching1}
             hasNextPage={hasNextPage1}
@@ -89,6 +75,7 @@ const Compare = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               onChangeEvent(e, setValue2)
             }
+            setProductId={setProductId2}
             fetchNextPage={fetchNextPage2}
             isFetching={isFetching2}
             hasNextPage={hasNextPage2}
