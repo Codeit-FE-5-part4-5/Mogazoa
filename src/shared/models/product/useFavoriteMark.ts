@@ -1,54 +1,52 @@
 import axios from '@/shared/utils/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { ProductDetail } from '@/shared/types/product/productDetail';
 
 interface UseFavoriteProductProps {
   productId: number;
-  accessToken: string;
-  initialIsFavorite: boolean;
 }
 
-const useFavoriteProduct = ({
-  productId,
-  accessToken,
-  initialIsFavorite,
-}: UseFavoriteProductProps) => {
-  const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
+const useFavoriteProduct = ({ productId }: UseFavoriteProductProps) => {
   const queryClient = useQueryClient();
-
-  const toggleFavorite = useMutation({
-    mutationFn: async () => {
-      if (isFavorite) {
-        await axios.delete(`/products/${productId}/favorite`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-      } else {
-        await axios.post(
-          `/products/${productId}/favorite`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          },
-        );
+  return useMutation({
+    mutationFn: () => {
+      const productDetail = queryClient.getQueryData<ProductDetail>([
+        'productDetail',
+      ]);
+      if (!productDetail) {
+        throw new Error('Product detail not found');
       }
+
+      const { isFavorite } = productDetail;
+      return isFavorite
+        ? axios.post(`/products/${productId}/favorite`)
+        : axios.delete(`/products/${productId}/favorite`);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['productDetail'] });
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['productDetail'] });
+      const prevProductDetail = queryClient.getQueryData<ProductDetail>([
+        'productDetail',
+      ]);
+      if (!prevProductDetail) {
+        throw new Error('Product detail not found');
+      }
+
+      queryClient.setQueryData<ProductDetail>(['productDetail'], (oldData) => ({
+        ...(oldData as ProductDetail),
+        isFavorite: !(oldData as ProductDetail).isFavorite,
+      }));
+      return { prevProductDetail };
     },
-    onError: (error) => {
+    onError: (error, variables, context) => {
+      if (context?.prevProductDetail) {
+        queryClient.setQueryData(['productDetail'], context.prevProductDetail);
+      }
       console.error(error);
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['productDetail'] });
+    },
   });
-
-  return {
-    isFavorite,
-    setIsFavorite,
-    toggleFavorite: toggleFavorite.mutate,
-  };
 };
 
 export default useFavoriteProduct;
