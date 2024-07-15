@@ -12,7 +12,7 @@ export const useCancelFollow = () => {
 
       return res.data;
     },
-    onSuccess: () => {
+    : () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
     onError: (error) => {
