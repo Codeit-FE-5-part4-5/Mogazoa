@@ -8,6 +8,13 @@ export const tableDetermineResult = (
     productName2: string | undefined;
   },
 ) => {
+  const winnerCountText: { [key in number | string]: string } = {
+    1: '2가지',
+    3: '3가지',
+    '-1': '2가지',
+    '-3': '3가지',
+  };
+
   if (winnerCount === 0) {
     return (
       <>
@@ -29,7 +36,7 @@ export const tableDetermineResult = (
             승리하였습니다!
           </span>
           <div className="mt-[20px] text-[12px] font-normal text-var-gray2 xl:text-[16px]">
-            3가지 항목 중 2가지 항목에서 우세합니다.
+            3가지 항목 중 {winnerCountText[winnerCount]} 항목에서 우세합니다.
           </div>
         </div>
       </>
@@ -47,7 +54,7 @@ export const tableDetermineResult = (
             승리하였습니다!
           </span>
           <div className="mt-[20px] text-[12px] font-normal text-var-gray2 xl:text-[16px]">
-            3가지 항목 중 2가지 항목에서 우세합니다.
+            3가지 항목 중 {winnerCountText[winnerCount]} 항목에서 우세합니다.
           </div>
         </div>
       </>
