@@ -1,11 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CookiesProvider } from 'react-cookie';
+import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import { ModalProvider } from '@/shared/providers/modal-provider';
 import '@/styles/globals.css';
-import AuthContext from '@/shared/context/AuthContext';
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -17,14 +16,14 @@ const queryClient = new QueryClient({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <AuthContext>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={pageProps.session}>
         <CookiesProvider defaultSetOptions={{ path: '/' }}>
           <ModalProvider />
           <Component {...pageProps} />
           <ReactQueryDevtools initialIsOpen={false} />
         </CookiesProvider>
-      </QueryClientProvider>
-    </AuthContext>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 }

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Button from '../Button/Button';
-import { useModal } from '@/shared/hooks/use-modal-store';
+import { useModal } from '@/shared/store/use-modal-store';
 import { UserType } from '@/shared/types/user/user-type';
 import { removeCookie } from '@/shared/utils/cookie';
 import { useRouter } from 'next/router';

@@ -1,12 +1,16 @@
 import Image from 'next/image';
 import Button from '../Button/Button';
-import { useModal } from '@/shared/hooks/use-modal-store';
+import { useModal } from '@/shared/store/use-modal-store';
 import { UserType } from '@/shared/types/user/user-type';
 import { usePostFollow } from '@/shared/models/user/follow/post-follow/usePostFollow';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCancelFollow } from '@/shared/models/user/follow/cancel-follow/useCancelFollow';
 
-const ProfileCard = () => {
+interface ProfileCardProps {
+  user: UserType;
+}
+
+const ProfileCard = ({ user }: ProfileCardProps) => {
   const { onOpen } = useModal();
 
   const queryClient = useQueryClient();

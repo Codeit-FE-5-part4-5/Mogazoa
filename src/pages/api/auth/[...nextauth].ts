@@ -1,18 +1,36 @@
-import NextAuth from 'next-auth';
-import KakaoProvider from 'next-auth/providers/kakao';
-import GoogleProvider from 'next-auth/providers/google';
+import NextAuth, { DefaultSession, Session, User } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 
-const handler = NextAuth({
+import KakaoProvider from 'next-auth/providers/kakao';
+
+declare module 'next-auth' {
+  interface Session {
+    id: string;
+    user: DefaultSession['user'];
+  }
+}
+
+export const authOptions = {
   providers: [
     KakaoProvider({
-      clientId: process.env.KAKAO_CLIENT_ID || '',
-      clientSecret: process.env.KAKAO_CLIENT_SECRET || '',
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      clientId: process.env.KAKAO_CLIENT_ID!,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
     }),
   ],
-});
+  callbacks: {
+    session({
+      session,
+      token,
+      user,
+    }: {
+      session: Session;
+      token: JWT;
+      user: User;
+    }) {
+      session.id = user.id;
+      return session;
+    },
+  },
+};
 
-export { handler as GET, handler as POST };
+export default NextAuth(authOptions);
