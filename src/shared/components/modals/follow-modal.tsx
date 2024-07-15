@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import { useModal } from '@/shared/hooks/use-modal-store';
+import { useModal } from '@/shared/store/use-modal-store';
 import { getCookie } from '@/shared/utils/cookie';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetUserFollowers from '@/shared/models/user/follow/followers/useGetUserFollowers';

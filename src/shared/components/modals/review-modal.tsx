@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useModal } from '@/shared/hooks/use-modal-store';
+import { useModal } from '@/shared/store/use-modal-store';
 import Button from '../Button/Button';
 import TextAreaInput from '../Input/TextAreaInput';
 import ImageInput from '../Input/ImageInput';

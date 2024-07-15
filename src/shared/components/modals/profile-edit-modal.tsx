@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useModal } from '@/shared/hooks/use-modal-store';
+import { useModal } from '@/shared/store/use-modal-store';
 import { useUpdateProfile } from '@/shared/models/user/profile/useUpdateProfile';
 
 import ImageInput from '../Input/ImageInput';

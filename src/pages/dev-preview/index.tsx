@@ -19,7 +19,7 @@ import CompareChip, {
 import CategoryFilter from '@/shared/components/Chip/CategoryFilter';
 import { useState } from 'react';
 import useSignIn from '@/shared/models/auth/useSignIn';
-import { useModal } from '@/shared/hooks/use-modal-store';
+import { useModal } from '@/shared/store/use-modal-store';
 
 //RankingCard
 const mockRanking = {

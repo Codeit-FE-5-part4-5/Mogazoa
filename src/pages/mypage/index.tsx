@@ -5,7 +5,7 @@ import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
 import { getCookie } from '@/shared/utils/cookie';
-import { useModal } from '@/shared/hooks/use-modal-store';
+import { useModal } from '@/shared/store/use-modal-store';
 import useGetFavoriteProducts from '@/shared/models/user/products/favorite-products/useGetFavoriteProducts';
 import useGetReviewedProducts from '@/shared/models/user/products/reviewed-products/useGetReviewedProducts';
 import { useState } from 'react';

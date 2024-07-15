@@ -4,6 +4,7 @@ import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
 import useSignIn from '@/shared/models/auth/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -33,7 +34,7 @@ export default function SignIn() {
     mode: 'onBlur',
   });
 
-  const handleSubmitSignIn = (data: ILoginForm) => {
+  const handleSubmitSignIn = async (data: ILoginForm) => {
     mutate(data);
   };
 
@@ -76,14 +77,17 @@ export default function SignIn() {
                   height={28}
                 />
               </div>
-              <div className="flex size-[56px] cursor-pointer items-center justify-center rounded-[50%] border border-var-black3">
+              <button
+                onClick={() => signIn('kakao', { callbackUrl: '/' })}
+                className="flex size-[56px] cursor-pointer items-center justify-center rounded-[50%] border border-var-black3"
+              >
                 <Image
                   src="/kakao.svg"
                   alt="카카오 로그인"
                   width={28}
                   height={28}
                 />
-              </div>
+              </button>
             </div>
           </div>
         </form>
