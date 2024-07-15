@@ -110,9 +110,15 @@ const Compare = () => {
         </div>
         {isTable && (
           <div className="mt-[100px] text-var-white md:col-span-3 md:mt-[140px]">
-            <CompareResult />
+            <CompareResult
+              winnerCount={winnerCount}
+              integratedData={integratedData}
+            />
             <div className="mt-[40px] md:mt-[80px]">
-              <CompareTable integratedData={integratedData} />
+              <CompareTable
+                integratedData={integratedData}
+                setWinnerCount={setWinnerCount}
+              />
             </div>
           </div>
         )}

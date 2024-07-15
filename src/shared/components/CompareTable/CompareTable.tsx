@@ -1,14 +1,16 @@
 import { compareProducts } from '@/shared/models/product/compareProducts';
 import { Product } from '@/shared/types/product/product';
+import React, { SetStateAction } from 'react';
 
 interface Props {
   integratedData: {
     product2?: Product | undefined;
     product1?: Product | undefined;
   };
+  setWinnerCount: React.Dispatch<SetStateAction<number>>;
 }
 
-export const CompareTable = ({ integratedData }: Props) => {
+export const CompareTable = ({ integratedData, setWinnerCount }: Props) => {
   const { product1, product2 } = integratedData;
 
   return (
@@ -24,7 +26,11 @@ export const CompareTable = ({ integratedData }: Props) => {
         <li>{product1?.rating ?? '-'}</li>
         <li>{product2?.rating ?? '-'}</li>
         <li className="text-var-pink">
-          {compareProducts(product1?.rating || 0, product2?.rating || 0)}
+          {compareProducts(
+            product1?.rating || 0,
+            product2?.rating || 0,
+            setWinnerCount,
+          )}
         </li>
       </ul>
       <ul className="grid grid-cols-4 py-[15px] md:py-[30px]">
@@ -35,6 +41,7 @@ export const CompareTable = ({ integratedData }: Props) => {
           {compareProducts(
             product1?.reviewCount || 0,
             product2?.reviewCount || 0,
+            setWinnerCount,
           )}
         </li>
       </ul>
@@ -46,6 +53,7 @@ export const CompareTable = ({ integratedData }: Props) => {
           {compareProducts(
             product1?.favoriteCount || 0,
             product2?.favoriteCount || 0,
+            setWinnerCount,
           )}
         </li>
       </ul>

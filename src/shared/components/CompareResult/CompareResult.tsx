@@ -1,14 +1,19 @@
-export const CompareResult = () => {
-  return (
-    <div className="text-center">
-      <span className="text-[20px] font-semibold leading-[28px] text-var-white xl:text-[24px] xl:leading-normal">
-        <span className="text-var-pink">Air Pods Max</span> 상품이
-        <br className="md:inline-block md:px-[2px] md:content-['']" />
-        승리하였습니다!
-      </span>
-      <div className="mt-[20px] text-[12px] font-normal text-var-gray2 xl:text-[16px]">
-        3가지 항목 중 2가지 항목에서 우세합니다.
-      </div>
-    </div>
-  );
+import { tableDetermineResult } from '@/shared/models/product/tableDetermineResult';
+import { Product } from '@/shared/types/product/product';
+
+interface Props {
+  winnerCount: number;
+  integratedData: {
+    product2?: Product | undefined;
+    product1?: Product | undefined;
+  };
+}
+
+export const CompareResult = ({ winnerCount, integratedData }: Props) => {
+  const product = {
+    productName1: integratedData.product1?.name,
+    productName2: integratedData.product2?.name,
+  };
+
+  return tableDetermineResult(winnerCount, product);
 };
