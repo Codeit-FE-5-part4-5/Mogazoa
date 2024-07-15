@@ -4,15 +4,16 @@ import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
 import useSignIn from '@/shared/models/auth/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
+import axios from 'axios';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export interface ILoginForm {
-  email: '';
-  password: '';
+  email: string;
+  password: string;
 }
 
 const signInSchema = z.object({
@@ -33,6 +34,12 @@ export default function SignIn() {
     resolver: zodResolver(signInSchema),
     mode: 'onBlur',
   });
+
+  const authorizeKakao = async () => {
+    const result = await axios.get('https://kauth.kakao.com/oauth/authorize');
+    console.log(result);
+    return result;
+  };
 
   const handleSubmitSignIn = async (data: ILoginForm) => {
     mutate(data);
@@ -78,7 +85,8 @@ export default function SignIn() {
                 />
               </div>
               <button
-                onClick={() => signIn('kakao', { callbackUrl: '/' })}
+                type="button"
+                onClick={() => authorizeKakao()}
                 className="flex size-[56px] cursor-pointer items-center justify-center rounded-[50%] border border-var-black3"
               >
                 <Image
