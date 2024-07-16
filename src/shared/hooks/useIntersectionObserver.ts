@@ -19,7 +19,7 @@ const useIntersectionObserver = <T extends HTMLElement>(): [
     return () => {
       observer.disconnect();
     };
-  }, [target.current]);
+  }, [target.current, isIntersecting]);
 
   return [target, isIntersecting];
 };

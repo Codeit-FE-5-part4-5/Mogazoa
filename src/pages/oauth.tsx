@@ -5,10 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { IAuthForm } from './signup';
 import { z } from 'zod';
-import useAuthKakaoSignUp from '@/shared/models/auth/useAuthKakaoSignUp';
+import useKakaoSignUp from '@/shared/models/auth/useKakaoSignUp';
 import { useEffect } from 'react';
-import useAuthKakaoSignIn from '@/shared/models/auth/useAuthKakaoSignIn';
+import useKakaoSignIn from '@/shared/models/auth/useKakaoSignIn';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
+import useGoogleSignIn from '@/shared/models/auth/useGoogleSignIn';
+import axios from 'axios';
 
 const oAuthSchema = z.object({
   nickname: z
@@ -18,6 +20,10 @@ const oAuthSchema = z.object({
 });
 
 const OAuthSignUp = () => {
+  const redirectUri = process.env.NEXT_PUBLIC_DEVELOPMENT_URL;
+  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
+
   const {
     register,
     handleSubmit,
@@ -26,8 +32,9 @@ const OAuthSignUp = () => {
     resolver: zodResolver(oAuthSchema),
     mode: 'onBlur',
   });
-  const { mutate: signUpKakao } = useAuthKakaoSignUp();
-  const { mutate: signInKakao } = useAuthKakaoSignIn();
+  const { mutate: signUpKakao } = useKakaoSignUp();
+  const { mutate: signInKakao } = useKakaoSignIn();
+  const { mutate: signInGoogle } = useGoogleSignIn();
   const {
     currentQuery: { code },
   } = useChangeRouter();
@@ -36,8 +43,15 @@ const OAuthSignUp = () => {
     signUpKakao(data.nickname);
   };
 
+  const googleSignInRequest = () => {
+    return axios.post(
+      `https://oauth2.googleapis.com/token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}&grant_type=authorization_code&redirect_uri=${redirectUri}`,
+    );
+  };
+
   const handleSubmitSignIn = () => {
-    signInKakao();
+    // signInKakao();
+    // signInGoogle();
   };
 
   useEffect(() => {
@@ -59,6 +73,12 @@ const OAuthSignUp = () => {
             placeholder="닉네임을 입력해 주세요"
           />
           <Button text="가입하기" type="submit" className="mt-[20px]" />
+          <Button
+            text="토큰받아오기"
+            type="button"
+            className="mt-[20px]"
+            onClick={googleSignInRequest}
+          />
         </form>
       </div>
     </MogazoaLayout>
