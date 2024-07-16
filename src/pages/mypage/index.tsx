@@ -15,6 +15,7 @@ const MyPage = () => {
   const token = getCookie('accessToken');
 
   const { data: user } = useGetMe(token);
+
   const { data: createdProducts } = useGetCreatedProducts(
     Number(user?.data.id),
   );
