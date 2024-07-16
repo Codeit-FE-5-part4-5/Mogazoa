@@ -5,6 +5,7 @@ import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProduc
 import useProduct from '@/shared/models/product/useProduct';
 import React, { SetStateAction, useState } from 'react';
 import { CompareResult } from '@/shared/components/CompareResult/CompareResult';
+import { onClickCompare } from '@/shared/models/product/onClickCompare';
 
 const Compare = () => {
   const [value1, setValue1] = useState('');
@@ -47,19 +48,10 @@ const Compare = () => {
   const [isTable, setIsTable] = useState(false);
 
   const areBothValid = !!(productIdData1 && productIdData2);
-  const integratedData = areBothValid
-    ? {
-        product1: productIdData1,
-        product2: productIdData2,
-      }
-    : {};
-
-  const onClickCompare = (
-    setIsTable: React.Dispatch<SetStateAction<boolean>>,
-  ) => {
-    areBothValid ? setIsTable(true) : alert('상품을 각각 선택해 주세요.');
+  const integratedData = {
+    product1: productIdData1,
+    product2: productIdData2,
   };
-
   const [winnerCount, setWinnerCount] = useState(0);
 
   return (
@@ -105,7 +97,15 @@ const Compare = () => {
           <Button
             variant="primary"
             text="비교하기"
-            onClick={() => onClickCompare(setIsTable)}
+            disabled={areBothValid ? false : true}
+            onClick={() =>
+              onClickCompare({
+                productIdData1,
+                productIdData2,
+                setWinnerCount,
+                setIsTable,
+              })
+            }
           />
         </div>
         {isTable && (
@@ -115,10 +115,7 @@ const Compare = () => {
               integratedData={integratedData}
             />
             <div className="mt-[40px] md:mt-[80px]">
-              <CompareTable
-                integratedData={integratedData}
-                setWinnerCount={setWinnerCount}
-              />
+              <CompareTable integratedData={integratedData} />
             </div>
           </div>
         )}
