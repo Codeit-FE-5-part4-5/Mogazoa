@@ -59,31 +59,35 @@ export const FollowModal = () => {
         </DialogHeader>
         <DialogDescription />
         <div className="flex flex-col gap-y-6">
-          {followersList?.map((follower: FollowerItem) => {
-            return (
-              <div
-                className="flex cursor-pointer items-center gap-x-5"
-                key={follower?.id}
-                onClick={() => {
-                  router.push(`/user/${follower?.follower?.id}`);
-                  onClose();
-                }}
-              >
-                <Avatar>
-                  <AvatarImage
-                    className="w-[48px] xl:w-[52px]"
-                    src={follower?.follower?.image}
-                  />
-                  <AvatarFallback>
+          {followersList.length === 0 ? (
+            <div>팔로우하는 유저가 없습니다.</div>
+          ) : (
+            followersList?.map((follower: FollowerItem) => {
+              return (
+                <div
+                  className="flex cursor-pointer items-center gap-x-5"
+                  key={follower?.id}
+                  onClick={() => {
+                    router.push(`/user/${follower?.follower?.id}`);
+                    onClose();
+                  }}
+                >
+                  <Avatar>
+                    <AvatarImage
+                      className="w-[48px] xl:w-[52px]"
+                      src={follower?.follower?.image}
+                    />
+                    <AvatarFallback>
+                      {follower?.follower?.nickname}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="text-base text-var-white xl:text-lg">
                     {follower?.follower?.nickname}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="text-base text-var-white xl:text-lg">
-                  {follower?.follower?.nickname}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
           <div ref={ref}></div>
         </div>
       </DialogContent>

@@ -32,7 +32,6 @@ const frameworks = [
 ];
 
 export const ItemEditModal = () => {
-  const router = useRouter();
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'itemAdd';
   const [text, setText] = useState<string>('');
@@ -42,7 +41,8 @@ export const ItemEditModal = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const productId = '1';
+  const router = useRouter();
+  const { productId } = router.query;
   const {
     fetchNextPage: fetchNextPage1,
     hasNextPage: hasNextPage1,
