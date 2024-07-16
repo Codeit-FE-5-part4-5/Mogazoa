@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from '@/../../public/images/logo.svg';
@@ -11,7 +11,6 @@ import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import SearchInput from '../Input/SearchInput';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
-import { useSession } from 'next-auth/react';
 
 export const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -23,7 +22,6 @@ export const Header: React.FC = () => {
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
     useAnimation(isOpenMenu);
   const searchBarRef = useClickOutside<HTMLDivElement>(setIsSearchOpen);
-  const { data: session } = useSession();
 
   return (
     <>

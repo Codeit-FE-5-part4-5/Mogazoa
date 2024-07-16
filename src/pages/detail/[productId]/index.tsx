@@ -13,7 +13,6 @@ export default function ProductDetails() {
   const { productId } = router.query;
 
   const token = getCookie('accessToken');
-
   const { data: me } = useGetMe(token);
   const userId = me?.data.id;
 
@@ -31,12 +30,9 @@ export default function ProductDetails() {
       <div className="px-[20px] xl:container md:px-[30px] md:pt-[20px] xl:mx-auto">
         <div className="mb-[60px]">
           <ProductDetailCard
-            name={productDetail?.name}
+            ProductDetail={productDetail}
             reviews={1}
-            description={productDetail?.description}
-            text={productDetail?.category?.name}
-            color={'#ffffff'}
-            image={productDetail?.image}
+            userId={userId}
           />
         </div>
         <h1 className="font-pretendard pb-[30px] text-[18px] font-semibold leading-normal text-[#F1F1F5]">

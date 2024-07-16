@@ -1,38 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import Chip from '../Chip/Chip';
 import Image from 'next/image';
+import useFavoriteProduct from '@/shared/models/product/useFavoriteMark';
+import { ProductDetail } from '@/shared/types/product/productDetail';
 
 interface Props {
-  name: string;
+  ProductDetail: ProductDetail;
   reviews: number;
-  description: string;
-  text: string;
-  color: string;
-  image: string;
+  userId: number | null;
 }
 
 const ProductDetailCard = ({
-  name,
+  ProductDetail,
   reviews,
-  description,
-  text,
-  color,
-  image,
+  userId = null,
 }: Props) => {
-  const [isSave, setIsSave] = useState(false);
+  const productId = ProductDetail?.id;
+  const { mutate } = useFavoriteProduct({ productId });
 
-  const onClickSave = () => {
-    setIsSave(!isSave);
+  const handleToggleFavorite = () => {
+    mutate();
   };
 
   return (
     <div className="gap-[50px] text-var-white md:flex">
       <div className="flex items-center justify-center">
-        <div className="relative mb-5 h-[249px] w-[289px] md:m-0 md:h-[197px] md:h-full md:w-[280px] xl:w-[355px]">
+        <div className="relative mb-5 h-[249px] w-[289px] md:m-0 md:h-full md:w-[280px] xl:w-[355px]">
           <Image
             className="rounded-lg"
-            src={image}
+            src={ProductDetail?.image}
             alt="리뷰이미지"
             layout="fill"
           />
@@ -41,7 +38,11 @@ const ProductDetailCard = ({
       <div className="w-full">
         <div className="grid grid-cols-2 items-center">
           <div className="md:order-1 md:col-span-2">
-            <Chip text={text} color={color} />
+            <Chip
+              text={ProductDetail?.category.name}
+              color={'#ffffff'}
+              size={'s'}
+            />
           </div>
           <ul className="flex justify-end gap-[10px] md:order-3">
             <li className="flex h-[24px] w-[24px] items-center justify-center rounded-[6px] bg-[#252530] xl:h-[28px] xl:w-[28px]">
@@ -60,11 +61,17 @@ const ProductDetailCard = ({
             </li>
           </ul>
           <div className="col-span-2 flex items-center justify-between md:order-2 md:col-span-1 md:justify-normal md:gap-[15px]">
-            <h3 className="my-[10px] text-[20px] xl:text-[24px]">{name}</h3>
-            <button onClick={onClickSave}>
+            <h3 className="my-[10px] text-[20px] xl:text-[24px]">
+              {ProductDetail?.name}
+            </h3>
+            <button onClick={handleToggleFavorite}>
               <img
-                src={isSave ? '/images/save_300.svg' : '/images/unsave_300.svg'}
-                alt={isSave ? '찜풀기' : '찜하기'}
+                src={
+                  ProductDetail?.isFavorite
+                    ? '/images/save_300.svg'
+                    : '/images/unsave_300.svg'
+                }
+                alt={ProductDetail?.isFavorite ? '찜풀기' : '찜하기'}
               />
             </button>
           </div>
@@ -73,13 +80,20 @@ const ProductDetailCard = ({
           조회 {reviews}
         </div>
         <div className="mt-[20px] text-[14px] leading-[20px] xl:text-[16px] xl:leading-[22px]">
-          {description}
+          {ProductDetail?.description}
         </div>
-        <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
-          <Button text="리뷰 작성하기" />
-          <Button text="비교하기" variant="secondary" />
-          <Button text="편집하기" variant="tertiary" />
-        </div>
+        {userId === ProductDetail?.writerId ? (
+          <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
+            <Button text="리뷰 작성하기" />
+            <Button text="비교하기" variant="secondary" />
+            <Button text="편집하기" variant="tertiary" />
+          </div>
+        ) : (
+          <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
+            <Button text="리뷰 작성하기" />
+            <Button text="비교하기" variant="secondary" />
+          </div>
+        )}
       </div>
     </div>
   );

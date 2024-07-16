@@ -13,10 +13,14 @@ import useGetMe from '@/shared/models/auth/useGetMe';
 import { useRouter } from 'next/router';
 import useGetUserFollowees from '@/shared/models/user/follow/followees/useGetUserFollowees';
 import { FolloweeItem } from '@/shared/types/follow/followees/followees-type';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
 
 export const FollowingModal = () => {
   const router = useRouter();
   const path = router.pathname;
+
+  const [ref, inView] = useInView();
 
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'following';
@@ -32,7 +36,18 @@ export const FollowingModal = () => {
     userId = Number(router.query.userId);
   }
 
-  const { data: followees } = useGetUserFollowees(userId);
+  const {
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    data: followees,
+  } = useGetUserFollowees(userId);
+
+  const followeesList = followees?.pages.flatMap((page) => page.list) || [];
+
+  useEffect(() => {
+    if (inView && hasNextPage) fetchNextPage();
+  }, [inView, hasNextPage]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -41,8 +56,9 @@ export const FollowingModal = () => {
           <DialogTitle className="mb-5 self-start text-xl xl:mb-10 xl:text-2xl">
             유저가 팔로잉하는 유저
           </DialogTitle>
-          <DialogDescription className="flex flex-col gap-y-6">
-            {followees?.data.list.map((followee: FolloweeItem) => {
+          <DialogDescription />
+          <div className="flex flex-col gap-y-6">
+            {followeesList?.map((followee: FolloweeItem) => {
               return (
                 <div
                   className="flex cursor-pointer items-center gap-x-5"
@@ -67,7 +83,8 @@ export const FollowingModal = () => {
                 </div>
               );
             })}
-          </DialogDescription>
+            <div ref={ref}></div>
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>
