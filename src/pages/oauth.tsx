@@ -2,24 +2,15 @@ import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import Button from '@/shared/components/Button/Button';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { IAuthForm } from './signup';
 import { z } from 'zod';
 import useAuthKakaoSignUp from '@/shared/models/auth/useAuthKakaoSignUp';
 import { useEffect } from 'react';
-import { getCookie } from '@/shared/utils/cookie';
 import useAuthKakaoSignIn from '@/shared/models/auth/useAuthKakaoSignIn';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
-/**
- *
- * @TODO
- * 1. 카카오 인가 코드 받기
- * 2. 그걸로 코드잇 서버에 토큰 받아오기
- * 3. 끗
- */
 
-const oauthSchema = z.object({
+const oAuthSchema = z.object({
   nickname: z
     .string()
     .min(1, '닉네임을 입력해 주세요.')
@@ -32,7 +23,7 @@ const OAuthSignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Pick<IAuthForm, 'nickname'>>({
-    resolver: zodResolver(oauthSchema),
+    resolver: zodResolver(oAuthSchema),
     mode: 'onBlur',
   });
   const { mutate: signUpKakao } = useAuthKakaoSignUp();
