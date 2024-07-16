@@ -108,7 +108,7 @@ const Compare = () => {
             }
           />
         </div>
-        {isTable && (
+        {isTable && areBothValid && (
           <div className="mt-[100px] text-var-white md:col-span-3 md:mt-[140px]">
             <CompareResult
               winnerCount={winnerCount}
