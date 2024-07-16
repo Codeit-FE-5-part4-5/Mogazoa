@@ -2,17 +2,18 @@ import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import Button from '@/shared/components/Button/Button';
 import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
+import KakaoButton from '@/shared/components/KakaoButton/KakaoButton';
 import useSignIn from '@/shared/models/auth/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export interface ILoginForm {
-  email: '';
-  password: '';
+  email: string;
+  password: string;
 }
 
 const signInSchema = z.object({
@@ -77,17 +78,7 @@ export default function SignIn() {
                   height={28}
                 />
               </div>
-              <button
-                onClick={() => signIn('kakao', { callbackUrl: '/' })}
-                className="flex size-[56px] cursor-pointer items-center justify-center rounded-[50%] border border-var-black3"
-              >
-                <Image
-                  src="/kakao.svg"
-                  alt="카카오 로그인"
-                  width={28}
-                  height={28}
-                />
-              </button>
+              <KakaoButton />
             </div>
           </div>
         </form>
