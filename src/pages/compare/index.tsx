@@ -3,8 +3,10 @@ import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownIn
 import { CompareTable } from '@/shared/components/CompareTable/CompareTable';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 import useProduct from '@/shared/models/product/useProduct';
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { CompareResult } from '@/shared/components/CompareResult/CompareResult';
+import { onClickCompare } from '@/shared/models/product/onClickCompare';
+import { Product } from '@/shared/types/product/product';
 
 const Compare = () => {
   const [value1, setValue1] = useState('');
@@ -14,6 +16,22 @@ const Compare = () => {
 
   const [productId1, setProductId1] = useState<number | null>(null);
   const [productId2, setProductId2] = useState<number | null>(null);
+
+  // 로컬 스토리지
+  useEffect(() => {
+    const getProductData1 = localStorage.getItem('productIdData1');
+    const getProductData2 = localStorage.getItem('productIdData2');
+    if (getProductData1) {
+      const parseProductData1: Product = JSON.parse(getProductData1);
+      setBedge1(parseProductData1.name);
+      setProductId1(parseProductData1.id);
+    }
+    if (getProductData2) {
+      const parseProductData2: Product = JSON.parse(getProductData2);
+      setBedge2(parseProductData2.name);
+      setProductId2(parseProductData2.id);
+    }
+  }, []);
 
   // 무한 스크롤 itemList api
   const {
@@ -47,19 +65,10 @@ const Compare = () => {
   const [isTable, setIsTable] = useState(false);
 
   const areBothValid = !!(productIdData1 && productIdData2);
-  const integratedData = areBothValid
-    ? {
-        product1: productIdData1,
-        product2: productIdData2,
-      }
-    : {};
-
-  const onClickCompare = (
-    setIsTable: React.Dispatch<SetStateAction<boolean>>,
-  ) => {
-    areBothValid ? setIsTable(true) : alert('상품을 각각 선택해 주세요.');
+  const integratedData = {
+    product1: productIdData1,
+    product2: productIdData2,
   };
-
   const [winnerCount, setWinnerCount] = useState(0);
 
   return (
@@ -105,20 +114,25 @@ const Compare = () => {
           <Button
             variant="primary"
             text="비교하기"
-            onClick={() => onClickCompare(setIsTable)}
+            disabled={areBothValid ? false : true}
+            onClick={() =>
+              onClickCompare({
+                productIdData1,
+                productIdData2,
+                setWinnerCount,
+                setIsTable,
+              })
+            }
           />
         </div>
-        {isTable && (
+        {isTable && areBothValid && (
           <div className="mt-[100px] text-var-white md:col-span-3 md:mt-[140px]">
             <CompareResult
               winnerCount={winnerCount}
               integratedData={integratedData}
             />
             <div className="mt-[40px] md:mt-[80px]">
-              <CompareTable
-                integratedData={integratedData}
-                setWinnerCount={setWinnerCount}
-              />
+              <CompareTable integratedData={integratedData} />
             </div>
           </div>
         )}
