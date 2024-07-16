@@ -1,9 +1,10 @@
 import Button from '@/shared/components/Button/Button';
 import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownInput';
-import { Table } from '@/shared/components/Table/Table';
+import { CompareTable } from '@/shared/components/CompareTable/CompareTable';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 import useProduct from '@/shared/models/product/useProduct';
 import React, { SetStateAction, useState } from 'react';
+import { CompareResult } from '@/shared/components/CompareResult/CompareResult';
 
 const Compare = () => {
   const [value1, setValue1] = useState('');
@@ -42,9 +43,28 @@ const Compare = () => {
   const { data: productIdData1 } = useProduct({ productId: productId1 });
   const { data: productIdData2 } = useProduct({ productId: productId2 });
 
+  // 비교하기 table
+  const [isTable, setIsTable] = useState(false);
+
+  const areBothValid = !!(productIdData1 && productIdData2);
+  const integratedData = areBothValid
+    ? {
+        product1: productIdData1,
+        product2: productIdData2,
+      }
+    : {};
+
+  const onClickCompare = (
+    setIsTable: React.Dispatch<SetStateAction<boolean>>,
+  ) => {
+    areBothValid ? setIsTable(true) : alert('상품을 각각 선택해 주세요.');
+  };
+
+  const [winnerCount, setWinnerCount] = useState(0);
+
   return (
     <div className="items-centers flex flex-col justify-center px-5 md:items-center">
-      <div className="grid w-auto items-end gap-[20px] text-var-white md:grid-cols-3 xl:w-[940px]">
+      <div className="grid w-full items-end gap-[20px] text-var-white md:grid-cols-3 xl:w-[940px]">
         <div>
           <h3 className="mb-[10px] text-[14px] xl:text-[16px]">상품 1</h3>
           <CompareDropDownInput
@@ -82,23 +102,26 @@ const Compare = () => {
           />
         </div>
         <div>
-          <Button variant="primary" text="비교하기" />
+          <Button
+            variant="primary"
+            text="비교하기"
+            onClick={() => onClickCompare(setIsTable)}
+          />
         </div>
-        <div className="mt-[100px] text-var-white md:col-span-3 md:mt-[140px]">
-          <div className="text-center">
-            <span className="text-[20px] font-semibold leading-[28px] text-var-white xl:text-[24px] xl:leading-normal">
-              <span className="text-var-pink">Air Pods Max</span> 상품이
-              <br className="md:inline-block md:px-[2px] md:content-['']" />
-              승리하였습니다!
-            </span>
-            <div className="mt-[20px] text-[12px] font-normal text-var-gray2 xl:text-[16px]">
-              3가지 항목 중 2가지 항목에서 우세합니다.
+        {isTable && (
+          <div className="mt-[100px] text-var-white md:col-span-3 md:mt-[140px]">
+            <CompareResult
+              winnerCount={winnerCount}
+              integratedData={integratedData}
+            />
+            <div className="mt-[40px] md:mt-[80px]">
+              <CompareTable
+                integratedData={integratedData}
+                setWinnerCount={setWinnerCount}
+              />
             </div>
           </div>
-          <div className="mt-[40px] md:mt-[80px]">
-            <Table />
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
