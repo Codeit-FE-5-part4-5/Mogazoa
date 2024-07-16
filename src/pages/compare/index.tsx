@@ -3,9 +3,10 @@ import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownIn
 import { CompareTable } from '@/shared/components/CompareTable/CompareTable';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 import useProduct from '@/shared/models/product/useProduct';
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { CompareResult } from '@/shared/components/CompareResult/CompareResult';
 import { onClickCompare } from '@/shared/models/product/onClickCompare';
+import { Product } from '@/shared/types/product/product';
 
 const Compare = () => {
   const [value1, setValue1] = useState('');
@@ -15,6 +16,22 @@ const Compare = () => {
 
   const [productId1, setProductId1] = useState<number | null>(null);
   const [productId2, setProductId2] = useState<number | null>(null);
+
+  // 로컬 스토리지
+  useEffect(() => {
+    const getProductData1 = localStorage.getItem('productIdData1');
+    const getProductData2 = localStorage.getItem('productIdData2');
+    if (getProductData1) {
+      const parseProductData1: Product = JSON.parse(getProductData1);
+      setBedge1(parseProductData1.name);
+      setProductId1(parseProductData1.id);
+    }
+    if (getProductData2) {
+      const parseProductData2: Product = JSON.parse(getProductData2);
+      setBedge2(parseProductData2.name);
+      setProductId2(parseProductData2.id);
+    }
+  }, []);
 
   // 무한 스크롤 itemList api
   const {

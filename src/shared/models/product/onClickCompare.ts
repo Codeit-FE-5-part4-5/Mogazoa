@@ -1,6 +1,7 @@
 import { Product } from '@/shared/types/product/product';
 import { SetStateAction } from 'react';
 import { compareProducts } from './compareProducts';
+import { saveUserProduct } from './saveUserProduct';
 
 interface Props {
   productIdData1: Product | undefined;
@@ -43,6 +44,7 @@ export const onClickCompare = ({
 
     setWinnerCount(winnerCount);
     setIsTable(true);
+    saveUserProduct({ productIdData1, productIdData2 });
   } else {
     alert('상품을 각각 선택해 주세요.');
   }
