@@ -58,31 +58,35 @@ export const FollowingModal = () => {
           </DialogTitle>
           <DialogDescription />
           <div className="flex flex-col gap-y-6">
-            {followeesList?.map((followee: FolloweeItem) => {
-              return (
-                <div
-                  className="flex cursor-pointer items-center gap-x-5"
-                  key={followee?.id}
-                  onClick={() => {
-                    router.push(`/user/${followee?.followee?.id}`);
-                    onClose();
-                  }}
-                >
-                  <Avatar>
-                    <AvatarImage
-                      className="w-[48px] xl:w-[52px]"
-                      src={followee?.followee?.image}
-                    />
-                    <AvatarFallback>
+            {followeesList.length === 0 ? (
+              <div>팔로잉하는 유저가 없습니다.</div>
+            ) : (
+              followeesList?.map((followee: FolloweeItem) => {
+                return (
+                  <div
+                    className="flex cursor-pointer items-center gap-x-5"
+                    key={followee?.id}
+                    onClick={() => {
+                      router.push(`/user/${followee?.followee?.id}`);
+                      onClose();
+                    }}
+                  >
+                    <Avatar>
+                      <AvatarImage
+                        className="w-[48px] xl:w-[52px]"
+                        src={followee?.followee?.image}
+                      />
+                      <AvatarFallback>
+                        {followee?.followee?.nickname}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="text-base text-var-white xl:text-lg">
                       {followee?.followee?.nickname}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="text-base text-var-white xl:text-lg">
-                    {followee?.followee?.nickname}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
             <div ref={ref}></div>
           </div>
         </DialogHeader>
