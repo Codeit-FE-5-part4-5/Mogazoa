@@ -1,10 +1,10 @@
+import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import axios from '@/shared/utils/axios';
 import { setCookie } from '@/shared/utils/cookie';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 
 export default function useSignUp() {
-  const router = useRouter();
+  const { handleRedirect } = useChangeRouter();
 
   return useMutation({
     mutationFn: (account: {
@@ -17,7 +17,7 @@ export default function useSignUp() {
       setCookie('accessToken', data.data.accessToken, {
         secure: process.env.NODE_ENV === 'production',
       });
-      router.push('/');
+      handleRedirect('/');
     },
   });
 }

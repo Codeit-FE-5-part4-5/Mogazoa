@@ -49,10 +49,13 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
     useAnimation(showMenuList);
   const ref = useClickOutside<HTMLDivElement>(setShowMenuList);
 
-  const handleClickEvent = useCallback((item: string) => {
-    onClick(item);
-    setSelectMenu(item);
-  }, []);
+  const handleClickEvent = useCallback(
+    (item: string) => {
+      onClick(item);
+      setSelectMenu(item);
+    },
+    [onClick],
+  );
 
   return (
     <div

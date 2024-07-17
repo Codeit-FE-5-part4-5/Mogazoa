@@ -1,7 +1,7 @@
-import useIntersectionObserver from '@/shared/hooks/useIntersectionObserver';
 import { Category } from '@/shared/types/category/category';
 import Image from 'next/image';
 import { forwardRef } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 interface CategoryButtonProps {
   category: Category;
@@ -37,8 +37,8 @@ const SlideMenuBar = ({
   currentCategory,
   onClick,
 }: SlideMenuBarProps) => {
-  const [leftRef, isMoreLeft] = useIntersectionObserver<HTMLLIElement>();
-  const [rightRef, isMoreRight] = useIntersectionObserver<HTMLLIElement>();
+  const [leftRef, isMoreLeft] = useInView();
+  const [rightRef, isMoreRight] = useInView();
 
   return (
     <ul className="flex overflow-x-auto no-scrollbar">

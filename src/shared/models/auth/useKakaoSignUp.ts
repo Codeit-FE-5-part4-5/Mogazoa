@@ -4,14 +4,14 @@ import { setCookie } from '@/shared/utils/cookie';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
-const useAuthKakaoSignUp = () => {
+const useKakaoSignUp = () => {
   const { currentQuery, handleRedirect } = useChangeRouter();
   const { code: token } = currentQuery;
   const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
   const kakaoSignUpRequest = useCallback(
     (nickname: string) => {
-      return axios.post(`auth/signup/kakao`, { nickname, redirectUri, token });
+      return axios.post(`auth/signUp/kakao`, { nickname, redirectUri, token });
     },
     [token],
   );
@@ -27,4 +27,4 @@ const useAuthKakaoSignUp = () => {
   });
 };
 
-export default useAuthKakaoSignUp;
+export default useKakaoSignUp;
