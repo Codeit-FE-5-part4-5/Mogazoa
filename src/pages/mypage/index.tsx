@@ -87,7 +87,7 @@ const MyPage = () => {
   return (
     <div>
       <Header />
-      <div className="flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
+      <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
           <MyProfileCard user={user?.data} />
         </div>
