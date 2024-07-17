@@ -21,6 +21,7 @@ export interface Review {
   user: User;
   reviewImages: ReviewImage[];
   isLiked: boolean;
+  find: (callback: (item: Review) => boolean) => Review | undefined;
 }
 
 export interface ReviewDetail {

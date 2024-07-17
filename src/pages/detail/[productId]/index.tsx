@@ -9,6 +9,8 @@ import useGetMe from '@/shared/models/auth/useGetMe';
 import { getCookie } from '@/shared/utils/cookie';
 import Image from 'next/image';
 import { useState } from 'react';
+import Floating from '@/shared/components/Floating/Floating';
+import { Review } from '@/shared/types/reviews/reviews';
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -34,8 +36,10 @@ export default function ProductDetails() {
     order: sort,
   });
 
-  const handleChange = (e) => {
-    setSort(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(
+      e.target.value as 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount',
+    );
   };
 
   return (
@@ -57,48 +61,51 @@ export default function ProductDetails() {
             <StatisticsCard
               status={'average'}
               conScore={productDetail?.rating}
+              scoreDiff={productDetail?.categoryMetric.rating}
             />
           </div>
           <div className="w-full">
             <StatisticsCard
               status={'steamed'}
               conScore={productDetail?.favoriteCount}
+              scoreDiff={productDetail?.categoryMetric.favoriteCount}
             />
           </div>
           <div className="w-full">
             <StatisticsCard
               status={'review'}
               conScore={productDetail?.reviewCount}
+              scoreDiff={productDetail?.categoryMetric.reviewCount}
             />
           </div>
         </div>
-        <div className="flex items-center justify-between">
-          <h1 className="font-pretendard pb-[30px] text-[18px] font-semibold leading-normal text-[#F1F1F5]">
+        <div className="flex items-center justify-between pb-[30px]">
+          <h1 className="font-pretendard text-[18px] font-semibold leading-normal text-[#F1F1F5]">
             상품 리뷰
           </h1>
-          <div className="w-[62px] md:w-[150px] xl:w-[160px]">
+          <div>
             <div className="flex w-full items-center justify-between">
               <select
                 value={sort}
                 onChange={handleChange}
-                className="cursor-pointer appearance-none rounded-[6px] border-none bg-transparent text-[14px] font-normal text-white xl:text-[16px]"
+                className="font-Pretendard appearance-none rounded-md border-2 border-none bg-transparent text-center text-[16px] font-normal text-white focus:outline-none"
               >
                 <option value="recent">최신순</option>
                 <option value="ratingDesc">평점 높은 순</option>
                 <option value="ratingAsc">평점 낮은 순</option>
                 <option value="likeCount">좋아요 순</option>
               </select>
-              <Image src="/arrow.svg" alt="정렬" width={8} height={4} />
             </div>
           </div>
         </div>
         {productDetailReview?.list.length > 0 ? (
           <div className="mb-[15px]">
-            {productDetailReview?.list.map((review) => (
+            {productDetailReview?.list.map((review: Review) => (
               <ProductDetailReview
                 key={review.id}
                 review={review}
                 order={sort}
+                userId={userId}
               />
             ))}
           </div>
@@ -117,6 +124,9 @@ export default function ProductDetails() {
             </p>
           </div>
         )}
+      </div>
+      <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
+        <Floating onClick={() => {}} />
       </div>
     </>
   );
