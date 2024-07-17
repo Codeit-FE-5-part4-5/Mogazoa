@@ -26,7 +26,7 @@ export const ProfileEditModal = () => {
     nickname?: string;
   }>({});
 
-  const mutation = useUpdateProfile();
+  const { mutateAsync, isPending: isUpdatePending } = useUpdateProfile();
 
   const isModalOpen = isOpen && type === 'profileEdit';
 
@@ -48,7 +48,7 @@ export const ProfileEditModal = () => {
     }
 
     try {
-      await mutation.mutateAsync({
+      await mutateAsync({
         nickname,
         description,
         image: image ?? '',
@@ -117,7 +117,13 @@ export const ProfileEditModal = () => {
               textLength={300}
             />
           </div>
-          <Button text="저장하기" onClick={handleSaveButton} type="submit" />
+          <Button
+            className={`${isUpdatePending ? 'opacity-80' : ''}`}
+            text="저장하기"
+            onClick={handleSaveButton}
+            type="submit"
+            disabled={isUpdatePending}
+          />
         </div>
       </DialogContent>
     </Dialog>
