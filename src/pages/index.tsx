@@ -13,6 +13,7 @@ import ProductList from '@/shared/components/ProductList/ProductList';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import Spinner from '@/shared/components/Spinner/Spinner';
 import { validateArray } from '@/shared/utils/validateArray';
+import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
 
 export default function Home() {
   const { currentQuery, handleRouterPush } = useChangeRouter();
@@ -26,6 +27,10 @@ export default function Home() {
     order: currentSortOrder,
     keyword: searchQuery,
   });
+
+  // 랭킹
+  const { data: rankingData } = useGetFollowersRanking();
+  const sliceRankingData = rankingData?.slice(0, 5);
 
   return (
     <MogazoaLayout>
@@ -45,7 +50,7 @@ export default function Home() {
           />
         </div>
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
-          <RankingList />
+          <RankingList rankingData={sliceRankingData} />
           <div className="flex-1">
             {currentQuery.category ? (
               <ProductList

@@ -1,28 +1,43 @@
 import React from 'react';
 import Ranking from '../Chip/Ranking';
 import Image from 'next/image';
+import { FollowerRanking } from '@/shared/types/follow/followers/followers-type';
 
-// 기존 ranking을 어떻게 불러올지 모르므로 일단 any로 타입을 지정함.
-// 사용할 때 수정필요
+type RankingCardType = Omit<
+  FollowerRanking,
+  'updatedAt' | 'createdAt' | 'teamId' | 'id'
+> & {
+  ranking: number;
+};
 
-const RankingCard = ({ mockRanking }: any) => {
-  const { img, alt, name, follower, review } = mockRanking;
-
+const RankingCard = ({
+  image,
+  nickname,
+  description,
+  reviewCount,
+  followersCount,
+  ranking,
+}: RankingCardType) => {
   return (
     <div className="flex flex-shrink-0 items-center gap-2.5">
-      <div className="relative flex size-[42px] rounded-full bg-blue-50">
-        <Image src={img} alt={alt} fill />
+      <div className="relative flex size-[42px] overflow-hidden rounded-full border border-var-gray1">
+        <Image
+          src={image || 'images/user-no-image.svg'}
+          alt={description || '이미지 없음'}
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex gap-2">
-          <Ranking ranking={0} />
+          <Ranking ranking={ranking} />
           <div className="text-[14px] font-normal text-var-white md:text-[16px]">
-            {name}
+            {nickname}
           </div>
         </div>
         <ul className="flex gap-3.5 text-[10px] font-light text-var-gray1 md:text-[12px]">
-          <li>팔로워 {follower}</li>
-          <li>리뷰 {review}</li>
+          <li>팔로워 {followersCount}</li>
+          <li>리뷰 {reviewCount}</li>
         </ul>
       </div>
     </div>
