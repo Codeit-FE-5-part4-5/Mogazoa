@@ -13,10 +13,14 @@ import useGetMe from '@/shared/models/auth/useGetMe';
 import { useRouter } from 'next/router';
 import useGetUserFollowees from '@/shared/models/user/follow/followees/useGetUserFollowees';
 import { FolloweeItem } from '@/shared/types/follow/followees/followees-type';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
 
 export const FollowingModal = () => {
   const router = useRouter();
   const path = router.pathname;
+
+  const [ref, inView] = useInView();
 
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'following';
@@ -32,7 +36,18 @@ export const FollowingModal = () => {
     userId = Number(router.query.userId);
   }
 
-  const { data: followees } = useGetUserFollowees(userId);
+  const {
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    data: followees,
+  } = useGetUserFollowees(userId);
+
+  const followeesList = followees?.pages.flatMap((page) => page.list) || [];
+
+  useEffect(() => {
+    if (inView && hasNextPage) fetchNextPage();
+  }, [inView, hasNextPage]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -41,33 +56,39 @@ export const FollowingModal = () => {
           <DialogTitle className="mb-5 self-start text-xl xl:mb-10 xl:text-2xl">
             유저가 팔로잉하는 유저
           </DialogTitle>
-          <DialogDescription className="flex flex-col gap-y-6">
-            {followees?.data.list.map((followee: FolloweeItem) => {
-              return (
-                <div
-                  className="flex cursor-pointer items-center gap-x-5"
-                  key={followee?.id}
-                  onClick={() => {
-                    router.push(`/user/${followee?.followee?.id}`);
-                    onClose();
-                  }}
-                >
-                  <Avatar>
-                    <AvatarImage
-                      className="w-[48px] xl:w-[52px]"
-                      src={followee?.followee?.image}
-                    />
-                    <AvatarFallback>
+          <DialogDescription />
+          <div className="flex flex-col gap-y-6">
+            {followeesList.length === 0 ? (
+              <div>팔로잉하는 유저가 없습니다.</div>
+            ) : (
+              followeesList?.map((followee: FolloweeItem) => {
+                return (
+                  <div
+                    className="flex cursor-pointer items-center gap-x-5"
+                    key={followee?.id}
+                    onClick={() => {
+                      router.push(`/user/${followee?.followee?.id}`);
+                      onClose();
+                    }}
+                  >
+                    <Avatar>
+                      <AvatarImage
+                        className="w-[48px] xl:w-[52px]"
+                        src={followee?.followee?.image}
+                      />
+                      <AvatarFallback>
+                        {followee?.followee?.nickname}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="text-base text-var-white xl:text-lg">
                       {followee?.followee?.nickname}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="text-base text-var-white xl:text-lg">
-                    {followee?.followee?.nickname}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </DialogDescription>
+                );
+              })
+            )}
+            <div ref={ref}></div>
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>

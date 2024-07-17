@@ -10,11 +10,13 @@ import useGetFavoriteProducts from '@/shared/models/user/products/favorite-produ
 import useGetReviewedProducts from '@/shared/models/user/products/reviewed-products/useGetReviewedProducts';
 import { useState } from 'react';
 import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
+import { ChevronDown } from 'lucide-react';
 
 const MyPage = () => {
   const token = getCookie('accessToken');
 
   const { data: user } = useGetMe(token);
+
   const { data: createdProducts } = useGetCreatedProducts(
     Number(user?.data.id),
   );
@@ -27,15 +29,20 @@ const MyPage = () => {
 
   const { onOpen } = useModal();
 
-  const [selectedCategory, setSelectedCategory] = useState('created');
+  const [selectedCategory, setSelectedCategory] = useState('리뷰 남긴 상품');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const getProducts = () => {
     switch (selectedCategory) {
-      case 'created':
+      case '등록한 상품':
         return createdProducts?.data.list || [];
-      case 'favorite':
+      case '찜한 상품':
         return favoriteProducts?.data.list || [];
-      case 'reviewed':
+      case '리뷰 남긴 상품':
         return reviewedProducts?.data.list || [];
       default:
         return [];
@@ -75,22 +82,58 @@ const MyPage = () => {
             </div>
           </div>
           <div className="space-y-[30px]">
-            <div className="flex space-x-10 text-var-gray1">
+            <div className="relative xl:hidden">
+              <div className="flex w-[130px] cursor-pointer items-center justify-between">
+                <div onClick={handleDropdown}>{selectedCategory}</div>
+                <ChevronDown
+                  className={`${isDropdownOpen ? 'rotate-180 transform' : ''}`}
+                />
+              </div>
+              {isDropdownOpen && (
+                <div className="absolute z-10 inline-block cursor-pointer rounded-sm border border-var-gray1 bg-[#1c1c22] text-var-gray1">
+                  <div
+                    className="p-3 hover:text-var-white"
+                    onClick={() => {
+                      setSelectedCategory('리뷰 남긴 상품');
+                    }}
+                  >
+                    리뷰 남긴 상품
+                  </div>
+                  <div
+                    className="p-3 hover:text-var-white"
+                    onClick={() => {
+                      setSelectedCategory('등록한 상품');
+                    }}
+                  >
+                    등록한 상품
+                  </div>
+                  <div
+                    className="p-3 hover:text-var-white"
+                    onClick={() => {
+                      setSelectedCategory('찜한 상품');
+                    }}
+                  >
+                    찜한 상품
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="hidden space-x-10 text-var-gray1 xl:flex">
               <div
                 className={`hover:text-var-white ${selectedCategory === 'reviewed' ? 'text-var-white' : ''}`}
-                onClick={() => setSelectedCategory('reviewed')}
+                onClick={() => setSelectedCategory('리뷰 남긴 상품')}
               >
                 리뷰 남긴 상품
               </div>
               <div
                 className={`hover:text-var-white ${selectedCategory === 'created' ? 'text-var-white' : ''}`}
-                onClick={() => setSelectedCategory('created')}
+                onClick={() => setSelectedCategory('등록한 상품')}
               >
                 등록한 상품
               </div>
               <div
                 className={`hover:text-var-white ${selectedCategory === 'favorite' ? 'text-var-white' : ''}`}
-                onClick={() => setSelectedCategory('favorite')}
+                onClick={() => setSelectedCategory('찜한 상품')}
               >
                 찜한 상품
               </div>

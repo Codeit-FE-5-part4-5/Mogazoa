@@ -18,11 +18,12 @@ import TextAreaInput from '../Input/TextAreaInput';
 import ImageInput from '../Input/ImageInput';
 import Chip from '../Chip/Chip';
 import Image from 'next/image';
+import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
 
 export const ReviewModal = () => {
   const { isOpen, onClose, type } = useModal();
   const router = useRouter();
-
+  const { productId } = router.query;
   const isModalOpen = isOpen && type === 'review';
 
   const [rating, setRating] = useState<number>(0);
@@ -34,9 +35,6 @@ export const ReviewModal = () => {
     (image) => image !== null,
   ) as string[];
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  // const productId = usePathname().split('/').pop();
-  const productId = '1';
 
   const handleRating = (rate: number) => {
     setRating(rate);
@@ -81,6 +79,10 @@ export const ReviewModal = () => {
     }
   };
 
+  const { data: productDetail } = useGetProductDetail({
+    productId: Number(productId),
+  });
+
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[620px]">
@@ -89,7 +91,7 @@ export const ReviewModal = () => {
             <div className="w-[58px]">
               {/* <Chip text="전자기기" color="#23B581" /> */}
             </div>
-            <div className="mt-[10px] self-start">Sony WH-1000XM3</div>
+            <div className="mt-[10px] self-start">{productDetail?.name}</div>
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
             <div className="flex items-center gap-x-5">

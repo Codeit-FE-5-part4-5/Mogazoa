@@ -9,10 +9,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 export interface IAuthForm {
-  email: '';
-  nickname: '';
-  password: '';
-  passwordConfirmation: '';
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirmation: string;
 }
 
 const signUpSchema = z
