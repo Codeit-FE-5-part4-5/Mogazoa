@@ -128,19 +128,19 @@ const UserProfile = () => {
             </div>
             <div className="hidden space-x-10 text-var-gray1 xl:flex">
               <div
-                className={`hover:text-var-white ${selectedCategory === 'reviewed' ? 'text-var-white' : ''}`}
+                className={`hover:text-var-white ${selectedCategory === '리뷰 남긴 상품' ? 'text-var-white' : ''}`}
                 onClick={() => setSelectedCategory('리뷰 남긴 상품')}
               >
                 리뷰 남긴 상품
               </div>
               <div
-                className={`hover:text-var-white ${selectedCategory === 'created' ? 'text-var-white' : ''}`}
+                className={`hover:text-var-white ${selectedCategory === '등록한 상품' ? 'text-var-white' : ''}`}
                 onClick={() => setSelectedCategory('등록한 상품')}
               >
                 등록한 상품
               </div>
               <div
-                className={`hover:text-var-white ${selectedCategory === 'favorite' ? 'text-var-white' : ''}`}
+                className={`hover:text-var-white ${selectedCategory === '찜한 상품' ? 'text-var-white' : ''}`}
                 onClick={() => setSelectedCategory('찜한 상품')}
               >
                 찜한 상품
