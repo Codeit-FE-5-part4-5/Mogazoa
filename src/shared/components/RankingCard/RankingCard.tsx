@@ -22,10 +22,14 @@ const RankingCard = ({
     <div className="flex flex-shrink-0 items-center gap-2.5">
       <div className="relative flex size-[42px] overflow-hidden rounded-full border border-var-gray1">
         <Image
+          sizes="40px"
           src={image || 'images/user-no-image.svg'}
           alt={description || '이미지 없음'}
-          layout="fill"
-          objectFit="cover"
+          fill={true}
+          style={{
+            objectFit: 'contain',
+          }}
+          loading="eager"
         />
       </div>
       <div className="flex flex-col gap-2">
