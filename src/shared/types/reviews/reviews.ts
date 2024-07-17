@@ -9,7 +9,7 @@ interface ReviewImage {
   source: string;
 }
 
-export interface ReviewDetail {
+export interface Review {
   id: number;
   rating: number;
   content: string;
@@ -21,4 +21,9 @@ export interface ReviewDetail {
   user: User;
   reviewImages: ReviewImage[];
   isLiked: boolean;
+}
+
+export interface ReviewDetail {
+  list: Review;
+  nextCursor: string | null;
 }

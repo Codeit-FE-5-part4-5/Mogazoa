@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import Chip from '../Chip/Chip';
 import Image from 'next/image';
-import useFavoriteProduct from '@/shared/models/product/useFavoriteMark';
+import useFavoriteProduct from '@/shared/models/product/useFavoriteProduct';
 import { ProductDetail } from '@/shared/types/product/productDetail';
 
 interface Props {
