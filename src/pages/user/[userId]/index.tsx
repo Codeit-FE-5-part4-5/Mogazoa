@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
@@ -15,23 +15,47 @@ import useUserProfile from '@/shared/models/user/profile/useUserProfile';
 
 import { getCookie } from '@/shared/utils/cookie';
 import { ChevronDown } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
 
 const UserProfile = () => {
+  const [ref, inView] = useInView();
+
   const params = useParams();
 
   const token = getCookie('accessToken');
 
   const { data: me } = useGetMe(token);
   const { data: user } = useUserProfile(Number(params?.userId));
-  const { data: createdProducts } = useGetCreatedProducts(
-    Number(params?.userId),
-  );
-  const { data: favoriteProducts } = useGetFavoriteProducts(
-    Number(params?.userId),
-  );
-  const { data: reviewedProducts } = useGetReviewedProducts(
-    Number(params?.userId),
-  );
+
+  const {
+    fetchNextPage: fetchNextCreatedPage,
+    hasNextPage: hasNextCreatedPage,
+    isFetching: isCreatedFetching,
+    data: createdProducts,
+  } = useGetCreatedProducts(params?.userId);
+
+  const {
+    fetchNextPage: fetchNextFavoritePage,
+    hasNextPage: hasNextFavoritePage,
+    isFetching: isFavoriteFetching,
+    data: favoriteProducts,
+  } = useGetFavoriteProducts(params?.userId);
+
+  const {
+    fetchNextPage: fetchNextReviewedPage,
+    hasNextPage: hasNextReviewedPage,
+    isFetching: isReviewedFetching,
+    data: reviewedProducts,
+  } = useGetReviewedProducts(params?.userId);
+
+  const createdProductsList =
+    createdProducts?.pages.flatMap((page) => page.list) || [];
+
+  const favoriteProductsList =
+    favoriteProducts?.pages.flatMap((page) => page.list) || [];
+
+  const reviewedProductsList =
+    reviewedProducts?.pages.flatMap((page) => page.list) || [];
 
   const [selectedCategory, setSelectedCategory] = useState('리뷰 남긴 상품');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -43,15 +67,27 @@ const UserProfile = () => {
   const getProducts = () => {
     switch (selectedCategory) {
       case '등록한 상품':
-        return createdProducts?.data.list || [];
+        return createdProductsList || [];
       case '찜한 상품':
-        return favoriteProducts?.data.list || [];
+        return favoriteProductsList || [];
       case '리뷰 남긴 상품':
-        return reviewedProducts?.data.list || [];
+        return reviewedProductsList || [];
       default:
         return [];
     }
   };
+
+  useEffect(() => {
+    if (inView && hasNextCreatedPage) fetchNextCreatedPage();
+    if (inView && hasNextFavoritePage) fetchNextFavoritePage();
+    if (inView && hasNextReviewedPage) fetchNextReviewedPage();
+  }, [
+    inView,
+    hasNextCreatedPage,
+    hasNextFavoritePage,
+    hasNextReviewedPage,
+    getProducts,
+  ]);
 
   if (me?.data.id === Number(params?.userId)) {
     window.location.replace('/mypage');
@@ -147,6 +183,7 @@ const UserProfile = () => {
               </div>
             </div>
             <ProductCardList products={getProducts()} />
+            <div ref={ref}></div>
           </div>
         </div>
       </div>
