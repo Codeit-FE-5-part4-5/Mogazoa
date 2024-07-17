@@ -25,6 +25,8 @@ const initUserInfo = {
 const store = (set: any) => ({
   userInfo: initUserInfo,
   isLoggedIn: false,
+  isKakaoLoggedIn: false,
+  isGoogleLoggedIn: false,
   login: (userInfo: Me) => set({ userInfo, isLoggedIn: true }),
   logout: () => {
     removeCookie('accessToken');
