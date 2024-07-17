@@ -35,7 +35,7 @@ const GoogleAuth = () => {
     if (redirectUri) {
       signUpGoogle({
         nickname: data.nickname,
-        token: validateArray(token),
+        token: idToken,
         redirectUri,
       });
     }
@@ -56,7 +56,7 @@ const GoogleAuth = () => {
     if (idToken) {
       signInGoogle({ token: idToken, redirectUri });
     }
-  }, [idToken]);
+  }, [idToken, redirectUri]);
 
   return (
     <OAuthSignUp>

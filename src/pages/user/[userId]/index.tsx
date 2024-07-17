@@ -18,10 +18,7 @@ import { ChevronDown } from 'lucide-react';
 
 const UserProfile = () => {
   const params = useParams();
-
-  const token = getCookie('accessToken');
-
-  const { data: me } = useGetMe(token);
+  const { data: me } = useGetMe();
   const { data: user } = useUserProfile(Number(params?.userId));
   const { data: createdProducts } = useGetCreatedProducts(
     Number(params?.userId),
