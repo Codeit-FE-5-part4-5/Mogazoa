@@ -103,7 +103,7 @@ export const ReviewModal = () => {
                   fillIcon={
                     <Image
                       className="mr-[2px] inline-block xl:mr-[5px]"
-                      src="images/star.svgs"
+                      src="/images/star.svg"
                       alt="star"
                       width={32}
                       height={32}
