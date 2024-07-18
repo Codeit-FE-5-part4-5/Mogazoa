@@ -17,3 +17,8 @@ export interface Followers {
   nextCursor: number;
   list: FollowerItem[];
 }
+
+export interface FollowerRanking extends Follower {
+  followersCount: number;
+  reviewCount: number;
+}
