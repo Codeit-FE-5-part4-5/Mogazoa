@@ -4,6 +4,7 @@ import Chip from '../Chip/Chip';
 import Image from 'next/image';
 import useFavoriteProduct from '@/shared/models/product/useFavoriteProduct';
 import { ProductDetail } from '@/shared/types/product/productDetail';
+import { useModal } from '@/shared/store/use-modal-store';
 
 interface Props {
   ProductDetail: ProductDetail;
@@ -23,6 +24,7 @@ const ProductDetailCard = ({
     mutate();
   };
 
+  const { onOpen } = useModal();
   const handleCopyUrl = () => {
     const url = window.location.href;
     navigator.clipboard.writeText(url);
@@ -93,14 +95,26 @@ const ProductDetailCard = ({
         </div>
         {userId === ProductDetail?.writerId ? (
           <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
-            <Button text="리뷰 작성하기" />
-            <Button text="비교하기" variant="secondary" />
-            <Button text="편집하기" variant="tertiary" />
+            <Button text="리뷰 작성하기" onClick={() => onOpen('review')} />
+            <Button
+              text="비교하기"
+              variant="secondary"
+              onClick={() => onOpen('compare')}
+            />
+            <Button
+              text="편집하기"
+              variant="tertiary"
+              onClick={() => onOpen('itemEdit')}
+            />
           </div>
         ) : (
           <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
-            <Button text="리뷰 작성하기" />
-            <Button text="비교하기" variant="secondary" />
+            <Button text="리뷰 작성하기" onClick={() => onOpen('review')} />
+            <Button
+              text="비교하기"
+              variant="secondary"
+              onClick={() => onOpen('compare')}
+            />
           </div>
         )}
       </div>
