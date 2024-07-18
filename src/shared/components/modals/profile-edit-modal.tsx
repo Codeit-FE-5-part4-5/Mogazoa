@@ -30,8 +30,7 @@ export const ProfileEditModal = () => {
 
   const { mutateAsync, isPending: isUpdatePending } = useUpdateProfile();
 
-  const token = getCookie('accessToken');
-  const { data: me } = useGetMe(token);
+  const { data: me } = useGetMe();
 
   const isModalOpen = isOpen && type === 'profileEdit';
 
