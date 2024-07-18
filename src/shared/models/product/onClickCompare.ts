@@ -6,7 +6,7 @@ import { saveUserProduct } from './saveUserProduct';
 interface Props {
   productIdData1: Product | undefined;
   productIdData2: Product | undefined;
-  setWinnerCount: React.Dispatch<SetStateAction<number>>;
+  setWinnerCount: React.Dispatch<SetStateAction<number[]>>;
   setIsTable: React.Dispatch<SetStateAction<boolean>>;
 }
 
@@ -34,15 +34,16 @@ export const onClickCompare = ({
     const result2 = compareProducts(reviewCount1, reviewCount2);
     const result3 = compareProducts(favoriteCount1, favoriteCount2);
 
-    let winnerCount = 0;
-    if (result1 === '상품 1 승리') winnerCount++;
-    if (result1 === '상품 2 승리') winnerCount--;
-    if (result2 === '상품 1 승리') winnerCount++;
-    if (result2 === '상품 2 승리') winnerCount--;
-    if (result3 === '상품 1 승리') winnerCount++;
-    if (result3 === '상품 2 승리') winnerCount--;
+    let winnerCount1 = 0;
+    let winnerCount2 = 0;
+    if (result1 === '상품 1 승리') winnerCount1++;
+    if (result1 === '상품 2 승리') winnerCount2++;
+    if (result2 === '상품 1 승리') winnerCount1++;
+    if (result2 === '상품 2 승리') winnerCount2++;
+    if (result3 === '상품 1 승리') winnerCount1++;
+    if (result3 === '상품 2 승리') winnerCount2++;
 
-    setWinnerCount(winnerCount);
+    setWinnerCount([winnerCount1, winnerCount2]);
     setIsTable(true);
     saveUserProduct({ productIdData1, productIdData2 });
   } else {

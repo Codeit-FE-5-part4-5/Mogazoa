@@ -2,7 +2,7 @@ import { tableDetermineResult } from '@/shared/models/product/tableDetermineResu
 import { Product } from '@/shared/types/product/product';
 
 interface Props {
-  winnerCount: number;
+  winnerCount: number[];
   integratedData: {
     product2?: Product | undefined;
     product1?: Product | undefined;

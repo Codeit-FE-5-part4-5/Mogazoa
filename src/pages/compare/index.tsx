@@ -69,7 +69,7 @@ const Compare = () => {
     product1: productIdData1,
     product2: productIdData2,
   };
-  const [winnerCount, setWinnerCount] = useState(0);
+  const [winnerCount, setWinnerCount] = useState([0, 0]);
 
   return (
     <div className="items-centers flex flex-col justify-center px-5 md:items-center">
