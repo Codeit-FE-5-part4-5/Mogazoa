@@ -7,6 +7,7 @@ import useSignUp from '@/shared/models/auth/useSignUp';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 
 export interface IAuthForm {
   email: string;
@@ -39,6 +40,7 @@ const SignUp = () => {
   const { mutate } = useSignUp();
   const {
     register,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm<IAuthForm>({
@@ -47,7 +49,23 @@ const SignUp = () => {
   });
 
   const handleSubmitSignUp = (data: IAuthForm) => {
-    mutate(data);
+    mutate(data, {
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          if (error.response?.data?.details?.email !== undefined) {
+            setError('email', {
+              type: 'validateError',
+              message: error?.response?.data?.message,
+            });
+          } else if (error.response?.data?.details?.nickname !== undefined) {
+            setError('nickname', {
+              type: 'validateError',
+              message: error?.response?.data?.message,
+            });
+          }
+        }
+      },
+    });
   };
 
   return (

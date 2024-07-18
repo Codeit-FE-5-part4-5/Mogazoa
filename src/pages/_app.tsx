@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <CookiesProvider>
+      <CookiesProvider defaultSetOptions={{ path: '/' }}>
         <ModalProvider />
         <Component {...pageProps} />
         <ReactQueryDevtools initialIsOpen={false} />
