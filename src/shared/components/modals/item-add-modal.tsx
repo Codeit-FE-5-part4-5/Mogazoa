@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useState, SetStateAction } from 'react';
 import Image from 'next/image';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import CompareDropDownInput from '../DropDown/CompareDropDownInput';
 import useGetProducts from '@/shared/models/product/useGetProducts';
 import { usePathname } from 'next/navigation';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
+import axios from 'axios';
 
 import {
   Dialog,
@@ -18,6 +18,7 @@ import {
 import { useModal } from '@/shared/store/use-modal-store';
 import DropDown from '../DropDown/DropDown';
 import apiInstance from '@/shared/utils/axios';
+
 import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
 import Button from '../Button/Button';
@@ -102,6 +103,7 @@ export const ItemAddModal = () => {
     };
 
     try {
+      console.log(requestBody);
       const response = await apiInstance.post('/products', requestBody);
       console.log('Response:', response.data);
       router.push('/mypage');
