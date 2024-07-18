@@ -8,24 +8,47 @@ import { getCookie } from '@/shared/utils/cookie';
 import { useModal } from '@/shared/store/use-modal-store';
 import useGetFavoriteProducts from '@/shared/models/user/products/favorite-products/useGetFavoriteProducts';
 import useGetReviewedProducts from '@/shared/models/user/products/reviewed-products/useGetReviewedProducts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
 import { ChevronDown } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
 
 const MyPage = () => {
+  const [ref, inView] = useInView();
+
   const token = getCookie('accessToken');
 
   const { data: user } = useGetMe(token);
 
-  const { data: createdProducts } = useGetCreatedProducts(
-    Number(user?.data.id),
-  );
-  const { data: favoriteProducts } = useGetFavoriteProducts(
-    Number(user?.data.id),
-  );
-  const { data: reviewedProducts } = useGetReviewedProducts(
-    Number(user?.data.id),
-  );
+  const {
+    fetchNextPage: fetchNextCreatedPage,
+    hasNextPage: hasNextCreatedPage,
+    isFetching: isCreatedFetching,
+    data: createdProducts,
+  } = useGetCreatedProducts(user?.data.id);
+
+  const {
+    fetchNextPage: fetchNextFavoritePage,
+    hasNextPage: hasNextFavoritePage,
+    isFetching: isFavoriteFetching,
+    data: favoriteProducts,
+  } = useGetFavoriteProducts(user?.data.id);
+
+  const {
+    fetchNextPage: fetchNextReviewedPage,
+    hasNextPage: hasNextReviewedPage,
+    isFetching: isReviewedFetching,
+    data: reviewedProducts,
+  } = useGetReviewedProducts(user?.data.id);
+
+  const createdProductsList =
+    createdProducts?.pages.flatMap((page) => page.list) || [];
+
+  const favoriteProductsList =
+    favoriteProducts?.pages.flatMap((page) => page.list) || [];
+
+  const reviewedProductsList =
+    reviewedProducts?.pages.flatMap((page) => page.list) || [];
 
   const { onOpen } = useModal();
 
@@ -39,20 +62,32 @@ const MyPage = () => {
   const getProducts = () => {
     switch (selectedCategory) {
       case '등록한 상품':
-        return createdProducts?.data.list || [];
+        return createdProductsList || [];
       case '찜한 상품':
-        return favoriteProducts?.data.list || [];
+        return favoriteProductsList || [];
       case '리뷰 남긴 상품':
-        return reviewedProducts?.data.list || [];
+        return reviewedProductsList || [];
       default:
         return [];
     }
   };
 
+  useEffect(() => {
+    if (inView && hasNextCreatedPage) fetchNextCreatedPage();
+    if (inView && hasNextFavoritePage) fetchNextFavoritePage();
+    if (inView && hasNextReviewedPage) fetchNextReviewedPage();
+  }, [
+    inView,
+    hasNextCreatedPage,
+    hasNextFavoritePage,
+    hasNextReviewedPage,
+    getProducts,
+  ]);
+
   return (
     <div>
       <Header />
-      <div className="flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
+      <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
           <MyProfileCard user={user?.data} />
         </div>
@@ -120,25 +155,26 @@ const MyPage = () => {
             </div>
             <div className="hidden space-x-10 text-var-gray1 xl:flex">
               <div
-                className={`hover:text-var-white ${selectedCategory === 'reviewed' ? 'text-var-white' : ''}`}
+                className={`hover:text-var-white ${selectedCategory === '리뷰 남긴 상품' ? 'text-var-white' : ''}`}
                 onClick={() => setSelectedCategory('리뷰 남긴 상품')}
               >
                 리뷰 남긴 상품
               </div>
               <div
-                className={`hover:text-var-white ${selectedCategory === 'created' ? 'text-var-white' : ''}`}
+                className={`hover:text-var-white ${selectedCategory === '등록한 상품' ? 'text-var-white' : ''}`}
                 onClick={() => setSelectedCategory('등록한 상품')}
               >
                 등록한 상품
               </div>
               <div
-                className={`hover:text-var-white ${selectedCategory === 'favorite' ? 'text-var-white' : ''}`}
+                className={`hover:text-var-white ${selectedCategory === '찜한 상품' ? 'text-var-white' : ''}`}
                 onClick={() => setSelectedCategory('찜한 상품')}
               >
                 찜한 상품
               </div>
             </div>
             <ProductCardList products={getProducts()} />
+            <div ref={ref}></div>
           </div>
         </div>
       </div>
