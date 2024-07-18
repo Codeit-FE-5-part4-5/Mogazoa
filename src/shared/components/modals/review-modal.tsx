@@ -70,7 +70,7 @@ export const ReviewModal = () => {
     try {
       const response = await apiInstance.post('/reviews', requestBody);
       console.log('Response:', response.data);
-      router.push('/mypage');
+      router.push(`/detail/${productId}`);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;
@@ -135,19 +135,23 @@ export const ReviewModal = () => {
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
             <div className="flex space-x-4">
-              <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+              <div className="flex h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                 <ImageInput
                   onChange={(image: string | null) => setImage1(image)}
                 />
                 {image1 && (
-                  <ImageInput
-                    onChange={(image: string | null) => setImage2(image)}
-                  />
+                  <div className="flex h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+                    <ImageInput
+                      onChange={(image: string | null) => setImage2(image)}
+                    />
+                  </div>
                 )}
                 {image2 && (
-                  <ImageInput
-                    onChange={(image: string | null) => setImage3(image)}
-                  />
+                  <div className="flex h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+                    <ImageInput
+                      onChange={(image: string | null) => setImage3(image)}
+                    />
+                  </div>
                 )}
               </div>
             </div>
