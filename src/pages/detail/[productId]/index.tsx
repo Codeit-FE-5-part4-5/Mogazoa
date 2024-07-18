@@ -24,6 +24,8 @@ export default function ProductDetails() {
     productId: Number(productId),
   });
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('최신순');
   const [sort, setSort] = useState<
     'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount'
   >('recent');
@@ -36,11 +38,20 @@ export default function ProductDetails() {
     order: sort,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSort(
-      e.target.value as 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount',
-    );
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const handleOptionSelect = (
+    value: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount',
+    label: '최신순' | '평점 높은 순' | '평점 낮은 순' | '좋아요 순',
+  ) => {
+    setSort(value);
+    setSelectedOption(label);
+    setIsDropdownOpen(false);
+  };
+
+  console.log(token);
 
   return (
     <>
@@ -80,21 +91,60 @@ export default function ProductDetails() {
           </div>
         </div>
         <div className="flex items-center justify-between pb-[30px]">
-          <h1 className="font-pretendard text-[18px] font-semibold leading-normal text-[#F1F1F5]">
+          <h1 className="text-[18px] font-semibold leading-normal text-[#F1F1F5]">
             상품 리뷰
           </h1>
           <div>
             <div className="flex w-full items-center justify-between">
-              <select
-                value={sort}
-                onChange={handleChange}
-                className="font-Pretendard appearance-none rounded-md border-2 border-none bg-transparent text-center text-[16px] font-normal text-white focus:outline-none"
-              >
-                <option value="recent">최신순</option>
-                <option value="ratingDesc">평점 높은 순</option>
-                <option value="ratingAsc">평점 낮은 순</option>
-                <option value="likeCount">좋아요 순</option>
-              </select>
+              <div className="relative inline-block">
+                <div
+                  className="w-[120px] cursor-pointer appearance-none rounded-md border-2 border-none bg-transparent text-center text-[16px] font-normal text-white focus:outline-none"
+                  onClick={handleDropdownToggle}
+                >
+                  {selectedOption}
+                  <Image
+                    src="/arrow.svg"
+                    alt="정렬"
+                    width={8}
+                    height={4}
+                    className="ml-2 inline-block"
+                  />
+                </div>
+                {isDropdownOpen && (
+                  <div className="absolute z-10 mt-2 w-full rounded-md border border-var-gray1 bg-[#1c1c22] text-var-gray1">
+                    <div
+                      className="cursor-pointer p-3 hover:text-var-white"
+                      onClick={() => handleOptionSelect('recent', '최신순')}
+                    >
+                      최신순
+                    </div>
+                    <div
+                      className="cursor-pointer p-3 hover:text-var-white"
+                      onClick={() =>
+                        handleOptionSelect('ratingDesc', '평점 높은 순')
+                      }
+                    >
+                      평점 높은 순
+                    </div>
+                    <div
+                      className="cursor-pointer p-3 hover:text-var-white"
+                      onClick={() =>
+                        handleOptionSelect('ratingAsc', '평점 낮은 순')
+                      }
+                    >
+                      평점 낮은 순
+                    </div>
+                    <div
+                      className="cursor-pointer p-3 hover:text-var-white"
+                      onClick={() =>
+                        handleOptionSelect('likeCount', '좋아요 순')
+                      }
+                    >
+                      좋아요 순
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -106,6 +156,7 @@ export default function ProductDetails() {
                 review={review}
                 order={sort}
                 userId={userId}
+                productName={productDetail?.name}
               />
             ))}
           </div>
