@@ -5,9 +5,8 @@ type useEnvironmentVariableProps = 'google' | 'kakao';
 const useEnvironmentVariable = (
   provider: useEnvironmentVariableProps,
 ): string[] => {
-  const redirectUri = encodeURIComponent(
-    provider === 'google' ? GOOGLE_REDIRECT_URI : KAKAO_REDIRECT_URI,
-  );
+  const redirectUri =
+    provider === 'google' ? GOOGLE_REDIRECT_URI : KAKAO_REDIRECT_URI;
   const clientId = encodeURIComponent(
     provider === 'google'
       ? process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID

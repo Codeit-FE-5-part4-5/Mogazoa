@@ -3,7 +3,8 @@ import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
 
 const KakaoButton = () => {
   const [redirectUri, clientId] = useEnvironmentVariable('kakao');
-
+  console.log(redirectUri);
+  console.log(clientId);
   return (
     <a
       href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`}
