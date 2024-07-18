@@ -4,11 +4,21 @@ import apiInstance from '@/shared/utils/axios';
 
 type ImageInputProps = {
   onChange: (image: string | null) => void;
+  initialImageUrl?: string | null;
 };
 
-const ImageInput: React.FC<ImageInputProps> = ({ onChange }) => {
+const ImageInput: React.FC<ImageInputProps> = ({
+  onChange,
+  initialImageUrl,
+}) => {
   // const [image, setImage] = useState<string | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(
+    initialImageUrl || null,
+  );
+
+  useEffect(() => {
+    setImageUrl(initialImageUrl || null);
+  }, [initialImageUrl]);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
