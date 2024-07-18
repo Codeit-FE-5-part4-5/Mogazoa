@@ -18,6 +18,7 @@ const useKakaoSignUp = () => {
     mutationFn: kakaoSignUpRequest,
     onSuccess: (data) => {
       setCookie('accessToken', data.data.accessToken, {
+        path: '/',
         secure: process.env.NODE_ENV === 'production',
       });
       handleRedirect('/');
