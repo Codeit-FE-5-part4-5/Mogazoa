@@ -9,11 +9,15 @@ export type ModalType =
   | 'review'
   | 'itemEdit'
   | 'itemAdd'
-  | 'profileEdit';
+  | 'profileEdit'
+  | 'reviewEdit'
+  | 'reviewDelete'
+  | 'login';
 
 interface ModalData {
   followers?: Followers;
   followees?: Followees;
+  reviewId?: number;
 }
 
 export interface ModalStore {
