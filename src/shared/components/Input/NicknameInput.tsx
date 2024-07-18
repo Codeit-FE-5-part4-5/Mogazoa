@@ -9,7 +9,7 @@ interface NicknameInputProps extends InputHTMLAttributes<HTMLInputElement> {
 const NicknameInput: React.FC<NicknameInputProps> = ({
   register,
   error,
-  ...props
+  placeholder,
 }) => {
   return (
     <div>
@@ -17,9 +17,9 @@ const NicknameInput: React.FC<NicknameInputProps> = ({
       <input
         type="text"
         maxLength={10}
+        placeholder={placeholder}
         className={`${error && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none transition-all duration-300 hover:bg-[#17171C] focus:border-gradient-custom`}
         {...register}
-        {...props}
       />
       <span
         className={`mt-[12px] block text-[14px] ${error ? 'text-var-red' : 'text-var-gray1'}`}
