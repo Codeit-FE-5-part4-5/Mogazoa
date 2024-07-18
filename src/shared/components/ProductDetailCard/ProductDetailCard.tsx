@@ -24,15 +24,12 @@ const ProductDetailCard = ({
     mutate();
   };
 
-<<<<<<< HEAD
   const { onOpen } = useModal();
-=======
   const handleCopyUrl = () => {
     const url = window.location.href;
     navigator.clipboard.writeText(url);
     alert(`현재 페이지 URL이 복사되었습니다`);
   };
->>>>>>> dev
 
   return (
     <div className="gap-[50px] text-var-white md:flex">
