@@ -43,7 +43,7 @@ const GoogleAuth = () => {
   };
 
   useEffect(() => {
-    if (token && !idToken) {
+    if (token) {
       flowGoogleAuth({
         redirectUri,
         clientId,
