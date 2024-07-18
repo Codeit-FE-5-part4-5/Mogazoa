@@ -1,9 +1,9 @@
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import Button from '@/shared/components/Button/Button';
-import GoogleButton from '@/shared/components/GoogleButton/GoogleButton';
+import GoogleButton from '@/shared/components/OAuthButton/GoogleButton/GoogleButton';
 import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
-import KakaoButton from '@/shared/components/KakaoButton/KakaoButton';
+import KakaoButton from '@/shared/components/OAuthButton/KakaoButton/KakaoButton';
 import useSignIn from '@/shared/models/auth/useSignIn';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';

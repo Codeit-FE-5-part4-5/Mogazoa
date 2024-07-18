@@ -3,20 +3,19 @@ import axios from '@/shared/utils/axios';
 import { setCookie } from '@/shared/utils/cookie';
 import { useMutation } from '@tanstack/react-query';
 
-const signUpRequest = (params: {
-  email: string;
+const googleSignUpRequest = (params: {
   nickname: string;
-  password: string;
-  passwordConfirmation: string;
+  redirectUri: string;
+  token: string;
 }) => {
-  return axios.post(`auth/signUp`, params);
+  return axios.post(`auth/signUp/google`, params);
 };
 
-const useSignUp = () => {
+const useGoogleSignUp = () => {
   const { handleRedirect } = useChangeRouter();
 
   return useMutation({
-    mutationFn: signUpRequest,
+    mutationFn: googleSignUpRequest,
     onSuccess: (data) => {
       setCookie('accessToken', data.data.accessToken, {
         secure: process.env.NODE_ENV === 'production',
@@ -26,4 +25,4 @@ const useSignUp = () => {
   });
 };
 
-export default useSignUp;
+export default useGoogleSignUp;

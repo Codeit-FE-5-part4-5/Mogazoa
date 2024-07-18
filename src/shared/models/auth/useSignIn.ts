@@ -3,11 +3,11 @@ import axios from '@/shared/utils/axios';
 import { setCookie } from '@/shared/utils/cookie';
 import { useMutation } from '@tanstack/react-query';
 
-export const signInRequest = (account: { email: string; password: string }) => {
-  return axios.post(`auth/signIn`, account);
+const signInRequest = (params: { email: string; password: string }) => {
+  return axios.post(`auth/signIn`, params);
 };
 
-export default function useSignIn() {
+const useSignIn = () => {
   const { handleRedirect } = useChangeRouter();
 
   return useMutation({
@@ -19,4 +19,6 @@ export default function useSignIn() {
       handleRedirect('/');
     },
   });
-}
+};
+
+export default useSignIn;

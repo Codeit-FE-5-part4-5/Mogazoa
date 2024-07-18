@@ -2,19 +2,17 @@ import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import axios from '@/shared/utils/axios';
 import { setCookie } from '@/shared/utils/cookie';
 import { useMutation } from '@tanstack/react-query';
-import { useCallback } from 'react';
+
+const kakaoSignUpRequest = (params: {
+  nickname: string;
+  token: string;
+  redirectUri: string;
+}) => {
+  return axios.post(`auth/signUp/kakao`, params);
+};
 
 const useKakaoSignUp = () => {
-  const { currentQuery, handleRedirect } = useChangeRouter();
-  const { code: token } = currentQuery;
-  const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI;
-
-  const kakaoSignUpRequest = useCallback(
-    (nickname: string) => {
-      return axios.post(`auth/signUp/kakao`, { nickname, redirectUri, token });
-    },
-    [token],
-  );
+  const { handleRedirect } = useChangeRouter();
 
   return useMutation({
     mutationFn: kakaoSignUpRequest,
