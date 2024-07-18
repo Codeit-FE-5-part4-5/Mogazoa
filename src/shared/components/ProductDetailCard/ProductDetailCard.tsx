@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import Chip from '../Chip/Chip';
 import Image from 'next/image';
-import useFavoriteProduct from '@/shared/models/product/useFavoriteMark';
+import useFavoriteProduct from '@/shared/models/product/useFavoriteProduct';
 import { ProductDetail } from '@/shared/types/product/productDetail';
 
 interface Props {
@@ -21,6 +21,12 @@ const ProductDetailCard = ({
 
   const handleToggleFavorite = () => {
     mutate();
+  };
+
+  const handleCopyUrl = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    alert(`현재 페이지 URL이 복사되었습니다`);
   };
 
   return (
@@ -52,7 +58,10 @@ const ProductDetailCard = ({
                 className="h-[14px] xl:h-[18px]"
               />
             </li>
-            <li className="flex h-[24px] w-[24px] items-center justify-center rounded-[6px] bg-[#252530] xl:h-[28px] xl:w-[28px]">
+            <li
+              className="flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-[6px] bg-[#252530] xl:h-[28px] xl:w-[28px]"
+              onClick={handleCopyUrl}
+            >
               <img
                 src="/images/share_300.svg"
                 alt="공유하기"

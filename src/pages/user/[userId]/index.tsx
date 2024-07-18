@@ -21,10 +21,7 @@ const UserProfile = () => {
   const [ref, inView] = useInView();
 
   const params = useParams();
-
-  const token = getCookie('accessToken');
-
-  const { data: me } = useGetMe(token);
+  const { data: me } = useGetMe();
   const { data: user } = useUserProfile(Number(params?.userId));
 
   const {

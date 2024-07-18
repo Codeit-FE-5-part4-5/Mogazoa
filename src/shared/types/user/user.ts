@@ -20,6 +20,8 @@ export interface Me {
 export interface MeStore {
   userInfo: Me;
   isLoggedIn: boolean;
+  isKakaoLoggedIn: boolean;
+  isGoogleLoggedIn: boolean;
   login: (userInfo: Me) => void;
   logout: () => void;
 }

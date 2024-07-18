@@ -26,13 +26,8 @@ apiInstance.interceptors.request.use(
 apiInstance.interceptors.response.use(
   (res) => res,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      removeCookie('accessToken', { path: '/' });
-      window.location.href = '/signin';
-    } else {
-      console.log(error);
-      throw new Error(error);
-    }
+    console.log(error);
+    throw new Error(error);
   },
 );
 
