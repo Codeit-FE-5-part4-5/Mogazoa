@@ -11,9 +11,12 @@ import useGoogleSignIn from '@/shared/models/auth/useGoogleSignIn';
 import useGoogleSignUp from '@/shared/models/auth/useGoogleSignUp';
 import useGoogleFlow from '@/shared/models/auth/useGoogleFlow';
 import { getCookie } from '@/shared/utils/cookie';
+import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
 
 const GoogleAuth = () => {
   const idToken = getCookie('idToken');
+  const [redirectUri, clientId, clientSecret] =
+    useEnvironmentVariable('google');
   const { currentQuery } = useChangeRouter();
   const { mutate: signInGoogle } = useGoogleSignIn();
   const { mutate: signUpGoogle } = useGoogleSignUp();
@@ -27,18 +30,13 @@ const GoogleAuth = () => {
     resolver: zodResolver(oAuthSchema),
     mode: 'onBlur',
   });
-  const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI!;
-  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!;
-  const clientSecret = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!;
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
-    if (redirectUri) {
-      signUpGoogle({
-        nickname: data.nickname,
-        token: idToken,
-        redirectUri,
-      });
-    }
+    signUpGoogle({
+      nickname: data.nickname,
+      token: idToken,
+      redirectUri,
+    });
   };
 
   useEffect(() => {
@@ -50,13 +48,13 @@ const GoogleAuth = () => {
         token: validateArray(token),
       });
     }
-  }, [token, redirectUri]);
+  }, [token]);
 
   useEffect(() => {
     if (idToken) {
       signInGoogle({ token: idToken, redirectUri });
     }
-  }, [idToken, redirectUri]);
+  }, [idToken]);
 
   return (
     <OAuthSignUp>

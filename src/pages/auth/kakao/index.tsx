@@ -9,8 +9,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import { validateArray } from '@/shared/utils/validateArray';
+import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
 
 const KakaoAuth = () => {
+  const [redirectUri] = useEnvironmentVariable('kakao');
   const { currentQuery } = useChangeRouter();
   const { mutate: signUpKakao } = useKakaoSignUp();
   const { mutate: signInKakao } = useKakaoSignIn();
@@ -23,16 +25,13 @@ const KakaoAuth = () => {
     resolver: zodResolver(oAuthSchema),
     mode: 'onBlur',
   });
-  const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI as string;
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
-    if (redirectUri) {
-      signUpKakao({
-        nickname: data.nickname,
-        token: validateArray(code),
-        redirectUri,
-      });
-    }
+    signUpKakao({
+      nickname: data.nickname,
+      token: validateArray(code),
+      redirectUri,
+    });
   };
 
   useEffect(() => {
