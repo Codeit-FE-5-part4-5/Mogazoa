@@ -7,11 +7,13 @@ const useEnvironmentVariable = (
 ): string[] => {
   const redirectUri =
     provider === 'google' ? GOOGLE_REDIRECT_URI : KAKAO_REDIRECT_URI;
+
   const clientId = encodeURIComponent(
     provider === 'google'
       ? process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
       : process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
   );
+
   const clientSecret = encodeURIComponent(
     provider === 'google'
       ? process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET
