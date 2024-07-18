@@ -2,11 +2,11 @@ import Button from '@/shared/components/Button/Button';
 import EmailInput from '@/shared/components/Input/EmailInput';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
+import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import useSignUp from '@/shared/models/auth/useSignUp';
 import { useForm } from 'react-hook-form';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export interface IAuthForm {
   email: string;
@@ -35,7 +35,7 @@ const signUpSchema = z
     path: ['passwordConfirmation'],
   });
 
-export default function SignUp() {
+const SignUp = () => {
   const { mutate } = useSignUp();
   const {
     register,
@@ -82,4 +82,6 @@ export default function SignUp() {
       </div>
     </MogazoaLayout>
   );
-}
+};
+
+export default SignUp;

@@ -14,14 +14,16 @@ const queryClient = new QueryClient({
   },
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <CookiesProvider defaultSetOptions={{ path: '/' }}>
+      <CookiesProvider>
         <ModalProvider />
         <Component {...pageProps} />
         <ReactQueryDevtools initialIsOpen={false} />
       </CookiesProvider>
     </QueryClientProvider>
   );
-}
+};
+
+export default App;

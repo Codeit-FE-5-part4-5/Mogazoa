@@ -1,4 +1,5 @@
-import { CSSProperties, useEffect, useState } from 'react';
+import usePendingTimeout from '@/shared/hooks/usePendingTimeout';
+import { CSSProperties } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 const override: CSSProperties = {
@@ -6,29 +7,21 @@ const override: CSSProperties = {
   margin: '0 auto',
 };
 
-const Spinner = ({ isLoading }: { isLoading: boolean }) => {
-  const [loading, setLoading] = useState(false);
+interface SpinerProps {
+  isLoading: boolean;
+  isTimeout?: boolean;
+  size?: number;
+}
 
-  useEffect(() => {
-    let timerId = setTimeout(() => {
-      if (isLoading) {
-        setLoading(true);
-      } else {
-        setLoading(false);
-      }
-    }, 400);
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [isLoading]);
+const Spinner = ({ isLoading, isTimeout = true, size = 30 }: SpinerProps) => {
+  const [loading] = usePendingTimeout(isLoading);
 
   return (
     <ClipLoader
       color="#ffffff"
-      loading={loading}
+      loading={isTimeout ? loading : isLoading}
       cssOverride={override}
-      size={30}
+      size={size}
     />
   );
 };

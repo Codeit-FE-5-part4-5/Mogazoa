@@ -7,12 +7,10 @@ const useChangeRouter = (): {
   currentQuery: ParsedUrlQuery;
   handleRouterPush: (value: string | Record<string, string | number>) => void;
   handleRedirect: (value: string) => void;
-  currentAsPath: any;
 } => {
   const router = useRouter();
   const currentPath = router.pathname;
   const currentQuery = router.query;
-  const currentAsPath = router.asPath;
 
   const handleRouterPush = useCallback(
     (value: string | Record<string, string | number>) => {
@@ -39,8 +37,7 @@ const useChangeRouter = (): {
     currentPath, // 현재 Pathname
     currentQuery, // 현재 Query
     handleRouterPush, // 파라미터 값을 url 쿼리로 넘겨주는 함수
-    handleRedirect, //
-    currentAsPath,
+    handleRedirect, // replace메서드로 리다이렉션 해주는 함수
   };
 };
 

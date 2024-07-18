@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import Button from '@/shared/components/Button/Button';
 import GoogleButton from '@/shared/components/OAuthButton/GoogleButton/GoogleButton';
@@ -5,10 +6,9 @@ import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
 import KakaoButton from '@/shared/components/OAuthButton/KakaoButton/KakaoButton';
 import useSignIn from '@/shared/models/auth/useSignIn';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export interface ILoginForm {
   email: string;
@@ -23,7 +23,7 @@ const signInSchema = z.object({
   password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
 });
 
-export default function SignIn() {
+const SignIn = () => {
   const { mutate } = useSignIn();
   const {
     register,
@@ -77,4 +77,6 @@ export default function SignIn() {
       </div>
     </MogazoaLayout>
   );
-}
+};
+
+export default SignIn;
