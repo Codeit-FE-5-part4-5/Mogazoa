@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie, removeCookie } from './cookie';
+import { getCookie } from './cookie';
 
 const apiInstance = axios.create({
   baseURL: 'https://mogazoa-api.vercel.app/5-5/',
@@ -19,15 +19,14 @@ apiInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    throw new Error(error);
+    return Promise.reject(error);
   },
 );
 
 apiInstance.interceptors.response.use(
   (res) => res,
   (error) => {
-    console.log(error);
-    throw new Error(error);
+    return Promise.reject(error);
   },
 );
 
