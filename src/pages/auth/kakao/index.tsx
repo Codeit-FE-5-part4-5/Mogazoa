@@ -1,15 +1,15 @@
+import { useEffect } from 'react';
 import Button from '@/shared/components/Button/Button';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
 import useKakaoSignIn from '@/shared/models/auth/useKakaoSignIn';
 import useKakaoSignUp from '@/shared/models/auth/useKakaoSignUp';
-import OAuthSignUp, { oAuthSchema } from '..';
-import { useForm } from 'react-hook-form';
-import { IAuthForm } from '@/pages/signup';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
-import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import { validateArray } from '@/shared/utils/validateArray';
+import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { IAuthForm } from '@/pages/signup';
+import OAuthSignUp, { oAuthSchema } from '..';
 
 const KakaoAuth = () => {
   const [redirectUri] = useEnvironmentVariable('kakao');

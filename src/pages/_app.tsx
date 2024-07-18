@@ -14,7 +14,7 @@ const queryClient = new QueryClient({
   },
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <CookiesProvider defaultSetOptions={{ path: '/' }}>
@@ -24,4 +24,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </CookiesProvider>
     </QueryClientProvider>
   );
-}
+};
+
+export default App;

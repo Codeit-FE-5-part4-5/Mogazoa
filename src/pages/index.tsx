@@ -3,19 +3,19 @@ import { RankingList } from '@/shared/components/RankingList/RankingList';
 import { CategoryMenu } from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import { ORDER_VARIANTS } from '@/shared/constants/products';
+import Spinner from '@/shared/components/Spinner/Spinner';
+import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
+import ProductList from '@/shared/components/ProductList/ProductList';
+import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
 import useGetCategory from '@/shared/models/category/useGetCategory';
 import useGetProducts from '@/shared/models/product/useGetProducts';
 import sortConverter from '@/shared/utils/sortConverter';
-import useChangeRouter from '@/shared/hooks/useChangeRouter';
-import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
-import ProductList from '@/shared/components/ProductList/ProductList';
-import useSearchRouter from '@/shared/hooks/useSearchRouter';
-import Spinner from '@/shared/components/Spinner/Spinner';
 import { validateArray } from '@/shared/utils/validateArray';
-import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
+import useChangeRouter from '@/shared/hooks/useChangeRouter';
+import useSearchRouter from '@/shared/hooks/useSearchRouter';
+import { ORDER_VARIANTS } from '@/shared/constants/products';
 
-export default function Home() {
+const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();
   const { searchQuery } = useSearchRouter();
   const [currentSortOrder, setCurrentSortOrder] = useState(
@@ -74,4 +74,6 @@ export default function Home() {
       </main>
     </MogazoaLayout>
   );
-}
+};
+
+export default Home;

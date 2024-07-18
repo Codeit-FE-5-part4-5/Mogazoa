@@ -1,5 +1,5 @@
-import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
 import Image from 'next/image';
+import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
 
 const KakaoButton = () => {
   const [redirectUri, clientId] = useEnvironmentVariable('kakao');

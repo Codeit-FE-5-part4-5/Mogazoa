@@ -1,17 +1,17 @@
+import { useEffect } from 'react';
 import Button from '@/shared/components/Button/Button';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
-import OAuthSignUp, { oAuthSchema } from '..';
-import { useForm } from 'react-hook-form';
-import { IAuthForm } from '@/pages/signup';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
-import useChangeRouter from '@/shared/hooks/useChangeRouter';
-import { validateArray } from '@/shared/utils/validateArray';
 import useGoogleSignIn from '@/shared/models/auth/useGoogleSignIn';
 import useGoogleSignUp from '@/shared/models/auth/useGoogleSignUp';
 import useGoogleFlow from '@/shared/models/auth/useGoogleFlow';
+import { validateArray } from '@/shared/utils/validateArray';
 import { getCookie } from '@/shared/utils/cookie';
+import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
+import { useForm } from 'react-hook-form';
+import { IAuthForm } from '@/pages/signup';
+import { zodResolver } from '@hookform/resolvers/zod';
+import OAuthSignUp, { oAuthSchema } from '..';
 
 const GoogleAuth = () => {
   const idToken = getCookie('idToken');
