@@ -5,6 +5,7 @@ import CompareDropDownInput from '../DropDown/CompareDropDownInput';
 import useGetProducts from '@/shared/models/product/useGetProducts';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 
+
 import {
   Dialog,
   DialogContent,
@@ -104,6 +105,7 @@ export const ItemEditModal = () => {
       );
       console.log('Response:', response.data);
       router.push('/mypage');
+      onClose('itemEdit');
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;
