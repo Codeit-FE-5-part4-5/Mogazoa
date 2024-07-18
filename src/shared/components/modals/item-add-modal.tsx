@@ -22,6 +22,7 @@ import apiInstance from '@/shared/utils/axios';
 import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
 import Button from '../Button/Button';
+import TextFieldInput from '../Input/TextFieldInput';
 
 const frameworks = [
   '음악',
@@ -146,20 +147,14 @@ export const ItemAddModal = () => {
                 </div>
               </div>
               <div className="w-full md:order-1">
-                <CompareDropDownInput
-                  itemList={keywordList}
-                  onClick={setSelectedItem}
-                  Bedge={Bedge1}
-                  setBedge={setBedge1}
-                  setValue={setSelectedItem}
+                <TextFieldInput
+                  placeholder="상품명을 입력하세요"
                   value={selectedItem}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     onChangeEvent(e, setSelectedItem)
                   }
-                  fetchNextPage={fetchNextPage1}
-                  isFetching={isFetching1}
-                  hasNextPage={hasNextPage1}
                 />
+
                 <DropDown
                   itemList={frameworks}
                   onClick={handleCategorySelect}
