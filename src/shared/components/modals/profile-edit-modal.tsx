@@ -15,7 +15,6 @@ import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
 import Button from '../Button/Button';
 import TextFieldInput from '../Input/TextFieldInput';
-import { getCookie } from '@/shared/utils/cookie';
 import useGetMe from '@/shared/models/auth/useGetMe';
 
 export const ProfileEditModal = () => {
