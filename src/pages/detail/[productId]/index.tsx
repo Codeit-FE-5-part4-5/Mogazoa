@@ -10,9 +10,8 @@ import { getCookie } from '@/shared/utils/cookie';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Floating from '@/shared/components/Floating/Floating';
-import { Review } from '@/shared/types/reviews/reviews';
-import { LoginModal } from '@/shared/components/modals/login-modal';
 import { useModal } from '@/shared/store/use-modal-store';
+import { useInView } from 'react-intersection-observer';
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -45,10 +44,21 @@ export default function ProductDetails() {
   const numericProductId =
     productId && !Array.isArray(productId) ? Number(productId) : undefined;
 
-  const { data: productDetailReview } = useGetProductDetailReviews({
-    productId: numericProductId,
-    order: sort,
-  });
+  const {
+    data: productDetailReview,
+    fetchNextPage: fetchNextPage,
+    hasNextPage: hasNextPage,
+    isFetchingNextPage: isFetchingNextPage,
+  } = useGetProductDetailReviews({ productId: numericProductId, order: sort });
+
+  const reviews = productDetailReview?.pages.flatMap((page) => page.list) || [];
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -169,9 +179,9 @@ export default function ProductDetails() {
             </div>
           </div>
         </div>
-        {productDetailReview?.list.length > 0 ? (
+        {reviews.length > 0 ? (
           <div className="mb-[15px]">
-            {productDetailReview?.list.map((review: Review) => (
+            {reviews.map((review) => (
               <ProductDetailReview
                 key={review.id}
                 review={review}
@@ -181,6 +191,8 @@ export default function ProductDetails() {
                 isLogin={isLogin}
               />
             ))}
+            <div ref={ref} />
+            {isFetchingNextPage && <div>Loading more reviews...</div>}
           </div>
         ) : (
           <div className="mb-[120px] mt-[80px] flex flex-col items-center gap-[20px]">
@@ -201,7 +213,6 @@ export default function ProductDetails() {
       <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
         <Floating onClick={handleReviewEdit} />
       </div>
-      <LoginModal />
     </>
   );
 }

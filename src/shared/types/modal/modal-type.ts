@@ -12,7 +12,8 @@ export type ModalType =
   | 'profileEdit'
   | 'reviewEdit'
   | 'reviewDelete'
-  | 'login';
+  | 'login'
+  | 'compareNotice';
 
 interface ModalData {
   followers?: Followers;

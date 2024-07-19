@@ -7,6 +7,8 @@ import { ReviewModal } from '../components/modals/review-modal';
 import { ItemEditModal } from '../components/modals/item-edit-modal';
 import { ItemAddModal } from '../components/modals/item-add-modal';
 import { ProfileEditModal } from '../components/modals/profile-edit-modal';
+import { LoginModal } from '../components/modals/login-modal';
+import { CompareNoticeModal } from '../components/modals/compare-notice-modal';
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -23,12 +25,13 @@ export const ModalProvider = () => {
     <>
       <FollowModal />
       <FollowingModal />
-      <CompareModal />
       <CompareConfirmModal />
       <ReviewModal />
       <ItemEditModal />
       <ItemAddModal />
       <ProfileEditModal />
+      <LoginModal />
+      <CompareNoticeModal />
     </>
   );
 };

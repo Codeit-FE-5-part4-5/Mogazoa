@@ -24,7 +24,7 @@ interface Props {
 }
 
 export const ReviewEditModal = ({
-  order = 'recent',
+  order,
   productId,
   productName,
   initialRating,

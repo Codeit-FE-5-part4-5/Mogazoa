@@ -1,5 +1,6 @@
 import axios from '@/shared/utils/axios';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { ReviewDetail } from '@/shared/types/reviews/reviews';
 
 interface UseGetProductDetailReviewsProps {
   productId: number | undefined;
@@ -8,17 +9,19 @@ interface UseGetProductDetailReviewsProps {
 
 const useGetProductDetailReviews = ({
   productId,
-  order = 'recent',
+  order,
 }: UseGetProductDetailReviewsProps) => {
-  return useQuery({
+  return useInfiniteQuery<ReviewDetail, Error>({
     queryKey: ['reviewDetail', productId, order],
-    queryFn: async () => {
+    queryFn: async ({ pageParam = 0 }) => {
       const { data } = await axios.get(`/products/${productId}/reviews`, {
-        params: { order },
+        params: { order, cursor: pageParam },
       });
       return data;
     },
     enabled: !!productId && !isNaN(productId),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 };
 
