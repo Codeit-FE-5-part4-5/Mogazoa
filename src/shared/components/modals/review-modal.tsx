@@ -71,8 +71,8 @@ export const ReviewModal = () => {
     try {
       const response = await apiInstance.post('/reviews', requestBody);
       console.log('Response:', response.data);
-      router.push(`/detail/${productId}`);
       onClose('review');
+      router.push(`/detail/${productId}`);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;
@@ -137,10 +137,12 @@ export const ReviewModal = () => {
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
             <div className="flex space-x-4">
-              <div className="flex h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                <ImageInput
-                  onChange={(image: string | null) => setImage1(image)}
-                />
+              <div className="flex h-[140px] w-fit gap-5 md:h-[135px] xl:h-[160px]">
+                <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+                  <ImageInput
+                    onChange={(image: string | null) => setImage1(image)}
+                  />
+                </div>
                 {image1 && (
                   <div className="flex h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                     <ImageInput
