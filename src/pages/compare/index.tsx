@@ -69,7 +69,7 @@ const Compare = () => {
     product1: productIdData1,
     product2: productIdData2,
   };
-  const [winnerCount, setWinnerCount] = useState(0);
+  const [winnerCount, setWinnerCount] = useState([0, 0]);
 
   return (
     <div className="items-centers flex flex-col justify-center px-5 md:items-center">
@@ -77,6 +77,7 @@ const Compare = () => {
         <div>
           <h3 className="mb-[10px] text-[14px] xl:text-[16px]">상품 1</h3>
           <CompareDropDownInput
+            setIsTable={setIsTable}
             itemList={keywordList1?.pages || []}
             onClick={setValue1}
             Bedge={bedge1}
@@ -95,6 +96,7 @@ const Compare = () => {
         <div>
           <h3 className="mb-[10px] text-[14px] xl:text-[16px]">상품 2</h3>
           <CompareDropDownInput
+            setIsTable={setIsTable}
             itemList={keywordList2?.pages || []}
             onClick={setValue2}
             Bedge={bedge2}
