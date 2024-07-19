@@ -221,11 +221,11 @@
 }
 
 body {
-  font-family: 'Pretendard' sans-serif;
   background: #1c1c22;
 }
 
 * {
+  font-family: 'Pretendard';
   line-height: normal;
 }
 

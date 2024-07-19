@@ -17,7 +17,7 @@ const KakaoAuth = () => {
   const [redirectUri] = useEnvironmentVariable('kakao');
   const { currentQuery } = useChangeRouter();
   const { mutate: signInKakao, error: signInError } = useKakaoSignIn();
-  const { mutate: signUpKakao, error: signUpError } = useKakaoSignUp();
+  const { mutate: signUpKakao } = useKakaoSignUp();
   const { code } = currentQuery;
   const {
     register,
@@ -30,11 +30,23 @@ const KakaoAuth = () => {
   });
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
-    signUpKakao({
-      nickname: data.nickname,
-      token: validateArray(code),
-      redirectUri,
-    });
+    signUpKakao(
+      {
+        nickname: data.nickname,
+        token: validateArray(code),
+        redirectUri,
+      },
+      {
+        onError: (error) => {
+          if (axios.isAxiosError(error)) {
+            setError('nickname', {
+              type: 'validateError',
+              message: error?.response?.data?.message,
+            });
+          }
+        },
+      },
+    );
   };
 
   useEffect(() => {
@@ -42,14 +54,6 @@ const KakaoAuth = () => {
       signInKakao({ token: validateArray(code), redirectUri });
     }
   }, [code]);
-
-  useEffect(() => {
-    if (axios.isAxiosError(signUpError))
-      setError('nickname', {
-        type: 'validateError',
-        message: signUpError?.response?.data?.message,
-      });
-  }, [signUpError]);
 
   return (
     <OAuthSignUp>

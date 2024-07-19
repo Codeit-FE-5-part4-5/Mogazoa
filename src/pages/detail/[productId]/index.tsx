@@ -13,6 +13,10 @@ import Floating from '@/shared/components/Floating/Floating';
 import { Review } from '@/shared/types/reviews/reviews';
 import { LoginModal } from '@/shared/components/modals/login-modal';
 
+interface IProps {
+  children: React.ReactNode;
+}
+
 export default function ProductDetails() {
   const router = useRouter();
   const { productId } = router.query;

@@ -16,11 +16,13 @@ const CompareDropDownInput = ({
   hasNextPage,
   setValue,
   setProductId,
+  setIsTable,
 }: CompareDropDownProps) => {
   const onClickDelete = () => {
     setBedge('');
     setValue('');
     setProductId(null);
+    setIsTable(false);
   };
 
   // 다중 배열 맵핑을 위해 flatMap 사용

@@ -45,6 +45,40 @@ const ProductDetailCard = ({
     alert(`현재 페이지 URL이 복사되었습니다`);
   };
 
+  const handleKakaoShare = () => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+    }
+
+    window.Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: ProductDetail?.name,
+        description: ProductDetail?.description,
+        imageUrl: ProductDetail?.image,
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href,
+        },
+      },
+      buttons: [
+        {
+          title: '제품 보러가기',
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+      ],
+    });
+  };
+
+  useEffect(() => {
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+    }
+  }, []);
+
   return (
     <div className="gap-[50px] text-var-white md:flex">
       <div className="flex items-center justify-center">
@@ -67,7 +101,10 @@ const ProductDetailCard = ({
             />
           </div>
           <ul className="flex justify-end gap-[10px] md:order-3">
-            <li className="flex h-[24px] w-[24px] items-center justify-center rounded-[6px] bg-[#252530] xl:h-[28px] xl:w-[28px]">
+            <li
+              className="flex h-[24px] w-[24px] items-center justify-center rounded-[6px] bg-[#252530] xl:h-[28px] xl:w-[28px]"
+              onClick={handleKakaoShare}
+            >
               <img
                 src="/images/kakaotalk.svg"
                 alt="카카오 공유"

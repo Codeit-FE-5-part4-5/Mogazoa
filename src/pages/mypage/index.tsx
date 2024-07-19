@@ -16,9 +16,7 @@ import { useInView } from 'react-intersection-observer';
 const MyPage = () => {
   const [ref, inView] = useInView();
 
-  const token = getCookie('accessToken');
-
-  const { data: user } = useGetMe(token);
+  const { data: user } = useGetMe();
 
   const {
     fetchNextPage: fetchNextCreatedPage,

@@ -25,8 +25,7 @@ export const FollowingModal = () => {
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'following';
 
-  const token = getCookie('accessToken');
-  const { data: user } = useGetMe(token);
+  const { data: user } = useGetMe();
 
   let userId: number | undefined;
 

@@ -9,6 +9,7 @@ import useSignIn from '@/shared/models/auth/useSignIn';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 
 export interface ILoginForm {
   email: string;
@@ -27,6 +28,7 @@ const SignIn = () => {
   const { mutate } = useSignIn();
   const {
     register,
+    setError,
     formState: { errors },
     handleSubmit,
   } = useForm<ILoginForm>({
@@ -35,7 +37,23 @@ const SignIn = () => {
   });
 
   const handleSubmitSignIn = async (data: ILoginForm) => {
-    mutate(data);
+    mutate(data, {
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          if (error.response?.data?.details?.email !== undefined) {
+            setError('email', {
+              type: 'validateError',
+              message: error?.response?.data?.message,
+            });
+          } else if (error.response?.data?.details?.password !== undefined) {
+            setError('password', {
+              type: 'validateError',
+              message: error?.response?.data?.message,
+            });
+          }
+        }
+      },
+    });
   };
 
   return (

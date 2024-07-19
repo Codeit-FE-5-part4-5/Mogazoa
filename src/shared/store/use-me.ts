@@ -28,6 +28,7 @@ const useMe = create<MeStore>((set: any) => ({
   logout: () => {
     removeCookie('accessToken', { path: '/' });
     set({ userInfo: initUserInfo, isLoggedIn: false });
+    alert('로그아웃 되었습니다.');
     window.location.href = '/';
   },
 }));

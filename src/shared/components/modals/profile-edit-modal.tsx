@@ -15,6 +15,7 @@ import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
 import Button from '../Button/Button';
 import TextFieldInput from '../Input/TextFieldInput';
+import useGetMe from '@/shared/models/auth/useGetMe';
 
 export const ProfileEditModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -27,6 +28,8 @@ export const ProfileEditModal = () => {
   }>({});
 
   const { mutateAsync, isPending: isUpdatePending } = useUpdateProfile();
+
+  const { data: me } = useGetMe();
 
   const isModalOpen = isOpen && type === 'profileEdit';
 
@@ -73,13 +76,18 @@ export const ProfileEditModal = () => {
   };
 
   useEffect(() => {
-    if (!isModalOpen) {
+    if (isModalOpen) {
+      setNickname(me?.data?.nickname || '');
+      setDescription(me?.data?.description || '');
+      setImage(me?.data?.image || '');
+      setErrors({});
+    } else {
       setNickname('');
       setDescription('');
       setImage(null);
       setErrors({});
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, me]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -93,7 +101,10 @@ export const ProfileEditModal = () => {
         <div className="flex flex-col gap-y-5 text-center">
           <div className="flex flex-col md:flex-row md:items-start">
             <div className="h-[160px] w-[160px]">
-              <ImageInput onChange={setImage} />
+              <ImageInput
+                onChange={setImage}
+                initialImageUrl={me?.data?.image}
+              />
             </div>
           </div>
           <div className="flex w-full flex-col">

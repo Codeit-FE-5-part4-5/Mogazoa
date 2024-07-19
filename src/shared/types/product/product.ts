@@ -29,6 +29,7 @@ export interface CompareDropDownProps extends CompareUseInfiniteQuery {
   setBedge: React.Dispatch<SetStateAction<string>>;
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
+  setIsTable: React.Dispatch<SetStateAction<boolean>>;
   setValue: React.Dispatch<SetStateAction<string>>;
   setProductId: React.Dispatch<SetStateAction<number | null>>;
 }

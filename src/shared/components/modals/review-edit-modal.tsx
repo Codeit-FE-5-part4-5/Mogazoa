@@ -69,8 +69,6 @@ export const ReviewEditModal = ({
     return true;
   };
 
-  console.log(initialRating, initialReviewContent, initialImages);
-
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
