@@ -10,7 +10,7 @@ interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
 const PasswordInput: React.FC<PasswordInputProps> = ({
   register,
   error,
-  ...props
+  placeholder,
 }) => {
   const [inputType, setInputType] = useState(true);
   const [icon, setIcon] = useState('/images/PasswordShow.png');
@@ -29,9 +29,9 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       <div className="relative">
         <input
           type={inputType ? 'password' : 'text'}
+          placeholder={placeholder}
           className={`${error && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none transition-all duration-300 hover:bg-[#17171C] focus:border-gradient-custom`}
           {...register}
-          {...props}
         />
         <button
           onClick={handleShowClick}

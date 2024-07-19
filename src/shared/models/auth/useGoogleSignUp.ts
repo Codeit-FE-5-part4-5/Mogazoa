@@ -13,11 +13,11 @@ const googleSignUpRequest = (params: {
 
 const useGoogleSignUp = () => {
   const { handleRedirect } = useChangeRouter();
-
   return useMutation({
     mutationFn: googleSignUpRequest,
     onSuccess: (data) => {
       setCookie('accessToken', data.data.accessToken, {
+        path: '/',
         secure: process.env.NODE_ENV === 'production',
       });
       handleRedirect('/');

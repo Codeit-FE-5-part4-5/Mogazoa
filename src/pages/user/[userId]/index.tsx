@@ -13,7 +13,6 @@ import useGetFavoriteProducts from '@/shared/models/user/products/favorite-produ
 import useGetReviewedProducts from '@/shared/models/user/products/reviewed-products/useGetReviewedProducts';
 import useUserProfile from '@/shared/models/user/profile/useUserProfile';
 
-import { getCookie } from '@/shared/utils/cookie';
 import { ChevronDown } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 

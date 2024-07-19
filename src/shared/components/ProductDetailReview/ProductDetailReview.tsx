@@ -12,9 +12,16 @@ interface Props {
   order: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
   userId: number;
   productName: string;
+  isLoggin: boolean;
 }
 
-const ProductDetailReview = ({ review, order, userId, productName }: Props) => {
+const ProductDetailReview = ({
+  review,
+  order,
+  userId,
+  productName,
+  isLoggin,
+}: Props) => {
   const { onOpen } = useModal();
   const reviewUserId = review.userId;
 
@@ -80,9 +87,6 @@ const ProductDetailReview = ({ review, order, userId, productName }: Props) => {
           </div>
         </Link>
         <div className="w-full" onClick={a}>
-          {/* <div className="text-gradient mb-[10px] text-[10px] font-normal">
-          지원받고 남기는 리뷰입니다.
-        </div> */}
           <div className="text-[12px] font-normal leading-[16px] text-var-white xl:text-[16px] xl:leading-[22px]">
             {review?.content}
           </div>
@@ -125,6 +129,7 @@ const ProductDetailReview = ({ review, order, userId, productName }: Props) => {
                 reviewId={review?.id}
                 productId={review?.productId}
                 order={order}
+                isLoggin={isLoggin}
               />
             </div>
           </div>

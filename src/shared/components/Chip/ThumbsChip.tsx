@@ -1,6 +1,7 @@
 import useLikeReview from '@/shared/models/reviews/useLikeReview';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
+import { useModal } from '@/shared/store/use-modal-store';
 
 interface ThumbsChipProps {
   count: number;
@@ -8,6 +9,7 @@ interface ThumbsChipProps {
   reviewId: number;
   productId: number;
   order: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
+  isLoggin: boolean;
 }
 
 const ThumbsChip = ({
@@ -16,11 +18,17 @@ const ThumbsChip = ({
   reviewId,
   productId,
   order,
+  isLoggin,
 }: ThumbsChipProps) => {
   const { mutate } = useLikeReview({ reviewId, productId, order });
+  const { onOpen } = useModal();
 
   const handleToggleLike = () => {
-    mutate();
+    if (isLoggin) {
+      mutate();
+    } else {
+      onOpen('login');
+    }
   };
 
   return (

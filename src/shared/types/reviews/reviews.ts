@@ -4,7 +4,7 @@ interface User {
   image: string;
 }
 
-interface ReviewImage {
+export interface ReviewImage {
   id: number;
   source: string;
 }

@@ -13,8 +13,8 @@ const useKakaoSignIn = () => {
   return useMutation({
     mutationFn: kakaoSignInRequest,
     onSuccess: (data) => {
-      console.log(data);
       setCookie('accessToken', data.data.accessToken, {
+        path: '/',
         secure: process.env.NODE_ENV === 'production',
       });
       handleRedirect('/');

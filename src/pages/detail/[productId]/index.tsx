@@ -8,17 +8,28 @@ import { useRouter } from 'next/router';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import { getCookie } from '@/shared/utils/cookie';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Floating from '@/shared/components/Floating/Floating';
 import { Review } from '@/shared/types/reviews/reviews';
+import { LoginModal } from '@/shared/components/modals/login-modal';
 
 export default function ProductDetails() {
   const router = useRouter();
   const { productId } = router.query;
 
   const token = getCookie('accessToken');
-  const { data: me } = useGetMe(token);
+  const { data: me } = useGetMe();
   const userId = me?.data.id;
+
+  const [isLoggin, setIsLoggin] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (me) {
+      setIsLoggin(true);
+    } else {
+      setIsLoggin(false);
+    }
+  }, [me]);
 
   const { data: productDetail } = useGetProductDetail({
     productId: Number(productId),
@@ -51,8 +62,6 @@ export default function ProductDetails() {
     setIsDropdownOpen(false);
   };
 
-  console.log(token);
-
   return (
     <>
       <Header />
@@ -62,6 +71,7 @@ export default function ProductDetails() {
             ProductDetail={productDetail}
             reviews={1}
             userId={userId}
+            isLoggin={isLoggin}
           />
         </div>
         <h1 className="font-pretendard pb-[30px] text-[18px] font-semibold leading-normal text-[#F1F1F5]">
@@ -157,6 +167,7 @@ export default function ProductDetails() {
                 order={sort}
                 userId={userId}
                 productName={productDetail?.name}
+                isLoggin={isLoggin}
               />
             ))}
           </div>
@@ -179,6 +190,7 @@ export default function ProductDetails() {
       <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
         <Floating onClick={() => {}} />
       </div>
+      <LoginModal isLoggin={isLoggin} />
     </>
   );
 }

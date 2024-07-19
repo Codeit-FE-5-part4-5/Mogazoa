@@ -12,6 +12,7 @@ import TextAreaInput from '../Input/TextAreaInput';
 import ImageInput from '../Input/ImageInput';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { ReviewImage } from '@/shared/types/reviews/reviews';
 
 interface Props {
   productId: number;
@@ -19,7 +20,7 @@ interface Props {
   productName: string;
   initialRating: number;
   initialReviewContent: string;
-  initialImages: string[];
+  initialImages: ReviewImage[];
 }
 
 export const ReviewEditModal = ({
@@ -32,7 +33,7 @@ export const ReviewEditModal = ({
 }: Props) => {
   const [rating, setRating] = useState<number>(initialRating);
   const [review, setReview] = useState<string>(initialReviewContent);
-  const [images, setImages] = useState<string[]>(initialImages);
+  const [images, setImages] = useState<ReviewImage[]>(initialImages);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { isOpen, onClose, type, data } = useModal();
@@ -67,6 +68,8 @@ export const ReviewEditModal = ({
     setErrorMessage(null);
     return true;
   };
+
+  console.log(initialRating, initialReviewContent, initialImages);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
