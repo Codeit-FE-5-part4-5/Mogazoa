@@ -105,19 +105,19 @@ export const ReviewModal = () => {
                   fillIcon={
                     <Image
                       className="mr-[2px] inline-block xl:mr-[5px]"
-                      src="/images/star.svg"
+                      src="/images/star.png"
                       alt="star"
-                      width={32}
-                      height={32}
+                      width={25}
+                      height={25}
                     />
                   }
                   emptyIcon={
                     <Image
                       className="xl:mr/[5px] mr-[2px] inline-block"
-                      src="images/empty-star.svg"
+                      src="/images/empty-star.png"
                       alt="empty-star"
-                      width={32}
-                      height={32}
+                      width={25}
+                      height={25}
                     />
                   }
                 />
