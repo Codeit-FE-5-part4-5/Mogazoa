@@ -10,11 +10,7 @@ import { useModal } from '@/shared/store/use-modal-store';
 import Button from '../Button/Button';
 import { useRouter } from 'next/router';
 
-interface Props {
-  isLoggin: boolean;
-}
-
-export const LoginModal = (isLoggin: Props) => {
+export const LoginModal = () => {
   const { isOpen, onClose, type, data } = useModal();
 
   const isModalOpen = isOpen && type === 'login';
@@ -22,6 +18,7 @@ export const LoginModal = (isLoggin: Props) => {
 
   const handleLoginPage = () => {
     router.push('/signin');
+    onClose();
   };
 
   return (

@@ -12,7 +12,7 @@ interface Props {
   order: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
   userId: number;
   productName: string;
-  isLoggin: boolean;
+  isLogin: boolean;
 }
 
 const ProductDetailReview = ({
@@ -20,7 +20,7 @@ const ProductDetailReview = ({
   order,
   userId,
   productName,
-  isLoggin,
+  isLogin,
 }: Props) => {
   const { onOpen } = useModal();
   const reviewUserId = review.userId;
@@ -129,7 +129,7 @@ const ProductDetailReview = ({
                 reviewId={review?.id}
                 productId={review?.productId}
                 order={order}
-                isLoggin={isLoggin}
+                isLogin={isLogin}
               />
             </div>
           </div>

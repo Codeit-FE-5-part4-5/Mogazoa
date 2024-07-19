@@ -10,20 +10,20 @@ interface Props {
   ProductDetail: ProductDetail;
   reviews: number;
   userId: number | null;
-  isLoggin: boolean;
+  isLogin: boolean;
 }
 
 const ProductDetailCard = ({
   ProductDetail,
   reviews,
   userId = null,
-  isLoggin,
+  isLogin,
 }: Props) => {
   const productId = ProductDetail?.id;
   const { mutate } = useFavoriteProduct({ productId });
 
   const handleToggleFavorite = () => {
-    if (isLoggin) {
+    if (isLogin) {
       mutate();
     } else {
       onOpen('login');
@@ -31,7 +31,7 @@ const ProductDetailCard = ({
   };
 
   const handleReviewButton = () => {
-    if (isLoggin) {
+    if (isLogin) {
       onOpen('review');
     } else {
       onOpen('login');
@@ -102,7 +102,7 @@ const ProductDetailCard = ({
           </div>
           <ul className="flex justify-end gap-[10px] md:order-3">
             <li
-              className="flex h-[24px] w-[24px] items-center justify-center rounded-[6px] bg-[#252530] xl:h-[28px] xl:w-[28px]"
+              className="flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-[6px] bg-[#252530] xl:h-[28px] xl:w-[28px]"
               onClick={handleKakaoShare}
             >
               <img

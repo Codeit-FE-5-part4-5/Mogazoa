@@ -72,7 +72,7 @@ export const ReviewModal = () => {
       const response = await apiInstance.post('/reviews', requestBody);
       console.log('Response:', response.data);
       router.push(`/detail/${productId}`);
-      onClose('review');
+      onClose();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;

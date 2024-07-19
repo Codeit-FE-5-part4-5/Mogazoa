@@ -9,7 +9,7 @@ interface ThumbsChipProps {
   reviewId: number;
   productId: number;
   order: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
-  isLoggin: boolean;
+  isLogin: boolean;
 }
 
 const ThumbsChip = ({
@@ -18,13 +18,13 @@ const ThumbsChip = ({
   reviewId,
   productId,
   order,
-  isLoggin,
+  isLogin,
 }: ThumbsChipProps) => {
   const { mutate } = useLikeReview({ reviewId, productId, order });
   const { onOpen } = useModal();
 
   const handleToggleLike = () => {
-    if (isLoggin) {
+    if (isLogin) {
       mutate();
     } else {
       onOpen('login');

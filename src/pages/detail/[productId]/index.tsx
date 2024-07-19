@@ -12,10 +12,7 @@ import { useState, useEffect } from 'react';
 import Floating from '@/shared/components/Floating/Floating';
 import { Review } from '@/shared/types/reviews/reviews';
 import { LoginModal } from '@/shared/components/modals/login-modal';
-
-interface IProps {
-  children: React.ReactNode;
-}
+import { useModal } from '@/shared/store/use-modal-store';
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -25,13 +22,13 @@ export default function ProductDetails() {
   const { data: me } = useGetMe();
   const userId = me?.data.id;
 
-  const [isLoggin, setIsLoggin] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
     if (me) {
-      setIsLoggin(true);
+      setIsLogin(true);
     } else {
-      setIsLoggin(false);
+      setIsLogin(false);
     }
   }, [me]);
 
@@ -66,6 +63,16 @@ export default function ProductDetails() {
     setIsDropdownOpen(false);
   };
 
+  const { onOpen } = useModal();
+
+  const handleReviewEdit = () => {
+    if (isLogin) {
+      onOpen('review');
+    } else {
+      onOpen('login');
+    }
+  };
+
   return (
     <>
       <Header />
@@ -75,7 +82,7 @@ export default function ProductDetails() {
             ProductDetail={productDetail}
             reviews={1}
             userId={userId}
-            isLoggin={isLoggin}
+            isLogin={isLogin}
           />
         </div>
         <h1 className="font-pretendard pb-[30px] text-[18px] font-semibold leading-normal text-[#F1F1F5]">
@@ -171,7 +178,7 @@ export default function ProductDetails() {
                 order={sort}
                 userId={userId}
                 productName={productDetail?.name}
-                isLoggin={isLoggin}
+                isLogin={isLogin}
               />
             ))}
           </div>
@@ -192,9 +199,9 @@ export default function ProductDetails() {
         )}
       </div>
       <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
-        <Floating onClick={() => {}} />
+        <Floating onClick={handleReviewEdit} />
       </div>
-      <LoginModal isLoggin={isLoggin} />
+      <LoginModal />
     </>
   );
 }
