@@ -123,7 +123,7 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
 
   return (
     <Dialog open={isOpen && type === 'reviewEdit'} onOpenChange={onClose}>
-      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
+      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:w-[490px] xl:w-[560px]">
         <DialogHeader>
           <DialogTitle className="mb-10 text-2xl">{productName}</DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
