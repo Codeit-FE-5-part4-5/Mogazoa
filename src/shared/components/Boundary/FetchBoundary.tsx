@@ -1,7 +1,8 @@
-import { ReactElement, ReactNode, Suspense } from 'react';
+import { ReactElement, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import Error from '../Error/Error';
+
 import Spinner from '../Spinner/Spinner';
+import FetchErrorFallback from './FetchErrorFallback';
 
 interface FetchBoundaryProps {
   children: ReactElement;
@@ -9,10 +10,8 @@ interface FetchBoundaryProps {
 
 const FetchBoundary = ({ children }: FetchBoundaryProps) => {
   return (
-    <ErrorBoundary FallbackComponent={Error}>
-      <Suspense fallback={<Spinner isLoading isTimeout={false} />}>
-        {children}
-      </Suspense>
+    <ErrorBoundary FallbackComponent={FetchErrorFallback}>
+      <Suspense fallback={<Spinner isLoading />}>{children}</Suspense>
     </ErrorBoundary>
   );
 };

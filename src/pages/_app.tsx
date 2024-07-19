@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CookiesProvider } from 'react-cookie';
 import { ModalProvider } from '@/shared/providers/modal-provider';
 import type { AppProps } from 'next/app';
+import GlobalBoundary from '@/shared/components/Boundary/GlobalBoundary';
 import '@/styles/globals.css';
 
 const queryClient = new QueryClient({
@@ -10,6 +11,7 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: false,
+      throwOnError: true,
     },
   },
 });
@@ -19,7 +21,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     <QueryClientProvider client={queryClient}>
       <CookiesProvider defaultSetOptions={{ path: '/' }}>
         <ModalProvider />
-        <Component {...pageProps} />
+        <GlobalBoundary>
+          <Component {...pageProps} />
+        </GlobalBoundary>
         <ReactQueryDevtools initialIsOpen={false} />
       </CookiesProvider>
     </QueryClientProvider>
