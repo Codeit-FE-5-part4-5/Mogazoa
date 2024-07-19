@@ -43,30 +43,17 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
       setReview(initialReviewContent);
     }
 
-    if (initialImages && initialImages?.length > 0) {
-      setImages(initialImages);
+    if (initialImages) {
+      setImages([
+        ...initialImages,
+        ...(initialImages.length < 3
+          ? Array(3 - initialImages.length).fill({ source: null })
+          : []),
+      ]);
     } else {
-      setImages([]);
+      setImages(Array(3).fill({ source: null }));
     }
   }, [initialRating, initialReviewContent, initialImages]);
-
-  const EditReviewMutation = useEditReview({
-    reviewId,
-    productId,
-    order,
-    updatedReview: { rating, content: review, images },
-  });
-
-  const handleEditReview = async () => {
-    if (!validateForm()) return;
-
-    try {
-      await EditReviewMutation.mutateAsync();
-      onClose();
-    } catch (error) {
-      console.error('리뷰 수정 실패:', error);
-    }
-  };
 
   const handleRating = (rate: number) => {
     setRating(rate);
@@ -95,14 +82,43 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
     if (image === null) {
       newImages.splice(index, 1);
     } else {
-      newImages[index] = { source: image };
+      if (index < newImages.length) {
+        newImages[index] = { source: image };
+      } else {
+        newImages.push({ source: image });
+      }
     }
 
+    // Ensure there are always 3 image slots
     if (newImages.length < 3) {
       newImages.push({ source: null });
     }
 
     setImages(newImages);
+  };
+
+  const formatImagesForServer = () => {
+    return images
+      .filter((img) => img.source !== null)
+      .map((img) => (img.id ? { id: img.id } : { source: img.source }));
+  };
+
+  const EditReviewMutation = useEditReview({
+    reviewId,
+    productId,
+    order,
+    updatedReview: { rating, content: review, images: formatImagesForServer() },
+  });
+
+  const handleEditReview = async () => {
+    if (!validateForm()) return;
+
+    try {
+      await EditReviewMutation.mutateAsync();
+      onClose();
+    } catch (error) {
+      console.error('리뷰 수정 실패:', error);
+    }
   };
 
   return (
@@ -153,29 +169,28 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
             <div className="flex space-x-4">
-              {images.length === 0 ? (
+              {images.map((image, index) => (
+                <div
+                  key={index}
+                  className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]"
+                >
+                  <ImageInput
+                    initialImageUrl={image.source || null}
+                    onChange={(newImage: string | null) =>
+                      handleImageChange(index, newImage)
+                    }
+                  />
+                </div>
+              ))}
+              {images.length < 3 && (
                 <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                   <ImageInput
                     initialImageUrl={null}
                     onChange={(newImage: string | null) =>
-                      handleImageChange(0, newImage)
+                      handleImageChange(images.length, newImage)
                     }
                   />
                 </div>
-              ) : (
-                images.map((image, index) => (
-                  <div
-                    key={index}
-                    className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]"
-                  >
-                    <ImageInput
-                      initialImageUrl={image.source || null}
-                      onChange={(newImage: string | null) =>
-                        handleImageChange(index, newImage)
-                      }
-                    />
-                  </div>
-                ))
               )}
             </div>
             <Button text="편집하기" onClick={handleEditReview} />
