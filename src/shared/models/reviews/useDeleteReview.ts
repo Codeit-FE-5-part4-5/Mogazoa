@@ -1,7 +1,12 @@
 import axios from '@/shared/utils/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ReviewDetail, Review } from '@/shared/types/reviews/reviews';
+import { Review } from '@/shared/types/reviews/reviews';
 
+interface ReviewProps {
+  pages: Array<{
+    list: Review[];
+  }>;
+}
 interface UseDeleteReviewProps {
   reviewId: number | undefined;
   productId: number;
@@ -24,20 +29,23 @@ const useDeleteReview = ({
         queryKey: ['reviewDetail', productId, order],
       });
 
-      const prevReviewDetail = queryClient.getQueryData<ReviewDetail>([
+      const prevReviewDetail = queryClient.getQueryData<ReviewProps>([
         'reviewDetail',
         productId,
         order,
       ]);
 
-      if (prevReviewDetail) {
-        queryClient.setQueryData<ReviewDetail>(
+      if (prevReviewDetail && prevReviewDetail.pages) {
+        queryClient.setQueryData<ReviewProps>(
           ['reviewDetail', productId, order],
           {
             ...prevReviewDetail,
-            list: prevReviewDetail.list.filter(
-              (review: Review) => review.id !== reviewId,
-            ),
+            pages: prevReviewDetail.pages.map((page) => ({
+              ...page,
+              list: page.list.filter(
+                (review: Review) => review.id !== reviewId,
+              ),
+            })),
           },
         );
       }

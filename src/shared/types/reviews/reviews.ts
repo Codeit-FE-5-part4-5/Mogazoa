@@ -4,7 +4,7 @@ interface User {
   image: string;
 }
 
-interface ReviewImage {
+export interface ReviewImage {
   id: number;
   source: string;
 }
@@ -25,6 +25,6 @@ export interface Review {
 }
 
 export interface ReviewDetail {
-  list: Review;
-  nextCursor: string | null;
+  list: Review[];
+  nextCursor: number;
 }

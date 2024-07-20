@@ -12,40 +12,48 @@ import TextAreaInput from '../Input/TextAreaInput';
 import ImageInput from '../Input/ImageInput';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import useEditReview from '@/shared/models/reviews/useEditReview';
+
+interface EditImage {
+  id?: number | null;
+  source?: string | null;
+}
 
 interface Props {
   productId: number;
   order: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
   productName: string;
-  initialRating: number;
-  initialReviewContent: string;
-  initialImages: string[];
 }
 
-export const ReviewEditModal = ({
-  order = 'recent',
-  productId,
-  productName,
-  initialRating,
-  initialReviewContent,
-  initialImages,
-}: Props) => {
-  const [rating, setRating] = useState<number>(initialRating);
-  const [review, setReview] = useState<string>(initialReviewContent);
-  const [images, setImages] = useState<string[]>(initialImages);
+export const ReviewEditModal = ({ order, productId, productName }: Props) => {
+  const { isOpen, onClose, type, data } = useModal();
+  const { reviewId, initialRating, initialReviewContent, initialImages } = data;
+
+  const [rating, setRating] = useState<number>(0);
+  const [review, setReview] = useState<string>('');
+  const [images, setImages] = useState<EditImage[]>(initialImages || []);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const { isOpen, onClose, type, data } = useModal();
-
-  const reviewId = data?.reviewId;
-
-  const isModalOpen = isOpen && type === 'reviewEdit';
-
   useEffect(() => {
-    setRating(initialRating);
-    setReview(initialReviewContent);
-    setImages(initialImages);
-  }, [isModalOpen, initialRating, initialReviewContent, initialImages]);
+    if (initialRating) {
+      setRating(initialRating);
+    }
+
+    if (initialReviewContent) {
+      setReview(initialReviewContent);
+    }
+
+    if (initialImages) {
+      setImages([
+        ...initialImages,
+        ...(initialImages.length < 3
+          ? Array(3 - initialImages.length).fill({ source: null })
+          : []),
+      ]);
+    } else {
+      setImages(Array(3).fill({ source: null }));
+    }
+  }, [initialRating, initialReviewContent, initialImages]);
 
   const handleRating = (rate: number) => {
     setRating(rate);
@@ -68,30 +76,84 @@ export const ReviewEditModal = ({
     return true;
   };
 
+  const handleImageChange = (index: number, image: string | null) => {
+    const newImages = [...images];
+
+    if (image === null) {
+      newImages.splice(index, 1);
+    } else {
+      if (index < newImages.length) {
+        newImages[index] = { source: image };
+      } else {
+        newImages.push({ source: image });
+      }
+    }
+
+    // Ensure there are always 3 image slots
+    if (newImages.length < 3) {
+      newImages.push({ source: null });
+    }
+
+    setImages(newImages);
+  };
+
+  const formatImagesForServer = () => {
+    return images
+      .filter((img) => img.source !== null)
+      .map((img) => (img.id ? { id: img.id } : { source: img.source }));
+  };
+
+  const EditReviewMutation = useEditReview({
+    reviewId,
+    productId,
+    order,
+    updatedReview: { rating, content: review, images: formatImagesForServer() },
+  });
+
+  const handleEditReview = async () => {
+    if (!validateForm()) return;
+
+    try {
+      await EditReviewMutation.mutateAsync();
+      onClose();
+    } catch (error) {
+      console.error('리뷰 수정 실패:', error);
+    }
+  };
+
   return (
-    <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
+    <Dialog open={isOpen && type === 'reviewEdit'} onOpenChange={onClose}>
+      <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:w-[490px] xl:w-[560px]">
         <DialogHeader>
-          <DialogTitle className="mb-10 text-2xl">
-            <div className="w-[58px]">
-              {/* <Chip text="전자기기" color="#23B581" /> */}
-            </div>
-            <div className="mt-[10px] self-start">{productName}</div>
-          </DialogTitle>
+          <DialogTitle className="mb-10 text-2xl">{productName}</DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
             <div className="flex items-center gap-x-5">
               <div className="text-base">별점</div>
-              {/* <div>
+              <div>
                 <Rating
                   onClick={handleRating}
-                  ratingValue={rating}
-                  size={32}
-                  transition
-                  fillColor="#23B581"
-                  emptyColor="#6E6E82"
-                  className="cursor-pointer"
+                  initialValue={rating}
+                  SVGclassName={`inline-block`}
+                  fillIcon={
+                    <Image
+                      className="mr-[2px] inline-block"
+                      src="/images/star.svg"
+                      alt="star"
+                      width={32}
+                      height={32}
+                    />
+                  }
+                  emptyIcon={
+                    <Image
+                      className="mr-[2px] inline-block"
+                      src="/images/empty-star.svg"
+                      alt="empty-star"
+                      width={32}
+                      height={32}
+                    />
+                  }
                 />
-              </div> */}
+              </div>
             </div>
             <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
               <TextAreaInput
@@ -107,32 +169,31 @@ export const ReviewEditModal = ({
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
             <div className="flex space-x-4">
-              <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                {/* <ImageInput
-                  value={images[0] || null}
-                  onChange={(image: string | null) =>
-                    setImages([image, images[1], images[2]])
-                  }
-                />
-                {images[0] && (
+              {images.map((image, index) => (
+                <div
+                  key={index}
+                  className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]"
+                >
                   <ImageInput
-                    value={images[1] || null}
-                    onChange={(image: string | null) =>
-                      setImages([images[0], image, images[2]])
+                    initialImageUrl={image.source || null}
+                    onChange={(newImage: string | null) =>
+                      handleImageChange(index, newImage)
                     }
                   />
-                )}
-                {images[1] && (
+                </div>
+              ))}
+              {images.length < 3 && (
+                <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                   <ImageInput
-                    value={images[2] || null}
-                    onChange={(image: string | null) =>
-                      setImages([images[0], images[1], image])
+                    initialImageUrl={null}
+                    onChange={(newImage: string | null) =>
+                      handleImageChange(images.length, newImage)
                     }
                   />
-                )} */}
-              </div>
+                </div>
+              )}
             </div>
-            <Button text="편집하기" />
+            <Button text="편집하기" onClick={handleEditReview} />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

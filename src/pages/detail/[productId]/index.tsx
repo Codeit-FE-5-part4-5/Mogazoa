@@ -8,17 +8,28 @@ import { useRouter } from 'next/router';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import { getCookie } from '@/shared/utils/cookie';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Floating from '@/shared/components/Floating/Floating';
-import { Review } from '@/shared/types/reviews/reviews';
+import { useModal } from '@/shared/store/use-modal-store';
+import { useInView } from 'react-intersection-observer';
 
 export default function ProductDetails() {
   const router = useRouter();
   const { productId } = router.query;
 
   const token = getCookie('accessToken');
-  const { data: me } = useGetMe(token);
+  const { data: me } = useGetMe();
   const userId = me?.data.id;
+
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (me) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [me]);
 
   const { data: productDetail } = useGetProductDetail({
     productId: Number(productId),
@@ -33,10 +44,21 @@ export default function ProductDetails() {
   const numericProductId =
     productId && !Array.isArray(productId) ? Number(productId) : undefined;
 
-  const { data: productDetailReview } = useGetProductDetailReviews({
-    productId: numericProductId,
-    order: sort,
-  });
+  const {
+    data: productDetailReview,
+    fetchNextPage: fetchNextPage,
+    hasNextPage: hasNextPage,
+    isFetchingNextPage: isFetchingNextPage,
+  } = useGetProductDetailReviews({ productId: numericProductId, order: sort });
+
+  const reviews = productDetailReview?.pages.flatMap((page) => page.list) || [];
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -51,7 +73,15 @@ export default function ProductDetails() {
     setIsDropdownOpen(false);
   };
 
-  console.log(token);
+  const { onOpen } = useModal();
+
+  const handleReviewEdit = () => {
+    if (isLogin) {
+      onOpen('review');
+    } else {
+      onOpen('login');
+    }
+  };
 
   return (
     <>
@@ -62,6 +92,7 @@ export default function ProductDetails() {
             ProductDetail={productDetail}
             reviews={1}
             userId={userId}
+            isLogin={isLogin}
           />
         </div>
         <h1 className="font-pretendard pb-[30px] text-[18px] font-semibold leading-normal text-[#F1F1F5]">
@@ -148,17 +179,20 @@ export default function ProductDetails() {
             </div>
           </div>
         </div>
-        {productDetailReview?.list.length > 0 ? (
+        {reviews.length > 0 ? (
           <div className="mb-[15px]">
-            {productDetailReview?.list.map((review: Review) => (
+            {reviews.map((review) => (
               <ProductDetailReview
                 key={review.id}
                 review={review}
                 order={sort}
                 userId={userId}
                 productName={productDetail?.name}
+                isLogin={isLogin}
               />
             ))}
+            <div ref={ref} />
+            {isFetchingNextPage && <div>Loading more reviews...</div>}
           </div>
         ) : (
           <div className="mb-[120px] mt-[80px] flex flex-col items-center gap-[20px]">
@@ -177,7 +211,7 @@ export default function ProductDetails() {
         )}
       </div>
       <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
-        <Floating onClick={() => {}} />
+        <Floating onClick={handleReviewEdit} />
       </div>
     </>
   );

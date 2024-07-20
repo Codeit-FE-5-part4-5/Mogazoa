@@ -12,9 +12,16 @@ interface Props {
   order: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
   userId: number;
   productName: string;
+  isLogin: boolean;
 }
 
-const ProductDetailReview = ({ review, order, userId, productName }: Props) => {
+const ProductDetailReview = ({
+  review,
+  order,
+  userId,
+  productName,
+  isLogin,
+}: Props) => {
   const { onOpen } = useModal();
   const reviewUserId = review.userId;
 
@@ -31,25 +38,24 @@ const ProductDetailReview = ({ review, order, userId, productName }: Props) => {
   );
 
   const handleEditClick = () => {
-    onOpen('reviewEdit', { reviewId: review.id });
+    onOpen('reviewEdit', {
+      reviewId: review.id,
+      initialRating: review.rating,
+      initialImages: review.reviewImages,
+      initialReviewContent: review.content,
+    });
   };
 
   const handleDeleteClick = () => {
     onOpen('reviewDelete', { reviewId: review.id });
   };
 
-  const a = () => {
-    console.log(review.id);
-  };
   return (
     <>
       <ReviewEditModal
         productId={review?.productId}
         order={order}
         productName={productName}
-        initialRating={review?.rating}
-        initialImages={review?.reviewImages}
-        initialReviewContent={review?.content}
       />
       <ReviewDeleteModal productId={review?.productId} order={order} />
       <div className="mb-[15px] justify-between rounded-[12px] border border-[#353542] bg-[#252530] px-[20px] py-[20px] md:flex md:gap-[30px] md:py-[20px] xl:mb-[20px] xl:gap-[70px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
@@ -65,28 +71,23 @@ const ProductDetailReview = ({ review, order, userId, productName }: Props) => {
               <div className="flex gap-[3px]">
                 {Array(review?.rating)
                   .fill('')
-                  .map((_, index) => {
-                    return (
-                      <img
-                        key={index}
-                        src="/images/star.svg"
-                        alt={`star-${index}`}
-                        className="h-[10px] xl:h-[16px]"
-                      />
-                    );
-                  })}
+                  .map((_, index) => (
+                    <img
+                      key={index}
+                      src="/images/star.svg"
+                      alt={`star-${index}`}
+                      className="h-[10px] xl:h-[16px]"
+                    />
+                  ))}
               </div>
             </div>
           </div>
         </Link>
-        <div className="w-full" onClick={a}>
-          {/* <div className="text-gradient mb-[10px] text-[10px] font-normal">
-          지원받고 남기는 리뷰입니다.
-        </div> */}
+        <div className="w-full">
           <div className="text-[12px] font-normal leading-[16px] text-var-white xl:text-[16px] xl:leading-[22px]">
             {review?.content}
           </div>
-          <ul className="mt-[20px] w-full gap-[10px] xl:grid-cols-6 xl:gap-[20px]">
+          <ul className="mt-[20px] flex w-full gap-[10px] xl:flex-row xl:gap-[20px]">
             {review?.reviewImages.map((image) => (
               <li
                 key={image.id}
@@ -105,7 +106,7 @@ const ProductDetailReview = ({ review, order, userId, productName }: Props) => {
               <div className="text-[12px] font-normal text-var-gray1">
                 {formattedDate}
               </div>
-              {userId === reviewUserId ? (
+              {userId === reviewUserId && (
                 <div className="flex gap-[10px] text-[12px] text-var-gray2 xl:text-[14px]">
                   <button className="underline" onClick={handleEditClick}>
                     수정
@@ -114,8 +115,6 @@ const ProductDetailReview = ({ review, order, userId, productName }: Props) => {
                     삭제
                   </button>
                 </div>
-              ) : (
-                <></>
               )}
             </div>
             <div>
@@ -125,6 +124,7 @@ const ProductDetailReview = ({ review, order, userId, productName }: Props) => {
                 reviewId={review?.id}
                 productId={review?.productId}
                 order={order}
+                isLogin={isLogin}
               />
             </div>
           </div>

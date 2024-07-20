@@ -14,6 +14,12 @@ const queryClient = new QueryClient({
   },
 });
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>

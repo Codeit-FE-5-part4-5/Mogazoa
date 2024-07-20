@@ -8,11 +8,17 @@ interface UseLikeReviewProps {
   order: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
 }
 
+interface ReviewProps {
+  pages: Array<{
+    list: Review[];
+  }>;
+}
+
 const useLikeReview = ({ reviewId, productId, order }: UseLikeReviewProps) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => {
-      const reviewDetail = queryClient.getQueryData<ReviewDetail>([
+      const reviewDetail = queryClient.getQueryData<ReviewProps>([
         'reviewDetail',
         productId,
         order,
@@ -20,37 +26,54 @@ const useLikeReview = ({ reviewId, productId, order }: UseLikeReviewProps) => {
       if (!reviewDetail) {
         throw new Error('Review detail not found');
       }
+      const review = reviewDetail.pages
+        .flatMap((page) => page.list)
+        .find((r: Review) => r.id === reviewId);
 
-      const review = reviewDetail.list.find((r: Review) => r.id === reviewId);
       if (!review) {
         throw new Error('Review not found');
       }
 
       const { isLiked } = review;
+
       return isLiked
-        ? axios.delete(`/reviews/${reviewId}/like`)
-        : axios.post(`/reviews/${reviewId}/like`);
+        ? axios.post(`/reviews/${reviewId}/like`)
+        : axios.delete(`/reviews/${reviewId}/like`);
     },
     onMutate: async () => {
       await queryClient.cancelQueries({
         queryKey: ['reviewDetail', productId, order],
       });
-      const prevReviewDetail = queryClient.getQueryData<ReviewDetail>([
+
+      const prevReviewDetail = queryClient.getQueryData<ReviewProps>([
         'reviewDetail',
         productId,
         order,
       ]);
+
       if (!prevReviewDetail) {
         throw new Error('Review Detail not found');
       }
 
-      queryClient.setQueryData<ReviewDetail>(
+      queryClient.setQueryData<ReviewProps>(
         ['reviewDetail', productId, order],
-        (oldData) => ({
-          ...(oldData as ReviewDetail),
-          isLiked: !(oldData as ReviewDetail).list.isLiked,
-        }),
+        {
+          ...prevReviewDetail,
+          pages: prevReviewDetail.pages.map((page) => ({
+            ...page,
+            list: page.list.map((review) => {
+              if (review.id === reviewId) {
+                return {
+                  ...review,
+                  isLiked: !review.isLiked,
+                };
+              }
+              return review;
+            }),
+          })),
+        },
       );
+
       return { prevReviewDetail };
     },
     onError: (error, variables, context) => {
