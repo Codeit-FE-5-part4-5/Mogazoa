@@ -21,7 +21,7 @@ const GoogleAuth = () => {
     useEnvironmentVariable('google');
   const { currentQuery } = useChangeRouter();
   const { mutate: signInGoogle, error: signInError } = useGoogleSignIn();
-  const { mutate: signUpGoogle, error: signUpError } = useGoogleSignUp();
+  const { mutate: signUpGoogle } = useGoogleSignUp();
   const { mutate: flowGoogleAuth } = useGoogleFlow();
   const { code: token } = currentQuery;
   const {
@@ -35,11 +35,23 @@ const GoogleAuth = () => {
   });
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
-    signUpGoogle({
-      nickname: data.nickname,
-      token: idToken,
-      redirectUri,
-    });
+    signUpGoogle(
+      {
+        nickname: data.nickname,
+        token: idToken,
+        redirectUri,
+      },
+      {
+        onError: (error) => {
+          if (axios.isAxiosError(error)) {
+            setError('nickname', {
+              type: 'validateError',
+              message: error?.response?.data.message,
+            });
+          }
+        },
+      },
+    );
   };
 
   useEffect(() => {
@@ -58,14 +70,6 @@ const GoogleAuth = () => {
       signInGoogle({ token: idToken, redirectUri });
     }
   }, [idToken]);
-
-  useEffect(() => {
-    if (axios.isAxiosError(signUpError))
-      setError('nickname', {
-        type: 'validateError',
-        message: signUpError?.response?.data?.message,
-      });
-  }, [signUpError]);
 
   return (
     <OAuthSignUp>

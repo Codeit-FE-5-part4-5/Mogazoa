@@ -14,8 +14,6 @@ import { validateArray } from '@/shared/utils/validateArray';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
-import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
-import GlobalBoundary from '@/shared/components/Boundary/GlobalBoundary';
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();
@@ -55,16 +53,14 @@ const Home = () => {
           <RankingList rankingData={sliceRankingData} />
           <div className="flex-1">
             {currentQuery.category ? (
-              <FetchBoundary>
-                <ProductList
-                  products={products}
-                  searchQuery={searchQuery}
-                  currentCategoryName={validateArray(currentQuery.category)}
-                  changeSortOrder={(order) =>
-                    setCurrentSortOrder(sortConverter(order))
-                  }
-                />
-              </FetchBoundary>
+              <ProductList
+                products={products}
+                searchQuery={searchQuery}
+                currentCategoryName={validateArray(currentQuery.category)}
+                changeSortOrder={(order) =>
+                  setCurrentSortOrder(sortConverter(order))
+                }
+              />
             ) : (
               <>
                 <SortedProductList sortBy="reviewCount" />
