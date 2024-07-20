@@ -7,7 +7,7 @@ const getCategoryRequest = async () => {
 };
 
 const useGetCategory = () => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ['category'],
     queryFn: getCategoryRequest,
   });

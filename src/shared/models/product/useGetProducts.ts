@@ -27,7 +27,7 @@ const useGetProducts = ({
   categoryId?: number;
   order?: string;
 }) => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ['products', keyword, categoryId, order],
     queryFn: () => getProductsRequest({ keyword, categoryId, order }),
   });

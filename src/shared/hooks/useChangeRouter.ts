@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { ParsedUrlQuery } from 'querystring';
+import { getCookie } from '../utils/cookie';
 
 const useChangeRouter = (): {
   currentPath: string;
@@ -26,9 +27,7 @@ const useChangeRouter = (): {
 
   const handleRedirect = useCallback(
     (value: string) => {
-      if (value) {
-        router.replace(value);
-      }
+      router.replace(value);
     },
     [router],
   );
