@@ -1,5 +1,4 @@
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import axios from '@/shared/utils/axios';
 
 const getCategoryRequest = async () => {
@@ -8,13 +7,10 @@ const getCategoryRequest = async () => {
 };
 
 const useGetCategory = () => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ['category'],
     queryFn: getCategoryRequest,
   });
-};
-
-export default useGetCategory;
 };
 
 export default useGetCategory;
