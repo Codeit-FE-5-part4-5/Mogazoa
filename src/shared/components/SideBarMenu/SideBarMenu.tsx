@@ -16,7 +16,7 @@ const SideBarMenu = ({
   handleOpenMenuEnd,
 }: SideBarMenuProps) => {
   return (
-    <div className={`fixed left-0 top-0 h-screen w-full`}>
+    <div className={`fixed left-0 top-0 z-50 h-screen w-full`}>
       <div
         onAnimationEnd={handleOpenMenuEnd}
         className={`${animationOpenMenu ? 'animate-slideRight' : 'animate-slideLeft'} size-full bg-dark-gradient-custom`}

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
-import { Portal } from '@/shared/providers/portal-provider';
+import { Portal } from '@/Portal';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useMe from '@/shared/store/use-me';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
   return (
     <>
       {shouldOpenMenu && (
-        <Portal>
+        <Portal portalName="sideBar">
           <SideBarMenu
             setOpenMenu={setOpenMenu}
             logout={logout}

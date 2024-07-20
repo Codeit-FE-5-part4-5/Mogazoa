@@ -5,6 +5,8 @@ import { ModalProvider } from '@/shared/providers/modal-provider';
 import type { AppProps } from 'next/app';
 import '@/styles/globals.css';
 import GlobalBoundary from '@/shared/components/Boundary/GlobalBoundary';
+import { Portal } from '@/Portal';
+import Floating from '@/shared/components/Floating/Floating';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +31,9 @@ const App = ({ Component, pageProps }: AppProps) => {
         <ModalProvider />
         <GlobalBoundary>
           <Component {...pageProps} />
+          <Portal portalName="floating">
+            <Floating />
+          </Portal>
         </GlobalBoundary>
         <ReactQueryDevtools initialIsOpen={false} />
       </CookiesProvider>
