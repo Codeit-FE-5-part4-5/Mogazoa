@@ -109,6 +109,7 @@ export const ItemAddModal = () => {
       console.log('Response:', response.data);
       onClose('itemAdd');
       router.push('/mypage');
+      router.reload();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;

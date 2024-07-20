@@ -103,8 +103,10 @@ export const ItemEditModal = () => {
         requestBody,
       );
       console.log('Response:', response.data);
-      router.push('/mypage');
       onClose('itemEdit');
+      router.push('/mypage');
+
+      router.reload();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;
