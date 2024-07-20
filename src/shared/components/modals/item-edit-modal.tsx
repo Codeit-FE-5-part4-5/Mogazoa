@@ -104,7 +104,7 @@ export const ItemEditModal = () => {
       );
       console.log('Response:', response.data);
       onClose('itemEdit');
-      router.push('/mypage');
+      router.push(`/detail/${productId}`);
 
       router.reload();
     } catch (error) {
