@@ -1,4 +1,5 @@
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import axios from '@/shared/utils/axios';
 
 const getProductsRequest = async ({
@@ -31,6 +32,9 @@ const useGetProducts = ({
     queryKey: ['products', keyword, categoryId, order],
     queryFn: () => getProductsRequest({ keyword, categoryId, order }),
   });
+};
+
+export default useGetProducts;
 };
 
 export default useGetProducts;
