@@ -107,8 +107,8 @@ export const ItemAddModal = () => {
       console.log(requestBody);
       const response = await apiInstance.post('/products', requestBody);
       console.log('Response:', response.data);
-      router.push('/mypage');
       onClose('itemAdd');
+      router.push('/mypage');
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;

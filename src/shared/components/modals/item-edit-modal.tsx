@@ -5,7 +5,6 @@ import CompareDropDownInput from '../DropDown/CompareDropDownInput';
 import useGetProducts from '@/shared/models/product/useGetProducts';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 
-
 import {
   Dialog,
   DialogContent,
@@ -34,7 +33,7 @@ const frameworks = [
 
 export const ItemEditModal = () => {
   const { isOpen, onClose, type } = useModal();
-  const isModalOpen = isOpen && type === 'itemAdd';
+  const isModalOpen = isOpen && type === 'itemEdit';
   const [text, setText] = useState<string>('');
   const [selectedItem, setSelectedItem] = useState('');
   const { data: keywordList } = useGetProducts({ keyword: selectedItem });
