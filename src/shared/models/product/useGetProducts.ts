@@ -1,7 +1,24 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import axios from '@/shared/utils/axios';
 
-export default function useGetProducts({
+const getProductsRequest = async ({
+  keyword,
+  categoryId,
+  order,
+}: {
+  keyword?: string;
+  categoryId?: number;
+  order?: string;
+}) => {
+  const categoryParam = categoryId ? `&category=${categoryId}` : '';
+  const keywordParam = keyword ? `&keyword=${keyword}` : '';
+  const { data } = await axios.get(
+    `products?order=${order}${keywordParam}${categoryParam}`,
+  );
+  return data.list;
+};
+
+const useGetProducts = ({
   keyword,
   categoryId,
   order = 'recent',
@@ -9,16 +26,11 @@ export default function useGetProducts({
   keyword?: string;
   categoryId?: number;
   order?: string;
-}) {
-  return useQuery({
+}) => {
+  return useSuspenseQuery({
     queryKey: ['products', keyword, categoryId, order],
-    queryFn: async () => {
-      const categoryParam = categoryId ? `&category=${categoryId}` : '';
-      const keywordParam = keyword ? `&keyword=${keyword}` : '';
-      const { data } = await axios.get(
-        `products?order=${order}${keywordParam}${categoryParam}`,
-      );
-      return data.list;
-    },
+    queryFn: () => getProductsRequest({ keyword, categoryId, order }),
   });
-}
+};
+
+export default useGetProducts;

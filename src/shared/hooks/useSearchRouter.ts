@@ -20,7 +20,9 @@ const useSearchRouter = (): {
   const searchQuery = validateArray(search);
 
   const changeSearchQuery = (currentValue: string) => {
-    if (!currentValue) return;
+    if (!currentValue) {
+      return initKeyword();
+    }
 
     router.push({
       pathname: currentPath,

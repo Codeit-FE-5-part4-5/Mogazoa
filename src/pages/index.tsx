@@ -68,7 +68,7 @@ const Home = () => {
                 <SortedProductList sortBy="recent" />
               </>
             )}
-            <Spinner isLoading={isLoading} />
+            {isLoading && <Spinner isLoading />}
           </div>
         </div>
       </main>
