@@ -23,7 +23,7 @@ const redirectIfLoggedIn = (req: NextRequest) => {
 const redirectIfNotLoggedIn = (req: NextRequest) => {
   const restrictedPaths = ['/mypage', '/compare'];
 
-  if (restrictedPaths.includes(req.nextUrl.pathname)) {
+  if (!checkLogin(req) && restrictedPaths.includes(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/signin', req.url));
   }
   return NextResponse.next();

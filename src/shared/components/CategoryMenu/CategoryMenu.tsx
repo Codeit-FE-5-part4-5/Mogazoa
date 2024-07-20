@@ -20,7 +20,7 @@ export const CategoryMenu: React.FC<SlideMenu> = ({
       className={` ${isVisible ? 'my-[20px]' : 'mt-[45px]'} mx-[20px] w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white`}
     >
       <div
-        className={`${isVisible && 'hidden'} ml-[20px] pb-[15px] text-sm font-normal leading-normal text-white`}
+        className={`${isVisible && 'hidden'} ml-[20px] cursor-pointer pb-[15px] text-sm font-normal leading-normal text-white`}
       >
         전체 카테고리
       </div>

@@ -17,7 +17,7 @@ export const Header: React.FC = () => {
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { isLoggedIn, logout } = useMe();
   const { currentPath } = useChangeRouter();
-  const { onChangeSearchKeyword, initKeyword, searchKeyword } =
+  const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
     useAnimation(isOpenMenu);
@@ -70,6 +70,7 @@ export const Header: React.FC = () => {
                 value={searchKeyword}
                 type="text"
                 onChange={onChangeSearchKeyword}
+                searchQuery={searchQuery}
                 initKeyword={initKeyword}
                 isOpen={isSearchOpen}
                 setOpen={setIsSearchOpen}

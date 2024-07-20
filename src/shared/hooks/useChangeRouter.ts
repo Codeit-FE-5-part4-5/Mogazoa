@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { ParsedUrlQuery } from 'querystring';
-import { getCookie } from '../utils/cookie';
 
 const useChangeRouter = (): {
   currentPath: string;

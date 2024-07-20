@@ -9,6 +9,7 @@ import {
 interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  searchQuery: string;
   initKeyword: () => void;
 }
 
@@ -19,16 +20,15 @@ const searchInputOpenStyle =
 
 const SearchInput = ({
   className,
+  searchQuery,
   isOpen,
   setOpen,
   value,
   initKeyword,
   ...props
 }: SearchInputProps) => {
-  const classNames = className || '';
-
   useEffect(() => {
-    if (!isOpen) initKeyword();
+    if (!searchQuery) initKeyword();
   }, [isOpen]);
 
   return (
@@ -40,11 +40,11 @@ const SearchInput = ({
         value={value}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.key === 'Escape' && initKeyword()}
-        className={`${classNames} ${isOpen ? searchInputOpenStyle : searchInputClosedStyle} flex h-[42px] flex-col items-start justify-center gap-[10px] rounded-[28px] border border-var-black3 bg-[#252530] p-[16px_20px] text-var-gray2 placeholder-var-gray1 outline-none transition-all duration-300 group-hover:bg-[#17171C] group-hover:border-gradient-custom`}
+        className={`${className || ''} ${isOpen ? searchInputOpenStyle : searchInputClosedStyle} flex h-[42px] flex-col items-start justify-center gap-[10px] rounded-[28px] border border-var-black3 bg-[#252530] p-[16px_20px] text-var-gray2 placeholder-var-gray1 outline-none transition-all duration-300 group-hover:bg-[#17171C] group-hover:border-gradient-custom`}
         {...props}
       />
       <div className="absolute right-[10px] top-[50%] flex -translate-y-1/2 cursor-pointer items-center gap-[15px]">
-        {value && (
+        {value && isOpen && (
           <button
             onClick={(e) => {
               e.stopPropagation();
