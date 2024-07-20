@@ -1,8 +1,4 @@
-import {
-  useQuery,
-  useSuspenseQuery,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import axios from '@/shared/utils/axios';
 
 const getProductsRequest = async ({
