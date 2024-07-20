@@ -16,7 +16,7 @@ const NicknameInput: React.FC<NicknameInputProps> = ({
       <h1 className="pb-3 text-[16px] text-var-white">닉네임</h1>
       <input
         type="text"
-        maxLength={20}
+        maxLength={10}
         placeholder={placeholder}
         className={`${error && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none transition-all duration-300 hover:bg-[#17171C] focus:border-gradient-custom`}
         {...register}
