@@ -52,7 +52,7 @@ const Home = () => {
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <RankingList rankingData={sliceRankingData} />
           <div className="flex-1">
-            {currentQuery.category ? (
+            {currentQuery.category || searchQuery ? (
               <ProductList
                 products={products}
                 searchQuery={searchQuery}

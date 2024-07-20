@@ -21,7 +21,11 @@ const useSearchRouter = (): {
 
   const changeSearchQuery = (currentValue: string) => {
     if (!currentValue) {
-      return initKeyword();
+      delete currentQuery.search;
+      return router.push({
+        pathname: currentPath,
+        query: currentQuery,
+      });
     }
 
     router.push({

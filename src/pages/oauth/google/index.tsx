@@ -87,7 +87,7 @@ const GoogleAuth = () => {
           <Button text="가입하기" type="submit" className="mt-[20px]" />
         </form>
       ) : (
-        <Spinner isLoading isTimeout={false} />
+        <Spinner isLoading />
       )}
     </OAuthSignUp>
   );
