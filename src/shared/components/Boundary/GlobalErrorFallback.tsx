@@ -23,7 +23,7 @@ const GlobalErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
           text={result.code === 401 ? '로그인 이동' : '메인화면 이동'}
           variant="tertiary"
           onClick={() =>
-            handleRedirectPage(result.code === 401 ? '/signin' : '/main')
+            handleRedirectPage(result.code === 401 ? '/signin' : '/')
           }
         />
       </div>

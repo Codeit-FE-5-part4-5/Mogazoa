@@ -6,7 +6,7 @@ import {
 import axios from '@/shared/utils/axios';
 import { ItemListResponse } from '@/shared/types/product/product';
 
-export default function useGetInfiniteProducts({
+const useGetInfiniteProducts = ({
   keyword,
   categoryId,
   order,
@@ -14,7 +14,7 @@ export default function useGetInfiniteProducts({
   keyword?: string;
   categoryId?: number;
   order?: string;
-}): UseInfiniteQueryResult<InfiniteData<ItemListResponse>, Error> {
+}): UseInfiniteQueryResult<InfiniteData<ItemListResponse>, Error> => {
   return useInfiniteQuery<ItemListResponse, Error>({
     queryKey: ['products', keyword, categoryId, order],
     queryFn: async ({ pageParam = 0 }) => {
@@ -35,4 +35,6 @@ export default function useGetInfiniteProducts({
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
-}
+};
+
+export default useGetInfiniteProducts;

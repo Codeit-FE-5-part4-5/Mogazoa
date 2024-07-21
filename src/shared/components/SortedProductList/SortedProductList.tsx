@@ -1,6 +1,7 @@
 import useGetProducts from '@/shared/models/product/useGetProducts';
 import ProductCard from '../ProductCard/ProductCard';
 import { Product } from '@/shared/types/product/product';
+import Spinner from '../Spinner/Spinner';
 
 interface ProductListProps {
   sortBy: 'recent' | 'rating' | 'reviewCount';
@@ -19,9 +20,18 @@ const sortVariation = {
 };
 
 const SortedProductList = ({ sortBy }: ProductListProps) => {
-  const { data: products } = useGetProducts({
+  const { data: products, isLoading } = useGetProducts({
     order: sortBy,
   });
+
+  if (isLoading) {
+    return <Spinner isLoading />;
+  }
+
+  if (!products || products.length === 0) {
+    return <div>상품이 없습니다.</div>;
+  }
+
   return (
     <div className="mx-[20px] mb-[60px] flex-1 xl:mt-[60px] xl:border-var-black3">
       <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
@@ -33,7 +43,7 @@ const SortedProductList = ({ sortBy }: ProductListProps) => {
         </p>
       </h1>
       <div className="grid grid-cols-2 gap-[20px] xl:grid-cols-3">
-        {products?.map((product: Product, idx: number) => {
+        {products.map((product: Product, idx: number) => {
           if (idx > 5) return null;
           return (
             <ProductCard

@@ -1,19 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
 import { CategoryMenu } from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import Spinner from '@/shared/components/Spinner/Spinner';
-import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
-import ProductList from '@/shared/components/ProductList/ProductList';
+import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
 import useGetCategory from '@/shared/models/category/useGetCategory';
-import useGetProducts from '@/shared/models/product/useGetProducts';
 import sortConverter from '@/shared/utils/sortConverter';
 import { validateArray } from '@/shared/utils/validateArray';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
+import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
+import { useInView } from 'react-intersection-observer';
+import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();
@@ -21,16 +21,30 @@ const Home = () => {
   const [currentSortOrder, setCurrentSortOrder] = useState(
     sortConverter(ORDER_VARIANTS[0]),
   );
+  const [ref, inView] = useInView();
   const { data: categories } = useGetCategory();
-  const { data: products, isLoading } = useGetProducts({
+  const {
+    fetchNextPage: fetchNextPage,
+    hasNextPage: hasNextPage,
+    data: products,
+    isLoading,
+    isSuccess,
+  } = useGetInfiniteProducts({
     categoryId: Number(currentQuery.categoryId),
     order: currentSortOrder,
     keyword: searchQuery,
   });
+  const productsList = products?.pages.flatMap((page) => page.list) || [];
 
   // 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, products]);
 
   return (
     <MogazoaLayout>
@@ -53,14 +67,18 @@ const Home = () => {
           <RankingList rankingData={sliceRankingData} />
           <div className="flex-1">
             {currentQuery.category || searchQuery ? (
-              <ProductList
-                products={products}
-                searchQuery={searchQuery}
-                currentCategoryName={validateArray(currentQuery.category)}
-                changeSortOrder={(order) =>
-                  setCurrentSortOrder(sortConverter(order))
-                }
-              />
+              <>
+                <ProductSection
+                  isLoading={isLoading}
+                  products={productsList}
+                  searchQuery={searchQuery}
+                  currentCategoryName={validateArray(currentQuery.category)}
+                  changeSortOrder={(order) =>
+                    setCurrentSortOrder(sortConverter(order))
+                  }
+                />
+                {isSuccess && <div ref={ref}></div>}
+              </>
             ) : (
               <>
                 <SortedProductList sortBy="reviewCount" />
@@ -68,7 +86,6 @@ const Home = () => {
                 <SortedProductList sortBy="recent" />
               </>
             )}
-            {isLoading && <Spinner isLoading />}
           </div>
         </div>
       </main>

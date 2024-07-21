@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const usePendingTimeout = (isLoading: boolean) => {
+const usePendingTimeout = (isLoading?: boolean) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

@@ -28,7 +28,7 @@ const useSearchRouter = (): {
       });
     }
 
-    router.push({
+    return router.push({
       pathname: currentPath,
       query: { ...currentQuery, search: currentValue },
     });
