@@ -35,7 +35,7 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-2 gap-5 overflow-y-scroll xl:grid-cols-3">
+    <div className="grid grid-cols-2 gap-5 overflow-y-scroll no-scrollbar xl:grid-cols-3">
       {products.map((product) => (
         <ProductCard
           key={product.id}
