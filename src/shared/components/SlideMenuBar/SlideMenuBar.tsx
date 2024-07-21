@@ -14,9 +14,12 @@ const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
     return (
       <li ref={ref} className="group w-fit flex-shrink-0 px-[20px]">
         <button
-          onClick={() =>
-            onClick({ category: category.name, categoryId: category.id })
-          }
+          onClick={() => {
+            if (category.name === currentCategory) {
+              return onClick({});
+            }
+            onClick({ category: category.name, categoryId: category.id });
+          }}
           className={`border-b-[2px] text-[16px] text-var-gray1 transition-all duration-300 group-hover:text-var-gray2 ${category.name === currentCategory ? 'border-var-gray2 text-var-gray2' : 'border-[#1C1C22]'} pb-[10px] hover:border-var-gray1`}
         >
           {category.name}

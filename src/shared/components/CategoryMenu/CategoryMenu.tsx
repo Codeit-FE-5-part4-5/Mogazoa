@@ -33,9 +33,12 @@ export const CategoryMenu: React.FC<SlideMenu> = ({
                 ? 'border-[#353542] bg-[#252530]'
                 : 'bg-[#1C1C22] text-[#6E6E82]'
             }`}
-            onClick={() =>
-              handleClickCategory({ category: item.name, categoryId: item.id })
-            }
+            onClick={() => {
+              if (item.name === currentCategoryName) {
+                return handleClickCategory({});
+              }
+              handleClickCategory({ category: item.name, categoryId: item.id });
+            }}
           >
             {item.name}
           </li>

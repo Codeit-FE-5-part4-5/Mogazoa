@@ -77,7 +77,7 @@ export const Header: React.FC = () => {
                 placeholder="상품 이름을 검색해 보세요"
               />
             )}
-            <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-normal text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
+            <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-semibold text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
               <Link
                 href={isLoggedIn ? '/compare' : '/signin'}
                 className="transition-colors duration-300 hover:text-var-gray2"
