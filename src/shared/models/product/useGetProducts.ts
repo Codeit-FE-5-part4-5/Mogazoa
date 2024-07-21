@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/shared/utils/axios';
-import { Product } from '@/shared/types/product/product';
 
 const getProductsRequest = async ({
   keyword,
