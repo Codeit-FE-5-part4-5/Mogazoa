@@ -33,6 +33,7 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
   const [review, setReview] = useState<string>('');
   const [images, setImages] = useState<EditImage[]>(initialImages || []);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState<boolean>(false);
 
   useEffect(() => {
     if (initialRating) {
@@ -43,7 +44,6 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
       setReview(initialReviewContent);
     }
 
-    // 초기 이미지 설정
     setImages(
       initialImages && initialImages.length > 0
         ? initialImages
@@ -113,11 +113,14 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
   const handleEditReview = async () => {
     if (!validateForm()) return;
 
+    setIsPending(true);
     try {
       await EditReviewMutation.mutateAsync();
       onClose();
     } catch (error) {
       console.error('리뷰 수정 실패:', error);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -194,7 +197,12 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
                   </div>
                 )}
             </div>
-            <Button text="편집하기" onClick={handleEditReview} />
+            <Button
+              className={isPending ? 'opacity-80' : ''}
+              text="편집하기"
+              onClick={handleEditReview}
+              disabled={isPending}
+            />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
