@@ -43,16 +43,12 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
       setReview(initialReviewContent);
     }
 
-    if (initialImages) {
-      setImages([
-        ...initialImages,
-        ...(initialImages.length < 3
-          ? Array(3 - initialImages.length).fill({ source: null })
-          : []),
-      ]);
-    } else {
-      setImages(Array(3).fill({ source: null }));
-    }
+    // 초기 이미지 설정
+    setImages(
+      initialImages && initialImages.length > 0
+        ? initialImages
+        : [{ source: null }],
+    );
   }, [initialRating, initialReviewContent, initialImages]);
 
   const handleRating = (rate: number) => {
@@ -77,7 +73,7 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
   };
 
   const handleImageChange = (index: number, image: string | null) => {
-    const newImages = [...images];
+    let newImages = [...images];
 
     if (image === null) {
       newImages.splice(index, 1);
@@ -89,8 +85,12 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
       }
     }
 
-    // Ensure there are always 3 image slots
-    if (newImages.length < 3) {
+    // 빈 이미지 슬롯 추가
+    if (newImages.length < 3 && newImages.every((img) => img.source !== null)) {
+      newImages.push({ source: null });
+    }
+
+    if (newImages.length === 0) {
       newImages.push({ source: null });
     }
 
@@ -182,16 +182,17 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
                   />
                 </div>
               ))}
-              {images.length < 3 && (
-                <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                  <ImageInput
-                    initialImageUrl={null}
-                    onChange={(newImage: string | null) =>
-                      handleImageChange(images.length, newImage)
-                    }
-                  />
-                </div>
-              )}
+              {images.length < 3 &&
+                images.every((img) => img.source !== null) && (
+                  <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+                    <ImageInput
+                      initialImageUrl={null}
+                      onChange={(newImage: string | null) =>
+                        handleImageChange(images.length, newImage)
+                      }
+                    />
+                  </div>
+                )}
             </div>
             <Button text="편집하기" onClick={handleEditReview} />
           </DialogDescription>
