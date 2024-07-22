@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useState, SetStateAction } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import CompareDropDownInput from '../DropDown/CompareDropDownInput';
 import useGetProducts from '@/shared/models/product/useGetProducts';
 import { usePathname } from 'next/navigation';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
-import axios from 'axios';
 
 import {
   Dialog,
@@ -44,10 +44,10 @@ export const ItemAddModal = () => {
   const [text, setText] = useState<string>('');
   const [selectedItem, setSelectedItem] = useState('');
   const { data: keywordList } = useGetProducts({ keyword: selectedItem });
-  const [Bedge1, setBedge1] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const {
     fetchNextPage: fetchNextPage1,
@@ -96,6 +96,8 @@ export const ItemAddModal = () => {
   const handleSave = async () => {
     if (!validateForm()) return;
 
+    setIsSubmitting(true);
+
     const requestBody = {
       categoryId: selectedCategory,
       image: image,
@@ -121,6 +123,8 @@ export const ItemAddModal = () => {
       } else {
         setErrorMessage('Unexpected Error');
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -176,12 +180,15 @@ export const ItemAddModal = () => {
             {errorMessage && (
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
-            <div
-              className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white"
+            <button
+              className={`mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white ${
+                isSubmitting ? 'cursor-not-allowed opacity-80' : ''
+              }`}
               onClick={handleSave}
+              disabled={isSubmitting}
             >
               추가하기
-            </div>
+            </button>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
