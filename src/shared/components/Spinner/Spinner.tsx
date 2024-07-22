@@ -13,7 +13,7 @@ interface SpinerProps {
   size?: number;
 }
 
-const Spinner = ({ isLoading, isTimeout = true, size = 30 }: SpinerProps) => {
+const Spinner = ({ isLoading, isTimeout = false, size = 30 }: SpinerProps) => {
   const [loading] = usePendingTimeout(isLoading);
 
   return (

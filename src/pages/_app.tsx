@@ -4,12 +4,14 @@ import { CookiesProvider } from 'react-cookie';
 import { ModalProvider } from '@/shared/providers/modal-provider';
 import type { AppProps } from 'next/app';
 import '@/styles/globals.css';
+import GlobalBoundary from '@/shared/components/Boundary/GlobalBoundary';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
       retry: false,
+      throwOnError: true,
     },
   },
 });
@@ -25,7 +27,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     <QueryClientProvider client={queryClient}>
       <CookiesProvider defaultSetOptions={{ path: '/' }}>
         <ModalProvider />
-        <Component {...pageProps} />
+        <GlobalBoundary>
+          <Component {...pageProps} />
+        </GlobalBoundary>
         <ReactQueryDevtools initialIsOpen={false} />
       </CookiesProvider>
     </QueryClientProvider>
