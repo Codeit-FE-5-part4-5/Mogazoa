@@ -57,8 +57,11 @@ export const ProfileEditModal = () => {
         image: image ?? '',
       });
       onClose();
-    } catch (error) {
-      console.error('Profile update failed:', error);
+    } catch (error: any) {
+      setErrors((prev) => ({
+        ...prev,
+        nickname: error?.response?.data?.message,
+      }));
     }
   };
 
