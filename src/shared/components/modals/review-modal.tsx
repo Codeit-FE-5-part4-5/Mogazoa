@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import apiInstance from '@/shared/utils/axios';
-import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { Rating } from 'react-simple-star-rating';
 import axios from 'axios';
@@ -17,7 +16,6 @@ import { useModal } from '@/shared/store/use-modal-store';
 import Button from '../Button/Button';
 import TextAreaInput from '../Input/TextAreaInput';
 import ImageInput from '../Input/ImageInput';
-import Chip from '../Chip/Chip';
 import Image from 'next/image';
 import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
 
@@ -36,6 +34,7 @@ export const ReviewModal = () => {
     (image) => image !== null,
   ) as string[];
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleRating = (rate: number) => {
     setRating(rate);
@@ -61,6 +60,8 @@ export const ReviewModal = () => {
   const handleSave = async () => {
     if (!validateForm()) return;
 
+    setIsSubmitting(true);
+
     const requestBody = {
       productId: productId,
       images: images,
@@ -71,13 +72,16 @@ export const ReviewModal = () => {
     try {
       const response = await apiInstance.post('/reviews', requestBody);
       console.log('Response:', response.data);
-      router.push(`/detail/${productId}`);
       onClose();
+      router.push(`/detail/${productId}`);
+      router.reload();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;
         console.log('Error:', errorDetails);
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -144,14 +148,14 @@ export const ReviewModal = () => {
                   />
                 </div>
                 {image1 && (
-                  <div className="flex h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+                  <div className="md:h/[135px] md:w/[135px] xl:h/[160px] xl:w/[160px] flex h-[140px] w-[140px]">
                     <ImageInput
                       onChange={(image: string | null) => setImage2(image)}
                     />
                   </div>
                 )}
                 {image2 && (
-                  <div className="flex h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+                  <div className="md:h/[135px] md:w/[135px] xl:h/[160px] xl:w/[160px] flex h-[140px] w-[140px]">
                     <ImageInput
                       onChange={(image: string | null) => setImage3(image)}
                     />
@@ -159,7 +163,12 @@ export const ReviewModal = () => {
                 )}
               </div>
             </div>
-            <Button text="작성하기" onClick={handleSave} />
+            <Button
+              text="작성하기"
+              onClick={handleSave}
+              disabled={isSubmitting}
+              className={isSubmitting ? 'opacity-80' : ''}
+            />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
