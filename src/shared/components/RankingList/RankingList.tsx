@@ -22,6 +22,7 @@ export const RankingList: React.FC<Prop> = ({ rankingData }) => {
           return (
             followersCount > 0 && (
               <RankingCard
+                id={id}
                 key={id}
                 image={image}
                 nickname={nickname}
