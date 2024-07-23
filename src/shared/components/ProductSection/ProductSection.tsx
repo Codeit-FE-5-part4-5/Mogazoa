@@ -1,8 +1,7 @@
 import { ORDER_VARIANTS } from '@/shared/constants/products';
-import DropDown from '../DropDown/DropDown';
 import { Product } from '@/shared/types/product/product';
+import DropDown from '../DropDown/DropDown';
 import ProductCardList from '../ProductCardList/ProductCardList';
-import Spinner from '../Spinner/Spinner';
 
 interface ProductSectionProps {
   products?: Product[];

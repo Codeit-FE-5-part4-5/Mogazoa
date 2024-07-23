@@ -1,6 +1,6 @@
 import useGetProducts from '@/shared/models/product/useGetProducts';
-import ProductCard from '../ProductCard/ProductCard';
 import { Product } from '@/shared/types/product/product';
+import ProductCard from '../ProductCard/ProductCard';
 import Spinner from '../Spinner/Spinner';
 
 interface ProductListProps {

@@ -14,11 +14,15 @@ const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
     return (
       <li ref={ref} className="group w-fit flex-shrink-0 px-[20px]">
         <button
+          type="button"
           onClick={() => {
             if (category.name === currentCategory) {
               return onClick({});
             }
-            onClick({ category: category.name, categoryId: category.id });
+            return onClick({
+              category: category.name,
+              categoryId: category.id,
+            });
           }}
           className={`border-b-[2px] text-[16px] text-var-gray1 transition-all duration-300 group-hover:text-var-gray2 ${category.name === currentCategory ? 'border-var-gray2 text-var-gray2' : 'border-[#1C1C22]'} pb-[10px] hover:border-var-gray1`}
         >
@@ -46,7 +50,10 @@ const SlideMenuBar = ({
   return (
     <ul className="flex overflow-x-auto no-scrollbar">
       {!isMoreLeft && (
-        <button className="absolute left-[10px] top-[134px] animate-bounceRight">
+        <button
+          type="button"
+          className="absolute left-[10px] top-[134px] animate-bounceRight"
+        >
           <Image
             src="/arrow.svg"
             alt="인풋 닫기 버튼"
@@ -60,6 +67,7 @@ const SlideMenuBar = ({
         if (categories.length - 1 === idx) {
           return (
             <CategoryButton
+              key={category.id}
               category={category}
               currentCategory={currentCategory}
               onClick={onClick}
@@ -70,6 +78,7 @@ const SlideMenuBar = ({
         if (idx === 0) {
           return (
             <CategoryButton
+              key={category.id}
               category={category}
               currentCategory={currentCategory}
               onClick={onClick}
@@ -79,6 +88,7 @@ const SlideMenuBar = ({
         }
         return (
           <CategoryButton
+            key={category.id}
             category={category}
             currentCategory={currentCategory}
             onClick={onClick}
@@ -86,7 +96,10 @@ const SlideMenuBar = ({
         );
       })}
       {!isMoreRight && (
-        <button className="absolute right-[10px] top-[134px] animate-bounceRight">
+        <button
+          type="button"
+          className="absolute right-[10px] top-[134px] animate-bounceRight"
+        >
           <Image
             src="/arrow.svg"
             alt="인풋 닫기 버튼"

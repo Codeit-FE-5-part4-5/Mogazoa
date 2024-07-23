@@ -21,6 +21,7 @@ const initUserInfo = {
   isFollowing: false,
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useMe = create<MeStore>((set: any) => ({
   userInfo: initUserInfo,
   isLoggedIn: false,
