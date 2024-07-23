@@ -1,4 +1,4 @@
-import { setCookie } from '@/shared/utils/cookie';
+import appendErrorToQuery from '@/shared/utils/appendErrorToQuery';
 import validateArray from '@/shared/utils/validateArray';
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -36,38 +36,27 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       response = await signupRequest(validateArray(code), validateArray(state));
     }
-    if (!response) return;
 
     if (response?.status === 200) {
-      setCookie('accessToken', response.data.accessToken, {
-        path: '/',
-      });
       res
         .setHeader(
           'Set-Cookie',
           `accessToken=${response.data.accessToken}; Path=/;`,
         )
         .redirect('/');
-    } else {
-      const errorCode = encodeURIComponent(response?.status);
-      const errorMessage = encodeURIComponent(response?.data?.message);
-      res.redirect(
-        `${process.env.NEXT_PUBLIC_KAKAO_SIGNUP_URI!}?errorCode=${errorCode}&errorMessage=${errorMessage}`,
-      );
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error?.response?.status === 403) {
         res.redirect(process.env.NEXT_PUBLIC_KAKAO_SIGNUP_URI!);
       } else {
-        const errorCode = encodeURIComponent(error?.response?.status || '500');
-        const errorMessage = encodeURIComponent(
-          error?.response?.data?.message || 'Not Found',
-        );
+        const params = appendErrorToQuery(error);
         res.redirect(
-          `${process.env.NEXT_PUBLIC_KAKAO_SIGNUP_URI!}?errorCode=${errorCode}&errorMessage=${errorMessage}`,
+          `${process.env.NEXT_PUBLIC_KAKAO_SIGNUP_URI!}?${params?.toString()}`,
         );
       }
+    } else {
+      res.redirect(`${process.env.NEXT_PUBLIC_KAKAO_SIGNUP_URI!}?${error}`);
     }
   }
 };
