@@ -32,7 +32,7 @@ const SearchInput = ({
   }, [isOpen]);
 
   return (
-    <label
+    <div
       onClick={() => setOpen((prev) => !prev)}
       className="group relative flex w-full justify-end transition-all md:inline-block md:w-fit"
     >
@@ -45,8 +45,7 @@ const SearchInput = ({
       />
       <div className="absolute right-[10px] top-[50%] flex -translate-y-1/2 cursor-pointer items-center gap-[15px]">
         {value && isOpen && (
-          <button
-            type="button"
+          <div
             className="rounded-[16px] p-[4px] transition-colors duration-300 hover:bg-var-gray1"
             onClick={(e) => {
               e.stopPropagation();
@@ -65,7 +64,7 @@ const SearchInput = ({
                 fill="#a4a4a4"
               />
             </svg>
-          </button>
+          </div>
         )}
         {isOpen ? (
           <button
@@ -91,7 +90,7 @@ const SearchInput = ({
           </button>
         )}
       </div>
-    </label>
+    </div>
   );
 };
 

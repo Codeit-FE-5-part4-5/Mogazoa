@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
-import { CategoryMenu } from '@/shared/components/CategoryMenu/CategoryMenu';
+import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';

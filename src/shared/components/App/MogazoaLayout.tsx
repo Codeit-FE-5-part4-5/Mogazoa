@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from 'react';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useMe from '@/shared/store/use-me';
-import { Header } from '../header/header';
+import Header from '../header/header';
 
 interface MogazoaLayoutProps {
   children: ReactNode;

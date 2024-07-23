@@ -11,7 +11,7 @@ interface SlideMenuProps {
 
 const CategoryMenu = ({
   isVisible = false,
-  categories,
+  categories = [],
   currentCategoryName,
   handleClickCategory,
 }: SlideMenuProps) => {
