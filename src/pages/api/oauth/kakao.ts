@@ -1,4 +1,3 @@
-import { KAKAO_REDIRECT_URI } from '@/shared/constants/path';
 import { setCookie } from '@/shared/utils/cookie';
 import { validateArray } from '@/shared/utils/validateArray';
 import axios from 'axios';
@@ -9,7 +8,7 @@ const signupRequest = async (code: string, state: string) => {
     `https://mogazoa-api.vercel.app/5-5/auth/signUp/kakao`,
     {
       token: code,
-      redirectUri: KAKAO_REDIRECT_URI,
+      redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
       nickname: state,
     },
   );
@@ -21,7 +20,7 @@ const signinRequest = async (code: string) => {
     `https://mogazoa-api.vercel.app/5-5/auth/signIn/kakao`,
     {
       token: code,
-      redirectUri: KAKAO_REDIRECT_URI,
+      redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
     },
   );
   return result;
@@ -50,8 +49,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         )
         .redirect('/');
     } else {
+      const errorCode = encodeURIComponent(response?.status);
+      const errorMessage = encodeURIComponent(response?.data?.message);
       res.redirect(
-        `${process.env.NEXT_PUBLIC_KAKAO_SIGNUP_URI!}?errorCode=${response?.status}&errorMessage=${response?.data.message}`,
+        `${process.env.NEXT_PUBLIC_KAKAO_SIGNUP_URI!}?errorCode=${errorCode}&errorMessage=${errorMessage}`,
       );
     }
   } catch (error) {

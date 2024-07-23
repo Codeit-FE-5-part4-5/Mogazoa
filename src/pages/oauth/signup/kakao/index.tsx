@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IAuthForm } from '@/pages/signup';
 import OAuthSignUp, { oAuthSchema } from '../..';
-import signUpKakao from '@/shared/utils/signupKakao';
+import accessKakao from '@/shared/utils/accessKakao';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { validateArray } from '@/shared/utils/validateArray';
@@ -24,7 +24,7 @@ const KakaoAuth = () => {
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
     try {
-      signUpKakao(data.nickname);
+      accessKakao(data.nickname);
     } catch (error) {
       console.log(error);
     }
