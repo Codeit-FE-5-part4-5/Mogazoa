@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import Image from 'next/image';
 
 export interface ILoginForm {
   email: string;
@@ -87,8 +88,22 @@ const SignIn = () => {
           <div className="mt-[20px] flex flex-col items-center justify-center gap-[20px]">
             <h3 className="text-var-gray1">SNS로 바로 시작하기</h3>
             <div className="flex gap-[20px]">
-              <GoogleButton />
-              <KakaoButton />
+              <GoogleButton>
+                <Image
+                  src="/google.svg"
+                  alt="구글 로그인"
+                  width={28}
+                  height={28}
+                />
+              </GoogleButton>
+              <KakaoButton>
+                <Image
+                  src="/kakao.svg"
+                  alt="카카오 로그인"
+                  width={28}
+                  height={28}
+                />
+              </KakaoButton>
             </div>
           </div>
         </form>

@@ -1,16 +1,20 @@
-import Image from 'next/image';
-import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
+import accessKakao from '@/shared/utils/accessKakao';
+import { ReactNode } from 'react';
 
-const KakaoButton = () => {
-  const [redirectUri, clientId] = useEnvironmentVariable('kakao');
+interface KakaoButtonProps {
+  children: ReactNode;
+  nickname?: string;
+}
 
+const KakaoButton = ({ children, nickname }: KakaoButtonProps) => {
   return (
-    <a
-      href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`}
+    <button
+      type="button"
       className="flex size-[56px] cursor-pointer items-center justify-center rounded-[50%] border border-var-black3"
+      onClick={() => (nickname ? accessKakao(nickname) : accessKakao())}
     >
-      <Image src="/kakao.svg" alt="카카오 로그인" width={28} height={28} />
-    </a>
+      {children}
+    </button>
   );
 };
 

@@ -1,18 +1,19 @@
-import Image from 'next/image';
-import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
+import accessGoogle from '@/shared/utils/accessGoogle';
+import { ReactNode } from 'react';
 
-const GoogleButton = () => {
-  const [redirectUri, clientId] = useEnvironmentVariable('google');
-  const scope =
-    'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
-
+interface GoogleButtonProps {
+  children: ReactNode;
+  nickname?: string;
+}
+const GoogleButton = ({ children, nickname }: GoogleButtonProps) => {
   return (
-    <a
-      href={`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`}
+    <button
+      type="button"
       className="flex size-[56px] cursor-pointer items-center justify-center rounded-[50%] border border-var-black3"
+      onClick={() => (nickname ? accessGoogle(nickname) : accessGoogle())}
     >
-      <Image src="/google.svg" alt="구글 로그인" width={28} height={28} />
-    </a>
+      {children}
+    </button>
   );
 };
 
