@@ -2,10 +2,12 @@ import React from 'react';
 import Ranking from '../Chip/Ranking';
 import Image from 'next/image';
 import { FollowerRanking } from '@/shared/types/follow/followers/followers-type';
+import { convertToK } from '@/shared/models/user/follow/followers/convertToK';
+import Link from 'next/link';
 
 type RankingCardType = Omit<
   FollowerRanking,
-  'updatedAt' | 'createdAt' | 'teamId' | 'id'
+  'updatedAt' | 'createdAt' | 'teamId'
 > & {
   ranking: number;
 };
@@ -17,6 +19,7 @@ const RankingCard = ({
   reviewCount,
   followersCount,
   ranking,
+  id,
 }: RankingCardType) => {
   return (
     <div className="flex flex-shrink-0 items-center gap-2.5">
@@ -32,17 +35,19 @@ const RankingCard = ({
           loading="eager"
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex gap-2">
-          <Ranking ranking={ranking} />
-          <div className="text-[14px] font-normal text-var-white md:text-[16px]">
-            {nickname}
+      <div>
+        <Link href={`/user/${id}`} className="flex flex-col gap-2">
+          <div className="flex gap-2">
+            <Ranking ranking={ranking} />
+            <div className="text-[14px] font-normal text-var-white md:text-[16px]">
+              {nickname}
+            </div>
           </div>
-        </div>
-        <ul className="flex gap-3.5 text-[10px] font-light text-var-gray1 md:text-[12px]">
-          <li>팔로워 {followersCount}</li>
-          <li>리뷰 {reviewCount}</li>
-        </ul>
+          <ul className="flex gap-3.5 text-[10px] font-light text-var-gray1 md:text-[12px]">
+            <li>팔로워 {convertToK(followersCount)}</li>
+            <li>리뷰 {convertToK(reviewCount)}</li>
+          </ul>
+        </Link>
       </div>
     </div>
   );

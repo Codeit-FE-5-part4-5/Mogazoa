@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import CompareDropDownInput from '../DropDown/CompareDropDownInput';
 import useGetProducts from '@/shared/models/product/useGetProducts';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
+import TextFieldInput from '../Input/TextFieldInput';
 
 import {
   Dialog,
@@ -41,6 +42,7 @@ export const ItemEditModal = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const router = useRouter();
   const { productId } = router.query;
   const {
@@ -90,6 +92,8 @@ export const ItemEditModal = () => {
   const handleSave = async () => {
     if (!validateForm()) return;
 
+    setIsSubmitting(true);
+
     const requestBody = {
       categoryId: selectedCategory,
       image: image,
@@ -103,8 +107,10 @@ export const ItemEditModal = () => {
         requestBody,
       );
       console.log('Response:', response.data);
-      router.push('/mypage');
       onClose('itemEdit');
+      router.push(`/detail/${productId}`);
+
+      router.reload();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;
@@ -116,6 +122,8 @@ export const ItemEditModal = () => {
       } else {
         setErrorMessage('Unexpected Error');
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -144,19 +152,12 @@ export const ItemEditModal = () => {
                 </div>
               </div>
               <div className="w-full md:order-1">
-                <CompareDropDownInput
-                  itemList={keywordList}
-                  onClick={setSelectedItem}
-                  Bedge={Bedge1}
-                  setBedge={setBedge1}
-                  setValue={setSelectedItem}
+                <TextFieldInput
+                  placeholder="상품명을 입력하세요"
                   value={selectedItem}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     onChangeEvent(e, setSelectedItem)
                   }
-                  fetchNextPage={fetchNextPage1}
-                  isFetching={isFetching1}
-                  hasNextPage={hasNextPage1}
                 />
                 <DropDown
                   itemList={frameworks}
@@ -177,12 +178,15 @@ export const ItemEditModal = () => {
             {errorMessage && (
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
-            <div
-              className="mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white"
+            <button
+              className={`mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white ${
+                isSubmitting ? 'cursor-not-allowed opacity-80' : ''
+              }`}
               onClick={handleSave}
+              disabled={isSubmitting}
             >
               저장하기
-            </div>
+            </button>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

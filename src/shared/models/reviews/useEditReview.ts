@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Review } from '@/shared/types/reviews/reviews';
 
 interface EditImage {
-  id?: number;
-  source?: string;
+  id?: number | null;
+  source?: string | null;
 }
 
 interface EditData {

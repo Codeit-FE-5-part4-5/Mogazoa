@@ -81,26 +81,30 @@ const ProductDetailCard = ({
   }, []);
 
   const handleChangeButton = () => {
-    const productIdData1 = localStorage.getItem('productIdData1');
-    const productIdData2 = localStorage.getItem('productIdData2');
+    if (isLogin) {
+      const productIdData1 = localStorage.getItem('productIdData1');
+      const productIdData2 = localStorage.getItem('productIdData2');
 
-    if (!productIdData1) {
-      localStorage.setItem('productIdData1', JSON.stringify(ProductDetail));
-      alert('비교제품이 추가되었습니다.');
-    } else if (productIdData1 && !productIdData2) {
-      localStorage.setItem('productIdData2', JSON.stringify(ProductDetail));
-      onOpen('compareNotice');
-    } else {
-      const isSameAsProduct1 =
-        productIdData1 && JSON.parse(productIdData1).id === ProductDetail.id;
-      const isSameAsProduct2 =
-        productIdData2 && JSON.parse(productIdData2).id === ProductDetail.id;
-
-      if (isSameAsProduct1 || isSameAsProduct2) {
+      if (!productIdData1) {
+        localStorage.setItem('productIdData1', JSON.stringify(ProductDetail));
+        alert('비교제품이 추가되었습니다.');
+      } else if (productIdData1 && !productIdData2) {
+        localStorage.setItem('productIdData2', JSON.stringify(ProductDetail));
         onOpen('compareNotice');
       } else {
-        onOpen('compare');
+        const isSameAsProduct1 =
+          productIdData1 && JSON.parse(productIdData1).id === ProductDetail.id;
+        const isSameAsProduct2 =
+          productIdData2 && JSON.parse(productIdData2).id === ProductDetail.id;
+
+        if (isSameAsProduct1 || isSameAsProduct2) {
+          onOpen('compareNotice');
+        } else {
+          onOpen('compare');
+        }
       }
+    } else {
+      onOpen('login');
     }
   };
 
