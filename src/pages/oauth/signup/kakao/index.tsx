@@ -3,11 +3,11 @@ import NicknameInput from '@/shared/components/Input/NicknameInput';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IAuthForm } from '@/pages/signup';
-import OAuthSignUp, { oAuthSchema } from '../..';
 import accessKakao from '@/shared/utils/accessKakao';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { validateArray } from '@/shared/utils/validateArray';
+import validateArray from '@/shared/utils/validateArray';
+import OAuthSignUp, { oAuthSchema } from '../..';
 
 const KakaoAuth = () => {
   const router = useRouter();

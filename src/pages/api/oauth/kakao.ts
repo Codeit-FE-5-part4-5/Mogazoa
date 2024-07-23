@@ -1,5 +1,5 @@
 import { setCookie } from '@/shared/utils/cookie';
-import { validateArray } from '@/shared/utils/validateArray';
+import validateArray from '@/shared/utils/validateArray';
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 

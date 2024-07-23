@@ -11,7 +11,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   register,
   error,
   placeholder,
-}) => {
+}: PasswordInputProps) => {
   const [inputType, setInputType] = useState(true);
   const [icon, setIcon] = useState('/images/PasswordShow.png');
   const handleShowClick = () => {

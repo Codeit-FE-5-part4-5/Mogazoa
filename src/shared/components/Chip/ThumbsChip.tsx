@@ -1,6 +1,5 @@
 import useLikeReview from '@/shared/models/reviews/useLikeReview';
 import Image from 'next/image';
-import { Dispatch, SetStateAction } from 'react';
 import { useModal } from '@/shared/store/use-modal-store';
 
 interface ThumbsChipProps {
@@ -33,6 +32,7 @@ const ThumbsChip = ({
 
   return (
     <button
+      type="button"
       className="flex w-fit items-center gap-[5px] rounded-[100px] border border-var-black3 bg-var-black2 px-[12px] py-[6px] md:px-[10px]"
       onClick={handleToggleLike}
     >

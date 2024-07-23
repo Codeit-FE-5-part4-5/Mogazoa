@@ -1,4 +1,4 @@
-import { validateArray } from '@/shared/utils/validateArray';
+import validateArray from '@/shared/utils/validateArray';
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -39,11 +39,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   let response;
   try {
     idTokenRes = await getIdToken(validateArray(code));
-    if (!idTokenRes) return null;
+    if (!idTokenRes) return;
 
-    const { id_token } = idTokenRes.data;
+    const { id_token: idToken } = idTokenRes.data;
     if (!state) {
-      response = await signinRequest(id_token);
+      response = await signinRequest(idToken);
     } else {
       response = await signupRequest({
         nickname: validateArray(state),

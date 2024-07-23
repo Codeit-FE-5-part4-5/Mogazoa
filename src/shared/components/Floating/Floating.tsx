@@ -13,6 +13,7 @@ const Floating = () => {
   return (
     <div className="fixed bottom-[10%] right-[10%] z-40">
       <button
+        type="button"
         className="flex size-[60px] items-center justify-center rounded-[50%] bg-gradient-custom shadow-xl"
         onClick={() => onOpen('itemAdd')}
       >

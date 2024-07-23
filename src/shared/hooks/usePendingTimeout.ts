@@ -4,7 +4,7 @@ const usePendingTimeout = (isLoading?: boolean) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    let timerId = setTimeout(() => {
+    const timerId = setTimeout(() => {
       if (isLoading) {
         setLoading(true);
       } else {

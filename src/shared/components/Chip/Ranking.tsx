@@ -11,7 +11,7 @@ const Ranking = ({ ranking }: RankingProps) => {
 
   return (
     <div
-      className={`flex w-fit rounded-[16px] bg-var-gray2 px-[6px] py-[2px] md:px-[8px]`}
+      className="flex w-fit rounded-[16px] bg-var-gray2 px-[6px] py-[2px] md:px-[8px]"
       style={{
         backgroundColor: `rgba(${r}, ${g}, ${b}, 0.18)`,
         color: chipColorList[ranking] || chipColorList[2],

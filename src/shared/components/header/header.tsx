@@ -3,16 +3,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
-import SideBarMenu from '../SideBarMenu/SideBarMenu';
-import { Portal } from '@/Portal';
+import Portal from '@/Portal';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useMe from '@/shared/store/use-me';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
-import SearchInput from '../Input/SearchInput';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
+import SearchInput from '../Input/SearchInput';
+import SideBarMenu from '../SideBarMenu/SideBarMenu';
 
-export const Header: React.FC = () => {
+const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { isLoggedIn, logout } = useMe();
@@ -42,6 +42,7 @@ export const Header: React.FC = () => {
         <div className="flex w-full items-center justify-between py-[20px]">
           {isLoggedIn ? (
             <button
+              type="button"
               onClick={() => setOpenMenu((prev) => !prev)}
               className="flex cursor-pointer items-center space-x-4 md:hidden"
             >
@@ -49,7 +50,10 @@ export const Header: React.FC = () => {
             </button>
           ) : (
             <Link href="/signin" className="flex h-[42px] md:hidden">
-              <button className="text-var-gray2 hover:text-var-white">
+              <button
+                type="button"
+                className="text-var-gray2 hover:text-var-white"
+              >
                 <Image src="/me.svg" alt="로그인" width={24} height={24} />
               </button>
             </Link>
@@ -97,3 +101,5 @@ export const Header: React.FC = () => {
     </>
   );
 };
+
+export default Header;

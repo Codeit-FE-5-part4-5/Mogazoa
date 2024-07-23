@@ -31,6 +31,7 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <button
+      type="button"
       className={`${className} w-full rounded-[8px] py-[16px] text-[16px] font-bold md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px] ${buttonColorList[variant].button}`}
       disabled={disabled}
       {...props}

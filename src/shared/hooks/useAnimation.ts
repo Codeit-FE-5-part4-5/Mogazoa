@@ -9,8 +9,8 @@ const useAnimation = (condition: boolean): [boolean, boolean, () => void] => {
     }
   }, [condition]);
 
-  let shouldRender = condition || isComplete;
-  let animationTrigger = condition && isComplete;
+  const shouldRender = condition || isComplete;
+  const animationTrigger = condition && isComplete;
 
   const handleAnimationEnd = useCallback(() => {
     if (!condition) {
