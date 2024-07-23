@@ -2,23 +2,28 @@ import { useEffect } from 'react';
 import Button from '@/shared/components/Button/Button';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
 import Spinner from '@/shared/components/Spinner/Spinner';
-import useKakaoSignIn from '@/shared/models/auth/useKakaoSignIn';
-import useKakaoSignUp from '@/shared/models/auth/useKakaoSignUp';
+import useGetGoogleToken from '@/shared/models/auth/useGetGoogleToken';
+import useGoogleSignIn from '@/shared/models/auth/useGoogleSignIn';
+import useGoogleSignUp from '@/shared/models/auth/useGoogleSignUp';
 import { validateArray } from '@/shared/utils/validateArray';
-import useChangeRouter from '@/shared/hooks/useChangeRouter';
+import { getCookie } from '@/shared/utils/cookie';
 import useEnvironmentVariable from '@/shared/hooks/useEnvironmentVariable';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { IAuthForm } from '@/pages/signup';
-import OAuthSignUp, { oAuthSchema } from '..';
+import { zodResolver } from '@hookform/resolvers/zod';
+import OAuthSignUp, { oAuthSchema } from '../..';
+import { useRouter } from 'next/router';
 
-const KakaoAuth = () => {
-  const [redirectUri] = useEnvironmentVariable('kakao');
-  const { currentQuery } = useChangeRouter();
-  const { mutate: signInKakao, error: signInError } = useKakaoSignIn();
-  const { mutate: signUpKakao } = useKakaoSignUp();
-  const { code } = currentQuery;
+const GoogleAuth = () => {
+  const idToken = getCookie('idToken');
+  const [redirectUri, clientId, clientSecret] =
+    useEnvironmentVariable('google');
+  const router = useRouter();
+  const { code: token } = router.query;
+  const { mutate: signInGoogle, error: signInError } = useGoogleSignIn();
+  const { mutate: signUpGoogle } = useGoogleSignUp();
+  const { mutate: getGoogleToken } = useGetGoogleToken();
   const {
     register,
     handleSubmit,
@@ -30,10 +35,10 @@ const KakaoAuth = () => {
   });
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
-    signUpKakao(
+    signUpGoogle(
       {
         nickname: data.nickname,
-        token: validateArray(code),
+        token: idToken,
         redirectUri,
       },
       {
@@ -41,7 +46,7 @@ const KakaoAuth = () => {
           if (axios.isAxiosError(error)) {
             setError('nickname', {
               type: 'validateError',
-              message: error?.response?.data?.message,
+              message: error?.response?.data.message,
             });
           }
         },
@@ -50,10 +55,21 @@ const KakaoAuth = () => {
   };
 
   useEffect(() => {
-    if (code) {
-      signInKakao({ token: validateArray(code), redirectUri });
+    if (token) {
+      getGoogleToken({
+        redirectUri,
+        clientId,
+        clientSecret,
+        token: validateArray(token),
+      });
     }
-  }, [code]);
+  }, [token]);
+
+  useEffect(() => {
+    if (idToken) {
+      signInGoogle({ token: idToken, redirectUri });
+    }
+  }, [idToken]);
 
   return (
     <OAuthSignUp>
@@ -77,4 +93,4 @@ const KakaoAuth = () => {
   );
 };
 
-export default KakaoAuth;
+export default GoogleAuth;

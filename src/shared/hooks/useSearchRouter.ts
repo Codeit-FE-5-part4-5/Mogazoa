@@ -42,8 +42,6 @@ const useSearchRouter = (): {
     searchTimerId = setTimeout(() => {
       if (searchKeyword) {
         changeSearchQuery(searchKeyword);
-      } else {
-        changeSearchQuery('');
       }
     }, 500);
 

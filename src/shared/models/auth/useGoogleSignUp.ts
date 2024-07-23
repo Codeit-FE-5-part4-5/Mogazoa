@@ -1,6 +1,6 @@
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import axios from '@/shared/utils/axios';
-import { setCookie } from '@/shared/utils/cookie';
+import { removeCookie, setCookie } from '@/shared/utils/cookie';
 import { useMutation } from '@tanstack/react-query';
 
 const googleSignUpRequest = (params: {
@@ -13,6 +13,7 @@ const googleSignUpRequest = (params: {
 
 const useGoogleSignUp = () => {
   const { handleRedirect } = useChangeRouter();
+
   return useMutation({
     mutationFn: googleSignUpRequest,
     onSuccess: (data) => {
@@ -20,6 +21,7 @@ const useGoogleSignUp = () => {
         path: '/',
         secure: process.env.NODE_ENV === 'production',
       });
+      removeCookie('idToken');
       handleRedirect('/');
     },
   });

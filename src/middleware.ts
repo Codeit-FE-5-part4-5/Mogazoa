@@ -41,5 +41,12 @@ const middleware = (req: NextRequest) => {
 export default middleware;
 
 export const config = {
-  matcher: ['/signin', '/signup', '/oauth/:path*', '/mypage', '/compare'],
+  matcher: [
+    '/signin',
+    '/signup',
+    '/oauth/kakao',
+    '/oauth/google',
+    '/mypage',
+    '/compare',
+  ],
 };

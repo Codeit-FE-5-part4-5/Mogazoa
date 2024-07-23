@@ -26,7 +26,9 @@ const useChangeRouter = (): {
 
   const handleRedirect = useCallback(
     (value: string) => {
-      router.replace(value);
+      if (value) {
+        router.replace(value);
+      }
     },
     [router],
   );

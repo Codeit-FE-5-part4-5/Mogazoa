@@ -1,12 +1,12 @@
-import { GOOGLE_REDIRECT_URI, KAKAO_REDIRECT_URI } from '../constants/path';
-
 type useEnvironmentVariableProps = 'google' | 'kakao';
 
 const useEnvironmentVariable = (
   provider: useEnvironmentVariableProps,
 ): string[] => {
   const redirectUri =
-    provider === 'google' ? GOOGLE_REDIRECT_URI : KAKAO_REDIRECT_URI;
+    provider === 'google'
+      ? process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI
+      : process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
 
   const clientId = encodeURIComponent(
     provider === 'google'
