@@ -23,11 +23,7 @@ const KakaoAuth = () => {
   });
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
-    try {
-      accessKakao(data.nickname);
-    } catch (error) {
-      console.log(error);
-    }
+    accessKakao(data.nickname);
   };
 
   useEffect(() => {
