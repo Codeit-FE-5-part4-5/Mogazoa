@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-interface ProductCard {
+interface ProductCardProps {
   id: number;
   image: string;
   name: string;
@@ -18,7 +18,7 @@ const ProductCard = ({
   reviewCount,
   favoriteCount,
   rating,
-}: ProductCard) => {
+}: ProductCardProps) => {
   return (
     <Link href={`/detail/${id}`}>
       <div className="group cursor-pointer rounded-[8px] border border-[#353542] bg-[#252530] px-[10px] py-[10px] hover:border-gradient-custom md:py-[20px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
@@ -55,5 +55,4 @@ const ProductCard = ({
     </Link>
   );
 };
-
 export default ProductCard;

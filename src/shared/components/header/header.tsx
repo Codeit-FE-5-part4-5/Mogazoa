@@ -4,7 +4,7 @@ import Image from 'next/image';
 import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
-import { Portal } from '@/shared/providers/portal-provider';
+import { Portal } from '@/Portal';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useMe from '@/shared/store/use-me';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
@@ -17,7 +17,7 @@ export const Header: React.FC = () => {
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { isLoggedIn, logout } = useMe();
   const { currentPath } = useChangeRouter();
-  const { onChangeSearchKeyword, initKeyword, searchKeyword } =
+  const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
     useAnimation(isOpenMenu);
@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
   return (
     <>
       {shouldOpenMenu && (
-        <Portal>
+        <Portal portalName="sideBar">
           <SideBarMenu
             setOpenMenu={setOpenMenu}
             logout={logout}
@@ -70,13 +70,14 @@ export const Header: React.FC = () => {
                 value={searchKeyword}
                 type="text"
                 onChange={onChangeSearchKeyword}
+                searchQuery={searchQuery}
                 initKeyword={initKeyword}
                 isOpen={isSearchOpen}
                 setOpen={setIsSearchOpen}
                 placeholder="상품 이름을 검색해 보세요"
               />
             )}
-            <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-normal text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
+            <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-semibold text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
               <Link
                 href={isLoggedIn ? '/compare' : '/signin'}
                 className="transition-colors duration-300 hover:text-var-gray2"

@@ -9,7 +9,6 @@ interface MogazoaLayoutProps {
 const MogazoaLayout = ({ children }: MogazoaLayoutProps) => {
   const { data: me, isSuccess: loginSuccess } = useGetMe();
   const { login } = useMe();
-  // useRouterGuard();
 
   useEffect(() => {
     if (loginSuccess) {

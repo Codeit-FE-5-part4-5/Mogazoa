@@ -12,7 +12,8 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <div id="portal"></div>
+        <div id="sideBar"></div>
+        <div id="floating"></div>
       </body>
     </Html>
   );
