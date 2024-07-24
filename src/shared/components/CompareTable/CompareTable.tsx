@@ -1,4 +1,4 @@
-import { compareProducts } from '@/shared/models/product/compareProducts';
+import compareProducts from '@/shared/models/product/compareProducts';
 import { Product } from '@/shared/types/product/product';
 import React from 'react';
 

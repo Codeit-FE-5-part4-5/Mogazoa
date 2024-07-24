@@ -1,7 +1,7 @@
 import { Product } from '@/shared/types/product/product';
 import { SetStateAction } from 'react';
-import { compareProducts } from './compareProducts';
 import saveUserProduct from './saveUserProduct';
+import compareProducts from './compareProducts';
 
 interface Props {
   productIdData1: Product | undefined;
