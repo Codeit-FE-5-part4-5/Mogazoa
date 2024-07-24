@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
 import Floating from '@/shared/components/Floating/Floating';
-import { Header } from '@/shared/components/header/header';
+import Header from '@/shared/components/header/header';
 import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
 import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
 

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
@@ -157,10 +158,12 @@ module.exports = {
     },
   },
   plugins: [
+    // eslint-disable-next-line global-require
     require('tailwindcss-animate'),
     plugin(function ({
       addUtilities,
     }: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       addUtilities: (utilities: Record<string, any>) => void;
     }) {
       addUtilities({

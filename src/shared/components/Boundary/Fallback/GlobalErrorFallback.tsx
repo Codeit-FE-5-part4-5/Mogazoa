@@ -1,6 +1,6 @@
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import { FallbackProps } from 'react-error-boundary';
-import Button from '../Button/Button';
+import Button from '../../Button/Button';
 
 const GlobalErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   const { handleRedirect } = useChangeRouter();
