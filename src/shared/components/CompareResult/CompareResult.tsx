@@ -1,4 +1,4 @@
-import { tableDetermineResult } from '@/shared/models/product/tableDetermineResult';
+import tableDetermineResult from '@/shared/models/product/tableDetermineResult';
 import { Product } from '@/shared/types/product/product';
 
 interface Props {
