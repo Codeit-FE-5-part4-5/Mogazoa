@@ -1,12 +1,12 @@
-import useMe from '@/shared/store/use-me';
 import { useModal } from '@/shared/store/use-modal-store';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 
 const Floating = () => {
+  const me = useQueryClient().getQueryData(['me']);
   const { onOpen } = useModal();
-  const { isLoggedIn } = useMe();
 
-  if (!isLoggedIn) {
+  if (!me) {
     return null;
   }
 

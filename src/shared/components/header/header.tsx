@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
 import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
 import Portal from '@/Portal';
 import useAnimation from '@/shared/hooks/useAnimation';
-import useMe from '@/shared/store/use-me';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
@@ -13,9 +13,9 @@ import SearchInput from '../Input/SearchInput';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 
 const Header: React.FC = () => {
+  const me = useQueryClient().getQueryData(['me']);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
-  const { isLoggedIn, logout } = useMe();
   const { currentPath } = useChangeRouter();
   const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();
@@ -29,7 +29,6 @@ const Header: React.FC = () => {
         <Portal portalName="sideBar">
           <SideBarMenu
             setOpenMenu={setOpenMenu}
-            logout={logout}
             animationOpenMenu={animationOpenMenu}
             handleOpenMenuEnd={handleOpenMenuEnd}
           />
@@ -40,7 +39,7 @@ const Header: React.FC = () => {
         className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:border-b md:border-var-black3 md:px-[30px] xl:px-[120px]"
       >
         <div className="flex w-full items-center justify-between py-[20px]">
-          {isLoggedIn ? (
+          {me ? (
             <button
               type="button"
               onClick={() => setOpenMenu((prev) => !prev)}
@@ -83,16 +82,16 @@ const Header: React.FC = () => {
             )}
             <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-semibold text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
               <Link
-                href={isLoggedIn ? '/compare' : '/signin'}
+                href={me ? '/compare' : '/signin'}
                 className="transition-colors duration-300 hover:text-var-gray2"
               >
-                {isLoggedIn ? '비교하기' : '로그인'}
+                {me ? '비교하기' : '로그인'}
               </Link>
               <Link
-                href={isLoggedIn ? '/mypage' : '/signup'}
+                href={me ? '/mypage' : '/signup'}
                 className="transition-colors duration-300 hover:text-var-gray2"
               >
-                {isLoggedIn ? '내 프로필' : '회원가입'}
+                {me ? '내 프로필' : '회원가입'}
               </Link>
             </div>
           </div>
