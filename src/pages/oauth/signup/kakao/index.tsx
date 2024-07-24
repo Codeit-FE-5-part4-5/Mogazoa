@@ -33,7 +33,7 @@ const KakaoAuth = () => {
         message: validateArray(errorMessage),
       });
     }
-  }, [errorCode, errorMessage]);
+  }, [errorCode, errorMessage, setError]);
 
   return (
     <OAuthSignUp>

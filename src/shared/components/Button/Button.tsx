@@ -4,7 +4,8 @@ type Variant = 'primary' | 'secondary' | 'tertiary';
 
 const buttonColorList = {
   primary: {
-    button: 'bg-gradient-custom',
+    button:
+      'bg-gradient-custom hover:bg-gradient-custom-hover hover:animate-gradient',
     span: 'text-var-white',
   },
   secondary: {
@@ -32,7 +33,7 @@ const Button = ({
   return (
     <button
       type="button"
-      className={`${className} w-full rounded-[8px] py-[16px] text-[16px] font-bold md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px] ${buttonColorList[variant].button}`}
+      className={`${className ? `${className}` : ''} w-full rounded-[8px] py-[16px] text-[16px] font-bold transition-transform duration-300 md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px] ${buttonColorList[variant].button}`}
       disabled={disabled}
       {...props}
     >

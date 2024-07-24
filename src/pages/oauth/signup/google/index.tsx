@@ -33,7 +33,7 @@ const GoogleAuth = () => {
         message: validateArray(errorMessage),
       });
     }
-  }, [errorCode, errorMessage]);
+  }, [errorCode, errorMessage, setError]);
 
   return (
     <OAuthSignUp>

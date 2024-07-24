@@ -14,7 +14,7 @@ const Portal = ({
 
   useEffect(() => {
     setPortalElement(document.getElementById(portalName));
-  }, []);
+  }, [portalName]);
 
   return portalElement ? createPortal(children, portalElement) : null;
 };
