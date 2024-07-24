@@ -2,14 +2,14 @@ import useHexToRgb from '@/shared/hooks/useHexToRgb';
 
 import Image from 'next/image';
 
-export enum ORDER_POSITION {
+export enum OrderPosition {
   left = 0,
   right = 1,
 }
 
 interface CompareChipProps {
   name: string;
-  orderPosition: ORDER_POSITION;
+  orderPosition: OrderPosition;
   onClick: () => void;
 }
 
@@ -27,6 +27,7 @@ const CompareChip = ({ name, orderPosition, onClick }: CompareChipProps) => {
     >
       <span className="text-[14px] md:text-[16px]">{name}</span>
       <button
+        type="button"
         className="size-[17px] rounded-[6px] bg-var-black1 p-[2px] md:size-[19px]"
         onClick={onClick}
       >

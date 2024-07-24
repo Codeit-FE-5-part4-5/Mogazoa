@@ -1,13 +1,13 @@
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RankingList } from '@/shared/components/RankingList/RankingList';
-import { CategoryMenu } from '@/shared/components/CategoryMenu/CategoryMenu';
+import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
 import useGetCategory from '@/shared/models/category/useGetCategory';
 import sortConverter from '@/shared/utils/sortConverter';
-import { validateArray } from '@/shared/utils/validateArray';
+import validateArray from '@/shared/utils/validateArray';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
@@ -24,8 +24,8 @@ const Home = () => {
   const [ref, inView] = useInView();
   const { data: categories } = useGetCategory();
   const {
-    fetchNextPage: fetchNextPage,
-    hasNextPage: hasNextPage,
+    fetchNextPage,
+    hasNextPage,
     data: products,
     isLoading,
     isSuccess,
@@ -44,7 +44,7 @@ const Home = () => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, products]);
+  }, [inView, hasNextPage, products, fetchNextPage]);
 
   return (
     <MogazoaLayout>
@@ -77,7 +77,7 @@ const Home = () => {
                     setCurrentSortOrder(sortConverter(order))
                   }
                 />
-                {isSuccess && <div ref={ref}></div>}
+                {isSuccess && <div ref={ref} />}
               </>
             ) : (
               <>

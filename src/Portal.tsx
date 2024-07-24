@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 
 type PortalTypes = 'sideBar' | 'floating';
 
-export const Portal = ({
+const Portal = ({
   children,
   portalName,
 }: {
@@ -14,7 +14,9 @@ export const Portal = ({
 
   useEffect(() => {
     setPortalElement(document.getElementById(portalName));
-  }, []);
+  }, [portalName]);
 
   return portalElement ? createPortal(children, portalElement) : null;
 };
+
+export default Portal;

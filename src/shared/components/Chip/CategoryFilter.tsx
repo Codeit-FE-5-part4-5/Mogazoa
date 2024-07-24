@@ -8,6 +8,7 @@ interface CategoryFilterProps {
 const CategoryFilter = ({ currentCategory, onClick }: CategoryFilterProps) => {
   return (
     <button
+      type="button"
       onClick={onClick}
       className="flex gap-[5px] rounded-[100px] border border-var-black3 bg-var-black2 px-[12px] py-[6px] text-[14px] text-var-gray1 hover:text-var-gray2 md:hidden"
     >

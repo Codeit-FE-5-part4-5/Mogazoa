@@ -39,7 +39,7 @@ const Chip = ({ text = '음악', color = '#c5d17c', size = 's' }: ChipProps) => 
       className={`flex w-fit rounded-[6px] py-[4px] ${chipSizeTypeStyle[size].wrapper}`}
       style={{
         backgroundColor: `rgba(${r},${g},${b}, 0.2)`,
-        color: color,
+        color,
       }}
     >
       <span className={`${chipSizeTypeStyle[size].text}`}>{text}</span>

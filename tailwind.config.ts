@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
@@ -23,6 +24,7 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-custom': 'linear-gradient(to right, #5097FA, #5363FF)',
+        'gradient-custom-hover': 'linear-gradient(to right, #5363FF,#5097FA)',
         'dark-gradient-custom': 'linear-gradient(to right, #2e2e3a, #21212A)',
       },
       colors: {
@@ -71,6 +73,10 @@ module.exports = {
         'var-green': '#05D58B',
         'var-pink': '#FF2F9F',
         'var-red': '#FF0000',
+        'gradient-start': '#FF7E5F',
+        'gradient-end': '#FF6F61',
+        'gradient-hover-start': '#FF6F61',
+        'gradient-hover-end': '#FF7E5F',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -128,6 +134,11 @@ module.exports = {
             'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1)',
           },
         },
+        gradient: {
+          '0%': { backgroundPosition: '0% 0%' },
+          '50%': { backgroundPosition: '100% 100%' },
+          '100%': { backgroundPosition: '0% 0%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -142,14 +153,17 @@ module.exports = {
         fadeOut: 'fadeOut 0.3s ease-in-out forwards',
         spin: 'spin 2s linear infinite',
         bounceRight: 'bounceRight 1s infinite',
+        gradient: 'gradient 3s ease infinite',
       },
     },
   },
   plugins: [
+    // eslint-disable-next-line global-require
     require('tailwindcss-animate'),
     plugin(function ({
       addUtilities,
     }: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       addUtilities: (utilities: Record<string, any>) => void;
     }) {
       addUtilities({

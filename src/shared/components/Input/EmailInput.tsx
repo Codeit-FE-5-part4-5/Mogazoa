@@ -10,7 +10,7 @@ const EmailInput: React.FC<EmailInputProps> = ({
   register,
   error,
   placeholder,
-}) => {
+}: EmailInputProps) => {
   return (
     <div>
       <h1 className="pb-3 text-[16px] text-var-white">이메일</h1>

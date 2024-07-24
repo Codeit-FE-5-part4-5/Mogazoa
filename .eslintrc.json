@@ -27,7 +27,21 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
     "no-useless-catch": "off",
+    "no-console": "error",
     "@typescript-eslint/camelcase": "off",
-    "no-console": "error"
+    "import/no-extraneous-dependencies": 0, //테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
+    "react/jsx-props-no-spreading": "off", //spread사용시 error off
+    "jsx-a11y/no-static-element-interactions": "off", // div에 이벤트 등록이 error off
+    "jsx-a11y/click-events-have-key-events": "off", //onClick 이벤트에 key event 포함 안하면 error off
+    "import/no-cycle": "off", // 순환 의존성 감지 방지 off
+    "react/require-default-props": 0, // optional prop 유형에 해당 defaultProps값이 있는지 확인 off
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "react/display-name": 0
   }
 }

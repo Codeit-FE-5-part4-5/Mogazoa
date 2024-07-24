@@ -32,7 +32,7 @@ const SearchInput = ({
   }, [isOpen]);
 
   return (
-    <label
+    <div
       onClick={() => setOpen((prev) => !prev)}
       className="group relative flex w-full justify-end transition-all md:inline-block md:w-fit"
     >
@@ -45,12 +45,12 @@ const SearchInput = ({
       />
       <div className="absolute right-[10px] top-[50%] flex -translate-y-1/2 cursor-pointer items-center gap-[15px]">
         {value && isOpen && (
-          <button
+          <div
+            className="rounded-[16px] p-[4px] transition-colors duration-300 hover:bg-var-gray1"
             onClick={(e) => {
               e.stopPropagation();
               initKeyword();
             }}
-            className="rounded-[16px] p-[4px] transition-colors duration-300 hover:bg-var-gray1"
           >
             <svg
               width="14"
@@ -64,22 +64,23 @@ const SearchInput = ({
                 fill="#a4a4a4"
               />
             </svg>
-          </button>
+          </div>
         )}
         {isOpen ? (
-          <>
-            <button className="animate-bounceRight hover:translate-x-2">
-              <Image
-                src="/arrow.svg"
-                alt="인풋 닫기 버튼"
-                width={15}
-                height={15}
-                className="-rotate-90"
-              />
-            </button>
-          </>
+          <button
+            type="button"
+            className="animate-bounceRight hover:translate-x-2"
+          >
+            <Image
+              src="/arrow.svg"
+              alt="인풋 닫기 버튼"
+              width={15}
+              height={15}
+              className="-rotate-90"
+            />
+          </button>
         ) : (
-          <button>
+          <button type="button">
             <Image
               src="/images/search.svg"
               alt="검색창 열기 버튼"
@@ -89,7 +90,7 @@ const SearchInput = ({
           </button>
         )}
       </div>
-    </label>
+    </div>
   );
 };
 

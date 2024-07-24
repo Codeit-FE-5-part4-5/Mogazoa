@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import Button from '@/shared/components/Button/Button';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
-import { validateArray } from '@/shared/utils/validateArray';
+import validateArray from '@/shared/utils/validateArray';
 import { useForm } from 'react-hook-form';
 import { IAuthForm } from '@/pages/signup';
 import { zodResolver } from '@hookform/resolvers/zod';
-import OAuthSignUp, { oAuthSchema } from '../..';
 import { useRouter } from 'next/router';
 import accessGoogle from '@/shared/utils/accessGoogle';
+import OAuthSignUp, { oAuthSchema } from '../..';
 
 const GoogleAuth = () => {
   const router = useRouter();
@@ -33,7 +33,7 @@ const GoogleAuth = () => {
         message: validateArray(errorMessage),
       });
     }
-  }, [errorCode, errorMessage]);
+  }, [errorCode, errorMessage, setError]);
 
   return (
     <OAuthSignUp>

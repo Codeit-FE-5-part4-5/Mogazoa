@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useInput = (initialValue: any) => {
   const [value, setValue] = useState(initialValue);
 

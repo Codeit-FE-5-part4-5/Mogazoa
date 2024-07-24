@@ -1,6 +1,6 @@
 import { Category } from '@/shared/types/category/category';
 
-interface SlideMenu {
+interface SlideMenuProps {
   isVisible?: boolean;
   categories: Category[];
   currentCategoryName: string;
@@ -9,12 +9,12 @@ interface SlideMenu {
   ) => void;
 }
 
-export const CategoryMenu: React.FC<SlideMenu> = ({
+const CategoryMenu = ({
   isVisible = false,
   categories = [],
   currentCategoryName,
   handleClickCategory,
-}) => {
+}: SlideMenuProps) => {
   return (
     <div
       className={` ${isVisible ? 'my-[20px]' : 'mt-[45px]'} mx-[20px] w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white`}
@@ -26,8 +26,9 @@ export const CategoryMenu: React.FC<SlideMenu> = ({
       </div>
       <ul className="flex flex-col gap-[4px]">
         {categories.map((item: Category, index: number) => (
-          <li
-            key={index}
+          <button
+            type="button"
+            key={index!}
             className={`flex h-[45px] cursor-pointer items-center rounded-2xl px-[20px] py-[15px] text-sm font-medium leading-normal transition-colors duration-300 hover:text-var-gray2 ${
               currentCategoryName === item.name
                 ? 'border-[#353542] bg-[#252530]'
@@ -35,15 +36,21 @@ export const CategoryMenu: React.FC<SlideMenu> = ({
             }`}
             onClick={() => {
               if (item.name === currentCategoryName) {
-                return handleClickCategory({});
+                handleClickCategory({});
+              } else {
+                handleClickCategory({
+                  category: item.name,
+                  categoryId: item.id,
+                });
               }
-              handleClickCategory({ category: item.name, categoryId: item.id });
             }}
           >
             {item.name}
-          </li>
+          </button>
         ))}
       </ul>
     </div>
   );
 };
+
+export default CategoryMenu;

@@ -5,6 +5,7 @@ interface GoogleButtonProps {
   children: ReactNode;
   nickname?: string;
 }
+
 const GoogleButton = ({ children, nickname }: GoogleButtonProps) => {
   return (
     <button

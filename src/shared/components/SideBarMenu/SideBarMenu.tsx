@@ -16,12 +16,13 @@ const SideBarMenu = ({
   handleOpenMenuEnd,
 }: SideBarMenuProps) => {
   return (
-    <div className={`fixed left-0 top-0 z-50 h-screen w-full`}>
+    <div className="fixed left-0 top-0 z-50 h-screen w-full">
       <div
         onAnimationEnd={handleOpenMenuEnd}
         className={`${animationOpenMenu ? 'animate-slideRight' : 'animate-slideLeft'} size-full bg-dark-gradient-custom`}
       >
         <button
+          type="button"
           onClick={() => setOpenMenu(false)}
           className="absolute right-0 top-0 flex size-[80px] items-center justify-center"
         >
@@ -46,6 +47,7 @@ const SideBarMenu = ({
               </button>
             </Link>
             <button
+              type="button"
               onClick={logout}
               className="w-fit cursor-pointer transition-colors duration-300 hover:text-var-indigo"
             >
@@ -54,7 +56,7 @@ const SideBarMenu = ({
           </div>
           <Link href="/">
             <Image
-              src={'/images/logo.svg'}
+              src="/images/logo.svg"
               alt="LogoIcon"
               width={166}
               height={28}

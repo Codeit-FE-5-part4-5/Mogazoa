@@ -9,11 +9,11 @@ export const oAuthSchema = z.object({
     .max(20, '닉네임은 최대 20자 까지 가능합니다.'),
 });
 
-interface OAuthSignUp {
+interface OAuthSignUpProps {
   children: ReactNode;
 }
 
-const OAuthSignUp = ({ children }: OAuthSignUp) => {
+const OAuthSignUp = ({ children }: OAuthSignUpProps) => {
   return (
     <MogazoaLayout>
       <div className="flex items-center justify-center px-[20px] py-[80px]">

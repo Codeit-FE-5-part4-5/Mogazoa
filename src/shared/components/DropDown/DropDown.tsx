@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 
 interface ItemListProps {
   itemList: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClick: (arg: any) => void;
   isOrder?: boolean;
   animationTrigger: boolean;
@@ -27,7 +28,7 @@ const ItemList = ({
         <div
           key={item}
           onClick={() => onClick(item)}
-          className={`select-none rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2`}
+          className="select-none rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2"
         >
           {item}
         </div>
@@ -38,6 +39,7 @@ const ItemList = ({
 
 interface DropDownProps {
   itemList: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClick: (arg: any) => void;
   isOrder?: boolean;
 }

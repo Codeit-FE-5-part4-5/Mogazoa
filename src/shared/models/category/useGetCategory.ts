@@ -1,4 +1,4 @@
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios from '@/shared/utils/axios';
 
 const getCategoryRequest = async () => {

@@ -1,7 +1,6 @@
-import { ReactNode, Suspense } from 'react';
+import { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import Spinner from '../Spinner/Spinner';
-import GlobalErrorFallback from './GlobalErrorFallback';
+import GlobalErrorFallback from './Fallback/GlobalErrorFallback';
 
 interface GlobalBoundaryProps {
   children: ReactNode;
@@ -10,7 +9,7 @@ interface GlobalBoundaryProps {
 const GlobalBoundary = ({ children }: GlobalBoundaryProps) => {
   return (
     <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
-      <Suspense fallback={<Spinner isLoading />}>{children}</Suspense>
+      {children}
     </ErrorBoundary>
   );
 };

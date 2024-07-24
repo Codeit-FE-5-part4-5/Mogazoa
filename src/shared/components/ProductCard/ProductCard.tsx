@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { forwardRef } from 'react';
 
 interface ProductCardProps {
   id: number;

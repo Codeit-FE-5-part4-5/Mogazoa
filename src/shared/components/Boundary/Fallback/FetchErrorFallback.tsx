@@ -1,7 +1,6 @@
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
-
-import Button from '../Button/Button';
 import { FallbackProps } from 'react-error-boundary';
+import Button from '../../Button/Button';
 
 const FetchErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   const { reset } = useQueryErrorResetBoundary();

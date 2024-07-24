@@ -10,7 +10,7 @@ const NicknameInput: React.FC<NicknameInputProps> = ({
   register,
   error,
   placeholder,
-}) => {
+}: NicknameInputProps) => {
   return (
     <div>
       <h1 className="pb-3 text-[16px] text-var-white">닉네임</h1>
