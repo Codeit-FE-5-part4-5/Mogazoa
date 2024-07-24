@@ -69,7 +69,7 @@ const Compare = () => {
   const [winnerCount, setWinnerCount] = useState([0, 0]);
 
   return (
-    <div className="items-centers flex flex-col justify-center px-5 md:items-center">
+    <div className="items-centers flex flex-col justify-center px-5 py-12 md:items-center">
       <div className="grid w-full items-end gap-[20px] text-var-white md:grid-cols-3 xl:w-[940px]">
         <div>
           <h3 className="mb-[10px] text-[14px] xl:text-[16px]">상품 1</h3>
