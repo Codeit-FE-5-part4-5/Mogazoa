@@ -1,10 +1,7 @@
 import React, { ChangeEvent, useState, SetStateAction } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import CompareDropDownInput from '../DropDown/CompareDropDownInput';
-import useGetProducts from '@/shared/models/product/useGetProducts';
-import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
-import TextFieldInput from '../Input/TextFieldInput';
+// import useGetProducts from '@/shared/models/product/useGetProducts';
 
 import {
   Dialog,
@@ -15,8 +12,9 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/store/use-modal-store';
-import DropDown from '../DropDown/DropDown';
 import apiInstance from '@/shared/utils/axios';
+import DropDown from '../DropDown/DropDown';
+import TextFieldInput from '../Input/TextFieldInput';
 import ImageInput from '../Input/ImageInput';
 
 const frameworks = [
@@ -32,26 +30,18 @@ const frameworks = [
   '앱',
 ];
 
-export const ItemEditModal = () => {
+const ItemEditModal = () => {
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'itemEdit';
   const [text, setText] = useState<string>('');
   const [selectedItem, setSelectedItem] = useState('');
-  const { data: keywordList } = useGetProducts({ keyword: selectedItem });
-  const [Bedge1, setBedge1] = useState('');
+  // const { data: keywordList } = useGetProducts({ keyword: selectedItem });
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const router = useRouter();
   const { productId } = router.query;
-  const {
-    fetchNextPage: fetchNextPage1,
-    hasNextPage: hasNextPage1,
-    isFetchingNextPage: isFetchingNextPage1,
-    isFetching: isFetching1,
-    data: keywordList1,
-  } = useGetInfiniteProducts({ keyword: selectedItem });
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -96,17 +86,13 @@ export const ItemEditModal = () => {
 
     const requestBody = {
       categoryId: selectedCategory,
-      image: image,
+      image,
       description: text,
       name: selectedItem,
     };
 
     try {
-      const response = await apiInstance.patch(
-        `/products/${productId}`,
-        requestBody,
-      );
-      console.log('Response:', response.data);
+      await apiInstance.patch(`/products/${productId}`, requestBody);
       onClose('itemEdit');
       router.push(`/detail/${productId}`);
 
@@ -131,7 +117,6 @@ export const ItemEditModal = () => {
     const index = frameworks.indexOf(item);
     if (index !== -1) {
       setSelectedCategory(index + 1);
-      console.log(`Category '${item}' selected with index: ${index + 1}`);
     }
   };
 
@@ -146,8 +131,13 @@ export const ItemEditModal = () => {
             <div className="flex flex-col gap-x-5 md:flex-row md:items-start">
               <div className="h-[140px] w-[140px] md:order-2 md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                 <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                  <ImageInput
+                  {/* <ImageInput
                     onChange={(image: string | null) => setImage(image || '')}
+                  /> */}
+                  <ImageInput
+                    onChange={(newImage: string | null) => {
+                      setImage(newImage || '');
+                    }}
                   />
                 </div>
               </div>
@@ -179,6 +169,7 @@ export const ItemEditModal = () => {
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
             <button
+              type="button"
               className={`mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white ${
                 isSubmitting ? 'cursor-not-allowed opacity-80' : ''
               }`}
@@ -193,3 +184,4 @@ export const ItemEditModal = () => {
     </Dialog>
   );
 };
+export default ItemEditModal;

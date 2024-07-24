@@ -3,6 +3,7 @@ import apiInstance from '@/shared/utils/axios';
 import { useRouter } from 'next/router';
 import { Rating } from 'react-simple-star-rating';
 import axios from 'axios';
+import Image from 'next/image';
 
 import {
   Dialog,
@@ -13,13 +14,13 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/store/use-modal-store';
+import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
 import Button from '../Button/Button';
 import TextAreaInput from '../Input/TextAreaInput';
 import ImageInput from '../Input/ImageInput';
-import Image from 'next/image';
-import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
+// import Image from 'next/image';
 
-export const ReviewModal = () => {
+const ReviewModal = () => {
   const { isOpen, onClose, type } = useModal();
   const router = useRouter();
   const { productId } = router.query;
@@ -63,22 +64,21 @@ export const ReviewModal = () => {
     setIsSubmitting(true);
 
     const requestBody = {
-      productId: productId,
-      images: images,
+      productId,
+      images,
       content: review,
-      rating: rating,
+      rating,
     };
 
     try {
-      const response = await apiInstance.post('/reviews', requestBody);
-      console.log('Response:', response.data);
+      await apiInstance.post('/reviews', requestBody);
       onClose();
       router.push(`/detail/${productId}`);
       router.reload();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorDetails = error.response.data.details;
-        console.log('Error:', errorDetails);
+        setErrorMessage(errorDetails);
       }
     } finally {
       setIsSubmitting(false);
@@ -105,7 +105,7 @@ export const ReviewModal = () => {
               <div>
                 <Rating
                   onClick={handleRating}
-                  SVGclassName={`inline-block`}
+                  SVGclassName="inline-block"
                   fillIcon={
                     <Image
                       className="mr-[2px] inline-block xl:mr-[5px]"
@@ -175,3 +175,5 @@ export const ReviewModal = () => {
     </Dialog>
   );
 };
+
+export default ReviewModal;
