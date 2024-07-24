@@ -5,9 +5,11 @@ interface Prop {
   productIdData2: Product;
 }
 
-export const saveUserProduct = ({ productIdData1, productIdData2 }: Prop) => {
+const saveUserProduct = ({ productIdData1, productIdData2 }: Prop) => {
   if (productIdData1)
     localStorage.setItem('productIdData1', JSON.stringify(productIdData1));
   if (productIdData2)
     localStorage.setItem('productIdData2', JSON.stringify(productIdData2));
 };
+
+export default saveUserProduct;

@@ -1,19 +1,18 @@
 import Button from '@/shared/components/Button/Button';
 import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownInput';
-import { CompareTable } from '@/shared/components/CompareTable/CompareTable';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 import useProduct from '@/shared/models/product/useProduct';
 import React, { SetStateAction, useEffect, useState } from 'react';
-import { CompareResult } from '@/shared/components/CompareResult/CompareResult';
-import { onClickCompare } from '@/shared/models/product/onClickCompare';
 import { Product } from '@/shared/types/product/product';
+import onClickCompare from '@/shared/models/product/onClickCompare';
+import CompareResult from '@/shared/components/CompareResult/CompareResult';
+import CompareTable from '@/shared/components/CompareTable/CompareTable';
 
 const Compare = () => {
   const [value1, setValue1] = useState('');
   const [bedge1, setBedge1] = useState('');
   const [value2, setValue2] = useState('');
   const [bedge2, setBedge2] = useState('');
-
   const [productId1, setProductId1] = useState<number | null>(null);
   const [productId2, setProductId2] = useState<number | null>(null);
 
@@ -37,7 +36,6 @@ const Compare = () => {
   const {
     fetchNextPage: fetchNextPage1,
     hasNextPage: hasNextPage1,
-    isFetchingNextPage: isFetchingNextPage1,
     isFetching: isFetching1,
     data: keywordList1,
   } = useGetInfiniteProducts({ keyword: value1 });
@@ -45,7 +43,6 @@ const Compare = () => {
   const {
     fetchNextPage: fetchNextPage2,
     hasNextPage: hasNextPage2,
-    isFetchingNextPage: isFetchingNextPage2,
     isFetching: isFetching2,
     data: keywordList2,
   } = useGetInfiniteProducts({ keyword: value2 });
@@ -72,7 +69,7 @@ const Compare = () => {
   const [winnerCount, setWinnerCount] = useState([0, 0]);
 
   return (
-    <div className="items-centers flex flex-col justify-center px-5 md:items-center">
+    <div className="items-centers flex flex-col justify-center px-5 py-12 md:items-center">
       <div className="grid w-full items-end gap-[20px] text-var-white md:grid-cols-3 xl:w-[940px]">
         <div>
           <h3 className="mb-[10px] text-[14px] xl:text-[16px]">상품 1</h3>
@@ -116,7 +113,7 @@ const Compare = () => {
           <Button
             variant="primary"
             text="비교하기"
-            disabled={areBothValid ? false : true}
+            disabled={!areBothValid}
             onClick={() =>
               onClickCompare({
                 productIdData1,

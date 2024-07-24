@@ -9,7 +9,7 @@ interface Props {
   };
 }
 
-export const CompareTable = ({ integratedData }: Props) => {
+const CompareTable = ({ integratedData }: Props) => {
   const { product1, product2 } = integratedData;
 
   const winnerType: { [key: string]: React.ReactNode } = {
@@ -56,3 +56,5 @@ export const CompareTable = ({ integratedData }: Props) => {
     </div>
   );
 };
+
+export default CompareTable;

@@ -5,7 +5,7 @@ interface Prop {
   rankingData?: FollowerRanking[];
 }
 
-export const RankingList: React.FC<Prop> = ({ rankingData }) => {
+const RankingList = ({ rankingData }: Prop) => {
   return (
     <div className="ml-[20px] mt-[45px] flex flex-col gap-[20px] overflow-x-auto bg-[#1C1C22] text-[#F1F1F5] no-scrollbar xl:order-1 xl:h-full xl:w-[250px]">
       <div className="text-[14px]">리뷰어 랭킹</div>
@@ -38,3 +38,5 @@ export const RankingList: React.FC<Prop> = ({ rankingData }) => {
     </div>
   );
 };
+
+export default RankingList;

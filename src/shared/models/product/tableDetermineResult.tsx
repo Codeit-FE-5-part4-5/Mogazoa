@@ -1,7 +1,7 @@
 import React from 'react';
 
 // 0 일경우 무승부, 양수 일경우 상품1 승리, 음수일 경우 상품2 승리
-export const tableDetermineResult = (
+const tableDetermineResult = (
   winnerCount: number[],
   product: {
     productName1: string | undefined;
@@ -19,19 +19,19 @@ export const tableDetermineResult = (
         color: 'text-var-white',
         description: '',
       };
-    } else if (drawCount > 0) {
+    }
+    if (drawCount > 0) {
       return {
         text: `${product.productName1 ?? ''}`,
         color: 'text-var-pink',
         description: `${Math.abs(productWinner1)}가지`,
       };
-    } else {
-      return {
-        text: `${product.productName2 ?? ''}`,
-        color: 'text-var-green',
-        description: `${Math.abs(productWinner2)}가지`,
-      };
     }
+    return {
+      text: `${product.productName2 ?? ''}`,
+      color: 'text-var-green',
+      description: `${Math.abs(productWinner2)}가지`,
+    };
   };
 
   const { text, color, description } = getWinnerInfo();
@@ -45,17 +45,17 @@ export const tableDetermineResult = (
   );
 
   return (
-    <>
-      <div className="text-center">
-        <span className="text-[20px] font-semibold leading-[28px] text-var-white xl:text-[24px] xl:leading-normal">
-          <span className={color}>{text}</span> {winOrLoseCon}
-        </span>
-        {isNotDraw && (
-          <div className="mt-[20px] text-[12px] font-normal text-var-gray2 xl:text-[16px]">
-            3가지 항목 중 {description} 항목에서 우세합니다.
-          </div>
-        )}
-      </div>
-    </>
+    <div className="text-center">
+      <span className="text-[20px] font-semibold leading-[28px] text-var-white xl:text-[24px] xl:leading-normal">
+        <span className={color}>{text}</span> {winOrLoseCon}
+      </span>
+      {isNotDraw && (
+        <div className="mt-[20px] text-[12px] font-normal text-var-gray2 xl:text-[16px]">
+          3가지 항목 중 {description} 항목에서 우세합니다.
+        </div>
+      )}
+    </div>
   );
 };
+
+export default tableDetermineResult;

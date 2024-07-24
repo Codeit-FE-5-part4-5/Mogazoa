@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import CompareChip from '../Chip/CompareChip';
 import { CompareDropDownProps } from '@/shared/types/product/product';
 import { BEDGE_COLORS } from '@/shared/constants/products';
 import useCompareDropdown from '@/shared/hooks/useCompareDropdown';
 import CompareDropDownItemList from './CompareDropDownItemList';
+import CompareChip from '../Chip/CompareChip';
 
 const CompareDropDownInput = ({
   itemList,
@@ -29,7 +29,7 @@ const CompareDropDownInput = ({
   const flatItemList = itemList?.flatMap((page) => page.list) || [];
   const isItem = value.length > 1 && flatItemList.length > 0;
 
-  //드롭다운
+  // 드롭다운
   const { isOpen, setIsOpen, dropDownElementRef } = useCompareDropdown();
 
   useEffect(() => {

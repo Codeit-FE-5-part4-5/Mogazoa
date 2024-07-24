@@ -1,9 +1,9 @@
 import React from 'react';
-import Ranking from '../Chip/Ranking';
 import Image from 'next/image';
 import { FollowerRanking } from '@/shared/types/follow/followers/followers-type';
-import { convertToK } from '@/shared/models/user/follow/followers/convertToK';
 import Link from 'next/link';
+import convertToK from '@/shared/models/user/follow/followers/convertToK';
+import Ranking from '../Chip/Ranking';
 
 type RankingCardType = Omit<
   FollowerRanking,
@@ -28,7 +28,7 @@ const RankingCard = ({
           sizes="40px"
           src={image || 'images/user-no-image.svg'}
           alt={description || '이미지 없음'}
-          fill={true}
+          fill
           style={{
             objectFit: 'contain',
           }}

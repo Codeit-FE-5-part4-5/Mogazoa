@@ -1,7 +1,7 @@
 import { Product } from '@/shared/types/product/product';
 import { SetStateAction } from 'react';
 import { compareProducts } from './compareProducts';
-import { saveUserProduct } from './saveUserProduct';
+import saveUserProduct from './saveUserProduct';
 
 interface Props {
   productIdData1: Product | undefined;
@@ -10,7 +10,7 @@ interface Props {
   setIsTable: React.Dispatch<SetStateAction<boolean>>;
 }
 
-export const onClickCompare = ({
+const onClickCompare = ({
   productIdData1,
   productIdData2,
   setWinnerCount,
@@ -36,12 +36,12 @@ export const onClickCompare = ({
 
     let winnerCount1 = 0;
     let winnerCount2 = 0;
-    if (result1 === '상품 1 승리') winnerCount1++;
-    if (result1 === '상품 2 승리') winnerCount2++;
-    if (result2 === '상품 1 승리') winnerCount1++;
-    if (result2 === '상품 2 승리') winnerCount2++;
-    if (result3 === '상품 1 승리') winnerCount1++;
-    if (result3 === '상품 2 승리') winnerCount2++;
+    if (result1 === '상품 1 승리') winnerCount1 += 1;
+    if (result1 === '상품 2 승리') winnerCount2 += 1;
+    if (result2 === '상품 1 승리') winnerCount1 += 1;
+    if (result2 === '상품 2 승리') winnerCount2 += 1;
+    if (result3 === '상품 1 승리') winnerCount1 += 1;
+    if (result3 === '상품 2 승리') winnerCount2 += 1;
 
     setWinnerCount([winnerCount1, winnerCount2]);
     setIsTable(true);
@@ -50,3 +50,5 @@ export const onClickCompare = ({
     alert('상품을 각각 선택해 주세요.');
   }
 };
+
+export default onClickCompare;
