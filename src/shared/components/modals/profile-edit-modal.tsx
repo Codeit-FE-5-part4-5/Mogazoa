@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 
 import {
   Dialog,
@@ -8,16 +9,17 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useModal } from '@/shared/store/use-modal-store';
-import { useUpdateProfile } from '@/shared/models/user/profile/useUpdateProfile';
-
+import { useToast } from '@/components/ui/use-toast';
+import useModal from '@/shared/store/use-modal-store';
+import useGetMe from '@/shared/models/auth/useGetMe';
+import useUpdateProfile from '@/shared/models/user/profile/useUpdateProfile';
 import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
 import Button from '../Button/Button';
 import TextFieldInput from '../Input/TextFieldInput';
-import useGetMe from '@/shared/models/auth/useGetMe';
 
-export const ProfileEditModal = () => {
+const ProfileEditModal = () => {
+  const { toast } = useToast();
   const { isOpen, onClose, type } = useModal();
 
   const [nickname, setNickname] = useState<string>('');
@@ -46,7 +48,10 @@ export const ProfileEditModal = () => {
       return;
     }
     if (!image) {
-      alert('이미지 파일을 추가해 주세요.');
+      toast({
+        variant: 'destructive',
+        title: '이미지를 추가해 주세요.',
+      });
       return;
     }
 
@@ -57,10 +62,12 @@ export const ProfileEditModal = () => {
         image: image ?? '',
       });
       onClose();
-    } catch (error: any) {
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+
       setErrors((prev) => ({
         ...prev,
-        nickname: error?.response?.data?.message,
+        nickname: axiosError?.response?.data?.message,
       }));
     }
   };
@@ -143,3 +150,5 @@ export const ProfileEditModal = () => {
     </Dialog>
   );
 };
+
+export default ProfileEditModal;

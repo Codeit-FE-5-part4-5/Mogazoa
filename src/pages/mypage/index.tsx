@@ -4,13 +4,13 @@ import Header from '@/shared/components/header/header';
 import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
-import { useModal } from '@/shared/store/use-modal-store';
 import useGetFavoriteProducts from '@/shared/models/user/products/favorite-products/useGetFavoriteProducts';
 import useGetReviewedProducts from '@/shared/models/user/products/reviewed-products/useGetReviewedProducts';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
 import { ChevronDown } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
+import Spinner from '@/shared/components/Spinner/Spinner';
 
 const MyPage = () => {
   const [ref, inView] = useInView();
@@ -38,25 +38,31 @@ const MyPage = () => {
     data: reviewedProducts,
   } = useGetReviewedProducts(user?.data.id);
 
-  const createdProductsList =
-    createdProducts?.pages.flatMap((page) => page.list) || [];
+  const createdProductsList = useMemo(
+    () => createdProducts?.pages.flatMap((page) => page.list) || [],
+    [createdProducts],
+  );
 
-  const favoriteProductsList =
-    favoriteProducts?.pages.flatMap((page) => page.list) || [];
+  const favoriteProductsList = useMemo(
+    () => favoriteProducts?.pages.flatMap((page) => page.list) || [],
+    [favoriteProducts],
+  );
 
-  const reviewedProductsList =
-    reviewedProducts?.pages.flatMap((page) => page.list) || [];
-
-  const { onOpen } = useModal();
+  const reviewedProductsList = useMemo(
+    () => reviewedProducts?.pages.flatMap((page) => page.list) || [],
+    [reviewedProducts],
+  );
 
   const [selectedCategory, setSelectedCategory] = useState('리뷰 남긴 상품');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const isLoading =
+    isCreatedFetching || isFavoriteFetching || isReviewedFetching;
 
   const handleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const getProducts = () => {
+  const getProducts = useCallback(() => {
     switch (selectedCategory) {
       case '등록한 상품':
         return createdProductsList || [];
@@ -67,7 +73,12 @@ const MyPage = () => {
       default:
         return [];
     }
-  };
+  }, [
+    selectedCategory,
+    createdProductsList,
+    favoriteProductsList,
+    reviewedProductsList,
+  ]);
 
   useEffect(() => {
     if (inView && hasNextCreatedPage) fetchNextCreatedPage();
@@ -76,8 +87,11 @@ const MyPage = () => {
   }, [
     inView,
     hasNextCreatedPage,
+    fetchNextCreatedPage,
     hasNextFavoritePage,
+    fetchNextFavoritePage,
     hasNextReviewedPage,
+    fetchNextReviewedPage,
     getProducts,
   ]);
 
@@ -170,13 +184,17 @@ const MyPage = () => {
                 찜한 상품
               </div>
             </div>
-            <ProductCardList products={getProducts()} />
-            <div ref={ref}></div>
+            {isLoading ? (
+              <Spinner isLoading={isLoading} />
+            ) : (
+              <ProductCardList products={getProducts()} />
+            )}
+            <div ref={ref} />
           </div>
         </div>
       </div>
       <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
-        <Floating onClick={() => onOpen('itemAdd')} />
+        <Floating />
       </div>
     </div>
   );
