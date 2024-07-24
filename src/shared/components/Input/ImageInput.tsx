@@ -11,11 +11,11 @@ const ImageInput: React.FC<ImageInputProps> = ({
   onChange,
   initialImageUrl,
 }) => {
-  // const [image, setImage] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(
     initialImageUrl || null,
   );
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   useEffect(() => {
     setImageUrl(initialImageUrl || null);
   }, [initialImageUrl]);
@@ -23,9 +23,9 @@ const ImageInput: React.FC<ImageInputProps> = ({
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
-      reader.onload = async (e) => {
-        if (typeof e.target?.result === 'string') {
-          setImageUrl(e.target.result);
+      reader.onload = async (event) => {
+        if (typeof event.target?.result === 'string') {
+          setImageUrl(event.target.result);
           onChange(null);
         }
       };
@@ -44,28 +44,27 @@ const ImageInput: React.FC<ImageInputProps> = ({
           throw new Error('Image upload failed');
         }
       } catch (error) {
-        console.error('Error uploading image:', error);
+        setErrorMessage('이미지 업로드에 실패했습니다.');
       }
     }
   };
 
   const handleRemoveImage = () => {
-    // setImage(null);
     setImageUrl(null);
     onChange(null);
   };
-
-  // useEffect(() => {
-  //   onChange(image);
-  // }, [image, onChange]);
 
   return (
     <div className="relative h-full w-full rounded-lg border-[2px] border-var-black3 p-2 hover:border-var-indigo">
       {!imageUrl ? (
         <div className="flex h-full w-full items-center justify-center">
-          <label className="flex cursor-pointer items-center">
+          <label
+            htmlFor="imageInput"
+            className="flex cursor-pointer items-center"
+          >
             <Image src="/images/file.png" width={50} height={50} alt="file" />
             <input
+              id="imageInput"
               type="file"
               accept="image/*"
               onChange={handleImageChange}
@@ -77,19 +76,21 @@ const ImageInput: React.FC<ImageInputProps> = ({
         <div className="relative h-full w-full">
           <div className="absolute right-0 top-0 m-2">
             <button
+              type="button"
               onClick={handleRemoveImage}
               className="flex items-center justify-center rounded-full bg-black bg-opacity-50 p-1 text-white"
             >
-              <img src="/images/close.png" alt="Close" className="h-8 w-8" />
+              <Image src="/images/close.png" alt="Close" className="h-8 w-8" />
             </button>
           </div>
-          <img
+          <Image
             src={imageUrl}
             alt="Preview"
             className="h-full w-full rounded-lg object-cover"
           />
         </div>
       )}
+      {errorMessage && <div className="mt-2 text-red-500">{errorMessage}</div>}
     </div>
   );
 };
