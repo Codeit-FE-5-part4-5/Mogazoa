@@ -79,7 +79,6 @@ const useEditReview = ({
           context.prevReviewDetail,
         );
       }
-      console.error(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries({

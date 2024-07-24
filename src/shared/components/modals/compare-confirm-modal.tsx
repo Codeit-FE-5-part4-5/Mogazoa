@@ -6,11 +6,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useModal } from '@/shared/store/use-modal-store';
-import Button from '../Button/Button';
+import useModal from '@/shared/store/use-modal-store';
 import { useRouter } from 'next/router';
+import Button from '../Button/Button';
 
-export const CompareConfirmModal = () => {
+const CompareConfirmModal = () => {
   const { isOpen, onClose, type } = useModal();
   const router = useRouter();
 
@@ -37,3 +37,5 @@ export const CompareConfirmModal = () => {
     </Dialog>
   );
 };
+
+export default CompareConfirmModal;

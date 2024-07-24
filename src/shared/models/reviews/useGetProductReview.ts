@@ -19,7 +19,7 @@ const useGetProductDetailReviews = ({
       });
       return data;
     },
-    enabled: !!productId && !isNaN(productId),
+    enabled: !!productId && !Number.isNaN(productId),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });

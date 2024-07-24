@@ -1,26 +1,22 @@
 import ProductDetailCard from '@/shared/components/ProductDetailCard/ProductDetailCard';
 import ProductDetailReview from '@/shared/components/ProductDetailReview/ProductDetailReview';
 import StatisticsCard from '@/shared/components/StatisticsCard/StatisticsCard';
-import { Header } from '@/shared/components/header/header';
+import Header from '@/shared/components/header/header';
 import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
-import useGetProductDetailReviews from '../../../shared/models/reviews/useGetProductReview';
+import useGetProductDetailReviews from '@/shared/models/reviews/useGetProductReview';
 import { useRouter } from 'next/router';
 import useGetMe from '@/shared/models/auth/useGetMe';
-import { getCookie } from '@/shared/utils/cookie';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Floating from '@/shared/components/Floating/Floating';
-import { useModal } from '@/shared/store/use-modal-store';
+import useModal from '@/shared/store/use-modal-store';
 import { useInView } from 'react-intersection-observer';
 
-export default function ProductDetails() {
+const ProductDetails = () => {
   const router = useRouter();
   const { productId } = router.query;
-
-  const token = getCookie('accessToken');
   const { data: me } = useGetMe();
   const userId = me?.data.id;
-
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
@@ -46,9 +42,9 @@ export default function ProductDetails() {
 
   const {
     data: productDetailReview,
-    fetchNextPage: fetchNextPage,
-    hasNextPage: hasNextPage,
-    isFetchingNextPage: isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   } = useGetProductDetailReviews({ productId: numericProductId, order: sort });
 
   const reviews = productDetailReview?.pages.flatMap((page) => page.list) || [];
@@ -89,8 +85,7 @@ export default function ProductDetails() {
       <div className="px-[20px] xl:container md:px-[30px] md:pt-[20px] xl:mx-auto">
         <div className="mb-[60px]">
           <ProductDetailCard
-            ProductDetail={productDetail}
-            reviews={1}
+            ProductDetailData={productDetail}
             userId={userId}
             isLogin={isLogin}
           />
@@ -101,21 +96,21 @@ export default function ProductDetails() {
         <div className="flex flex-col gap-[15px] pb-[60px] md:flex-row">
           <div className="w-full">
             <StatisticsCard
-              status={'average'}
+              status="average"
               conScore={productDetail?.rating}
               scoreDiff={productDetail?.categoryMetric.rating}
             />
           </div>
           <div className="w-full">
             <StatisticsCard
-              status={'steamed'}
+              status="steamed"
               conScore={productDetail?.favoriteCount}
               scoreDiff={productDetail?.categoryMetric.favoriteCount}
             />
           </div>
           <div className="w-full">
             <StatisticsCard
-              status={'review'}
+              status="review"
               conScore={productDetail?.reviewCount}
               scoreDiff={productDetail?.categoryMetric.reviewCount}
             />
@@ -198,8 +193,8 @@ export default function ProductDetails() {
           <div className="mb-[120px] mt-[80px] flex flex-col items-center gap-[20px]">
             <div className="relative h-[32px] w-[39px] xl:h-[40px] xl:w-[49px]">
               <Image
-                src={'/images/firstComment.svg'}
-                alt={'첫번째 댓글을 달아보세요'}
+                src="/images/firstComment.svg"
+                alt="첫번째 댓글을 달아보세요"
                 layout="fill"
                 objectFit="contain"
               />
@@ -210,9 +205,15 @@ export default function ProductDetails() {
           </div>
         )}
       </div>
-      <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
-        <Floating onClick={handleReviewEdit} />
+      <div
+        className="fixed"
+        style={{ bottom: '10%', right: '10%' }}
+        onClick={handleReviewEdit}
+      >
+        <Floating />
       </div>
     </>
   );
-}
+};
+
+export default ProductDetails;
