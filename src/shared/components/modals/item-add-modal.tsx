@@ -1,11 +1,8 @@
 import React, { ChangeEvent, useState, SetStateAction } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import CompareDropDownInput from '../DropDown/CompareDropDownInput';
-import useGetProducts from '@/shared/models/product/useGetProducts';
-import { usePathname } from 'next/navigation';
-import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
+// import useGetProducts from '@/shared/models/product/useGetProducts';
+// import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 
 import {
   Dialog,
@@ -16,12 +13,10 @@ import {
 } from '@/components/ui/dialog';
 
 import { useModal } from '@/shared/store/use-modal-store';
-import DropDown from '../DropDown/DropDown';
 import apiInstance from '@/shared/utils/axios';
+import DropDown from '../DropDown/DropDown';
 
 import ImageInput from '../Input/ImageInput';
-import TextAreaInput from '../Input/TextAreaInput';
-import Button from '../Button/Button';
 import TextFieldInput from '../Input/TextFieldInput';
 
 const frameworks = [
@@ -37,25 +32,25 @@ const frameworks = [
   '앱',
 ];
 
-export const ItemAddModal = () => {
+const ItemAddModal = () => {
   const router = useRouter();
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'itemAdd';
   const [text, setText] = useState<string>('');
   const [selectedItem, setSelectedItem] = useState('');
-  const { data: keywordList } = useGetProducts({ keyword: selectedItem });
+  // const { data: keywordList } = useGetProducts({ keyword: selectedItem });
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const {
-    fetchNextPage: fetchNextPage1,
-    hasNextPage: hasNextPage1,
-    isFetchingNextPage: isFetchingNextPage1,
-    isFetching: isFetching1,
-    data: keywordList1,
-  } = useGetInfiniteProducts({ keyword: selectedItem });
+  // const {
+  //   fetchNextPage: fetchNextPage1,
+  //   hasNextPage: hasNextPage1,
+  //   isFetchingNextPage: isFetchingNextPage1,
+  //   isFetching: isFetching1,
+  //   data: keywordList1,
+  // } = useGetInfiniteProducts({ keyword: selectedItem });
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -100,15 +95,13 @@ export const ItemAddModal = () => {
 
     const requestBody = {
       categoryId: selectedCategory,
-      image: image,
+      image,
       description: text,
       name: selectedItem,
     };
 
     try {
-      console.log(requestBody);
       const response = await apiInstance.post('/products', requestBody);
-      console.log('Response:', response.data);
       onClose('itemAdd');
       // router.reload();
       router.push(`/detail/${response.data.id}`);
@@ -132,7 +125,6 @@ export const ItemAddModal = () => {
     const index = frameworks.indexOf(item);
     if (index !== -1) {
       setSelectedCategory(index + 1);
-      console.log(`Category '${item}' selected with index: ${index + 1}`);
     }
   };
 
@@ -181,6 +173,7 @@ export const ItemAddModal = () => {
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
             <button
+              type="button"
               className={`mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white ${
                 isSubmitting ? 'cursor-not-allowed opacity-80' : ''
               }`}
@@ -195,3 +188,4 @@ export const ItemAddModal = () => {
     </Dialog>
   );
 };
+export default ItemAddModal;
