@@ -93,7 +93,7 @@ const ItemEditModal = () => {
 
     try {
       await apiInstance.patch(`/products/${productId}`, requestBody);
-      onClose('itemEdit');
+      onClose();
       router.push(`/detail/${productId}`);
 
       router.reload();
