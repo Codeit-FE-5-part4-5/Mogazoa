@@ -16,9 +16,7 @@ const CompareDropDownItemList = ({
   }, [inView, hasNextPage]);
 
   return (
-    <div
-      className={`absolute left-0 top-[60px] z-10 flex max-h-[200px] w-full animate-slideDown flex-col gap-[5px] overflow-scroll rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg xl:top-[75px]`}
-    >
+    <div className="absolute left-0 top-[60px] z-10 flex max-h-[200px] w-full animate-slideDown flex-col gap-[5px] overflow-scroll rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg xl:top-[75px]">
       {itemList.map((item) => (
         <div
           key={item.id}
@@ -28,7 +26,7 @@ const CompareDropDownItemList = ({
           {item.name}
         </div>
       ))}
-      <div ref={ref}></div>
+      <div ref={ref} />
       {isFetching && <div className="px-[20px] py-[6px]">Loading...</div>}
     </div>
   );

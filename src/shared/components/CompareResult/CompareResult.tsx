@@ -9,7 +9,7 @@ interface Props {
   };
 }
 
-export const CompareResult = ({ winnerCount, integratedData }: Props) => {
+const CompareResult = ({ winnerCount, integratedData }: Props) => {
   const product = {
     productName1: integratedData.product1?.name,
     productName2: integratedData.product2?.name,
@@ -17,3 +17,5 @@ export const CompareResult = ({ winnerCount, integratedData }: Props) => {
 
   return tableDetermineResult(winnerCount, product);
 };
+
+export default CompareResult;

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { RankingList } from '@/shared/components/RankingList/RankingList';
 import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
@@ -14,6 +13,7 @@ import { ORDER_VARIANTS } from '@/shared/constants/products';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 import { useInView } from 'react-intersection-observer';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
+import RankingList from '@/shared/components/RankingList/RankingList';
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();
