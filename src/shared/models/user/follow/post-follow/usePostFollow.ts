@@ -1,7 +1,9 @@
+import { useToast } from '@/components/ui/use-toast';
 import apiInstance from '@/shared/utils/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const usePostFollow = () => {
+const usePostFollow = () => {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -15,8 +17,13 @@ export const usePostFollow = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
-    onError: (error) => {
-      console.error(error);
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: '팔로우 시 에러가 발생했습니다.',
+      });
     },
   });
 };
+
+export default usePostFollow;

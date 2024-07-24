@@ -1,7 +1,9 @@
+import { useToast } from '@/components/ui/use-toast';
 import apiInstance from '@/shared/utils/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const useUpdateProfile = () => {
+const useUpdateProfile = () => {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -25,8 +27,13 @@ export const useUpdateProfile = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['me'] });
     },
-    onError: (error) => {
-      console.error(error);
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: '프로필을 업데이트하는 데 에러가 발생했습니다.',
+      });
     },
   });
 };
+
+export default useUpdateProfile;

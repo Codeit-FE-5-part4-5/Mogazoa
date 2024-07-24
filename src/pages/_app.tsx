@@ -1,12 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CookiesProvider } from 'react-cookie';
-import { ModalProvider } from '@/shared/providers/modal-provider';
 import type { AppProps } from 'next/app';
 import '@/styles/globals.css';
 import GlobalBoundary from '@/shared/components/Boundary/GlobalBoundary';
 import Portal from '@/Portal';
 import Floating from '@/shared/components/Floating/Floating';
+import { Toaster } from '@/components/ui/toaster';
+import ModalProvider from '@/shared/providers/modal-provider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,6 +31,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <QueryClientProvider client={queryClient}>
       <CookiesProvider defaultSetOptions={{ path: '/' }}>
         <ModalProvider />
+        <Toaster />
         <GlobalBoundary>
           <Component {...pageProps} />
           <Portal portalName="floating">

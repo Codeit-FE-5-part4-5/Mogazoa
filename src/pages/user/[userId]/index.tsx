@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
@@ -15,6 +15,7 @@ import useUserProfile from '@/shared/models/user/profile/useUserProfile';
 
 import { ChevronDown } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
+import Spinner from '@/shared/components/Spinner/Spinner';
 
 const UserProfile = () => {
   const [ref, inView] = useInView();
@@ -44,23 +45,31 @@ const UserProfile = () => {
     data: reviewedProducts,
   } = useGetReviewedProducts(params?.userId);
 
-  const createdProductsList =
-    createdProducts?.pages.flatMap((page) => page.list) || [];
+  const createdProductsList = useMemo(
+    () => createdProducts?.pages.flatMap((page) => page.list) || [],
+    [createdProducts],
+  );
 
-  const favoriteProductsList =
-    favoriteProducts?.pages.flatMap((page) => page.list) || [];
+  const favoriteProductsList = useMemo(
+    () => favoriteProducts?.pages.flatMap((page) => page.list) || [],
+    [favoriteProducts],
+  );
 
-  const reviewedProductsList =
-    reviewedProducts?.pages.flatMap((page) => page.list) || [];
+  const reviewedProductsList = useMemo(
+    () => reviewedProducts?.pages.flatMap((page) => page.list) || [],
+    [reviewedProducts],
+  );
 
   const [selectedCategory, setSelectedCategory] = useState('리뷰 남긴 상품');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const isLoading =
+    isCreatedFetching || isFavoriteFetching || isReviewedFetching;
 
   const handleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const getProducts = () => {
+  const getProducts = useCallback(() => {
     switch (selectedCategory) {
       case '등록한 상품':
         return createdProductsList || [];
@@ -71,7 +80,12 @@ const UserProfile = () => {
       default:
         return [];
     }
-  };
+  }, [
+    selectedCategory,
+    createdProductsList,
+    favoriteProductsList,
+    reviewedProductsList,
+  ]);
 
   useEffect(() => {
     if (inView && hasNextCreatedPage) fetchNextCreatedPage();
@@ -80,8 +94,11 @@ const UserProfile = () => {
   }, [
     inView,
     hasNextCreatedPage,
+    fetchNextCreatedPage,
     hasNextFavoritePage,
+    fetchNextFavoritePage,
     hasNextReviewedPage,
+    fetchNextReviewedPage,
     getProducts,
   ]);
 
@@ -178,13 +195,17 @@ const UserProfile = () => {
                 찜한 상품
               </div>
             </div>
-            <ProductCardList products={getProducts()} />
-            <div ref={ref}></div>
+            {isLoading ? (
+              <Spinner isLoading={isLoading} />
+            ) : (
+              <ProductCardList products={getProducts()} />
+            )}
+            <div ref={ref} />
           </div>
         </div>
       </div>
       <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
-        <Floating onClick={() => console.log('...')} />
+        <Floating />
       </div>
     </div>
   );

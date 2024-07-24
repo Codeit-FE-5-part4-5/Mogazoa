@@ -7,16 +7,16 @@ import {
 } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import { useModal } from '@/shared/store/use-modal-store';
-import { getCookie } from '@/shared/utils/cookie';
+import useModal from '@/shared/store/use-modal-store';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import { useRouter } from 'next/router';
 import useGetUserFollowees from '@/shared/models/user/follow/followees/useGetUserFollowees';
 import { FolloweeItem } from '@/shared/types/follow/followees/followees-type';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
+import Spinner from '../Spinner/Spinner';
 
-export const FollowingModal = () => {
+const FollowingModal = () => {
   const router = useRouter();
   const path = router.pathname;
 
@@ -46,7 +46,7 @@ export const FollowingModal = () => {
 
   useEffect(() => {
     if (inView && hasNextPage) fetchNextPage();
-  }, [inView, hasNextPage]);
+  }, [inView, hasNextPage, fetchNextPage]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -57,6 +57,11 @@ export const FollowingModal = () => {
           </DialogTitle>
           <DialogDescription />
           <div className="flex flex-col gap-y-6">
+            {isFetching && (
+              <div className="flex justify-center py-4">
+                <Spinner isLoading />
+              </div>
+            )}
             {followeesList.length === 0 ? (
               <div>팔로잉하는 유저가 없습니다.</div>
             ) : (
@@ -86,10 +91,12 @@ export const FollowingModal = () => {
                 );
               })
             )}
-            <div ref={ref}></div>
+            <div ref={ref} />
           </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>
   );
 };
+
+export default FollowingModal;

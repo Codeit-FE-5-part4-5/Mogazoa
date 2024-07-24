@@ -7,7 +7,7 @@ const useUserProfile = (userId: number | null | undefined) => {
     queryFn: () => axios.get(`users/${userId}`),
     staleTime: 60 * 1000 * 30,
     gcTime: 60 * 1000 * 30,
-    enabled: !!userId && !isNaN(userId),
+    enabled: !!userId && !Number.isNaN(userId),
   });
 };
 

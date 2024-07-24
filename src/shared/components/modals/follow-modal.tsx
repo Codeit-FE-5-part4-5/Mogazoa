@@ -7,16 +7,16 @@ import {
 } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import { useModal } from '@/shared/store/use-modal-store';
-import { getCookie } from '@/shared/utils/cookie';
+import useModal from '@/shared/store/use-modal-store';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetUserFollowers from '@/shared/models/user/follow/followers/useGetUserFollowers';
 import { FollowerItem } from '@/shared/types/follow/followers/followers-type';
 import { useRouter } from 'next/router';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
+import Spinner from '../Spinner/Spinner';
 
-export const FollowModal = () => {
+const FollowModal = () => {
   const router = useRouter();
   const path = router.pathname;
 
@@ -46,7 +46,7 @@ export const FollowModal = () => {
 
   useEffect(() => {
     if (inView && hasNextPage) fetchNextPage();
-  }, [inView, hasNextPage]);
+  }, [inView, hasNextPage, fetchNextPage]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -58,6 +58,11 @@ export const FollowModal = () => {
         </DialogHeader>
         <DialogDescription />
         <div className="flex flex-col gap-y-6">
+          {isFetching && (
+            <div className="flex justify-center py-4">
+              <Spinner isLoading />
+            </div>
+          )}
           {followersList.length === 0 ? (
             <div>팔로우하는 유저가 없습니다.</div>
           ) : (
@@ -87,9 +92,11 @@ export const FollowModal = () => {
               );
             })
           )}
-          <div ref={ref}></div>
+          <div ref={ref} />
         </div>
       </DialogContent>
     </Dialog>
   );
 };
+
+export default FollowModal;

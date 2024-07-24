@@ -1,6 +1,6 @@
+import { EditImage } from '@/shared/types/reviews/reviewEdit';
 import { Followees } from '../follow/followees/followees-type';
 import { Followers } from '../follow/followers/followers-type';
-import { EditImage } from '@/shared/types/reviews/reviewEdit';
 
 export type ModalType =
   | 'follow'
