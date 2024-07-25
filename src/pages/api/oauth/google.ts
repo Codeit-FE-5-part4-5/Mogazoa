@@ -56,7 +56,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           'Set-Cookie',
           `accessToken=${response.data.accessToken}; Path=/;`,
         )
-        .redirect('/');
+        .redirect('/')
+        .removeHeader('authCode');
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
