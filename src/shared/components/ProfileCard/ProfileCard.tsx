@@ -1,16 +1,18 @@
 import Image from 'next/image';
-import Button from '../Button/Button';
-import { useModal } from '@/shared/store/use-modal-store';
-import { UserType } from '@/shared/types/user/user-type';
-import { usePostFollow } from '@/shared/models/user/follow/post-follow/usePostFollow';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCancelFollow } from '@/shared/models/user/follow/cancel-follow/useCancelFollow';
+import { UserType } from '@/shared/types/user/user-type';
+import useModal from '@/shared/store/use-modal-store';
+import usePostFollow from '@/shared/models/user/follow/post-follow/usePostFollow';
+import useCancelFollow from '@/shared/models/user/follow/cancel-follow/useCancelFollow';
+import { useToast } from '@/components/ui/use-toast';
+import Button from '../Button/Button';
 
 interface ProfileCardProps {
   user: UserType;
 }
 
 const ProfileCard = ({ user }: ProfileCardProps) => {
+  const { toast } = useToast();
   const { onOpen } = useModal();
 
   const queryClient = useQueryClient();
@@ -25,7 +27,10 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
 
       queryClient.invalidateQueries({ queryKey: ['followers'] });
     } catch (error) {
-      console.error(error);
+      toast({
+        variant: 'destructive',
+        title: '에러가 발생했습니다.',
+      });
     }
   };
 
@@ -37,7 +42,10 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
 
       queryClient.invalidateQueries({ queryKey: ['followers'] });
     } catch (error) {
-      console.error(error);
+      toast({
+        variant: 'destructive',
+        title: '에러가 발생했습니다.',
+      });
     }
   };
 

@@ -80,13 +80,20 @@ const ImageInput: React.FC<ImageInputProps> = ({
               onClick={handleRemoveImage}
               className="flex items-center justify-center rounded-full bg-black bg-opacity-50 p-1 text-white"
             >
-              <Image src="/images/close.png" alt="Close" className="h-8 w-8" />
+              <Image
+                src="/images/close.png"
+                alt="Close"
+                className="h-8 w-8"
+                width={32}
+                height={32}
+              />
             </button>
           </div>
           <Image
             src={imageUrl}
             alt="Preview"
             className="h-full w-full rounded-lg object-cover"
+            fill
           />
         </div>
       )}
