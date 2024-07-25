@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useModal } from '@/shared/store/use-modal-store';
+import useModal from '@/shared/store/use-modal-store';
 import apiInstance from '@/shared/utils/axios';
 import DropDown from '../DropDown/DropDown';
 

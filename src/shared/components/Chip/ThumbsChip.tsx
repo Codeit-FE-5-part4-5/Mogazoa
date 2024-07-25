@@ -1,6 +1,6 @@
 import useLikeReview from '@/shared/models/reviews/useLikeReview';
 import Image from 'next/image';
-import { useModal } from '@/shared/store/use-modal-store';
+import useModal from '@/shared/store/use-modal-store';
 
 interface ThumbsChipProps {
   count: number;

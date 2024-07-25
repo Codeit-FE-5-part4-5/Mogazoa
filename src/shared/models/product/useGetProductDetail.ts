@@ -12,7 +12,7 @@ const useGetProductDetail = ({ productId }: UseGetProductDetailProps) => {
       const { data } = await axios.get(`/products/${productId}`);
       return data;
     },
-    enabled: !!productId && !isNaN(productId),
+    enabled: !!productId && !Number.isNaN(productId),
   });
 };
 

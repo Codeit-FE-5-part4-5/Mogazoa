@@ -59,7 +59,6 @@ const useDeleteReview = ({
           context.prevReviewDetail,
         );
       }
-      console.error(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries({

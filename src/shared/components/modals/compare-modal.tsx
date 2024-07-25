@@ -6,20 +6,18 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useModal } from '@/shared/store/use-modal-store';
-import Button from '../Button/Button';
+import useModal from '@/shared/store/use-modal-store';
+import { Button } from '@/components/ui/button';
 import { ProductDetail } from '@/shared/types/product/productDetail';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
 interface Props {
-  productDetail: ProductDetail;
+  ProductDetailData: ProductDetail;
 }
 
-export const CompareModal = ({ productDetail }: Props) => {
+const CompareModal = ({ ProductDetailData }: Props) => {
   const { isOpen, onOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'compare';
-  const router = useRouter();
 
   const [firstDataName, setFirstDataName] = useState<string | null>(null);
   const [secondDataName, setSecondDataName] = useState<string | null>(null);
@@ -54,14 +52,15 @@ export const CompareModal = ({ productDetail }: Props) => {
 
   const handleChangeButton = () => {
     if (isChoiceProduct1) {
-      localStorage.setItem('productIdData1', JSON.stringify(productDetail));
+      localStorage.setItem('productIdData1', JSON.stringify(ProductDetailData));
       onOpen('compareConfirm');
-      setFirstDataName(productDetail.name);
+      setFirstDataName(ProductDetailData.name);
     } else if (isChoiceProduct2) {
-      localStorage.setItem('productIdData2', JSON.stringify(productDetail));
-      setSecondDataName(productDetail.name);
+      localStorage.setItem('productIdData2', JSON.stringify(ProductDetailData));
+      setSecondDataName(ProductDetailData.name);
       onOpen('compareConfirm');
     } else {
+      // eslint-disable-next-line no-alert
       alert('교체할 제품을 선택해주세요.');
     }
   };
@@ -71,7 +70,7 @@ export const CompareModal = ({ productDetail }: Props) => {
       <DialogContent className="mx-auto w-full max-w-[calc(100%-40px)] bg-[#1c1c22] text-var-white md:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="mb-10 text-2xl">
-            지금 보신 '{productDetail?.name}' <br /> 어떤 상품과 비교할까요?
+            지금 보신 {ProductDetailData?.name} <br /> 어떤 상품과 비교할까요?
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
             <div
@@ -93,3 +92,5 @@ export const CompareModal = ({ productDetail }: Props) => {
     </Dialog>
   );
 };
+
+export default CompareModal;
