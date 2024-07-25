@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Button from '../Button/Button';
-import { useModal } from '@/shared/store/use-modal-store';
+import useModal from '@/shared/store/use-modal-store';
 import { UserType } from '@/shared/types/user/user-type';
 import logout from '@/shared/utils/logout';
+import Button from '../Button/Button';
 
 const MyProfileCard = ({ user }: { user: UserType }) => {
   const { onOpen } = useModal();
