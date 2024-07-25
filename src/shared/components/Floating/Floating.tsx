@@ -3,7 +3,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 
 const Floating = () => {
-  const me = useQueryClient().getQueryData(['me']);
+  const queryClient = useQueryClient();
+  const me = queryClient.getQueryData(['me']);
   const { onOpen } = useModal();
 
   if (!me) {

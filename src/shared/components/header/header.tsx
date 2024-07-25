@@ -13,7 +13,8 @@ import SearchInput from '../Input/SearchInput';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 
 const Header: React.FC = () => {
-  const me = useQueryClient().getQueryData(['me']);
+  const queryClient = useQueryClient();
+  const me = queryClient.getQueryData(['me']);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { currentPath } = useChangeRouter();
