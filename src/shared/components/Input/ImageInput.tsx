@@ -93,7 +93,8 @@ const ImageInput: React.FC<ImageInputProps> = ({
             src={imageUrl}
             alt="Preview"
             className="h-full w-full rounded-lg object-cover"
-            fill
+            width={32}
+            height={32}
           />
         </div>
       )}
