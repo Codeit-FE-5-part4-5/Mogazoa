@@ -43,13 +43,28 @@ const getIdToken = async (code: string) => {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { code, state } = req.query;
 
-  let idTokenRes;
+  let idToken;
   let response;
   try {
-    idTokenRes = await getIdToken(validateArray(code));
-    if (!idTokenRes) return;
+    try {
+      if (code) {
+        response = await getIdToken(validateArray(code));
+      }
 
-    const { id_token: idToken } = idTokenRes.data;
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      const { id_token } = response ? response.data : null;
+      if (id_token) {
+        idToken = id_token;
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const params = appendErrorToQuery(error);
+        res.redirect(
+          `${process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!}?${params?.toString()}`,
+        );
+      }
+    }
+
     if (!state) {
       response = await signinRequest(idToken);
     } else {
