@@ -1,6 +1,5 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import useGetMe from '@/shared/models/auth/useGetMe';
-import useMe from '@/shared/store/use-me';
 import Header from '../header/header';
 
 interface MogazoaLayoutProps {
@@ -8,14 +7,7 @@ interface MogazoaLayoutProps {
 }
 
 const MogazoaLayout = ({ children }: MogazoaLayoutProps) => {
-  const { data: me, isSuccess: loginSuccess } = useGetMe();
-  const { login } = useMe();
-
-  useEffect(() => {
-    if (loginSuccess) {
-      login(me.data);
-    }
-  }, [loginSuccess]);
+  useGetMe();
 
   return (
     <>

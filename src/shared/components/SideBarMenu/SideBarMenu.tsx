@@ -1,17 +1,16 @@
+import logout from '@/shared/utils/logout';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
 
 interface SideBarMenuProps {
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
-  logout: () => void;
   animationOpenMenu: boolean | ((arg: boolean) => void);
   handleOpenMenuEnd: () => void;
 }
 
 const SideBarMenu = ({
   setOpenMenu,
-  logout,
   animationOpenMenu,
   handleOpenMenuEnd,
 }: SideBarMenuProps) => {
@@ -48,7 +47,7 @@ const SideBarMenu = ({
             </Link>
             <button
               type="button"
-              onClick={logout}
+              onClick={() => logout()}
               className="w-fit cursor-pointer transition-colors duration-300 hover:text-var-indigo"
             >
               로그아웃
