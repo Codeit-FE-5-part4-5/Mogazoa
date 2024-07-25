@@ -50,10 +50,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       if (code) {
         response = await getIdToken(validateArray(code));
       }
-
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      const { id_token } = response ? response.data : null;
-      if (id_token) {
+      if (response) {
+        const { id_token } = response?.data;
         idToken = id_token;
       }
     } catch (error) {
