@@ -46,22 +46,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   let idToken;
   let response;
   try {
-    try {
-      if (code) {
-        response = await getIdToken(validateArray(code));
-      }
-      if (response) {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        const { id_token } = response.data;
-        idToken = id_token;
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const params = appendErrorToQuery(error);
-        res.redirect(
-          `${process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!}?${params?.toString()}`,
-        );
-      }
+    if (code) {
+      response = await getIdToken(validateArray(code));
+    }
+    if (response) {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      const { id_token } = response.data;
+      idToken = id_token;
     }
 
     if (!state) {
