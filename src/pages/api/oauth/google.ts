@@ -29,19 +29,12 @@ const signinRequest = async (code: string) => {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { code, nickname } = req.query;
-  const { authCode } = req.cookies || '';
 
-  let idTokenResponse;
   let idToken;
   let response;
   try {
     if (code) {
-      idTokenResponse = await getGoogleIdToken(validateArray(code));
-      if (idTokenResponse?.status === 200) {
-        idToken = idTokenResponse.data.id_token;
-      }
-    } else {
-      idTokenResponse = await getGoogleIdToken(validateArray(authCode));
+      const idTokenResponse = await getGoogleIdToken(validateArray(code));
       if (idTokenResponse?.status === 200) {
         idToken = idTokenResponse.data.id_token;
       }
@@ -50,6 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!nickname) {
       response = await signinRequest(idToken);
     } else {
+      idToken = req.cookies.idToken;
       response = await signupRequest({
         nickname: validateArray(nickname),
         code: validateArray(idToken),
@@ -58,18 +52,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (response?.status === 200) {
       res
-        .setHeader(
-          'Set-Cookie',
+        .setHeader('Set-Cookie', [
           `accessToken=${response.data.accessToken}; Path=/;`,
-        )
-        .redirect('/')
-        .removeHeader('authCode');
+          `idToken=; Path=/; Max-Age=0;`,
+        ])
+        .redirect('/');
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error?.response?.status === 403) {
         res
-          .setHeader('Set-Cookie', `authCode=${code}; Path=/;`)
+          .setHeader('Set-Cookie', `idToken=${idToken}; Path=/;`)
           .redirect(process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!);
       } else {
         const params = appendErrorToQuery(error);
@@ -89,8 +82,8 @@ export default handler;
  *  구글 로그인 || 회원가입 로직
  * 1. 구글 인가코드를 받기 위해 리다이렉트 URI와 필요한 값을 넘긴다.
  * 2. 리다이렉트 URI의 데이터 처리 로직을 실행시킨다.
- * 3. 가입여부 상관없이 받은 인가코드를 이용해 idToken을 받는다.
- * 4. idToken으로 로그인 요청을 보내어 가입 여부를 판단한다.
- * 5. 로그인이 되어 있다면 로그인 처리를 한다.
- * 6. 로그인이 되어 있지 않다면 가입 처리를 한다.
+ * 3. 받은 인가코드를 이용해 idToken을 받는다.
+ * 4. idToken으로 로그인 요청을 보낸다.
+ * 5. 미가입 회원이라면 idToken으로 가입 요청을 보낸다
+ * 6. 엑세스 토큰을 쿠키에 저장한뒤 메인 페이지로 리다이렉션 한다.
  */

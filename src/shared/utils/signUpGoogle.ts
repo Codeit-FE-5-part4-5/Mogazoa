@@ -1,5 +1,5 @@
 const signUpGoogle = (nickname?: string) => {
-  const uri = `https://mogazoa-lac.vercel.app/api/oauth/google?nickname=${nickname}`;
+  const uri = `${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}?nickname=${nickname}`;
   window.location.href = uri;
 };
 
