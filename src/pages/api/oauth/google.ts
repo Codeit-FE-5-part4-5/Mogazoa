@@ -29,6 +29,7 @@ const signinRequest = async (code: string) => {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { code, nickname } = req.query;
+  const { authCode } = req.cookies || '';
 
   let idTokenResponse;
   let idToken;
@@ -36,6 +37,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (code) {
       idTokenResponse = await getGoogleIdToken(validateArray(code));
+      if (idTokenResponse?.status === 200) {
+        idToken = idTokenResponse.data.id_token;
+      }
+    } else {
+      idTokenResponse = await getGoogleIdToken(validateArray(authCode));
       if (idTokenResponse?.status === 200) {
         idToken = idTokenResponse.data.id_token;
       }
