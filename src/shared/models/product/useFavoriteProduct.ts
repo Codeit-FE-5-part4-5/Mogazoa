@@ -41,7 +41,6 @@ const useFavoriteProduct = ({ productId }: UseFavoriteProductProps) => {
       if (context?.prevProductDetail) {
         queryClient.setQueryData(['productDetail'], context.prevProductDetail);
       }
-      console.error(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['productDetail'] });
