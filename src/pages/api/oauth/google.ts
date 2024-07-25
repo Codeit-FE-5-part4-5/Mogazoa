@@ -60,11 +60,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (response?.status === 200) {
-      res.setHeader(
-        'Set-Cookie',
-        `accessToken=${response.data.accessToken}; Path=/;`,
-      );
-      res.redirect('/');
+      res
+        .setHeader(
+          'Set-Cookie',
+          `accessToken=${response.data.accessToken}; Path=/;`,
+        )
+        .redirect('/');
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -72,11 +73,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         res.redirect(process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!);
       } else {
         const params = appendErrorToQuery(error);
-
         res.redirect(
           `${process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!}?${params?.toString()}`,
         );
       }
+    } else {
+      res.redirect(`${process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!}?${error}`);
     }
   }
 };
