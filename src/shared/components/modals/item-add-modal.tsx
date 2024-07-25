@@ -102,7 +102,7 @@ const ItemAddModal = () => {
 
     try {
       const response = await apiInstance.post('/products', requestBody);
-      onClose('itemAdd');
+      onClose();
       // router.reload();
       router.push(`/detail/${response.data.id}`);
     } catch (error) {
@@ -139,8 +139,13 @@ const ItemAddModal = () => {
             <div className="flex flex-col gap-x-5 md:flex-row md:items-start">
               <div className="h-[140px] w-[140px] md:order-2 md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                 <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                  <ImageInput
+                  {/* <ImageInput
                     onChange={(image: string | null) => setImage(image || '')}
+                  /> */}
+                  <ImageInput
+                    onChange={(newImage: string | null) => {
+                      setImage(newImage || '');
+                    }}
                   />
                 </div>
               </div>
