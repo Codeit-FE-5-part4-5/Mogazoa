@@ -5,14 +5,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Rating } from 'react-simple-star-rating';
-import { useModal } from '@/shared/store/use-modal-store';
+import useModal from '@/shared/store/use-modal-store';
 import Button from '../Button/Button';
 import TextAreaInput from '../Input/TextAreaInput';
 import ImageInput from '../Input/ImageInput';
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import useEditReview from '@/shared/models/reviews/useEditReview';
+import useEditReview from '../../models/reviews/useEditReview';
 
 interface EditImage {
   id?: number | null;
@@ -25,7 +25,7 @@ interface Props {
   productName: string;
 }
 
-export const ReviewEditModal = ({ order, productId, productName }: Props) => {
+const ReviewEditModal = ({ order, productId, productName }: Props) => {
   const { isOpen, onClose, type, data } = useModal();
   const { reviewId, initialRating, initialReviewContent, initialImages } = data;
 
@@ -34,6 +34,7 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
   const [images, setImages] = useState<EditImage[]>(initialImages || []);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isPending, setIsPending] = useState<boolean>(false);
+  const [mutateError, setMutateError] = useState<string | null>(null);
 
   useEffect(() => {
     if (initialRating) {
@@ -73,16 +74,14 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
   };
 
   const handleImageChange = (index: number, image: string | null) => {
-    let newImages = [...images];
+    const newImages = [...images];
 
     if (image === null) {
       newImages.splice(index, 1);
+    } else if (index < newImages.length) {
+      newImages[index] = { source: image };
     } else {
-      if (index < newImages.length) {
-        newImages[index] = { source: image };
-      } else {
-        newImages.push({ source: image });
-      }
+      newImages.push({ source: image });
     }
 
     // 빈 이미지 슬롯 추가
@@ -118,7 +117,7 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
       await EditReviewMutation.mutateAsync();
       onClose();
     } catch (error) {
-      console.error('리뷰 수정 실패:', error);
+      setMutateError('리뷰 수정에 실패하였습니다.');
     } finally {
       setIsPending(false);
     }
@@ -136,7 +135,7 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
                 <Rating
                   onClick={handleRating}
                   initialValue={rating}
-                  SVGclassName={`inline-block`}
+                  SVGclassName="inline-block"
                   fillIcon={
                     <Image
                       className="mr-[2px] inline-block"
@@ -174,7 +173,7 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
             <div className="flex space-x-4">
               {images.map((image, index) => (
                 <div
-                  key={index}
+                  key={image.id ?? index}
                   className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]"
                 >
                   <ImageInput
@@ -197,6 +196,8 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
                   </div>
                 )}
             </div>
+
+            {mutateError && <p className="text-red-500">{mutateError}</p>}
             <Button
               className={isPending ? 'opacity-80' : ''}
               text="편집하기"
@@ -209,3 +210,5 @@ export const ReviewEditModal = ({ order, productId, productName }: Props) => {
     </Dialog>
   );
 };
+
+export default ReviewEditModal;

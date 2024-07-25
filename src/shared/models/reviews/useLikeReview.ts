@@ -1,6 +1,6 @@
 import axios from '@/shared/utils/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ReviewDetail, Review } from '@/shared/types/reviews/reviews';
+import { Review } from '@/shared/types/reviews/reviews';
 
 interface UseLikeReviewProps {
   reviewId: number;
@@ -83,7 +83,6 @@ const useLikeReview = ({ reviewId, productId, order }: UseLikeReviewProps) => {
           context.prevReviewDetail,
         );
       }
-      console.error(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries({

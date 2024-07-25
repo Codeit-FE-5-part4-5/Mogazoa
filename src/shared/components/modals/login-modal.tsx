@@ -6,12 +6,12 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useModal } from '@/shared/store/use-modal-store';
-import Button from '../Button/Button';
+import useModal from '@/shared/store/use-modal-store';
 import { useRouter } from 'next/router';
+import Button from '../Button/Button';
 
-export const LoginModal = () => {
-  const { isOpen, onClose, type, data } = useModal();
+const LoginModal = () => {
+  const { isOpen, onClose, type } = useModal();
 
   const isModalOpen = isOpen && type === 'login';
   const router = useRouter();
@@ -37,3 +37,5 @@ export const LoginModal = () => {
     </Dialog>
   );
 };
+
+export default LoginModal;

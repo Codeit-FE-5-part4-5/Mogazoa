@@ -1,11 +1,10 @@
 import Image from 'next/image';
-import ThumbsChip from '../Chip/ThumbsChip';
+import ThumbsChip from '@/shared/components/Chip/ThumbsChip';
 import { Review } from '@/shared/types/reviews/reviews';
 import Link from 'next/link';
-import { useState } from 'react';
-import { useModal } from '@/shared/store/use-modal-store';
-import { ReviewDeleteModal } from '../modals/review-delete-modal';
-import { ReviewEditModal } from '@/shared/components/modals/review-edit-modal';
+import useModal from '@/shared/store/use-modal-store';
+import ReviewDeleteModal from '../modals/review-delete-modal';
+import ReviewEditModal from '../modals/review-edit-modal';
 
 interface Props {
   review: Review;
@@ -62,23 +61,23 @@ const ProductDetailReview = ({
         <Link href={`/user/${reviewUserId}`}>
           <div className="mb-[20px] flex gap-[10px] md:min-w-[160px]">
             <div className="flex h-[36px] w-[36px] overflow-hidden rounded-full bg-blue-50 md:h-[42px] md:w-[42px]">
-              <img src={review?.user.image} alt="profileImg" />
+              <Image src={review?.user.image} alt="profileImg" layout="fill" />
             </div>
             <div>
               <div className="font-Pretendard mb-[5px] font-normal text-white xl:text-[16px]">
                 {review?.user.nickname}
               </div>
               <div className="flex gap-[3px]">
-                {Array(review?.rating)
-                  .fill('')
-                  .map((_, index) => (
-                    <img
-                      key={index}
-                      src="/images/star.svg"
-                      alt={`star-${index}`}
-                      className="h-[10px] xl:h-[16px]"
-                    />
-                  ))}
+                {Array.from({ length: review?.rating || 0 }, (_, index) => (
+                  <Image
+                    key={`star-${index}`}
+                    src="/images/star.svg"
+                    alt={`star-${index}`}
+                    width={10}
+                    height={10}
+                    className="h-[10px] xl:h-[16px]"
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -108,10 +107,18 @@ const ProductDetailReview = ({
               </div>
               {userId === reviewUserId && (
                 <div className="flex gap-[10px] text-[12px] text-var-gray2 xl:text-[14px]">
-                  <button className="underline" onClick={handleEditClick}>
+                  <button
+                    type="button"
+                    className="underline"
+                    onClick={handleEditClick}
+                  >
                     수정
                   </button>
-                  <button className="underline" onClick={handleDeleteClick}>
+                  <button
+                    type="button"
+                    className="underline"
+                    onClick={handleDeleteClick}
+                  >
                     삭제
                   </button>
                 </div>

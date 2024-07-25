@@ -6,24 +6,26 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useModal } from '@/shared/store/use-modal-store';
+import { useState } from 'react';
+import useModal from '@/shared/store/use-modal-store';
 import Button from '../Button/Button';
-import useDeleteReview from '@/shared/models/reviews/useDeleteReview';
+import useDeleteReview from '../../models/reviews/useDeleteReview';
 
 interface Props {
   productId: number;
   order: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
 }
 
-export const ReviewDeleteModal = ({ order = 'recent', productId }: Props) => {
+const ReviewDeleteModal = ({ order = 'recent', productId }: Props) => {
   const { isOpen, onClose, type, data } = useModal();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const reviewId = data?.reviewId;
   const isModalOpen = isOpen && type === 'reviewDelete';
 
   const deleteReviewMutation = useDeleteReview({
-    reviewId: reviewId,
-    productId: productId,
+    reviewId,
+    productId,
     order,
   });
 
@@ -32,7 +34,7 @@ export const ReviewDeleteModal = ({ order = 'recent', productId }: Props) => {
       await deleteReviewMutation.mutateAsync();
       onClose();
     } catch (error) {
-      console.error('Delete review failed:', error);
+      setErrorMessage('리뷰 삭제에 실패했습니다. 다시 시도해 주세요.');
     }
   };
 
@@ -44,6 +46,7 @@ export const ReviewDeleteModal = ({ order = 'recent', productId }: Props) => {
             정말 삭제하시겠습니까 ?
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             <Button text="삭제하기" onClick={handleDeleteReview} />
           </DialogDescription>
         </DialogHeader>
@@ -51,3 +54,5 @@ export const ReviewDeleteModal = ({ order = 'recent', productId }: Props) => {
     </Dialog>
   );
 };
+
+export default ReviewDeleteModal;
