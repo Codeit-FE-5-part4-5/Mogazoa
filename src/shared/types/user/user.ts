@@ -16,10 +16,3 @@ export interface Me {
   followersCount: number;
   isFollowing: boolean;
 }
-
-export interface MeStore {
-  userInfo: Me;
-  isLoggedIn: boolean;
-  login: (userInfo: Me) => void;
-  logout: () => void;
-}
