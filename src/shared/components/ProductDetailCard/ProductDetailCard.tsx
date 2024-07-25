@@ -194,24 +194,35 @@ const ProductDetailCard = ({
           </div>
           {userId === ProductDetailData?.writerId ? (
             <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
-              <Button text="리뷰 작성하기" onClick={() => onOpen('review')} />
+              <Button
+                text="리뷰 작성하기"
+                onClick={() => onOpen('review')}
+                size="lg"
+              />
               <Button
                 text="비교하기"
                 variant="secondary"
                 onClick={handleChangeButton}
+                size="lg"
               />
               <Button
                 text="편집하기"
-                variant="default"
+                variant="secondary"
                 onClick={() => onOpen('itemEdit')}
+                size="lg"
               />
             </div>
           ) : (
             <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
-              <Button text="리뷰 작성하기" onClick={handleReviewButton} />
+              <Button
+                text="리뷰 작성하기"
+                onClick={handleReviewButton}
+                size="lg"
+              />
               <Button
                 text="비교하기"
                 variant="secondary"
+                size="lg"
                 onClick={handleChangeButton}
               />
             </div>

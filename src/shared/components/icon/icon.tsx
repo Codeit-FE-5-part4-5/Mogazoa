@@ -8,11 +8,7 @@ interface IconProps {
 }
 
 const Icon: React.FC<IconProps> = ({ src, alt = '', width, height }) => {
-  return (
-    <>
-      <Image src={src} alt={alt} width={width} height={height} />
-    </>
-  );
+  return <Image src={src} alt={alt} width={width} height={height} />;
 };
 
 export default Icon;
