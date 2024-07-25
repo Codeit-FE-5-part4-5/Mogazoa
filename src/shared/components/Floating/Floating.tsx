@@ -1,4 +1,4 @@
-import { useModal } from '@/shared/store/use-modal-store';
+import useModal from '@/shared/store/use-modal-store';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 
