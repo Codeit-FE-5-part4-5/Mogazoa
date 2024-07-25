@@ -47,11 +47,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   let response;
   try {
     if (code) {
-      response = await getIdToken(validateArray(code));
-    }
-    if (response) {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      const { id_token } = response.data;
+      const {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        data: { id_token },
+      } = await getIdToken(validateArray(code));
       idToken = id_token;
     }
 
