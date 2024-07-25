@@ -149,7 +149,8 @@ const ProductDetailCard = ({
                     src="/images/kakaotalk.svg"
                     alt="카카오 공유"
                     className="h-[14px] xl:h-[18px]"
-                    layout="fill"
+                    width={18}
+                    height={18}
                   />
                 </button>
               </li>
@@ -163,7 +164,8 @@ const ProductDetailCard = ({
                     src="/images/share_300.svg"
                     alt="공유하기"
                     className="h-[14px] xl:h-[18px]"
-                    layout="fill"
+                    width={18}
+                    height={18}
                   />
                 </button>
               </li>
@@ -181,7 +183,8 @@ const ProductDetailCard = ({
                       : '/images/unsave_300.svg'
                   }
                   alt={ProductDetailData?.isFavorite ? '찜풀기' : '찜하기'}
-                  layout="fill"
+                  width={24}
+                  height={24}
                 />
               </button>
             </div>

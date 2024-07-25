@@ -84,7 +84,6 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
       newImages.push({ source: image });
     }
 
-    // 빈 이미지 슬롯 추가
     if (newImages.length < 3 && newImages.every((img) => img.source !== null)) {
       newImages.push({ source: null });
     }
