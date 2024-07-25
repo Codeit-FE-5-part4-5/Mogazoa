@@ -1,3 +1,4 @@
+import getGoogleIdToken from '@/shared/models/auth/getGoogleIdToken';
 import appendErrorToQuery from '@/shared/utils/appendErrorToQuery';
 import validateArray from '@/shared/utils/validateArray';
 import axios from 'axios';
@@ -26,40 +27,26 @@ const signinRequest = async (code: string) => {
   return result;
 };
 
-const getIdToken = async (code: string) => {
-  const params = new URLSearchParams({
-    client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-    client_secret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
-    grant_type: 'authorization_code',
-    redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
-    code,
-  });
-  const result = await axios.post(
-    `https://oauth2.googleapis.com/token?${params.toString()}`,
-  );
-  return result;
-};
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { code, state } = req.query;
+  const { code, nickname } = req.query;
 
   let idTokenResponse;
   let idToken;
   let response;
   try {
     if (code) {
-      idTokenResponse = await getIdToken(validateArray(code));
+      idTokenResponse = await getGoogleIdToken(validateArray(code));
       if (idTokenResponse?.status === 200) {
         idToken = idTokenResponse.data.id_token;
       }
     }
 
-    if (!state) {
+    if (!nickname) {
       response = await signinRequest(idToken);
     } else {
       response = await signupRequest({
-        nickname: validateArray(state),
-        code: validateArray(code),
+        nickname: validateArray(nickname),
+        code: validateArray(idToken),
       });
     }
 
@@ -74,7 +61,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error?.response?.status === 403) {
-        res.redirect(process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!);
+        res
+          .setHeader('Set-Cookie', `authCode=${code}; Path=/;`)
+          .redirect(process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!);
       } else {
         const params = appendErrorToQuery(error);
         res.redirect(
