@@ -13,10 +13,14 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   initKeyword: () => void;
 }
 
-const searchInputClosedStyle =
-  'border border-var-black3 w-[30px] cursor-pointer';
-const searchInputOpenStyle =
-  'w-[90%] md:w-[300px] xl:w-[400px] border-gradient-custom';
+const closedStyle = {
+  inner: 'border border-var-black3 w-[30px] cursor-pointer',
+  input: 'hidden',
+};
+const openedStyle = {
+  inner: 'w-[90%] md:w-[300px] xl:w-[400px] border-gradient-custom',
+  input: 'w-[80%]',
+};
 
 const SearchInput = ({
   className,
@@ -34,15 +38,19 @@ const SearchInput = ({
   return (
     <div
       onClick={() => setOpen((prev) => !prev)}
-      className="group relative flex w-full justify-end transition-all md:inline-block md:w-fit"
+      className="group relative flex w-full justify-end transition-all md:block md:w-fit"
     >
-      <input
-        value={value}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.key === 'Escape' && initKeyword()}
-        className={`${className || ''} ${isOpen ? searchInputOpenStyle : searchInputClosedStyle} flex h-[42px] flex-col items-start justify-center gap-[10px] rounded-[28px] border border-var-black3 bg-[#252530] p-[16px_20px] text-var-gray2 placeholder-var-gray1 outline-none transition-all duration-300 group-hover:bg-[#17171C] group-hover:border-gradient-custom`}
-        {...props}
-      />
+      <div
+        onClick={(e) => (isOpen ? e.stopPropagation() : null)}
+        className={`${className || ''} ${isOpen ? openedStyle.inner : closedStyle.inner} flex h-[42px] flex-col items-start justify-center gap-[10px] rounded-[28px] border border-var-black3 bg-[#252530] p-[16px_20px] text-var-gray2 placeholder-var-gray1 outline-none transition-all duration-300 group-hover:bg-[#17171C] group-hover:border-gradient-custom`}
+      >
+        <input
+          value={value}
+          onKeyDown={(e) => e.key === 'Escape' && initKeyword()}
+          className={`${isOpen ? openedStyle.input : closedStyle.input} bg-[#17171C] outline-none`}
+          {...props}
+        />
+      </div>
       <div className="absolute right-[10px] top-[50%] flex -translate-y-1/2 cursor-pointer items-center gap-[15px]">
         {value && isOpen && (
           <div

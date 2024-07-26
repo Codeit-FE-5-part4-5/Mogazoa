@@ -23,6 +23,7 @@ const Home = () => {
     sortConverter(ORDER_VARIANTS[0]),
   );
   const [ref, inView] = useInView();
+  // 카테고리 상품
   const { data: categories } = useGetCategory();
   const {
     fetchNextPage,
@@ -36,10 +37,10 @@ const Home = () => {
     keyword: searchQuery,
   });
   const productsList = products?.pages.flatMap((page) => page.list) || [];
+  // TOP 6 정렬 상품
   const { data: sortedProducts, isPending: isLoadingSortedProducts } =
     useGetSortedProducts();
-
-  // 랭킹 관련 로직
+  // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
 

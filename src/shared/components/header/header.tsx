@@ -69,7 +69,8 @@ const Header: React.FC = () => {
             className={`${isSearchOpen && 'flex-1'} flex justify-end gap-[30px] xl:gap-[60px]`}
           >
             {currentPath.includes('signin') ||
-            currentPath.includes('signup') ? null : (
+            currentPath.includes('signup') ||
+            currentPath.includes('mypage') ? null : (
               <SearchInput
                 value={searchKeyword}
                 type="text"
