@@ -1,3 +1,4 @@
+import getGoogleIdToken from '@/shared/models/auth/getGoogleIdToken';
 import appendErrorToQuery from '@/shared/utils/appendErrorToQuery';
 import validateArray from '@/shared/utils/validateArray';
 import axios from 'axios';
@@ -26,59 +27,63 @@ const signinRequest = async (code: string) => {
   return result;
 };
 
-const getIdToken = async (code: string) => {
-  const params = new URLSearchParams({
-    client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-    client_secret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
-    grant_type: 'authorization_code',
-    redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
-    code,
-  });
-  const result = await axios.post(
-    `https://oauth2.googleapis.com/token?${params.toString()}`,
-  );
-  return result;
-};
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { code, state } = req.query;
+  const { code, nickname } = req.query;
 
-  let idTokenRes;
+  let idToken;
   let response;
   try {
-    idTokenRes = await getIdToken(validateArray(code));
-    if (!idTokenRes) return;
+    if (code) {
+      const idTokenResponse = await getGoogleIdToken(validateArray(code));
+      if (idTokenResponse?.status === 200) {
+        idToken = idTokenResponse.data.id_token;
+      }
+    }
 
-    const { id_token: idToken } = idTokenRes.data;
-    if (!state) {
+    if (!nickname) {
       response = await signinRequest(idToken);
     } else {
+      idToken = req.cookies.idToken;
       response = await signupRequest({
-        nickname: validateArray(state),
-        code: validateArray(code),
+        nickname: validateArray(nickname),
+        code: validateArray(idToken),
       });
     }
 
     if (response?.status === 200) {
-      res.setHeader(
-        'Set-Cookie',
-        `accessToken=${response.data.accessToken}; Path=/;`,
-      );
-      res.redirect('/');
+      res
+        .setHeader('Set-Cookie', [
+          `accessToken=${response.data.accessToken}; Path=/;`,
+          `idToken=; Path=/; Max-Age=0;`,
+        ])
+        .redirect('/');
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error?.response?.status === 403) {
-        res.redirect(process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!);
+        res
+          .setHeader('Set-Cookie', `idToken=${idToken}; Path=/;`)
+          .redirect(process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!);
       } else {
         const params = appendErrorToQuery(error);
-
         res.redirect(
           `${process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!}?${params?.toString()}`,
         );
       }
+    } else {
+      res.redirect(`${process.env.NEXT_PUBLIC_GOOGLE_SIGNUP_URI!}?${error}`);
     }
   }
 };
 
 export default handler;
+
+/**
+ *  구글 로그인 || 회원가입 로직
+ * 1. 구글 인가코드를 받기 위해 리다이렉트 URI와 필요한 값을 넘긴다.
+ * 2. 리다이렉트 URI의 데이터 처리 로직을 실행시킨다.
+ * 3. 받은 인가코드를 이용해 idToken을 받는다.
+ * 4. idToken으로 로그인 요청을 보낸다.
+ * 5. 미가입 회원이라면 idToken으로 가입 요청을 보낸다
+ * 6. 엑세스 토큰을 쿠키에 저장한뒤 메인 페이지로 리다이렉션 한다.
+ */

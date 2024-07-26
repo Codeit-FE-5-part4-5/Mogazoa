@@ -36,7 +36,7 @@ const Home = () => {
   });
   const productsList = products?.pages.flatMap((page) => page.list) || [];
 
-  // 랭킹
+  // 랭킹 관련 로직
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
 
