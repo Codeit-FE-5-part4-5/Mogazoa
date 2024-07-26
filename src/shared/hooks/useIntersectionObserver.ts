@@ -1,9 +1,9 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 
-const useIntersectionObserver = <T extends HTMLElement>(): [
-  target: RefObject<T>,
-  isIntersecting: boolean,
-] => {
+const useIntersectionObserver = <T extends HTMLElement>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  opt: any,
+): [target: RefObject<T>, isIntersecting: boolean] => {
   const [isIntersecting, setIntersecting] = useState(false);
   const target = useRef<T>(null);
 
@@ -19,7 +19,7 @@ const useIntersectionObserver = <T extends HTMLElement>(): [
     return () => {
       observer.disconnect();
     };
-  }, [target.current]);
+  }, [opt]);
 
   return [target, isIntersecting];
 };
