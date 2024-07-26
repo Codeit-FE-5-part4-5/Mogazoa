@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import Chip from '@/shared/components/Chip/Chip';
 import Image from 'next/image';
 import useFavoriteProduct from '@/shared/models/product/useFavoriteProduct';
 import { ProductDetail } from '@/shared/types/product/productDetail';
 import useModal from '@/shared/store/use-modal-store';
+import Button from '../Button/Button';
 import CompareModal from '../modals/compare-modal';
 
 interface Props {
@@ -149,7 +149,8 @@ const ProductDetailCard = ({
                     src="/images/kakaotalk.svg"
                     alt="카카오 공유"
                     className="h-[14px] xl:h-[18px]"
-                    layout="fill"
+                    width={18}
+                    height={18}
                   />
                 </button>
               </li>
@@ -163,7 +164,8 @@ const ProductDetailCard = ({
                     src="/images/share_300.svg"
                     alt="공유하기"
                     className="h-[14px] xl:h-[18px]"
-                    layout="fill"
+                    width={18}
+                    height={18}
                   />
                 </button>
               </li>
@@ -181,7 +183,8 @@ const ProductDetailCard = ({
                       : '/images/unsave_300.svg'
                   }
                   alt={ProductDetailData?.isFavorite ? '찜풀기' : '찜하기'}
-                  layout="fill"
+                  width={24}
+                  height={24}
                 />
               </button>
             </div>
@@ -199,7 +202,7 @@ const ProductDetailCard = ({
               />
               <Button
                 text="편집하기"
-                variant="default"
+                variant="secondary"
                 onClick={() => onOpen('itemEdit')}
               />
             </div>

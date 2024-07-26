@@ -20,7 +20,8 @@ const StatisticsCard = ({
           src="/images/star.svg"
           alt=""
           className="h-[14px] xl:h-[22px]"
-          layout="fill"
+          width={24}
+          height={24}
         />
       ),
     },
@@ -30,8 +31,9 @@ const StatisticsCard = ({
         <Image
           src="/images/heart.svg"
           alt=""
-          className="xl:h-[22px h-[14px]"
-          layout="fill"
+          className="h-[14px] xl:h-[22px]"
+          width={24}
+          height={24}
         />
       ),
     },
@@ -42,7 +44,8 @@ const StatisticsCard = ({
           src="/images/speechBubble.svg"
           alt=""
           className="h-[14px] xl:h-[22px]"
-          layout="fill"
+          width={24}
+          height={24}
         />
       ),
     },
