@@ -40,7 +40,7 @@ const SideBarMenu = ({
             <Link href="/mypage">
               <button
                 type="button"
-                className="cursor-pointer bg-gradient-custom bg-clip-text text-transparent transition-colors duration-300 hover:text-var-gray2"
+                className="cursor-pointer transition-colors duration-300 hover:text-var-indigo"
               >
                 내 프로필
               </button>
