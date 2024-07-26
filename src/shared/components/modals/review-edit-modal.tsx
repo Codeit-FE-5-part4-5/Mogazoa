@@ -31,7 +31,7 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
 
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState<string>('');
-  const [images, setImages] = useState<EditImage[]>(initialImages || []);
+  const [images, setImages] = useState<EditImage[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isPending, setIsPending] = useState<boolean>(false);
   const [mutateError, setMutateError] = useState<string | null>(null);
@@ -78,17 +78,11 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
 
     if (image === null) {
       newImages.splice(index, 1);
-    } else if (index < newImages.length) {
-      newImages[index] = { source: image };
     } else {
-      newImages.push({ source: image });
+      newImages[index] = { source: image };
     }
 
     if (newImages.length < 3 && newImages.every((img) => img.source !== null)) {
-      newImages.push({ source: null });
-    }
-
-    if (newImages.length === 0) {
       newImages.push({ source: null });
     }
 
@@ -172,7 +166,7 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
             <div className="flex space-x-4">
               {images.map((image, index) => (
                 <div
-                  key={image.id ?? index}
+                  key={image.id}
                   className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]"
                 >
                   <ImageInput
@@ -195,7 +189,6 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
                   </div>
                 )}
             </div>
-
             {mutateError && <p className="text-red-500">{mutateError}</p>}
             <Button
               className={isPending ? 'opacity-80' : ''}

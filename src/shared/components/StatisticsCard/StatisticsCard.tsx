@@ -31,7 +31,7 @@ const StatisticsCard = ({
         <Image
           src="/images/heart.svg"
           alt=""
-          className="xl:h-[22px h-[14px]"
+          className="h-[14px] xl:h-[22px]"
           width={24}
           height={24}
         />
