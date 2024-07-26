@@ -12,8 +12,9 @@ import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 import { useInView } from 'react-intersection-observer';
-import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 import RankingList from '@/shared/components/RankingList/RankingList';
+import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
+import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();
@@ -35,6 +36,8 @@ const Home = () => {
     keyword: searchQuery,
   });
   const productsList = products?.pages.flatMap((page) => page.list) || [];
+  const { data: sortedProducts, isPending: isLoadingSortedProducts } =
+    useGetSortedProducts();
 
   // 랭킹 관련 로직
   const { data: rankingData } = useGetFollowersRanking();
@@ -80,11 +83,10 @@ const Home = () => {
                 {isSuccess && <div ref={ref} />}
               </>
             ) : (
-              <>
-                <SortedProductList sortBy="reviewCount" />
-                <SortedProductList sortBy="rating" />
-                <SortedProductList sortBy="recent" />
-              </>
+              <SortedProductList
+                sortedProducts={sortedProducts}
+                isPending={isLoadingSortedProducts}
+              />
             )}
           </div>
         </div>

@@ -19,7 +19,7 @@ const ProductSection = ({
   isLoading,
 }: ProductSectionProps) => {
   return (
-    <div className="mx-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
+    <div className="mx-[20px] mb-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
       <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
         <div className="flex justify-between">
           <p className="mb-[30px]">
