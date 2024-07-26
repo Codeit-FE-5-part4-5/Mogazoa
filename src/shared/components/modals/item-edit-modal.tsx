@@ -1,8 +1,6 @@
-import React, { ChangeEvent, useState, SetStateAction } from 'react';
+import React, { ChangeEvent, useState, SetStateAction, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-// import useGetProducts from '@/shared/models/product/useGetProducts';
-
 import {
   Dialog,
   DialogContent,
@@ -10,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
 
 import useModal from '@/shared/store/use-modal-store';
 import apiInstance from '@/shared/utils/axios';
@@ -34,14 +33,26 @@ const ItemEditModal = () => {
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === 'itemEdit';
   const [text, setText] = useState<string>('');
-  const [selectedItem, setSelectedItem] = useState('');
-  // const { data: keywordList } = useGetProducts({ keyword: selectedItem });
+  const [selectedItem, setSelectedItem] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const router = useRouter();
   const { productId } = router.query;
+
+  const { data: productDetail } = useGetProductDetail({
+    productId: Number(productId),
+  });
+
+  useEffect(() => {
+    if (productDetail) {
+      setSelectedItem(productDetail.name);
+      setSelectedCategory(productDetail.categoryId);
+      setImage(productDetail.image);
+      setText(productDetail.description);
+    }
+  }, [productDetail]);
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -95,7 +106,6 @@ const ItemEditModal = () => {
       await apiInstance.patch(`/products/${productId}`, requestBody);
       onClose();
       router.push(`/detail/${productId}`);
-
       router.reload();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -131,10 +141,8 @@ const ItemEditModal = () => {
             <div className="flex flex-col gap-x-5 md:flex-row md:items-start">
               <div className="h-[140px] w-[140px] md:order-2 md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
                 <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                  {/* <ImageInput
-                    onChange={(image: string | null) => setImage(image || '')}
-                  /> */}
                   <ImageInput
+                    initialImageUrl={productDetail?.image}
                     onChange={(newImage: string | null) => {
                       setImage(newImage || '');
                     }}
@@ -143,7 +151,7 @@ const ItemEditModal = () => {
               </div>
               <div className="w-full md:order-1">
                 <TextFieldInput
-                  placeholder="상품명을 입력하세요"
+                  placeholder={productDetail?.name}
                   value={selectedItem}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     onChangeEvent(e, setSelectedItem)
@@ -158,8 +166,7 @@ const ItemEditModal = () => {
             <div className="flex flex-col items-end rounded-md bg-[#252530]">
               <textarea
                 className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
-                placeholder="상품을 추가해 주세요."
-                value={text}
+                placeholder={productDetail?.description}
                 maxLength={500}
                 onChange={handleTextChange}
               />
@@ -184,4 +191,5 @@ const ItemEditModal = () => {
     </Dialog>
   );
 };
+
 export default ItemEditModal;
