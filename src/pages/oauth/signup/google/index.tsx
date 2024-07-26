@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { IAuthForm } from '@/pages/signup';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
-import accessGoogle from '@/shared/utils/accessGoogle';
+import signUpGoogle from '@/shared/utils/signUpGoogle';
 import OAuthSignUp, { oAuthSchema } from '../..';
 
 const GoogleAuth = () => {
@@ -23,7 +23,7 @@ const GoogleAuth = () => {
   });
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
-    accessGoogle(data.nickname);
+    signUpGoogle(data.nickname);
   };
 
   useEffect(() => {
