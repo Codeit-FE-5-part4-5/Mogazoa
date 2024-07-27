@@ -10,6 +10,7 @@ const useGetCategory = () => {
   return useQuery({
     queryKey: ['category'],
     queryFn: getCategoryRequest,
+    staleTime: Infinity,
   });
 };
 
