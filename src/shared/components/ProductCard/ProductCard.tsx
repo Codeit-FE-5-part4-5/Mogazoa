@@ -1,3 +1,4 @@
+import fixedNumber from '@/shared/utils/fixedNumber';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -39,13 +40,11 @@ const ProductCard = ({
               <li>찜 {favoriteCount}</li>
             </ul>
             <div className="flex items-center gap-[2px]">
-              <img
-                src="/images/star.svg"
-                alt=""
-                className="h-[12px] md:h-[16px]"
-              />
+              <div className="relative size-[12px] md:size-[16px]">
+                <Image src="/images/star.svg" alt="별점" fill />
+              </div>
               <span className="text-[12px] text-var-gray2 md:text-[14px] xl:text-[16px]">
-                {rating}
+                {fixedNumber(rating, 'average')}
               </span>
             </div>
           </div>
