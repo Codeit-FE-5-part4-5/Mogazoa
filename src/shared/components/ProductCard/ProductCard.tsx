@@ -44,7 +44,7 @@ const ProductCard = ({
                 <Image src="/images/star.svg" alt="별점" fill />
               </div>
               <span className="text-[12px] text-var-gray2 md:text-[14px] xl:text-[16px]">
-                {fixedNumber(rating, 'average')}
+                {fixedNumber(rating)}
               </span>
             </div>
           </div>
