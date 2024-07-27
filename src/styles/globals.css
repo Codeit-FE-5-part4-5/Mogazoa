@@ -239,11 +239,11 @@ body::-webkit-scrollbar-track {
 
 body::-webkit-scrollbar-thumb {
   border-radius: 8px;
-  background: #2c2c3564;
+  background: #2e2e3a;
 }
 
 body::-webkit-scrollbar-thumb:hover {
-  background: #5364ff2c;
+  background: #6e6e82;
 }
 
 * {

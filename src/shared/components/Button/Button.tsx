@@ -4,17 +4,16 @@ type Variant = 'primary' | 'secondary' | 'tertiary';
 
 const buttonColorList = {
   primary: {
-    button:
-      'gradient-button hover:bg-gradient-custom-hover hover:animate-gradient',
+    button: 'gradient-button hover:animate-bg-gradient',
     span: 'text-var-white',
   },
   secondary: {
-    button: 'border-gradient-custom',
+    button: 'border-gradient-custom hover:animate-border-gradient',
     span: 'bg-clip-text text-transparent bg-gradient-custom',
   },
   tertiary: {
-    button: 'border border-var-gray2 text-var-gray2',
-    span: 'text-var-gray2',
+    button: 'border border-var-gray2 hover:border-var-indigo',
+    span: 'text-var-gray2 group-hover:text-var-indigo',
   },
 };
 
@@ -33,7 +32,7 @@ const Button = ({
   return (
     <button
       type="button"
-      className={`${className ? `${className}` : ''} w-full rounded-[8px] py-[16px] text-[16px] font-bold transition-transform duration-300 md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px] ${buttonColorList[variant].button}`}
+      className={`${className ? `${className}` : ''} group w-full rounded-[8px] py-[16px] text-[16px] font-bold transition-all duration-300 md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px] ${buttonColorList[variant].button}`}
       disabled={disabled}
       {...props}
     >

@@ -147,7 +147,8 @@ module.exports = {
         fadeOut: 'fadeOut 0.3s ease-in-out forwards',
         spin: 'spin 2s linear infinite',
         bounceRight: 'bounceRight 1s infinite',
-        gradient: 'gradient 0.4s ease forwards',
+        'bg-gradient': 'gradient 1s ease forwards',
+        'border-gradient': 'gradient 1s ease forwards',
       },
     },
   },
@@ -166,7 +167,8 @@ module.exports = {
           backgroundOrigin: 'border-box',
           backgroundClip: 'padding-box, border-box',
           backgroundImage:
-            'linear-gradient(#17171C, #17171C), linear-gradient(to right, #5097FA, #5363FF)',
+            'linear-gradient(#17171C, #17171C), linear-gradient(to right, #5363FF 0%, #5097FA 25%, #5097FA 50%, #5363FF 75%, #5097FA 100%)',
+          backgroundSize: '400%',
         },
         '.gradient-button': {
           background:

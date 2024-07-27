@@ -32,6 +32,7 @@ const SideBarMenu = ({
             <Link href="/compare">
               <button
                 type="button"
+                onClick={() => setOpenMenu(false)}
                 className="cursor-pointer transition-colors duration-300 hover:text-var-indigo"
               >
                 비교하기
@@ -40,6 +41,7 @@ const SideBarMenu = ({
             <Link href="/mypage">
               <button
                 type="button"
+                onClick={() => setOpenMenu(false)}
                 className="cursor-pointer transition-colors duration-300 hover:text-var-indigo"
               >
                 내 프로필
@@ -47,7 +49,10 @@ const SideBarMenu = ({
             </Link>
             <button
               type="button"
-              onClick={() => logout()}
+              onClick={() => {
+                setOpenMenu(false);
+                logout();
+              }}
               className="w-fit cursor-pointer transition-colors duration-300 hover:text-var-indigo"
             >
               로그아웃

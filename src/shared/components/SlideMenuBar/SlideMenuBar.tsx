@@ -12,7 +12,10 @@ interface CategoryButtonProps {
 const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
   ({ category, currentCategory, onClick }, ref) => {
     return (
-      <li ref={ref} className="group w-fit flex-shrink-0 px-[20px]">
+      <li
+        ref={ref}
+        className="group w-fit flex-shrink-0 px-[20px] outline-none"
+      >
         <button
           type="button"
           onClick={() => {
