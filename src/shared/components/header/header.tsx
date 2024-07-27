@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useQueryClient } from '@tanstack/react-query';
 import LogoIcon from '@/../../public/images/logo.svg';
 import MenuIcon from '@/../../public/images/menu.svg';
 import Portal from '@/Portal';
@@ -9,12 +8,15 @@ import useAnimation from '@/shared/hooks/useAnimation';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
+import { Me } from '@/shared/types/user/user';
 import SearchInput from '../Input/SearchInput';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 
-const Header: React.FC = () => {
-  const queryClient = useQueryClient();
-  const me = queryClient.getQueryData(['me']);
+interface HeaderProps {
+  me: Me;
+}
+
+const Header = ({ me }: HeaderProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { currentPath } = useChangeRouter();
@@ -39,7 +41,7 @@ const Header: React.FC = () => {
         ref={searchBarRef}
         className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:border-b md:border-var-black3 md:px-[30px] xl:px-[120px]"
       >
-        <div className="flex w-full items-center justify-between py-[20px]">
+        <div className="flex h-[66px] w-full items-center justify-between py-[20px]">
           {me ? (
             <button
               type="button"
@@ -70,7 +72,8 @@ const Header: React.FC = () => {
           >
             {currentPath.includes('signin') ||
             currentPath.includes('signup') ||
-            currentPath.includes('mypage') ? null : (
+            currentPath.includes('mypage') ||
+            currentPath.includes('compare') ? null : (
               <SearchInput
                 value={searchKeyword}
                 type="text"
@@ -103,4 +106,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

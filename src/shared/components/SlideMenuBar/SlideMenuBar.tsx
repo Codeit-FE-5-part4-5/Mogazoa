@@ -52,7 +52,7 @@ const SlideMenuBar = ({
       {!isMoreLeft && (
         <button
           type="button"
-          className="absolute left-[10px] top-[134px] animate-bounceRight"
+          className="absolute left-[10px] top-[118px] animate-bounceRight"
         >
           <Image
             src="/arrow.svg"
@@ -98,7 +98,7 @@ const SlideMenuBar = ({
       {!isMoreRight && (
         <button
           type="button"
-          className="absolute right-[10px] top-[134px] animate-bounceRight"
+          className="absolute right-[10px] top-[118px] animate-bounceRight"
         >
           <Image
             src="/arrow.svg"

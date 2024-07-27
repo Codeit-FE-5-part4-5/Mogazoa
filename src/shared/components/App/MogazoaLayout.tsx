@@ -7,11 +7,10 @@ interface MogazoaLayoutProps {
 }
 
 const MogazoaLayout = ({ children }: MogazoaLayoutProps) => {
-  useGetMe();
-
+  const { data } = useGetMe();
   return (
     <>
-      <Header />
+      <Header me={data?.data} />
       {children}
     </>
   );
