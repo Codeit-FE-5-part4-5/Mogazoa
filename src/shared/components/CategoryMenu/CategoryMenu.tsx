@@ -1,4 +1,5 @@
 import { Category } from '@/shared/types/category/category';
+import { memo } from 'react';
 
 interface SlideMenuProps {
   isVisible?: boolean;
@@ -53,4 +54,4 @@ const CategoryMenu = ({
   );
 };
 
-export default CategoryMenu;
+export default memo(CategoryMenu);

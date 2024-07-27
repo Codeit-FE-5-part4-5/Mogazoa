@@ -12,10 +12,10 @@ const Floating = () => {
   }
 
   return (
-    <div className="group fixed bottom-[10%] right-[10%] z-40">
+    <div className="fixed bottom-[10%] right-[10%] z-40">
       <button
         type="button"
-        className="group-hover:animate-bg-gradient gradient-button flex size-[60px] items-center justify-center rounded-[50%] shadow-xl"
+        className="flex size-[60px] items-center justify-center rounded-[50%] shadow-xl gradient-button hover:animate-bg-gradient" // prettier-ignore
         onClick={() => onOpen('itemAdd')}
       >
         <Image src="/plus.svg" alt="플러스 버튼" width={40} height={40} />
