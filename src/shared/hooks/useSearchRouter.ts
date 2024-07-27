@@ -39,6 +39,7 @@ const useSearchRouter = (): {
       clearTimeout(searchTimerId);
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     searchTimerId = setTimeout(() => {
       if (searchKeyword) {
         changeSearchQuery(searchKeyword);

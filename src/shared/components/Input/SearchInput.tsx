@@ -10,6 +10,7 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   searchQuery: string;
+  currentQuery: string;
   initKeyword: () => void;
 }
 
@@ -25,6 +26,7 @@ const openedStyle = {
 const SearchInput = ({
   className,
   searchQuery,
+  currentQuery,
   isOpen,
   setOpen,
   value,
@@ -33,7 +35,7 @@ const SearchInput = ({
 }: SearchInputProps) => {
   useEffect(() => {
     if (!searchQuery) initKeyword();
-  }, [isOpen]);
+  }, [isOpen, currentQuery]);
 
   return (
     <div

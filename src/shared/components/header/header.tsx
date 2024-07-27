@@ -1,13 +1,13 @@
 import React, { memo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import LogoIcon from '@/../../public/images/logo.svg';
-import MenuIcon from '@/../../public/images/menu.svg';
+
 import Portal from '@/Portal';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
+import validateArray from '@/shared/utils/validateArray';
 import { Me } from '@/shared/types/user/user';
 import SearchInput from '../Input/SearchInput';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
@@ -19,7 +19,7 @@ interface HeaderProps {
 const Header = ({ me }: HeaderProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
-  const { currentPath } = useChangeRouter();
+  const { currentPath, currentQuery } = useChangeRouter();
   const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
@@ -48,7 +48,12 @@ const Header = ({ me }: HeaderProps) => {
               onClick={() => setOpenMenu((prev) => !prev)}
               className="flex cursor-pointer items-center space-x-4 md:hidden"
             >
-              <Image src={MenuIcon} alt="MenuIcon" width={24} height={24} />
+              <Image
+                src="/images/menu.svg"
+                alt="MenuIcon"
+                width={24}
+                height={24}
+              />
             </button>
           ) : (
             <Link href="/signin" className="flex h-[42px] md:hidden">
@@ -64,7 +69,12 @@ const Header = ({ me }: HeaderProps) => {
             className={`absolute left-[50%] ${isSearchOpen ? 'hidden' : 'flex'} -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0`}
           >
             <Link href="/">
-              <Image src={LogoIcon} alt="LogoIcon" width={166} height={28} />
+              <Image
+                src="/images/logo.svg"
+                alt="LogoIcon"
+                width={166}
+                height={28}
+              />
             </Link>
           </div>
           <div
@@ -79,6 +89,7 @@ const Header = ({ me }: HeaderProps) => {
                 type="text"
                 onChange={onChangeSearchKeyword}
                 searchQuery={searchQuery}
+                currentQuery={validateArray(currentQuery)}
                 initKeyword={initKeyword}
                 isOpen={isSearchOpen}
                 setOpen={setIsSearchOpen}
