@@ -23,7 +23,8 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gradient-custom': 'linear-gradient(to right, #5097FA, #5363FF)',
+        'gradient-custom':
+          'linear-gradient(to right, #5363FF 0%, #5097FA 50%, #5097FA 100%)',
         'dark-gradient-custom': 'linear-gradient(to right, #2e2e3a, #21212A)',
       },
       colors: {
