@@ -5,7 +5,7 @@ type Variant = 'primary' | 'secondary' | 'tertiary';
 const buttonColorList = {
   primary: {
     button:
-      'bg-gradient-custom hover:bg-gradient-custom-hover hover:animate-gradient',
+      'gradient-button hover:bg-gradient-custom-hover hover:animate-gradient',
     span: 'text-var-white',
   },
   secondary: {
