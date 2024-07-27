@@ -220,8 +220,30 @@
   font-display: swap;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   background: #1c1c22;
+}
+
+body::-webkit-scrollbar {
+  width: 14px;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #1c1c22;
+  border: 1px solid #2e2e3a;
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #2c2c3564;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #5364ff2c;
 }
 
 * {

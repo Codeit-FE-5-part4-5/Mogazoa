@@ -59,7 +59,7 @@ const Home = () => {
           onClick={handleRouterPush}
         />
       </div>
-      <main className="flex justify-center">
+      <div className="flex justify-center">
         <div className="hidden md:flex">
           <CategoryMenu
             categories={categories}
@@ -91,7 +91,7 @@ const Home = () => {
             )}
           </div>
         </div>
-      </main>
+      </div>
     </MogazoaLayout>
   );
 };
