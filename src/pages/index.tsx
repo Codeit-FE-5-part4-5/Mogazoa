@@ -6,7 +6,7 @@ import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
 import useGetCategory from '@/shared/models/category/useGetCategory';
 import sortConverter from '@/shared/utils/sortConverter';
-import validateArray from '@/shared/utils/validateArray';
+import castArray from '@/shared/utils/castArray';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
@@ -55,7 +55,7 @@ const Home = () => {
       <div className="flex border-b border-var-black3 md:hidden">
         <SlideMenuBar
           categories={categories}
-          currentCategory={validateArray(currentQuery.category)}
+          currentCategory={castArray(currentQuery.category)}
           onClick={handleRouterPush}
         />
       </div>
@@ -63,7 +63,7 @@ const Home = () => {
         <div className="hidden md:flex">
           <CategoryMenu
             categories={categories}
-            currentCategoryName={validateArray(currentQuery.category)}
+            currentCategoryName={castArray(currentQuery.category)}
             handleClickCategory={handleRouterPush}
           />
         </div>
@@ -76,7 +76,7 @@ const Home = () => {
                   isLoading={isLoading}
                   products={productsList}
                   searchQuery={searchQuery}
-                  currentCategoryName={validateArray(currentQuery.category)}
+                  currentCategoryName={castArray(currentQuery.category)}
                   changeSortOrder={(order) =>
                     setCurrentSortOrder(sortConverter(order))
                   }

@@ -1,11 +1,13 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import useInput from './useInput';
-import validateArray from '../utils/validateArray';
+import castArray from '../utils/castArray';
 
 const useSearchRouter = (): {
   searchKeyword: string;
-  onChangeSearchKeyword: () => void;
+  onChangeSearchKeyword: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
   initKeyword: () => void;
   searchQuery: string;
 } => {
@@ -13,11 +15,12 @@ const useSearchRouter = (): {
   const currentPath = router.pathname;
   const currentQuery = router.query;
   const { search } = router.query;
-  const [searchKeyword, onChangeSearchKeyword, initKeyword] = useInput('');
+  const [searchKeyword, onChangeSearchKeyword, initKeyword] =
+    useInput<string>('');
 
   let searchTimerId: NodeJS.Timeout;
 
-  const searchQuery = validateArray(search);
+  const searchQuery = castArray(search);
 
   const changeSearchQuery = (currentValue: string) => {
     if (!currentValue) {

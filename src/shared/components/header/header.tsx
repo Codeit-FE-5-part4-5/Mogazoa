@@ -7,7 +7,7 @@ import useAnimation from '@/shared/hooks/useAnimation';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
-import validateArray from '@/shared/utils/validateArray';
+import castArray from '@/shared/utils/castArray';
 import { Me } from '@/shared/types/user/user';
 import SearchInput from '../Input/SearchInput';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
@@ -89,7 +89,7 @@ const Header = ({ me }: HeaderProps) => {
                 type="text"
                 onChange={onChangeSearchKeyword}
                 searchQuery={searchQuery}
-                currentQuery={validateArray(currentQuery)}
+                currentQuery={castArray(currentQuery)}
                 initKeyword={initKeyword}
                 isOpen={isSearchOpen}
                 setOpen={setIsSearchOpen}
