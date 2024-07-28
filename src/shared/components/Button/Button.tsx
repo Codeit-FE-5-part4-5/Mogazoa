@@ -54,7 +54,7 @@ const Button = ({
       {...props}
     >
       {isPending ? (
-        <Spinner isLoading />
+        <Spinner isLoading size={20} />
       ) : (
         <span className={`${buttonColorList[variants].span}`}>{text}</span>
       )}

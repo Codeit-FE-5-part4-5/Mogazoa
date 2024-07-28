@@ -1,10 +1,13 @@
 import useModal from '@/shared/store/use-modal-store';
-import { useQueryClient } from '@tanstack/react-query';
+import { Me } from '@/shared/types/user/user';
 import Image from 'next/image';
+import { memo } from 'react';
 
-const Floating = () => {
-  const queryClient = useQueryClient();
-  const me = queryClient.getQueryData(['me']);
+interface FloatingProps {
+  me: Me;
+}
+
+const Floating = ({ me }: FloatingProps) => {
   const { onOpen } = useModal();
 
   if (!me) {
@@ -24,4 +27,4 @@ const Floating = () => {
   );
 };
 
-export default Floating;
+export default memo(Floating);
