@@ -76,8 +76,6 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
       newImages[index] = { source: image };
     }
 
-    console.log('New Images Array:', newImages); // 상태 변경 후 로그 출력
-
     if (newImages.length < 3 && newImages.every((img) => img.source !== null)) {
       newImages.push({ source: null });
     }
