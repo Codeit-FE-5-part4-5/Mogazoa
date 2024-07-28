@@ -22,7 +22,7 @@ const ProductCard = ({
   return (
     <Link href={`/detail/${id}`}>
       <div className="group cursor-pointer rounded-[8px] border border-[#353542] bg-[#252530] px-[10px] py-[10px] transition-all duration-300 hover:border-gradient-custom md:py-[20px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
-        <div className="relative h-[98px] overflow-hidden md:h-[160px] xl:h-[200px]">
+        <div className="relative h-[98px] overflow-hidden rounded-[8px] md:h-[160px] xl:h-[200px]">
           <Image
             fill
             src={image}

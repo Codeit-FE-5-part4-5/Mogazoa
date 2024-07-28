@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import {
   Dispatch,
@@ -44,12 +45,19 @@ const SearchInput = ({
     >
       <div
         onClick={(e) => (isOpen ? e.stopPropagation() : null)}
-        className={`${className || ''} ${isOpen ? openedStyle.inner : closedStyle.inner} flex h-[42px] flex-col items-start justify-center gap-[10px] rounded-[28px] border border-var-black3 bg-[#252530] p-[16px_20px] text-var-gray2 placeholder-var-gray1 outline-none transition-all duration-300 group-hover:bg-[#17171C] group-hover:border-gradient-custom`}
+        className={cn(
+          'flex h-[42px] flex-col items-start justify-center gap-[10px] rounded-[28px] border border-var-black3 bg-[#252530] p-[16px_20px] text-var-gray2 placeholder-var-gray1 outline-none transition-all duration-300 group-hover:bg-[#17171C] group-hover:border-gradient-custom',
+          isOpen ? openedStyle.inner : closedStyle.inner,
+          className,
+        )}
       >
         <input
           value={value}
           onKeyDown={(e) => e.key === 'Escape' && initKeyword()}
-          className={`${isOpen ? openedStyle.input : closedStyle.input} bg-[#17171C] outline-none`}
+          className={cn(
+            'bg-[#17171c] outline-none',
+            isOpen ? openedStyle.input : closedStyle.input,
+          )}
           {...props}
         />
       </div>

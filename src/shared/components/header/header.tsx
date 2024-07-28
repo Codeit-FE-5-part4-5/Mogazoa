@@ -1,6 +1,7 @@
 import React, { memo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 import Portal from '@/Portal';
 import useAnimation from '@/shared/hooks/useAnimation';
@@ -66,7 +67,10 @@ const Header = ({ me }: HeaderProps) => {
             </Link>
           )}
           <div
-            className={`absolute left-[50%] ${isSearchOpen ? 'hidden' : 'flex'} -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0`}
+            className={cn(
+              'absolute left-[50%] -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0',
+              isSearchOpen ? 'hidden' : 'flex',
+            )}
           >
             <Link href="/">
               <Image
@@ -78,7 +82,10 @@ const Header = ({ me }: HeaderProps) => {
             </Link>
           </div>
           <div
-            className={`${isSearchOpen && 'flex-1'} flex justify-end gap-[30px] xl:gap-[60px]`}
+            className={cn(
+              'flex justify-end gap-[30px] xl:gap-[60px]',
+              isSearchOpen && 'flex-1',
+            )}
           >
             {currentPath.includes('signin') ||
             currentPath.includes('signup') ||

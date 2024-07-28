@@ -15,7 +15,7 @@ const GlobalErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   };
 
   return (
-    <div>
+    <div className="">
       <h2 className="text-[16px] text-var-red">{result.code}</h2>
       <h2 className="text-[16px] text-var-red">{result.message}</h2>
       <div>

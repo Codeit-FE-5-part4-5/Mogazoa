@@ -53,6 +53,7 @@ const Button = ({
       className={cn(
         'group w-full rounded-[8px] py-[16px] text-[16px] font-bold transition-all duration-300 md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px]',
         buttonColorList[variants].button,
+        className,
       )}
       disabled={disabled || isPending}
       {...props}

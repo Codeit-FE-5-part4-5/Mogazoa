@@ -48,7 +48,7 @@ const Home = () => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, products, fetchNextPage]);
+  }, [inView, hasNextPage, products]);
 
   return (
     <MogazoaLayout>
