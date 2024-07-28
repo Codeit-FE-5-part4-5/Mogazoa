@@ -166,7 +166,7 @@ const ReviewModal = () => {
             <Button
               text="작성하기"
               onClick={handleSave}
-              disabled={isSubmitting}
+              isPending={isSubmitting}
               className={isSubmitting ? 'opacity-80' : ''}
             />
           </DialogDescription>

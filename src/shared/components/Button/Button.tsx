@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, memo } from 'react';
+import { cn } from '@/lib/utils';
 import Spinner from '../Spinner/Spinner';
 
 type Variant = 'primary' | 'secondary' | 'tertiary';
@@ -49,14 +50,17 @@ const Button = ({
   return (
     <button
       type="button"
-      className={`${className || ''} group w-full rounded-[8px] py-[16px] text-[16px] font-bold transition-all duration-300 md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px] ${buttonColorList[variants].button}`}
+      className={cn(
+        'group w-full rounded-[8px] py-[16px] text-[16px] font-bold transition-all duration-300 md:py-[22px] md:text-[16px] xl:py-[22px] xl:text-[18px]',
+        buttonColorList[variants].button,
+      )}
       disabled={disabled || isPending}
       {...props}
     >
       {isPending ? (
         <Spinner isLoading size={20} />
       ) : (
-        <span className={`${buttonColorList[variants].span}`}>{text}</span>
+        <span className={cn(buttonColorList[variants].span)}>{text}</span>
       )}
     </button>
   );

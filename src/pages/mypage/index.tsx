@@ -1,5 +1,4 @@
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
-import Floating from '@/shared/components/Floating/Floating';
 import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
@@ -191,9 +190,6 @@ const MyPage = () => {
             <div ref={ref} />
           </div>
         </div>
-      </div>
-      <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
-        <Floating />
       </div>
     </MogazoaLayout>
   );

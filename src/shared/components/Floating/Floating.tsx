@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { memo } from 'react';
 
 interface FloatingProps {
-  me: Me;
+  me?: Me;
 }
 
 const Floating = ({ me }: FloatingProps) => {
