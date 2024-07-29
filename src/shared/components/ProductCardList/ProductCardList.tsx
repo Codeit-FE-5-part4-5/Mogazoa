@@ -28,7 +28,7 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
           />
         </div>
         <p className="text-center text-lg font-normal leading-normal text-[#6E6E82]">
-          해당하는 상품이 없습니다
+          첫번째 상품을 등록해보세요!
         </p>
       </div>
     );
