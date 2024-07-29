@@ -15,7 +15,6 @@ import RankingList from '@/shared/components/RankingList/RankingList';
 import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 import useIntersect from '@/shared/hooks/useIntersect';
-import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();

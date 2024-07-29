@@ -14,7 +14,7 @@ import SearchInput from '../Input/SearchInput';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 
 interface HeaderProps {
-  me: Me;
+  me?: Me;
 }
 
 const Header = ({ me }: HeaderProps) => {

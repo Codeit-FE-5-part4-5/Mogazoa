@@ -1,21 +1,12 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CookiesProvider } from 'react-cookie';
 import type { AppProps } from 'next/app';
-import '@/styles/globals.css';
 import GlobalBoundary from '@/shared/components/Boundary/GlobalBoundary';
 import { Toaster } from '@/components/ui/toaster';
 import ModalProvider from '@/shared/providers/modal-provider';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: false,
-      throwOnError: true,
-    },
-  },
-});
+import queryClient from '@/shared/providers/query-client-provider';
+import '@/styles/globals.css';
 
 declare global {
   interface Window {

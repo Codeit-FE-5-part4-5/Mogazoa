@@ -173,7 +173,12 @@ module.exports = {
         },
         '.gradient-button': {
           background:
-            'linear-gradient(to right, #5363FF 0%, #5097FA 25%, #5097FA 50%, #5363FF 75%, #5097FA 100%)',
+            'linear-gradient(to right, #5097FA 0%, #5363FF 25%, #5363FF 50%, #5097FA 75%, #5363FF 100%)',
+          backgroundSize: '400%',
+        },
+        '.disabled-gradient': {
+          background:
+            'linear-gradient(to right, #9FA6B2 0%, #6E6E82 25%, #6E6E82 50%, #9FA6B2 75%, #6E6E82 100%)',
           backgroundSize: '400%',
         },
         '.no-scrollbar::-webkit-scrollbar': {
