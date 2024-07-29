@@ -11,7 +11,6 @@ export default function useProduct({
     queryKey: [productId],
     queryFn: async () => {
       const { data } = await axios.get(`products/${productId}`);
-
       return data;
     },
     enabled: !!productId,

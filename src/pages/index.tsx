@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
@@ -11,10 +11,11 @@ import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
-import { useInView } from 'react-intersection-observer';
 import RankingList from '@/shared/components/RankingList/RankingList';
 import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
+import useIntersect from '@/shared/hooks/useIntersect';
+import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();
@@ -22,7 +23,6 @@ const Home = () => {
   const [currentSortOrder, setCurrentSortOrder] = useState(
     sortConverter(ORDER_VARIANTS[0]),
   );
-  const [ref, inView] = useInView();
   // 카테고리 상품
   const { data: categories } = useGetCategory();
   const {
@@ -30,11 +30,15 @@ const Home = () => {
     hasNextPage,
     data: products,
     isLoading,
-    isSuccess,
   } = useGetInfiniteProducts({
     categoryId: Number(currentQuery.categoryId),
     order: currentSortOrder,
     keyword: searchQuery,
+  });
+  const ref = useIntersect<HTMLDivElement>(() => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
   });
   const productsList = products?.pages.flatMap((page) => page.list) || [];
   // TOP 6 정렬 상품
@@ -43,12 +47,6 @@ const Home = () => {
   // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, products]);
 
   return (
     <MogazoaLayout>
@@ -81,7 +79,7 @@ const Home = () => {
                     setCurrentSortOrder(sortConverter(order))
                   }
                 />
-                {isSuccess && <div ref={ref} />}
+                {productsList && <div className="h-[50px] w-full" ref={ref} />}
               </>
             ) : (
               <SortedProductList
