@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import Button from '@/shared/components/Button/Button';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
-import validateArray from '@/shared/utils/validateArray';
+import castArray from '@/shared/utils/castArray';
 import { useForm } from 'react-hook-form';
 import { IAuthForm } from '@/pages/signup';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
-import accessGoogle from '@/shared/utils/accessGoogle';
+import signUpGoogle from '@/shared/utils/signUpGoogle';
 import OAuthSignUp, { oAuthSchema } from '../..';
 
 const GoogleAuth = () => {
@@ -23,14 +23,14 @@ const GoogleAuth = () => {
   });
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
-    accessGoogle(data.nickname);
+    signUpGoogle(data.nickname);
   };
 
   useEffect(() => {
     if (errorCode && errorMessage) {
       setError('nickname', {
         type: 'validateError',
-        message: validateArray(errorMessage),
+        message: castArray(errorMessage),
       });
     }
   }, [errorCode, errorMessage, setError]);

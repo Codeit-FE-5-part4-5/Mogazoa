@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { FollowerRanking } from '@/shared/types/follow/followers/followers-type';
 import RankingCard from '../RankingCard/RankingCard';
 
@@ -39,4 +40,4 @@ const RankingList = ({ rankingData }: Prop) => {
   );
 };
 
-export default RankingList;
+export default memo(RankingList);

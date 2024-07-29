@@ -1,14 +1,12 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-type PortalTypes = 'sideBar' | 'floating';
-
 const Portal = ({
   children,
   portalName,
 }: {
   children: ReactElement;
-  portalName: PortalTypes;
+  portalName: string;
 }) => {
   const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
 

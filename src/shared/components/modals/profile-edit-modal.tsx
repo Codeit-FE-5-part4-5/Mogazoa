@@ -143,7 +143,7 @@ const ProfileEditModal = () => {
             text="저장하기"
             onClick={handleSaveButton}
             type="submit"
-            disabled={isUpdatePending}
+            isPending={isUpdatePending}
           />
         </div>
       </DialogContent>

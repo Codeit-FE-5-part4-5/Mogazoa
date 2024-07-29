@@ -1,6 +1,4 @@
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
-import Floating from '@/shared/components/Floating/Floating';
-import Header from '@/shared/components/header/header';
 import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
 import useGetMe from '@/shared/models/auth/useGetMe';
 import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
@@ -11,6 +9,7 @@ import ProductCardList from '@/shared/components/ProductCardList/ProductCardList
 import { ChevronDown } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import Spinner from '@/shared/components/Spinner/Spinner';
+import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 
 const MyPage = () => {
   const [ref, inView] = useInView();
@@ -96,8 +95,7 @@ const MyPage = () => {
   ]);
 
   return (
-    <div>
-      <Header />
+    <MogazoaLayout>
       <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
           <MyProfileCard user={user?.data} />
@@ -193,10 +191,7 @@ const MyPage = () => {
           </div>
         </div>
       </div>
-      <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
-        <Floating />
-      </div>
-    </div>
+    </MogazoaLayout>
   );
 };
 

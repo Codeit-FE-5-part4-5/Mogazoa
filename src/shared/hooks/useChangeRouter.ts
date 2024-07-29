@@ -21,7 +21,7 @@ const useChangeRouter = (): {
         });
       }
     },
-    [currentPath],
+    [currentPath, router],
   );
 
   const handleRedirect = useCallback(

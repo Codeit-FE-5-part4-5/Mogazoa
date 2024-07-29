@@ -1,3 +1,4 @@
+import fixedNumber from '@/shared/utils/fixedNumber';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -20,8 +21,8 @@ const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <Link href={`/detail/${id}`}>
-      <div className="group cursor-pointer rounded-[8px] border border-[#353542] bg-[#252530] px-[10px] py-[10px] hover:border-gradient-custom md:py-[20px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
-        <div className="relative h-[98px] overflow-hidden md:h-[160px] xl:h-[200px]">
+      <div className="group cursor-pointer rounded-[8px] border border-[#353542] bg-[#252530] px-[10px] py-[10px] transition-all duration-300 hover:border-gradient-custom md:py-[20px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
+        <div className="relative h-[98px] overflow-hidden rounded-[8px] md:h-[160px] xl:h-[200px]">
           <Image
             fill
             src={image}
@@ -39,13 +40,11 @@ const ProductCard = ({
               <li>찜 {favoriteCount}</li>
             </ul>
             <div className="flex items-center gap-[2px]">
-              <img
-                src="/images/star.svg"
-                alt=""
-                className="h-[12px] md:h-[16px]"
-              />
+              <div className="relative size-[12px] md:size-[16px]">
+                <Image src="/images/star.svg" alt="별점" fill />
+              </div>
               <span className="text-[12px] text-var-gray2 md:text-[14px] xl:text-[16px]">
-                {rating}
+                {fixedNumber(rating)}
               </span>
             </div>
           </div>

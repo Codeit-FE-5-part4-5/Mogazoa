@@ -3,7 +3,6 @@ import { useParams } from 'next/navigation';
 
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
 import Floating from '@/shared/components/Floating/Floating';
-import Header from '@/shared/components/header/header';
 import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
 import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
 
@@ -16,6 +15,7 @@ import useUserProfile from '@/shared/models/user/profile/useUserProfile';
 import { ChevronDown } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import Spinner from '@/shared/components/Spinner/Spinner';
+import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 
 const UserProfile = () => {
   const [ref, inView] = useInView();
@@ -107,8 +107,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div>
-      <Header />
+    <MogazoaLayout>
       <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
           <ProfileCard user={user?.data} />
@@ -207,7 +206,7 @@ const UserProfile = () => {
       <div className="fixed" style={{ bottom: '10%', right: '10%' }}>
         <Floating />
       </div>
-    </div>
+    </MogazoaLayout>
   );
 };
 

@@ -9,9 +9,9 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Rating } from 'react-simple-star-rating';
 import useModal from '@/shared/store/use-modal-store';
+import ImageInput from '../Input/ImageInput';
 import Button from '../Button/Button';
 import TextAreaInput from '../Input/TextAreaInput';
-import ImageInput from '../Input/ImageInput';
 import useEditReview from '../../models/reviews/useEditReview';
 
 interface EditImage {
@@ -31,25 +31,19 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
 
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState<string>('');
-  const [images, setImages] = useState<EditImage[]>(initialImages || []);
+  const [images, setImages] = useState<EditImage[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isPending, setIsPending] = useState<boolean>(false);
   const [mutateError, setMutateError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (initialRating) {
-      setRating(initialRating);
-    }
+    setRating(initialRating || 0);
+    setReview(initialReviewContent || '');
+    setImages(initialImages && initialImages.length > 0 ? initialImages : []);
 
-    if (initialReviewContent) {
-      setReview(initialReviewContent);
+    if ((initialImages?.length ?? 0) < 3) {
+      setImages((prevImages) => [...prevImages, { source: null }]);
     }
-
-    setImages(
-      initialImages && initialImages.length > 0
-        ? initialImages
-        : [{ source: null }],
-    );
   }, [initialRating, initialReviewContent, initialImages]);
 
   const handleRating = (rate: number) => {
@@ -78,13 +72,10 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
 
     if (image === null) {
       newImages.splice(index, 1);
-    } else if (index < newImages.length) {
-      newImages[index] = { source: image };
     } else {
-      newImages.push({ source: image });
+      newImages[index] = { source: image };
     }
 
-    // 빈 이미지 슬롯 추가
     if (newImages.length < 3 && newImages.every((img) => img.source !== null)) {
       newImages.push({ source: null });
     }
@@ -95,7 +86,6 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
 
     setImages(newImages);
   };
-
   const formatImagesForServer = () => {
     return images
       .filter((img) => img.source !== null)
@@ -184,19 +174,7 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
                   />
                 </div>
               ))}
-              {images.length < 3 &&
-                images.every((img) => img.source !== null) && (
-                  <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                    <ImageInput
-                      initialImageUrl={null}
-                      onChange={(newImage: string | null) =>
-                        handleImageChange(images.length, newImage)
-                      }
-                    />
-                  </div>
-                )}
             </div>
-
             {mutateError && <p className="text-red-500">{mutateError}</p>}
             <Button
               className={isPending ? 'opacity-80' : ''}

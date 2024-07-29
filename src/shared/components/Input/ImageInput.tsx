@@ -58,10 +58,8 @@ const ImageInput: React.FC<ImageInputProps> = ({
     <div className="relative h-full w-full rounded-lg border-[2px] border-var-black3 p-2 hover:border-var-indigo">
       {!imageUrl ? (
         <div className="flex h-full w-full items-center justify-center">
-          <label
-            htmlFor="imageInput"
-            className="flex cursor-pointer items-center"
-          >
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+          <label className="flex cursor-pointer items-center">
             <Image src="/images/file.png" width={50} height={50} alt="file" />
             <input
               id="imageInput"
@@ -93,7 +91,8 @@ const ImageInput: React.FC<ImageInputProps> = ({
             src={imageUrl}
             alt="Preview"
             className="h-full w-full rounded-lg object-cover"
-            fill
+            width={100000}
+            height={100000}
           />
         </div>
       )}

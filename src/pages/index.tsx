@@ -6,14 +6,15 @@ import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
 import useGetCategory from '@/shared/models/category/useGetCategory';
 import sortConverter from '@/shared/utils/sortConverter';
-import validateArray from '@/shared/utils/validateArray';
+import castArray from '@/shared/utils/castArray';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
 import { useInView } from 'react-intersection-observer';
-import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 import RankingList from '@/shared/components/RankingList/RankingList';
+import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
+import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();
@@ -22,6 +23,7 @@ const Home = () => {
     sortConverter(ORDER_VARIANTS[0]),
   );
   const [ref, inView] = useInView();
+  // 카테고리 상품
   const { data: categories } = useGetCategory();
   const {
     fetchNextPage,
@@ -35,8 +37,10 @@ const Home = () => {
     keyword: searchQuery,
   });
   const productsList = products?.pages.flatMap((page) => page.list) || [];
-
-  // 랭킹
+  // TOP 6 정렬 상품
+  const { data: sortedProducts, isPending: isLoadingSortedProducts } =
+    useGetSortedProducts();
+  // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
 
@@ -44,22 +48,22 @@ const Home = () => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, products, fetchNextPage]);
+  }, [inView, hasNextPage, products]);
 
   return (
     <MogazoaLayout>
       <div className="flex border-b border-var-black3 md:hidden">
         <SlideMenuBar
           categories={categories}
-          currentCategory={validateArray(currentQuery.category)}
+          currentCategory={castArray(currentQuery.category)}
           onClick={handleRouterPush}
         />
       </div>
-      <main className="flex justify-center">
+      <div className="flex justify-center">
         <div className="hidden md:flex">
           <CategoryMenu
             categories={categories}
-            currentCategoryName={validateArray(currentQuery.category)}
+            currentCategoryName={castArray(currentQuery.category)}
             handleClickCategory={handleRouterPush}
           />
         </div>
@@ -72,7 +76,7 @@ const Home = () => {
                   isLoading={isLoading}
                   products={productsList}
                   searchQuery={searchQuery}
-                  currentCategoryName={validateArray(currentQuery.category)}
+                  currentCategoryName={castArray(currentQuery.category)}
                   changeSortOrder={(order) =>
                     setCurrentSortOrder(sortConverter(order))
                   }
@@ -80,15 +84,14 @@ const Home = () => {
                 {isSuccess && <div ref={ref} />}
               </>
             ) : (
-              <>
-                <SortedProductList sortBy="reviewCount" />
-                <SortedProductList sortBy="rating" />
-                <SortedProductList sortBy="recent" />
-              </>
+              <SortedProductList
+                sortedProducts={sortedProducts}
+                isPending={isLoadingSortedProducts}
+              />
             )}
           </div>
         </div>
-      </main>
+      </div>
     </MogazoaLayout>
   );
 };

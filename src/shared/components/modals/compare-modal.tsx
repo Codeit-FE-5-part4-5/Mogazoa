@@ -7,9 +7,9 @@ import {
 } from '@/components/ui/dialog';
 
 import useModal from '@/shared/store/use-modal-store';
-import { Button } from '@/components/ui/button';
 import { ProductDetail } from '@/shared/types/product/productDetail';
 import { useEffect, useState } from 'react';
+import Button from '../Button/Button';
 
 interface Props {
   ProductDetailData: ProductDetail;

@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useQueryClient } from '@tanstack/react-query';
-import LogoIcon from '@/../../public/images/logo.svg';
-import MenuIcon from '@/../../public/images/menu.svg';
+import { cn } from '@/lib/utils';
+
 import Portal from '@/Portal';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
+import castArray from '@/shared/utils/castArray';
+import { Me } from '@/shared/types/user/user';
 import SearchInput from '../Input/SearchInput';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 
-const Header: React.FC = () => {
-  const queryClient = useQueryClient();
-  const me = queryClient.getQueryData(['me']);
+interface HeaderProps {
+  me: Me;
+}
+
+const Header = ({ me }: HeaderProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
-  const { currentPath } = useChangeRouter();
+  const { currentPath, currentQuery } = useChangeRouter();
   const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
@@ -39,14 +42,19 @@ const Header: React.FC = () => {
         ref={searchBarRef}
         className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:border-b md:border-var-black3 md:px-[30px] xl:px-[120px]"
       >
-        <div className="flex w-full items-center justify-between py-[20px]">
+        <div className="flex h-[66px] w-full items-center justify-between py-[20px]">
           {me ? (
             <button
               type="button"
               onClick={() => setOpenMenu((prev) => !prev)}
               className="flex cursor-pointer items-center space-x-4 md:hidden"
             >
-              <Image src={MenuIcon} alt="MenuIcon" width={24} height={24} />
+              <Image
+                src="/images/menu.svg"
+                alt="MenuIcon"
+                width={24}
+                height={24}
+              />
             </button>
           ) : (
             <Link href="/signin" className="flex h-[42px] md:hidden">
@@ -59,22 +67,36 @@ const Header: React.FC = () => {
             </Link>
           )}
           <div
-            className={`absolute left-[50%] ${isSearchOpen ? 'hidden' : 'flex'} -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0`}
+            className={cn(
+              'absolute left-[50%] -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0',
+              isSearchOpen ? 'hidden' : 'flex',
+            )}
           >
             <Link href="/">
-              <Image src={LogoIcon} alt="LogoIcon" width={166} height={28} />
+              <Image
+                src="/images/logo.svg"
+                alt="LogoIcon"
+                width={166}
+                height={28}
+              />
             </Link>
           </div>
           <div
-            className={`${isSearchOpen && 'flex-1'} flex justify-end gap-[30px] xl:gap-[60px]`}
+            className={cn(
+              'flex justify-end gap-[30px] xl:gap-[60px]',
+              isSearchOpen && 'flex-1',
+            )}
           >
             {currentPath.includes('signin') ||
-            currentPath.includes('signup') ? null : (
+            currentPath.includes('signup') ||
+            currentPath.includes('mypage') ||
+            currentPath.includes('compare') ? null : (
               <SearchInput
                 value={searchKeyword}
                 type="text"
                 onChange={onChangeSearchKeyword}
                 searchQuery={searchQuery}
+                currentQuery={castArray(currentQuery)}
                 initKeyword={initKeyword}
                 isOpen={isSearchOpen}
                 setOpen={setIsSearchOpen}
@@ -102,4 +124,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

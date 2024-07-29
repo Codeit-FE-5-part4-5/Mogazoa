@@ -4,8 +4,6 @@ import { CookiesProvider } from 'react-cookie';
 import type { AppProps } from 'next/app';
 import '@/styles/globals.css';
 import GlobalBoundary from '@/shared/components/Boundary/GlobalBoundary';
-import Portal from '@/Portal';
-import Floating from '@/shared/components/Floating/Floating';
 import { Toaster } from '@/components/ui/toaster';
 import ModalProvider from '@/shared/providers/modal-provider';
 
@@ -34,9 +32,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Toaster />
         <GlobalBoundary>
           <Component {...pageProps} />
-          <Portal portalName="floating">
-            <Floating />
-          </Portal>
         </GlobalBoundary>
         <ReactQueryDevtools initialIsOpen={false} />
       </CookiesProvider>
