@@ -1,7 +1,6 @@
 import ProductDetailCard from '@/shared/components/ProductDetailCard/ProductDetailCard';
 import ProductDetailReview from '@/shared/components/ProductDetailReview/ProductDetailReview';
 import StatisticsCard from '@/shared/components/StatisticsCard/StatisticsCard';
-import Header from '@/shared/components/header/header';
 import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
 import useGetProductDetailReviews from '@/shared/models/reviews/useGetProductReview';
 import { useRouter } from 'next/router';
@@ -11,6 +10,7 @@ import { useState, useEffect } from 'react';
 import Floating from '@/shared/components/Floating/Floating';
 import useModal from '@/shared/store/use-modal-store';
 import { useInView } from 'react-intersection-observer';
+import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -80,8 +80,7 @@ const ProductDetails = () => {
   };
 
   return (
-    <>
-      <Header />
+    <MogazoaLayout>
       <div className="px-[20px] xl:container md:px-[30px] md:pt-[20px] xl:mx-auto">
         <div className="mb-[60px]">
           <ProductDetailCard
@@ -212,7 +211,7 @@ const ProductDetails = () => {
       >
         <Floating />
       </div>
-    </>
+    </MogazoaLayout>
   );
 };
 

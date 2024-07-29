@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Button from '@/shared/components/Button/Button';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
-import validateArray from '@/shared/utils/validateArray';
+import castArray from '@/shared/utils/castArray';
 import { useForm } from 'react-hook-form';
 import { IAuthForm } from '@/pages/signup';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,7 +30,7 @@ const GoogleAuth = () => {
     if (errorCode && errorMessage) {
       setError('nickname', {
         type: 'validateError',
-        message: validateArray(errorMessage),
+        message: castArray(errorMessage),
       });
     }
   }, [errorCode, errorMessage, setError]);

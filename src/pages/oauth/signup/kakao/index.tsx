@@ -6,7 +6,7 @@ import { IAuthForm } from '@/pages/signup';
 import accessKakao from '@/shared/utils/accessKakao';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import validateArray from '@/shared/utils/validateArray';
+import castArray from '@/shared/utils/castArray';
 import OAuthSignUp, { oAuthSchema } from '../..';
 
 const KakaoAuth = () => {
@@ -30,7 +30,7 @@ const KakaoAuth = () => {
     if (errorCode && errorMessage) {
       setError('nickname', {
         type: 'validateError',
-        message: validateArray(errorMessage),
+        message: castArray(errorMessage),
       });
     }
   }, [errorCode, errorMessage, setError]);

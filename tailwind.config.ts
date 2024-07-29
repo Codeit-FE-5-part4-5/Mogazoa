@@ -23,8 +23,8 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gradient-custom': 'linear-gradient(to right, #5097FA, #5363FF)',
-        'gradient-custom-hover': 'linear-gradient(to right, #5363FF,#5097FA)',
+        'gradient-custom':
+          'linear-gradient(to right, #5363FF 0%, #5097FA 50%, #5097FA 100%)',
         'dark-gradient-custom': 'linear-gradient(to right, #2e2e3a, #21212A)',
       },
       colors: {
@@ -73,10 +73,6 @@ module.exports = {
         'var-green': '#05D58B',
         'var-pink': '#FF2F9F',
         'var-red': '#FF0000',
-        'gradient-start': '#FF7E5F',
-        'gradient-end': '#FF6F61',
-        'gradient-hover-start': '#FF6F61',
-        'gradient-hover-end': '#FF7E5F',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -135,9 +131,8 @@ module.exports = {
           },
         },
         gradient: {
-          '0%': { backgroundPosition: '0% 0%' },
-          '50%': { backgroundPosition: '100% 100%' },
-          '100%': { backgroundPosition: '0% 0%' },
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '100%' },
         },
       },
       animation: {
@@ -153,7 +148,8 @@ module.exports = {
         fadeOut: 'fadeOut 0.3s ease-in-out forwards',
         spin: 'spin 2s linear infinite',
         bounceRight: 'bounceRight 1s infinite',
-        gradient: 'gradient 3s ease infinite',
+        'bg-gradient': 'gradient 1s ease forwards',
+        'border-gradient': 'gradient 1s ease forwards',
       },
     },
   },
@@ -172,7 +168,13 @@ module.exports = {
           backgroundOrigin: 'border-box',
           backgroundClip: 'padding-box, border-box',
           backgroundImage:
-            'linear-gradient(#17171C, #17171C), linear-gradient(to right, #5097FA, #5363FF)',
+            'linear-gradient(#17171C, #17171C), linear-gradient(to right, #5363FF 0%, #5097FA 25%, #5097FA 50%, #5363FF 75%, #5097FA 100%)',
+          backgroundSize: '400%',
+        },
+        '.gradient-button': {
+          background:
+            'linear-gradient(to right, #5363FF 0%, #5097FA 25%, #5097FA 50%, #5363FF 75%, #5097FA 100%)',
+          backgroundSize: '400%',
         },
         '.no-scrollbar::-webkit-scrollbar': {
           display: 'none',

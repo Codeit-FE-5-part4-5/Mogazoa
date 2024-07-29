@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import Image from 'next/image';
@@ -22,7 +23,11 @@ const ItemList = ({
   return (
     <div
       onAnimationEnd={handleAnimationEnd}
-      className={`absolute left-0 z-10 ${isOrder ? 'top-[44px]' : 'top-[76px]'} flex w-full ${animationTrigger ? 'animate-slideDown' : 'animate-slideUp'} flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg`}
+      className={cn(
+        'absolute left-0 z-10 flex w-full flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg',
+        isOrder ? 'top-[44px]' : 'top-[76px]',
+        animationTrigger ? 'animate-slideDown' : 'animate-slideUp',
+      )}
     >
       {itemList.map((item) => (
         <div
@@ -63,13 +68,23 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
     <div
       ref={ref}
       onClick={() => setShowMenuList((prev) => !prev)}
-      className={`${showMenuList ? 'border-gradient-custom' : 'border-var-black3'} ${isOrder && 'border-var-black2 py-[6px]'} relative w-full cursor-pointer items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] hover:border-gradient-custom md:${!isOrder && 'py-[19px]'} select-none transition-all duration-300 xl:${!isOrder && 'py-[22px]'} group xl:text-[16px]`}
+      className={cn(
+        'group relative w-full cursor-pointer select-none items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] transition-all duration-300 hover:border-gradient-custom xl:text-[16px]',
+        isOrder ? 'border-var-black2 py-[6px]' : 'md:py-[19px] xl:py-[22px]',
+        showMenuList ? 'border-gradient-custom' : 'border-var-black3',
+      )}
     >
       <div className="flex items-center justify-between py-[2px]">
         <input
           value={selectMenu}
           readOnly
-          className={`cursor-pointer ${showMenuList ? 'bg-var-black1 text-var-gray2' : 'bg-var-black2 text-var-gray1'} ${isOrder && 'bg-[#1c1c22]'} w-full outline-none group-hover:bg-[#17171C]`}
+          className={cn(
+            'w-full cursor-pointer outline-none group-hover:bg-[#17171c]',
+            isOrder && 'bg-[#1c1c22]',
+            showMenuList
+              ? 'bg-var-black1 text-var-gray2'
+              : 'bg-var-black2 text-var-gray1',
+          )}
         />
         <Image
           src="/arrow.svg"

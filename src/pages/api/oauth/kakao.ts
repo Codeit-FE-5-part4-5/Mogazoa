@@ -1,5 +1,5 @@
 import appendErrorToQuery from '@/shared/utils/appendErrorToQuery';
-import validateArray from '@/shared/utils/validateArray';
+import castArray from '@/shared/utils/castArray';
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -32,9 +32,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   let response;
   try {
     if (!state) {
-      response = await signinRequest(validateArray(code));
+      response = await signinRequest(castArray(code));
     } else {
-      response = await signupRequest(validateArray(code), validateArray(state));
+      response = await signupRequest(castArray(code), castArray(state));
     }
 
     if (response?.status === 200) {

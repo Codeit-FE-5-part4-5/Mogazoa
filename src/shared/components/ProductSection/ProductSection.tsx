@@ -19,15 +19,15 @@ const ProductSection = ({
   isLoading,
 }: ProductSectionProps) => {
   return (
-    <div className="mx-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
+    <div className="mx-[20px] mb-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
       <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-[20px]">
           <p className="mb-[30px]">
             {searchQuery
               ? `${searchQuery}의 검색 결과`
               : `${currentCategoryName}의 모든 상품`}
           </p>
-          <div className="w-[110px]">
+          <div className="w-[110px] flex-shrink-0">
             <DropDown
               isOrder
               itemList={ORDER_VARIANTS}

@@ -1,6 +1,6 @@
 import getGoogleIdToken from '@/shared/models/auth/getGoogleIdToken';
 import appendErrorToQuery from '@/shared/utils/appendErrorToQuery';
-import validateArray from '@/shared/utils/validateArray';
+import castArray from '@/shared/utils/castArray';
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -34,7 +34,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   let response;
   try {
     if (code) {
-      const idTokenResponse = await getGoogleIdToken(validateArray(code));
+      const idTokenResponse = await getGoogleIdToken(castArray(code));
       if (idTokenResponse?.status === 200) {
         idToken = idTokenResponse.data.id_token;
       }
@@ -45,8 +45,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       idToken = req.cookies.idToken;
       response = await signupRequest({
-        nickname: validateArray(nickname),
-        code: validateArray(idToken),
+        nickname: castArray(nickname),
+        code: castArray(idToken),
       });
     }
 

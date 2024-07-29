@@ -13,9 +13,15 @@ export interface Product {
   writerId: number;
 }
 
+export type ProductSortOrder = 'recent' | 'rating' | 'reviewCount';
+
 export interface ItemListResponse {
   list: Product[];
   nextCursor: number;
+}
+
+export interface SortedItemListResponse extends ItemListResponse {
+  sortBy: ProductSortOrder;
 }
 
 export interface CompareUseInfiniteQuery {

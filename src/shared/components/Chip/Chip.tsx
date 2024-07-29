@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import useHexToRgb from '@/shared/hooks/useHexToRgb';
 
 export const CATEGORY_LIST = [
@@ -36,13 +37,16 @@ const Chip = ({ text = '음악', color = '#c5d17c', size = 's' }: ChipProps) => 
   const [r, g, b] = useHexToRgb(color);
   return (
     <div
-      className={`flex w-fit rounded-[6px] py-[4px] ${chipSizeTypeStyle[size].wrapper}`}
+      className={cn(
+        'flex w-fit rounded-[6px] py-[4px]',
+        chipSizeTypeStyle[size].wrapper,
+      )}
       style={{
         backgroundColor: `rgba(${r},${g},${b}, 0.2)`,
         color,
       }}
     >
-      <span className={`${chipSizeTypeStyle[size].text}`}>{text}</span>
+      <span className={cn(chipSizeTypeStyle[size].text)}>{text}</span>
     </div>
   );
 };

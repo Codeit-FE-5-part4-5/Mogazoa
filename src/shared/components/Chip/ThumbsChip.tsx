@@ -1,6 +1,7 @@
 import useLikeReview from '@/shared/models/reviews/useLikeReview';
 import Image from 'next/image';
 import useModal from '@/shared/store/use-modal-store';
+import { cn } from '@/lib/utils';
 
 interface ThumbsChipProps {
   count: number;
@@ -44,7 +45,10 @@ const ThumbsChip = ({
         />
       </div>
       <span
-        className={`text-[12px] md:text-[14px] ${isLikedByMe ? 'text-[#5363FF]' : 'text-var-gray1'}`}
+        className={cn(
+          'text-[12px] md:text-[14px]',
+          isLikedByMe ? 'text-[#5363FF]' : 'text-var-gray1',
+        )}
       >
         {count}
       </span>

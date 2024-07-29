@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import {
   Dispatch,
@@ -10,17 +11,23 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   searchQuery: string;
+  currentQuery: string;
   initKeyword: () => void;
 }
 
-const searchInputClosedStyle =
-  'border border-var-black3 w-[30px] cursor-pointer';
-const searchInputOpenStyle =
-  'w-[90%] md:w-[300px] xl:w-[400px] border-gradient-custom';
+const closedStyle = {
+  inner: 'border border-var-black3 w-[30px] cursor-pointer',
+  input: 'hidden',
+};
+const openedStyle = {
+  inner: 'w-[90%] md:w-[300px] xl:w-[400px] border-gradient-custom',
+  input: 'w-[80%]',
+};
 
 const SearchInput = ({
   className,
   searchQuery,
+  currentQuery,
   isOpen,
   setOpen,
   value,
@@ -29,20 +36,31 @@ const SearchInput = ({
 }: SearchInputProps) => {
   useEffect(() => {
     if (!searchQuery) initKeyword();
-  }, [isOpen]);
+  }, [isOpen, currentQuery]);
 
   return (
     <div
       onClick={() => setOpen((prev) => !prev)}
-      className="group relative flex w-full justify-end transition-all md:inline-block md:w-fit"
+      className="group relative flex w-full justify-end transition-all md:block md:w-fit"
     >
-      <input
-        value={value}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.key === 'Escape' && initKeyword()}
-        className={`${className || ''} ${isOpen ? searchInputOpenStyle : searchInputClosedStyle} flex h-[42px] flex-col items-start justify-center gap-[10px] rounded-[28px] border border-var-black3 bg-[#252530] p-[16px_20px] text-var-gray2 placeholder-var-gray1 outline-none transition-all duration-300 group-hover:bg-[#17171C] group-hover:border-gradient-custom`}
-        {...props}
-      />
+      <div
+        onClick={(e) => (isOpen ? e.stopPropagation() : null)}
+        className={cn(
+          'flex h-[42px] flex-col items-start justify-center gap-[10px] rounded-[28px] border border-var-black3 bg-[#252530] p-[16px_20px] text-var-gray2 placeholder-var-gray1 outline-none transition-all duration-300 group-hover:bg-[#17171C] group-hover:border-gradient-custom',
+          isOpen ? openedStyle.inner : closedStyle.inner,
+          className,
+        )}
+      >
+        <input
+          value={value}
+          onKeyDown={(e) => e.key === 'Escape' && initKeyword()}
+          className={cn(
+            'bg-[#17171c] outline-none',
+            isOpen ? openedStyle.input : closedStyle.input,
+          )}
+          {...props}
+        />
+      </div>
       <div className="absolute right-[10px] top-[50%] flex -translate-y-1/2 cursor-pointer items-center gap-[15px]">
         {value && isOpen && (
           <div
