@@ -105,23 +105,24 @@ const ReviewModal = () => {
               <div>
                 <Rating
                   onClick={handleRating}
+                  initialValue={rating}
                   SVGclassName="inline-block"
                   fillIcon={
                     <Image
-                      className="mr-[2px] inline-block xl:mr-[5px]"
-                      src="/images/star.png"
+                      className="mr-[2px] inline-block"
+                      src="/images/star.svg"
                       alt="star"
-                      width={25}
-                      height={25}
+                      width={32}
+                      height={32}
                     />
                   }
                   emptyIcon={
                     <Image
-                      className="xl:mr/[5px] mr-[2px] inline-block"
-                      src="/images/empty-star.png"
+                      className="mr-[2px] inline-block"
+                      src="/images/empty-star.svg"
                       alt="empty-star"
-                      width={25}
-                      height={25}
+                      width={32}
+                      height={32}
                     />
                   }
                 />
