@@ -7,7 +7,6 @@ import cookie from 'cookie';
 import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
 import useGetCategory from '@/shared/models/category/useGetCategory';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
-import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
 
 import sortConverter from '@/shared/utils/sortConverter';
 import castArray from '@/shared/utils/castArray';
@@ -17,11 +16,12 @@ import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import useIntersect from '@/shared/hooks/useIntersect';
 
 import RankingList from '@/shared/components/RankingList/RankingList';
-import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
+import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
+import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const cookieHeader = context.req.headers.cookie || '';
@@ -85,9 +85,7 @@ const Home = () => {
     }
   });
   const productsList = products?.pages.flatMap((page) => page.list) || [];
-  // TOP 6 정렬 상품
-  const { data: sortedProducts, isPending: isLoadingSortedProducts } =
-    useGetSortedProducts();
+
   // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
@@ -126,10 +124,9 @@ const Home = () => {
                 {productsList && <div className="h-[50px] w-full" ref={ref} />}
               </>
             ) : (
-              <SortedProductList
-                sortedProducts={sortedProducts}
-                isPending={isLoadingSortedProducts}
-              />
+              <FetchBoundary variant="productsCard">
+                <SortedProductList />
+              </FetchBoundary>
             )}
           </div>
         </div>

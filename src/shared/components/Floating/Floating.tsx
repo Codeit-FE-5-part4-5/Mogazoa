@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils';
+import useGetMe from '@/shared/models/auth/useGetMe';
 import useModal from '@/shared/store/use-modal-store';
-import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 
 const Floating = () => {
   const { onOpen } = useModal();
-  const me = useQueryClient().getQueryData(['me']);
+  const { data: me } = useGetMe();
 
   const handleClickFloating = () => {
     if (me) {

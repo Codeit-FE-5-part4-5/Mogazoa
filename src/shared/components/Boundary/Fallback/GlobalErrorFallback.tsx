@@ -14,6 +14,11 @@ const GlobalErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
     code: error?.response?.status ?? '',
   };
 
+  if (!result.code) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }
+
   const handleRedirectPage = () => {
     resetErrorBoundary();
     reset();
