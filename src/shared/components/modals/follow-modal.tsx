@@ -29,8 +29,8 @@ const FollowModal = () => {
 
   let userId: number | undefined;
 
-  if (path === '/mypage' && user && user.data) {
-    userId = user.data.id;
+  if (path === '/mypage' && user) {
+    userId = user.id;
   } else if (router.query.userId) {
     userId = Number(router.query.userId);
   }

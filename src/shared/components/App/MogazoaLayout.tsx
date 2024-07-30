@@ -1,22 +1,11 @@
-import { ReactNode } from 'react';
-import useGetMe from '@/shared/models/auth/useGetMe';
-import Portal from '@/Portal';
+import { PropsWithChildren } from 'react';
 import Header from '../header/header';
-import Floating from '../Floating/Floating';
 
-interface MogazoaLayoutProps {
-  children: ReactNode;
-}
-
-const MogazoaLayout = ({ children }: MogazoaLayoutProps) => {
-  const { data } = useGetMe();
+const MogazoaLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <Header me={data?.data} />
+      <Header />
       {children}
-      <Portal portalName="floating">
-        <Floating me={data?.data} />
-      </Portal>
     </>
   );
 };

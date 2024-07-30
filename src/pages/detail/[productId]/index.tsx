@@ -16,7 +16,7 @@ const ProductDetails = () => {
   const router = useRouter();
   const { productId } = router.query;
   const { data: me } = useGetMe();
-  const userId = me?.data.id;
+  const userId = me?.id;
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
