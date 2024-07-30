@@ -26,11 +26,18 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
       });
 
       queryClient.invalidateQueries({ queryKey: ['followers'] });
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: '에러가 발생했습니다.',
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast({
+          variant: 'destructive',
+          title: error.message,
+        });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: '알 수 없는 에러가 발생했습니다.',
+        });
+      }
     }
   };
 
