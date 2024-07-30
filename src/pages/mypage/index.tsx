@@ -21,21 +21,21 @@ const MyPage = () => {
     hasNextPage: hasNextCreatedPage,
     isFetching: isCreatedFetching,
     data: createdProducts,
-  } = useGetCreatedProducts(user?.data.id);
+  } = useGetCreatedProducts(user?.id);
 
   const {
     fetchNextPage: fetchNextFavoritePage,
     hasNextPage: hasNextFavoritePage,
     isFetching: isFavoriteFetching,
     data: favoriteProducts,
-  } = useGetFavoriteProducts(user?.data.id);
+  } = useGetFavoriteProducts(user?.id);
 
   const {
     fetchNextPage: fetchNextReviewedPage,
     hasNextPage: hasNextReviewedPage,
     isFetching: isReviewedFetching,
     data: reviewedProducts,
-  } = useGetReviewedProducts(user?.data.id);
+  } = useGetReviewedProducts(user?.id);
 
   const createdProductsList = useMemo(
     () => createdProducts?.pages.flatMap((page) => page.list) || [],
@@ -98,7 +98,7 @@ const MyPage = () => {
     <MogazoaLayout>
       <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
-          <MyProfileCard user={user?.data} />
+          <MyProfileCard user={user} />
         </div>
         <div className="w-full space-y-20 xl:w-[940px]">
           <div className="mt-[50px] space-y-[30px] xl:mt-0">
@@ -107,19 +107,19 @@ const MyPage = () => {
               <div className="w-full">
                 <ActivityCard
                   status="averageLeft"
-                  conScore={user?.data?.averageRating}
+                  conScore={user?.averageRating}
                 />
               </div>
               <div className="w-full">
                 <ActivityCard
                   status="reviewsLeft"
-                  conScore={user?.data?.reviewCount}
+                  conScore={user?.reviewCount}
                 />
               </div>
               <div className="w-full">
                 <ActivityCard
                   status="interest"
-                  text={user?.data?.mostFavoriteCategory?.name}
+                  text={user?.mostFavoriteCategory?.name}
                   color="#23b581"
                 />
               </div>

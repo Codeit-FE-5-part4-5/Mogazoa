@@ -102,7 +102,7 @@ const UserProfile = () => {
     getProducts,
   ]);
 
-  if (me?.data.id === Number(params?.userId)) {
+  if (me?.id === Number(params?.userId)) {
     window.location.replace('/mypage');
   }
 

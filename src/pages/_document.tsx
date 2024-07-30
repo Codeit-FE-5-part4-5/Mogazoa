@@ -11,6 +11,7 @@ const Document = () => {
         <NextScript />
         <div id="sideBar" />
         <div id="floating" />
+        <div id="modal" />
       </body>
     </Html>
   );

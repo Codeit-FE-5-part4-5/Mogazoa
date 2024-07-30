@@ -1,20 +1,65 @@
 import { useState } from 'react';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { GetServerSidePropsContext } from 'next';
+import axios from 'axios';
+import cookie from 'cookie';
+
+import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
+import useGetCategory from '@/shared/models/category/useGetCategory';
+import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
+import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
+
+import sortConverter from '@/shared/utils/sortConverter';
+import castArray from '@/shared/utils/castArray';
+import { ORDER_VARIANTS } from '@/shared/constants/products';
+import useChangeRouter from '@/shared/hooks/useChangeRouter';
+import useSearchRouter from '@/shared/hooks/useSearchRouter';
+import useIntersect from '@/shared/hooks/useIntersect';
+
+import RankingList from '@/shared/components/RankingList/RankingList';
+import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
-import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
-import useGetCategory from '@/shared/models/category/useGetCategory';
-import sortConverter from '@/shared/utils/sortConverter';
-import castArray from '@/shared/utils/castArray';
-import useChangeRouter from '@/shared/hooks/useChangeRouter';
-import useSearchRouter from '@/shared/hooks/useSearchRouter';
-import { ORDER_VARIANTS } from '@/shared/constants/products';
-import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
-import RankingList from '@/shared/components/RankingList/RankingList';
-import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
-import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
-import useIntersect from '@/shared/hooks/useIntersect';
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const cookieHeader = context.req.headers.cookie || '';
+  const cookies = cookie.parse(cookieHeader);
+  const { accessToken } = cookies;
+
+  if (!accessToken) {
+    return {
+      props: {
+        dehydratedState: {},
+      },
+    };
+  }
+
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ['me'],
+    queryFn: async () => {
+      const response = await axios.get(
+        `https://mogazoa-api.vercel.app/5-5/users/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      return response.data;
+    },
+    staleTime: 60 * 1000 * 30,
+    gcTime: 60 * 1000 * 30,
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();

@@ -87,9 +87,9 @@ const ProfileEditModal = () => {
 
   useEffect(() => {
     if (isModalOpen) {
-      setNickname(me?.data?.nickname || '');
-      setDescription(me?.data?.description || '');
-      setImage(me?.data?.image || '');
+      setNickname(me?.nickname || '');
+      setDescription(me?.description || '');
+      setImage(me?.image || '');
       setErrors({});
     } else {
       setNickname('');
@@ -111,10 +111,7 @@ const ProfileEditModal = () => {
         <div className="flex flex-col gap-y-5 text-center">
           <div className="flex flex-col md:flex-row md:items-start">
             <div className="h-[160px] w-[160px]">
-              <ImageInput
-                onChange={setImage}
-                initialImageUrl={me?.data?.image}
-              />
+              <ImageInput onChange={setImage} initialImageUrl={me?.image} />
             </div>
           </div>
           <div className="flex w-full flex-col">

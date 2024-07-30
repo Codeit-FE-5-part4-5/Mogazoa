@@ -9,15 +9,12 @@ import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import castArray from '@/shared/utils/castArray';
-import { Me } from '@/shared/types/user/user';
+import { useQueryClient } from '@tanstack/react-query';
 import SearchInput from '../Input/SearchInput';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 
-interface HeaderProps {
-  me?: Me;
-}
-
-const Header = ({ me }: HeaderProps) => {
+const Header = () => {
+  const me = useQueryClient().getQueryData(['me']);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { currentPath, currentQuery } = useChangeRouter();
