@@ -23,7 +23,9 @@ import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
   const cookieHeader = context.req.headers.cookie || '';
   const cookies = cookie.parse(cookieHeader);
   const { accessToken } = cookies;
@@ -59,7 +61,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       dehydratedState: dehydrate(queryClient),
     },
   };
-}
+};
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();
@@ -91,7 +93,7 @@ const Home = () => {
     if (hasNextPage && isIntersect) {
       fetchNextPage();
     }
-  }, [hasNextPage, isIntersect]);
+  }, [hasNextPage, isIntersect, fetchNextPage]);
 
   return (
     <MogazoaLayout>
