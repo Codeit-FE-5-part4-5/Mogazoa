@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
@@ -70,6 +70,7 @@ const Home = () => {
   // 카테고리 상품
   const { data: categories } = useGetCategory();
   const {
+    isFetching,
     fetchNextPage,
     hasNextPage,
     data: products,
@@ -79,16 +80,18 @@ const Home = () => {
     order: currentSortOrder,
     keyword: searchQuery,
   });
-  const ref = useIntersect<HTMLDivElement>(() => {
-    if (hasNextPage) {
-      fetchNextPage();
-    }
-  });
+  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isFetching);
   const productsList = products?.pages.flatMap((page) => page.list) || [];
 
   // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
+
+  useEffect(() => {
+    if (hasNextPage && isIntersect) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isIntersect]);
 
   return (
     <MogazoaLayout>
