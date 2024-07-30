@@ -8,7 +8,7 @@ interface Props {
     product1?: Product | undefined;
   };
 }
-
+// test
 const CompareResult = ({ winnerCount, integratedData }: Props) => {
   const product = {
     productName1: integratedData.product1?.name,
