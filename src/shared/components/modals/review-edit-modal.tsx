@@ -9,9 +9,9 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Rating } from 'react-simple-star-rating';
 import useModal from '@/shared/store/use-modal-store';
+import ImageInput from '../Input/ImageInput';
 import Button from '../Button/Button';
 import TextAreaInput from '../Input/TextAreaInput';
-import ImageInput from '../Input/ImageInput';
 import useEditReview from '../../models/reviews/useEditReview';
 
 interface EditImage {
@@ -37,19 +37,13 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
   const [mutateError, setMutateError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (initialRating) {
-      setRating(initialRating);
-    }
+    setRating(initialRating || 0);
+    setReview(initialReviewContent || '');
+    setImages(initialImages && initialImages.length > 0 ? initialImages : []);
 
-    if (initialReviewContent) {
-      setReview(initialReviewContent);
+    if ((initialImages?.length ?? 0) < 3) {
+      setImages((prevImages) => [...prevImages, { source: null }]);
     }
-
-    setImages(
-      initialImages && initialImages.length > 0
-        ? initialImages
-        : [{ source: null }],
-    );
   }, [initialRating, initialReviewContent, initialImages]);
 
   const handleRating = (rate: number) => {
@@ -86,9 +80,12 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
       newImages.push({ source: null });
     }
 
+    if (newImages.length === 0) {
+      newImages.push({ source: null });
+    }
+
     setImages(newImages);
   };
-
   const formatImagesForServer = () => {
     return images
       .filter((img) => img.source !== null)
@@ -166,7 +163,7 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
             <div className="flex space-x-4">
               {images.map((image, index) => (
                 <div
-                  key={image.id}
+                  key={image.id ?? index}
                   className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]"
                 >
                   <ImageInput
@@ -177,17 +174,6 @@ const ReviewEditModal = ({ order, productId, productName }: Props) => {
                   />
                 </div>
               ))}
-              {images.length < 3 &&
-                images.every((img) => img.source !== null) && (
-                  <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                    <ImageInput
-                      initialImageUrl={null}
-                      onChange={(newImage: string | null) =>
-                        handleImageChange(images.length, newImage)
-                      }
-                    />
-                  </div>
-                )}
             </div>
             {mutateError && <p className="text-red-500">{mutateError}</p>}
             <Button
