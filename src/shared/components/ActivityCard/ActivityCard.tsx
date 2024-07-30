@@ -9,13 +9,18 @@ interface ActivityCardProps {
 }
 
 const ActivityCard = ({ status, conScore, text, color }: ActivityCardProps) => {
+  const roundToOneDecimal = (num: number | undefined) => {
+    if (num === undefined) return num;
+    return Math.round(num * 10) / 10;
+  };
+
   const config = {
     averageLeft: {
       name: '남긴 별점 평균',
       imgComponent: (
         <img src="/images/star.svg" alt="" className="h-[14px] xl:h-[22px]" />
       ),
-      conScore,
+      conScore: roundToOneDecimal(conScore),
     },
 
     reviewsLeft: {
