@@ -61,12 +61,21 @@ const ProductDetailReview = ({
         <Link href={`/user/${reviewUserId}`}>
           <div className="mb-[20px] flex gap-[10px] md:min-w-[160px]">
             <div className="flex h-[36px] w-[36px] overflow-hidden rounded-full bg-blue-50 md:h-[42px] md:w-[42px]">
-              <Image
-                src={review?.user.image}
-                alt="profileImg"
-                width={36}
-                height={36}
-              />
+              {review?.user.image ? (
+                <Image
+                  src={review?.user.image}
+                  alt="profileImg"
+                  width={36}
+                  height={36}
+                />
+              ) : (
+                <Image
+                  src="/images/user-no-image.svg"
+                  alt="profileImg"
+                  width={120}
+                  height={120}
+                />
+              )}
             </div>
             <div>
               <div className="font-Pretendard mb-[5px] font-normal text-white xl:text-[16px]">
