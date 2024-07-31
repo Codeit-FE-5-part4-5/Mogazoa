@@ -1,20 +1,20 @@
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 
 const useChangeRouter = (): {
   currentPath: string;
   currentQuery: ParsedUrlQuery;
-  updateQueryParam: (value: string | Record<string, string | number>) => void;
-  appendQueryParam: (value: Record<string, string | number>) => void;
+  updateQueryParam: (value: string | Record<string, string | string[]>) => void;
+  appendQueryParam: (value: Record<string, string | string[]>) => void;
   handleRedirect: (value: string) => void;
 } => {
   const router = useRouter();
-  const currentPath = router.pathname;
-  const currentQuery = router.query;
+  const currentPath = useMemo(() => router.pathname, [router.pathname]);
+  const currentQuery = useMemo(() => router.query, [router.query]);
 
   const updateQueryParam = useCallback(
-    (value: string | Record<string, string | number>) => {
+    (value: string | Record<string, string | string[]>) => {
       if (value) {
         router.push({
           pathname: currentPath,
@@ -26,16 +26,15 @@ const useChangeRouter = (): {
   );
 
   const appendQueryParam = useCallback(
-    (currentValue: Record<string, string | number>) => {
-      if (!currentValue) {
-        return null;
-      }
-      const updatedQuery = { ...currentQuery, ...currentValue };
+    (currentValue: Record<string, string | string[]>) => {
+      if (currentValue) {
+        const updatedQuery = { ...currentQuery, ...currentValue };
 
-      return router.push({
-        pathname: currentPath,
-        query: updatedQuery,
-      });
+        router.push({
+          pathname: currentPath,
+          query: updatedQuery,
+        });
+      }
     },
     [router, currentPath, currentQuery],
   );
