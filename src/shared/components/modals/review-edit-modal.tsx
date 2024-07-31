@@ -8,11 +8,11 @@ import {
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Rating } from 'react-simple-star-rating';
+import useEditReview from '@/models/reviews/useEditReview';
 import useModal from '@/shared/store/use-modal-store';
 import ImageInput from '../Input/ImageInput';
 import Button from '../Button/Button';
 import TextAreaInput from '../Input/TextAreaInput';
-import useEditReview from '../../models/reviews/useEditReview';
 
 interface EditImage {
   id?: number | null;
