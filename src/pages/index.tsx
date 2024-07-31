@@ -4,9 +4,9 @@ import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
 import cookie from 'cookie';
 
-import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
-import useGetCategory from '@/shared/models/category/useGetCategory';
-import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
+import useGetFollowersRanking from '@/models/user/follow/followers/useGetFollowersRanking';
+import useGetCategory from '@/models/category/useGetCategory';
+import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
 
 import sortConverter from '@/shared/utils/sortConverter';
 import castArray from '@/shared/utils/castArray';

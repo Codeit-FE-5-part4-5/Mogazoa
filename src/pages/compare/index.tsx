@@ -1,10 +1,10 @@
 import Button from '@/shared/components/Button/Button';
 import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownInput';
-import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
-import useProduct from '@/shared/models/product/useProduct';
+import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
+import useProduct from '@/models/product/useProduct';
 import React, { SetStateAction, useEffect, useState } from 'react';
 import { Product } from '@/shared/types/product/product';
-import onClickCompare from '@/shared/models/product/onClickCompare';
+import onClickCompare from '@/models/product/onClickCompare';
 import CompareResult from '@/shared/components/CompareResult/CompareResult';
 import CompareTable from '@/shared/components/CompareTable/CompareTable';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';

@@ -11,8 +11,8 @@ import {
 
 import { useToast } from '@/components/ui/use-toast';
 import useModal from '@/shared/store/use-modal-store';
-import useGetMe from '@/shared/models/auth/useGetMe';
-import useUpdateProfile from '@/shared/models/user/profile/useUpdateProfile';
+import useGetMe from '@/models/auth/useGetMe';
+import useUpdateProfile from '@/models/user/profile/useUpdateProfile';
 import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
 import Button from '../Button/Button';

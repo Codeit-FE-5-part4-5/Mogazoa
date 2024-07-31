@@ -1,10 +1,10 @@
 import ProductDetailCard from '@/shared/components/ProductDetailCard/ProductDetailCard';
 import ProductDetailReview from '@/shared/components/ProductDetailReview/ProductDetailReview';
 import StatisticsCard from '@/shared/components/StatisticsCard/StatisticsCard';
-import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
-import useGetProductDetailReviews from '@/shared/models/reviews/useGetProductReview';
+import useGetProductDetail from '@/models/product/useGetProductDetail';
+import useGetProductDetailReviews from '@/models/reviews/useGetProductReview';
 import { useRouter } from 'next/router';
-import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetMe from '@/models/auth/useGetMe';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Floating from '@/shared/components/Floating/Floating';

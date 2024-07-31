@@ -8,8 +8,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import useModal from '@/shared/store/use-modal-store';
-import useGetMe from '@/shared/models/auth/useGetMe';
-import useGetUserFollowers from '@/shared/models/user/follow/followers/useGetUserFollowers';
+import useGetMe from '@/models/auth/useGetMe';
+import useGetUserFollowers from '@/models/user/follow/followers/useGetUserFollowers';
 import { FollowerItem } from '@/shared/types/follow/followers/followers-type';
 import { useRouter } from 'next/router';
 import { useInView } from 'react-intersection-observer';

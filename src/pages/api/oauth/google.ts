@@ -1,4 +1,4 @@
-import getGoogleIdToken from '@/shared/models/auth/getGoogleIdToken';
+import getGoogleIdToken from '@/models/auth/getGoogleIdToken';
 import appendErrorToQuery from '@/shared/utils/appendErrorToQuery';
 import castArray from '@/shared/utils/castArray';
 import axios from 'axios';

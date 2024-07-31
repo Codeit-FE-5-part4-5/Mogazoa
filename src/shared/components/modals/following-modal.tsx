@@ -8,9 +8,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import useModal from '@/shared/store/use-modal-store';
-import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetMe from '@/models/auth/useGetMe';
 import { useRouter } from 'next/router';
-import useGetUserFollowees from '@/shared/models/user/follow/followees/useGetUserFollowees';
+import useGetUserFollowees from '@/models/user/follow/followees/useGetUserFollowees';
 import { FolloweeItem } from '@/shared/types/follow/followees/followees-type';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
