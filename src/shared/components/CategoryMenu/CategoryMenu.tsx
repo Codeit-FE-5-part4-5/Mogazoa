@@ -1,19 +1,18 @@
 import { cn } from '@/lib/utils';
+import { CATEGORY_LIST } from '@/shared/constants/category';
 import { Category } from '@/shared/types/category/category';
 import { memo } from 'react';
 
 interface SlideMenuProps {
   isVisible?: boolean;
-  categories: Category[];
   currentCategoryName: string;
   handleClickCategory: (
-    value: string | Record<string, string | number>,
+    value: string | Record<string, string | string[]>,
   ) => void;
 }
 
 const CategoryMenu = ({
   isVisible = false,
-  categories = [],
   currentCategoryName,
   handleClickCategory,
 }: SlideMenuProps) => {
@@ -33,10 +32,10 @@ const CategoryMenu = ({
         전체 카테고리
       </div>
       <ul className="flex flex-col gap-[4px]">
-        {categories.map((item: Category, index: number) => (
+        {CATEGORY_LIST.map((item: Category) => (
           <button
             type="button"
-            key={index!}
+            key={item.id}
             className={cn(
               'flex h-[45px] cursor-pointer items-center rounded-2xl px-[20px] py-[15px] text-sm font-medium leading-normal transition-colors duration-300 hover:text-var-gray2',
               currentCategoryName === item.name
@@ -49,7 +48,7 @@ const CategoryMenu = ({
               } else {
                 handleClickCategory({
                   category: item.name,
-                  categoryId: item.id,
+                  categoryId: String(item.id),
                 });
               }
             }}

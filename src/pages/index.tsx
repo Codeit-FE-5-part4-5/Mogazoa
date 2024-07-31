@@ -10,7 +10,6 @@ import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
 
 import sortConverter from '@/shared/utils/sortConverter';
 import castArray from '@/shared/utils/castArray';
-import { ORDER_VARIANTS } from '@/shared/constants/products';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import useIntersect from '@/shared/hooks/useIntersect';
@@ -29,6 +28,7 @@ export const getServerSideProps = async (
   const cookieHeader = context.req.headers.cookie || '';
   const cookies = cookie.parse(cookieHeader);
   const { accessToken } = cookies;
+  const { categoryId, search, order } = context.query;
 
   if (!accessToken) {
     return {
@@ -55,6 +55,26 @@ export const getServerSideProps = async (
     staleTime: 60 * 1000 * 30,
     gcTime: 60 * 1000 * 30,
   });
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['products', search, categoryId, order],
+    queryFn: async ({ pageParam = 0 }) => {
+      const categoryParam = categoryId ? `&category=${categoryId}` : '';
+      const keywordParam = search ? `&keyword=${search}` : '';
+      const cursorParam = pageParam ? `&cursor=${pageParam}` : '';
+      const orderParam = order ? `order=${order}` : '';
+
+      const { data } = await axios.get(
+        `products?${orderParam}${keywordParam}${categoryParam}${cursorParam}`,
+      );
+
+      return {
+        list: data.list,
+        nextCursor: data.nextCursor,
+      };
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+  });
 
   return {
     props: {
@@ -64,11 +84,9 @@ export const getServerSideProps = async (
 };
 
 const Home = () => {
-  const { currentQuery, handleRouterPush } = useChangeRouter();
+  const { currentQuery, updateQueryParam, appendQueryParam } =
+    useChangeRouter();
   const { searchQuery } = useSearchRouter();
-  const [currentSortOrder, setCurrentSortOrder] = useState(
-    sortConverter(ORDER_VARIANTS[0]),
-  );
   // 카테고리 상품
   const { data: categories } = useGetCategory();
   const {
@@ -79,7 +97,7 @@ const Home = () => {
     isLoading,
   } = useGetInfiniteProducts({
     categoryId: Number(currentQuery.categoryId),
-    order: currentSortOrder,
+    order: castArray(currentQuery.order),
     keyword: searchQuery,
   });
   const [ref, isIntersect] = useIntersect<HTMLDivElement>(isFetching);
@@ -99,17 +117,15 @@ const Home = () => {
     <MogazoaLayout>
       <div className="flex border-b border-var-black3 md:hidden">
         <SlideMenuBar
-          categories={categories}
           currentCategory={castArray(currentQuery.category)}
-          onClick={handleRouterPush}
+          onClick={updateQueryParam}
         />
       </div>
       <div className="flex justify-center">
         <div className="hidden md:flex">
           <CategoryMenu
-            categories={categories}
             currentCategoryName={castArray(currentQuery.category)}
-            handleClickCategory={handleRouterPush}
+            handleClickCategory={updateQueryParam}
           />
         </div>
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
@@ -123,7 +139,7 @@ const Home = () => {
                   searchQuery={searchQuery}
                   currentCategoryName={castArray(currentQuery.category)}
                   changeSortOrder={(order) =>
-                    setCurrentSortOrder(sortConverter(order))
+                    appendQueryParam({ order: sortConverter(order) })
                   }
                 />
                 {productsList && <div className="h-[50px] w-full" ref={ref} />}
