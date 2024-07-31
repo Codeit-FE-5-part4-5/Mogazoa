@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
 import cookie from 'cookie';
 
 import useGetFollowersRanking from '@/models/user/follow/followers/useGetFollowersRanking';
-import useGetCategory from '@/models/category/useGetCategory';
 import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
 
 import sortConverter from '@/shared/utils/sortConverter';
@@ -87,8 +86,6 @@ const Home = () => {
   const { currentQuery, updateQueryParam, appendQueryParam } =
     useChangeRouter();
   const { searchQuery } = useSearchRouter();
-  // 카테고리 상품
-  const { data: categories } = useGetCategory();
   const {
     isFetching,
     fetchNextPage,
