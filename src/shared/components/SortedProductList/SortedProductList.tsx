@@ -1,12 +1,19 @@
-import { Product } from '@/shared/types/product/product';
-import useGetSortedProducts from '@/models/product/useGetSortedProducts';
+import { Product, SortedItemList } from '@/shared/types/product/product';
+
 import sortConverter from '@/shared/utils/sortConverter';
 import ProductCard from '../ProductCard/ProductCard';
 import Spinner from '../Spinner/Spinner';
 
-const SortedProductList = () => {
-  const { data: sortedProducts, isPending } = useGetSortedProducts();
-  if (isPending) {
+interface SortedProductListProps {
+  sortedProducts: SortedItemList[];
+  isLoading: boolean;
+}
+
+const SortedProductList = ({
+  sortedProducts,
+  isLoading,
+}: SortedProductListProps) => {
+  if (isLoading) {
     return <Spinner isLoading />;
   }
 

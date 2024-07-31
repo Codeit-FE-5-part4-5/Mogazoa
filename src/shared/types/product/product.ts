@@ -13,15 +13,22 @@ export interface Product {
   writerId: number;
 }
 
-export type ProductSortOrder = 'recent' | 'rating' | 'reviewCount';
-
 export interface ItemListResponse {
   list: Product[];
   nextCursor: number;
 }
 
-export interface SortedItemListResponse extends ItemListResponse {
-  sortBy: ProductSortOrder;
+export interface SortedItemList extends ItemListResponse {
+  sortBy: string;
+}
+
+export interface SortedItemListResponse {
+  data: {
+    list: Product[];
+    nextCursor: number;
+    sortBy: string;
+  }[];
+  isLoading: boolean;
 }
 
 export interface CompareUseInfiniteQuery {
