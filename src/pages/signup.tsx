@@ -3,7 +3,7 @@ import EmailInput from '@/shared/components/Input/EmailInput';
 import NicknameInput from '@/shared/components/Input/NicknameInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import useSignUp from '@/shared/models/auth/useSignUp';
+import useSignUp from '@/models/auth/useSignUp';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

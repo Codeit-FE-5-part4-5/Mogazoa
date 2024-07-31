@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 import Portal from '@/Portal';
-import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetMe from '@/models/auth/useGetMe';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useClickOutside from '@/shared/hooks/useClickOutside';

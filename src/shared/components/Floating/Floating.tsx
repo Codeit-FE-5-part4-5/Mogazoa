@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import useGetMe from '@/shared/models/auth/useGetMe';
+import useGetMe from '@/models/auth/useGetMe';
 import useModal from '@/shared/store/use-modal-store';
 import Image from 'next/image';
 

@@ -1,4 +1,4 @@
-import useLikeReview from '@/shared/models/reviews/useLikeReview';
+import useLikeReview from '@/models/reviews/useLikeReview';
 import Image from 'next/image';
 import useModal from '@/shared/store/use-modal-store';
 import { cn } from '@/lib/utils';

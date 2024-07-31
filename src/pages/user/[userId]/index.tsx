@@ -6,11 +6,11 @@ import Floating from '@/shared/components/Floating/Floating';
 import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
 import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
 
-import useGetMe from '@/shared/models/auth/useGetMe';
-import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
-import useGetFavoriteProducts from '@/shared/models/user/products/favorite-products/useGetFavoriteProducts';
-import useGetReviewedProducts from '@/shared/models/user/products/reviewed-products/useGetReviewedProducts';
-import useUserProfile from '@/shared/models/user/profile/useUserProfile';
+import useGetMe from '@/models/auth/useGetMe';
+import useGetCreatedProducts from '@/models/user/products/created-products/useGetCreatedProducts';
+import useGetFavoriteProducts from '@/models/user/products/favorite-products/useGetFavoriteProducts';
+import useGetReviewedProducts from '@/models/user/products/reviewed-products/useGetReviewedProducts';
+import useUserProfile from '@/models/user/profile/useUserProfile';
 
 import { ChevronDown } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';

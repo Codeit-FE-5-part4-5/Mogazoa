@@ -2,8 +2,8 @@ import Image from 'next/image';
 import { useQueryClient } from '@tanstack/react-query';
 import { UserType } from '@/shared/types/user/user-type';
 import useModal from '@/shared/store/use-modal-store';
-import usePostFollow from '@/shared/models/user/follow/post-follow/usePostFollow';
-import useCancelFollow from '@/shared/models/user/follow/cancel-follow/useCancelFollow';
+import usePostFollow from '@/models/user/follow/post-follow/usePostFollow';
+import useCancelFollow from '@/models/user/follow/cancel-follow/useCancelFollow';
 import { useToast } from '@/components/ui/use-toast';
 import Button from '../Button/Button';
 

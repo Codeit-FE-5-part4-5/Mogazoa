@@ -5,7 +5,7 @@ import GoogleButton from '@/shared/components/OAuthButton/GoogleButton/GoogleBut
 import EmailInput from '@/shared/components/Input/EmailInput';
 import PasswordInput from '@/shared/components/Input/PasswordInput';
 import KakaoButton from '@/shared/components/OAuthButton/KakaoButton/KakaoButton';
-import useSignIn from '@/shared/models/auth/useSignIn';
+import useSignIn from '@/models/auth/useSignIn';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

@@ -1,5 +1,5 @@
 import { Product } from '@/shared/types/product/product';
-import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
+import useGetSortedProducts from '@/models/product/useGetSortedProducts';
 import sortConverter from '@/shared/utils/sortConverter';
 import ProductCard from '../ProductCard/ProductCard';
 import Spinner from '../Spinner/Spinner';
