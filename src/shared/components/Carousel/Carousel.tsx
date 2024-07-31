@@ -46,7 +46,7 @@ const Carousel = ({ products, className }: CarouselProps) => {
             )}
           />
         )}
-        <div className="absolute flex h-[60px] w-full flex-col overflow-hidden shadow-2xl">
+        <div className="absolute bottom-0 flex w-full flex-col overflow-hidden shadow-2xl">
           {shouldRender && (
             <>
               <Carousel.CardDescription
@@ -54,12 +54,14 @@ const Carousel = ({ products, className }: CarouselProps) => {
                 animationTrigger={animationTrigger}
                 handleAnimationEnd={handleAnimationEnd}
               />
-              <Carousel.List
-                animationTrigger={animationTrigger}
-                onMouseEnter={handleClickCardButton}
-                currentProduct={currentProduct}
-                products={products}
-              />
+              <div className="flex h-[40px]">
+                <Carousel.List
+                  animationTrigger={animationTrigger}
+                  onMouseEnter={handleClickCardButton}
+                  currentProduct={currentProduct}
+                  products={products}
+                />
+              </div>
             </>
           )}
         </div>
@@ -127,7 +129,7 @@ Carousel.List = ({
       className={cn(
         'w-full border-r border-var-black2 bg-var-black3 text-[12px] text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
         currentProduct?.name === product?.name && 'bg-var-black2',
-        animationTrigger ? 'animate-slideDown' : 'animate-slideUp',
+        animationTrigger ? 'animate-fadeIn' : 'animate-fadeOut',
       )}
       onMouseEnter={() => onMouseEnter(product)}
     >
