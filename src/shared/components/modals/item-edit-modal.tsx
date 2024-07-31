@@ -15,6 +15,7 @@ import apiInstance from '@/shared/utils/axios';
 import DropDown from '../DropDown/DropDown';
 import TextFieldInput from '../Input/TextFieldInput';
 import ImageInput from '../Input/ImageInput';
+import Button from '../Button/Button';
 
 const frameworks = [
   '음악',
@@ -175,7 +176,7 @@ const ItemEditModal = () => {
             {errorMessage && (
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
-            <button
+            {/* <button
               type="button"
               className={`mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white ${
                 isSubmitting ? 'cursor-not-allowed opacity-80' : ''
@@ -184,7 +185,12 @@ const ItemEditModal = () => {
               disabled={isSubmitting}
             >
               저장하기
-            </button>
+            </button> */}
+            <Button
+              text="저장하기"
+              onClick={handleSave}
+              isPending={isSubmitting}
+            />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
