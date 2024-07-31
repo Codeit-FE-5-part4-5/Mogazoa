@@ -6,10 +6,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
+import useDeleteReview from '@/models/reviews/useDeleteReview';
 import { useState } from 'react';
 import useModal from '@/shared/store/use-modal-store';
 import Button from '../Button/Button';
-import useDeleteReview from '../../models/reviews/useDeleteReview';
 
 interface Props {
   productId: number;
