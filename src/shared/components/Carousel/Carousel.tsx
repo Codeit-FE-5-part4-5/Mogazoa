@@ -3,6 +3,7 @@ import useAnimation from '@/shared/hooks/useAnimation';
 import { Product } from '@/shared/types/product/product';
 import fixedNumber from '@/shared/utils/fixedNumber';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 interface CarouselProps {
@@ -80,34 +81,36 @@ Carousel.CardDescription = ({
   handleAnimationEnd: () => void;
 }) => {
   return (
-    <div
-      className={cn(
-        'flex animate-fadeIn flex-col gap-[4px] p-[12px] font-semibold text-var-white',
-        animationTrigger ? 'animate-fadeIn' : 'animate-fadeOut',
-      )}
-      onAnimationEnd={handleAnimationEnd}
-    >
-      <p className="text-[24px]">{currentProduct.name}</p>
-      <div className="flex gap-[12px] font-light text-var-gray2">
-        <div className="flex gap-[8px]">
-          <Image src="/images/star.svg" alt="별점" width={12} height={12} />
-          <p>{fixedNumber(currentProduct.rating)}</p>
-        </div>
-        <div className="flex gap-[8px]">
-          <Image src="/images/heart.svg" alt="별점" width={12} height={12} />
-          <p>{currentProduct.favoriteCount}</p>
-        </div>
-        <div className="flex gap-[8px]">
-          <Image
-            src="/images/speechBubble.svg"
-            alt="별점"
-            width={12}
-            height={12}
-          />
-          <p>{currentProduct.reviewCount}</p>
+    <Link href={`/detail/${currentProduct?.id}`}>
+      <div
+        className={cn(
+          'flex animate-fadeIn cursor-pointer flex-col gap-[4px] p-[12px] font-semibold text-var-white',
+          animationTrigger ? 'animate-fadeIn' : 'animate-fadeOut',
+        )}
+        onAnimationEnd={handleAnimationEnd}
+      >
+        <p className="text-[24px]">{currentProduct.name}</p>
+        <div className="flex gap-[12px] font-light text-var-gray2">
+          <div className="flex gap-[8px]">
+            <Image src="/images/star.svg" alt="별점" width={12} height={12} />
+            <p>{fixedNumber(currentProduct.rating)}</p>
+          </div>
+          <div className="flex gap-[8px]">
+            <Image src="/images/heart.svg" alt="별점" width={12} height={12} />
+            <p>{currentProduct.favoriteCount}</p>
+          </div>
+          <div className="flex gap-[8px]">
+            <Image
+              src="/images/speechBubble.svg"
+              alt="별점"
+              width={12}
+              height={12}
+            />
+            <p>{currentProduct.reviewCount}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -123,18 +126,18 @@ Carousel.List = ({
   products: Product[];
 }) => {
   return products.map((product) => (
-    <button
+    <Link
       key={product.id}
-      type="button"
+      href={`/detail/${product?.id}`}
       className={cn(
-        'w-full border-r border-var-black2 bg-var-black3 text-[12px] text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
+        'flex w-full items-center justify-center border-r border-var-black2 bg-var-black3 text-[12px] text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
         currentProduct?.name === product?.name && 'bg-var-black2',
         animationTrigger ? 'animate-fadeIn' : 'animate-fadeOut',
       )}
       onMouseEnter={() => onMouseEnter(product)}
     >
       {product.name}
-    </button>
+    </Link>
   ));
 };
 
