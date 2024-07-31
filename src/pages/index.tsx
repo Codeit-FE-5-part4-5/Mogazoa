@@ -7,7 +7,9 @@ import useGetFollowersRanking from '@/models/user/follow/followers/useGetFollowe
 import useGetInfiniteProducts, {
   ProductsQueryOption,
 } from '@/models/product/useGetInfiniteProducts';
-import { sortedProductsQueryOption } from '@/models/product/useGetSortedProducts';
+import useGetSortedProducts, {
+  sortedProductsQueryOption,
+} from '@/models/product/useGetSortedProducts';
 import { meQueryOption } from '@/models/auth/useGetMe';
 
 import { ORDER_VARIANTS } from '@/shared/constants/products';
@@ -24,6 +26,7 @@ import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
+import useGetBestProducts from '@/models/product/useGetProducts';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -76,13 +79,20 @@ const Home = () => {
     fetchNextPage,
     hasNextPage,
     data: products,
-    isLoading,
+    isLoading: isProductLoading,
   } = useGetInfiniteProducts({
     categoryId: Number(currentQuery.categoryId),
     order: castArray(currentQuery.order),
     keyword: searchQuery,
   });
-  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isLoading);
+  const { data: sortedProducts, isLoading: isSortedProductsLoading } =
+    useGetSortedProducts();
+  const { data: bestProducts } = useGetBestProducts(
+    Number(currentQuery.categoryId),
+  );
+  const sliceBestProducts = bestProducts?.slice(0, 6);
+
+  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isProductLoading);
   // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
@@ -114,8 +124,9 @@ const Home = () => {
             {currentQuery.category || searchQuery ? (
               <ProductSection
                 targetRef={ref}
-                isLoading={isLoading}
+                isLoading={isSortedProductsLoading || isProductLoading}
                 products={products?.pages}
+                bestProducts={sliceBestProducts}
                 searchQuery={searchQuery}
                 currentCategoryName={castArray(currentQuery.category)}
                 changeSortOrder={(order) =>
@@ -124,7 +135,10 @@ const Home = () => {
               />
             ) : (
               <FetchBoundary variant="productsCard">
-                <SortedProductList />
+                <SortedProductList
+                  sortedProducts={sortedProducts}
+                  isLoading={isSortedProductsLoading}
+                />
               </FetchBoundary>
             )}
           </div>
