@@ -24,7 +24,7 @@ const SortedProductList = () => {
         </p>
       </h1>
       <div className="grid grid-cols-2 gap-[20px] xl:grid-cols-3">
-        {products?.list.map((product: Product, idx: number) => {
+        {products.list?.map((product: Product, idx: number) => {
           if (idx > 5) return null;
           return (
             <ProductCard

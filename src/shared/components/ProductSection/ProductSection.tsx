@@ -1,10 +1,12 @@
+import { RefObject } from 'react';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
-import { Product } from '@/shared/types/product/product';
+import { ItemListResponse } from '@/shared/types/product/product';
 import DropDown from '../DropDown/DropDown';
 import ProductCardList from '../ProductCardList/ProductCardList';
 
 interface ProductSectionProps {
-  products?: Product[];
+  targetRef: RefObject<HTMLDivElement>;
+  products?: ItemListResponse[];
   currentCategoryName?: string;
   searchQuery: string;
   changeSortOrder: (order: string) => void;
@@ -12,7 +14,8 @@ interface ProductSectionProps {
 }
 
 const ProductSection = ({
-  products,
+  targetRef,
+  products = [],
   currentCategoryName,
   searchQuery,
   changeSortOrder,
@@ -36,9 +39,14 @@ const ProductSection = ({
           </div>
         </div>
       </h1>
-      {products && (
-        <ProductCardList products={products} isLoading={isLoading} />
-      )}
+      {products.map((product) => (
+        <ProductCardList
+          key={product.nextCursor}
+          products={product?.list}
+          isLoading={isLoading}
+        />
+      ))}
+      <div ref={targetRef} />
     </div>
   );
 };

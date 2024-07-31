@@ -17,6 +17,7 @@ export const sortedProductsQueryOption = (sortOrder: string) =>
         sortBy: sortOrder,
       };
     },
+    staleTime: 60 * 1000 * 10,
   });
 
 const useGetSortedProducts = () => {

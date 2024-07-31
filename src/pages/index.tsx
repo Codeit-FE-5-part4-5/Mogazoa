@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
-import axios from 'axios';
 import cookie from 'cookie';
 
 import useGetFollowersRanking from '@/models/user/follow/followers/useGetFollowersRanking';
-import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
+import useGetInfiniteProducts, {
+  ProductsQueryOption,
+} from '@/models/product/useGetInfiniteProducts';
+import { sortedProductsQueryOption } from '@/models/product/useGetSortedProducts';
+import { meQueryOption } from '@/models/auth/useGetMe';
 
+import { ORDER_VARIANTS } from '@/shared/constants/products';
 import sortConverter from '@/shared/utils/sortConverter';
 import castArray from '@/shared/utils/castArray';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
@@ -20,7 +24,6 @@ import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
-import delay from '@/shared/utils/delay';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -28,53 +31,35 @@ export const getServerSideProps = async (
   const cookieHeader = context.req.headers.cookie || '';
   const cookies = cookie.parse(cookieHeader);
   const { accessToken } = cookies;
-  const { categoryId, search, order } = context.query;
+  const { query } = context;
+  const categoryId = castArray(query.categoryId) || '';
+  const keyword = castArray(query.search) || '';
+  const order = castArray(query.order) || '';
+  const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
 
-  if (!accessToken) {
-    return {
-      props: {
-        dehydratedState: {},
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 30 * 1000,
       },
-    };
+    },
+  });
+
+  if (accessToken) {
+    await queryClient.prefetchQuery(meQueryOption(accessToken));
   }
 
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ['me'],
-    queryFn: async () => {
-      const response = await axios.get(
-        `https://mogazoa-api.vercel.app/5-5/users/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-      return response.data;
-    },
-    staleTime: 60 * 1000 * 30,
-    gcTime: 60 * 1000 * 30,
-  });
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ['products', search, categoryId, order],
-    queryFn: async ({ pageParam = 0 }) => {
-      const categoryParam = categoryId ? `&category=${categoryId}` : '';
-      const keywordParam = search ? `&keyword=${search}` : '';
-      const cursorParam = pageParam ? `&cursor=${pageParam}` : '';
-      const orderParam = order ? `order=${order}` : '';
-
-      const { data } = await axios.get(
-        `products?${orderParam}${keywordParam}${categoryParam}${cursorParam}`,
-      );
-
-      return {
-        list: data.list,
-        nextCursor: data.nextCursor,
-      };
-    },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
-  });
+  if (categoryId) {
+    await queryClient.prefetchInfiniteQuery(
+      ProductsQueryOption({ keyword, categoryId, order }),
+    );
+  } else {
+    await Promise.all([
+      queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[0])),
+      queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[1])),
+      queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[2])),
+    ]);
+  }
 
   return {
     props: {
@@ -88,7 +73,6 @@ const Home = () => {
     useChangeRouter();
   const { searchQuery } = useSearchRouter();
   const {
-    isFetching,
     fetchNextPage,
     hasNextPage,
     data: products,
@@ -98,22 +82,16 @@ const Home = () => {
     order: castArray(currentQuery.order),
     keyword: searchQuery,
   });
-  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isFetching);
-  const productsList = products?.pages.flatMap((page) => page.list) || [];
-
+  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isLoading);
   // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
 
-  const handleNextPageFetch = async () => {
-    await delay(500);
-    fetchNextPage();
-  };
   useEffect(() => {
     if (hasNextPage && isIntersect) {
-      handleNextPageFetch();
+      fetchNextPage();
     }
-  }, [hasNextPage, isIntersect, fetchNextPage]);
+  }, [isIntersect, fetchNextPage]);
 
   return (
     <MogazoaLayout>
@@ -134,18 +112,16 @@ const Home = () => {
           <RankingList rankingData={sliceRankingData} />
           <div className="flex-1">
             {currentQuery.category || searchQuery ? (
-              <>
-                <ProductSection
-                  isLoading={isLoading}
-                  products={productsList}
-                  searchQuery={searchQuery}
-                  currentCategoryName={castArray(currentQuery.category)}
-                  changeSortOrder={(order) =>
-                    appendQueryParam({ order: sortConverter(order) })
-                  }
-                />
-                {productsList && <div className="h-[50px] w-full" ref={ref} />}
-              </>
+              <ProductSection
+                targetRef={ref}
+                isLoading={isLoading}
+                products={products?.pages}
+                searchQuery={searchQuery}
+                currentCategoryName={castArray(currentQuery.category)}
+                changeSortOrder={(order) =>
+                  appendQueryParam({ order: sortConverter(order) })
+                }
+              />
             ) : (
               <FetchBoundary variant="productsCard">
                 <SortedProductList />
