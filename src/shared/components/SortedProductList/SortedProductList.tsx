@@ -1,22 +1,11 @@
-import {
-  Product,
-  SortedItemListResponse,
-} from '@/shared/types/product/product';
+import { Product } from '@/shared/types/product/product';
+import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
+import sortConverter from '@/shared/utils/sortConverter';
 import ProductCard from '../ProductCard/ProductCard';
 import Spinner from '../Spinner/Spinner';
 
-interface ProductListProps {
-  sortedProducts: SortedItemListResponse[];
-  isPending: boolean;
-}
-
-const sortVariation = {
-  recent: '가장 최근 상품',
-  rating: '베스트 상품',
-  reviewCount: '가장 핫한 상품',
-};
-
-const SortedProductList = ({ sortedProducts, isPending }: ProductListProps) => {
+const SortedProductList = () => {
+  const { data: sortedProducts, isPending } = useGetSortedProducts();
   if (isPending) {
     return <Spinner isLoading />;
   }
@@ -28,7 +17,7 @@ const SortedProductList = ({ sortedProducts, isPending }: ProductListProps) => {
     >
       <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
         <p>
-          {sortVariation[products.sortBy]}&nbsp;
+          {sortConverter(products.sortBy)}&nbsp;
           <span className="bg-gradient-custom bg-clip-text text-transparent">
             TOP 6
           </span>

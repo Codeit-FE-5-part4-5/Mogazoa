@@ -3,12 +3,19 @@ import axios from '@/shared/utils/axios';
 import sortConverter from '@/shared/utils/sortConverter';
 import { useQueries } from '@tanstack/react-query';
 
+const getSortedProductsRequest = async (sortOrder: string) => {
+  const result = await axios.get(`products?order=${sortOrder}`);
+
+  return result;
+};
+
 const useGetSortedProducts = () => {
   const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
+
   return useQueries({
     queries: orderVariants.map((sortOrder) => ({
       queryKey: ['sortedProduct', sortOrder],
-      queryFn: () => axios.get(`products?order=${sortOrder}`),
+      queryFn: () => getSortedProductsRequest(sortOrder),
     })),
     combine: (results) => {
       return {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
@@ -7,7 +7,6 @@ import cookie from 'cookie';
 import useGetFollowersRanking from '@/shared/models/user/follow/followers/useGetFollowersRanking';
 import useGetCategory from '@/shared/models/category/useGetCategory';
 import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
-import useGetSortedProducts from '@/shared/models/product/useGetSortedProducts';
 
 import sortConverter from '@/shared/utils/sortConverter';
 import castArray from '@/shared/utils/castArray';
@@ -17,13 +16,16 @@ import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import useIntersect from '@/shared/hooks/useIntersect';
 
 import RankingList from '@/shared/components/RankingList/RankingList';
-import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
 import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
+import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
+import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
   const cookieHeader = context.req.headers.cookie || '';
   const cookies = cookie.parse(cookieHeader);
   const { accessToken } = cookies;
@@ -59,7 +61,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       dehydratedState: dehydrate(queryClient),
     },
   };
-}
+};
 
 const Home = () => {
   const { currentQuery, handleRouterPush } = useChangeRouter();
@@ -70,6 +72,7 @@ const Home = () => {
   // 카테고리 상품
   const { data: categories } = useGetCategory();
   const {
+    isFetching,
     fetchNextPage,
     hasNextPage,
     data: products,
@@ -79,18 +82,18 @@ const Home = () => {
     order: currentSortOrder,
     keyword: searchQuery,
   });
-  const ref = useIntersect<HTMLDivElement>(() => {
-    if (hasNextPage) {
-      fetchNextPage();
-    }
-  });
+  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isFetching);
   const productsList = products?.pages.flatMap((page) => page.list) || [];
-  // TOP 6 정렬 상품
-  const { data: sortedProducts, isPending: isLoadingSortedProducts } =
-    useGetSortedProducts();
+
   // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
+
+  useEffect(() => {
+    if (hasNextPage && isIntersect) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isIntersect, fetchNextPage]);
 
   return (
     <MogazoaLayout>
@@ -126,10 +129,9 @@ const Home = () => {
                 {productsList && <div className="h-[50px] w-full" ref={ref} />}
               </>
             ) : (
-              <SortedProductList
-                sortedProducts={sortedProducts}
-                isPending={isLoadingSortedProducts}
-              />
+              <FetchBoundary variant="productsCard">
+                <SortedProductList />
+              </FetchBoundary>
             )}
           </div>
         </div>

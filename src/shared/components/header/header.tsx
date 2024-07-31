@@ -4,17 +4,17 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 import Portal from '@/Portal';
+import useGetMe from '@/shared/models/auth/useGetMe';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import castArray from '@/shared/utils/castArray';
-import { useQueryClient } from '@tanstack/react-query';
 import SearchInput from '../Input/SearchInput';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 
 const Header = () => {
-  const me = useQueryClient().getQueryData(['me']);
+  const { data: me } = useGetMe();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const { currentPath, currentQuery } = useChangeRouter();

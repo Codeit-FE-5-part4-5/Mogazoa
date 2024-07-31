@@ -1,22 +1,23 @@
-import { RefObject, useCallback, useEffect, useRef } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
 const useIntersect = <T extends HTMLElement>(
-  onIntersect: () => void,
+  once: boolean = false,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   opt?: IntersectionObserverInit,
-): RefObject<T> => {
+): [RefObject<T>, boolean] => {
+  const [isIntersecting, setIntersecting] = useState(false);
   const target = useRef<T>(null);
 
   const handleIntersect = useCallback(
     (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          onIntersect();
+        setIntersecting(entry.isIntersecting);
+        if (once && entry.isIntersecting) {
           observer.unobserve(entry.target);
         }
       });
     },
-    [onIntersect],
+    [once, opt],
   );
 
   useEffect(() => {
@@ -28,9 +29,9 @@ const useIntersect = <T extends HTMLElement>(
 
     // eslint-disable-next-line consistent-return
     return () => observer.disconnect();
-  }, [target, onIntersect, opt, handleIntersect]);
+  }, [target, opt, handleIntersect]);
 
-  return target;
+  return [target, isIntersecting];
 };
 
 export default useIntersect;
