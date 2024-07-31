@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
+import useGetProductDetail from '@/models/product/useGetProductDetail';
 
 import useModal from '@/shared/store/use-modal-store';
 import apiInstance from '@/shared/utils/axios';

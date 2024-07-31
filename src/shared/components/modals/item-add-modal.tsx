@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-// import useGetProducts from '@/shared/models/product/useGetProducts';
-// import useGetInfiniteProducts from '@/shared/models/product/useGetInfiniteProducts';
+// import useGetProducts from '@/models/product/useGetProducts';
+// import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
 
 import {
   Dialog,

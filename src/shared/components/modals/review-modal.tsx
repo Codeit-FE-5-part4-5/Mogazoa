@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dialog';
 
 import useModal from '@/shared/store/use-modal-store';
-import useGetProductDetail from '@/shared/models/product/useGetProductDetail';
+import useGetProductDetail from '@/models/product/useGetProductDetail';
 import Button from '../Button/Button';
 import TextAreaInput from '../Input/TextAreaInput';
 import ImageInput from '../Input/ImageInput';

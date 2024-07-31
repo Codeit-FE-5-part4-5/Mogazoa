@@ -1,9 +1,9 @@
 import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
 import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
-import useGetMe from '@/shared/models/auth/useGetMe';
-import useGetCreatedProducts from '@/shared/models/user/products/created-products/useGetCreatedProducts';
-import useGetFavoriteProducts from '@/shared/models/user/products/favorite-products/useGetFavoriteProducts';
-import useGetReviewedProducts from '@/shared/models/user/products/reviewed-products/useGetReviewedProducts';
+import useGetMe from '@/models/auth/useGetMe';
+import useGetCreatedProducts from '@/models/user/products/created-products/useGetCreatedProducts';
+import useGetFavoriteProducts from '@/models/user/products/favorite-products/useGetFavoriteProducts';
+import useGetReviewedProducts from '@/models/user/products/reviewed-products/useGetReviewedProducts';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
 import { ChevronDown } from 'lucide-react';

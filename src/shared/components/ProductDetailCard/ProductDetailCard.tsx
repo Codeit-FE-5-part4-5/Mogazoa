@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Chip from '@/shared/components/Chip/Chip';
 import Image from 'next/image';
-import useFavoriteProduct from '@/shared/models/product/useFavoriteProduct';
+import useFavoriteProduct from '@/models/product/useFavoriteProduct';
 import { ProductDetail } from '@/shared/types/product/productDetail';
 import useModal from '@/shared/store/use-modal-store';
 import Button from '../Button/Button';
