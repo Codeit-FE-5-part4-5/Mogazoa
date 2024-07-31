@@ -22,6 +22,7 @@ import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
+import delay from '@/shared/utils/delay';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -89,9 +90,13 @@ const Home = () => {
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = rankingData?.slice(0, 5);
 
+  const handleNextPageFetch = async () => {
+    await delay(500);
+    fetchNextPage();
+  };
   useEffect(() => {
     if (hasNextPage && isIntersect) {
-      fetchNextPage();
+      handleNextPageFetch();
     }
   }, [hasNextPage, isIntersect, fetchNextPage]);
 
