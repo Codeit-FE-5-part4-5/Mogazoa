@@ -11,7 +11,7 @@ interface InfiniteProductsProps {
   order?: string;
 }
 
-export const infiniteProductsOption = (params: InfiniteProductsProps) =>
+export const ProductsQueryOption = (params: InfiniteProductsProps) =>
   infiniteQueryOptions({
     queryKey: ['products', params.categoryId, params.order, params.keyword],
     queryFn: async ({ pageParam = 0 }) => {
@@ -41,7 +41,7 @@ export const infiniteProductsOption = (params: InfiniteProductsProps) =>
   });
 
 const useGetInfiniteProducts = (params: InfiniteProductsProps) => {
-  return useInfiniteQuery(infiniteProductsOption(params));
+  return useInfiniteQuery(ProductsQueryOption(params));
 };
 
 export default useGetInfiniteProducts;
