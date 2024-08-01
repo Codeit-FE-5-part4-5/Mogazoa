@@ -1,9 +1,12 @@
 import {
+  InfiniteData,
   infiniteQueryOptions,
   isServer,
   useInfiniteQuery,
+  UseInfiniteQueryResult,
 } from '@tanstack/react-query';
 import axios from '@/shared/utils/axios';
+import { ItemListResponse } from '@/shared/types/product/product';
 
 interface InfiniteProductsProps {
   keyword?: string;
@@ -40,24 +43,12 @@ export const ProductsQueryOption = (params: InfiniteProductsProps) =>
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 
-const useGetInfiniteProducts = (params: InfiniteProductsProps) => {
+const useGetInfiniteProducts: (
+  params: InfiniteProductsProps,
+) => UseInfiniteQueryResult<InfiniteData<ItemListResponse>, Error> = (
+  params: InfiniteProductsProps,
+) => {
   return useInfiniteQuery(ProductsQueryOption(params));
 };
 
 export default useGetInfiniteProducts;
-
-// const useGetInfiniteProducts = ({
-//   keyword,
-//   categoryId,
-//   order,
-// }: {
-//   keyword?: string;
-//   categoryId?: number;
-//   order?: string;
-// }): UseInfiniteQueryResult<InfiniteData<ItemListResponse>, Error> => {
-//   return useInfiniteQuery<ItemListResponse, Error>(
-//     productsOptions({ keyword, categoryId, order }),
-//   );
-// };
-
-// export default useGetInfiniteProducts;
