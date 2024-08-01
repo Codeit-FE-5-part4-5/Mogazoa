@@ -4,7 +4,7 @@ import { Product } from '@/shared/types/product/product';
 import fixedNumber from '@/shared/utils/fixedNumber';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface CarouselProps {
   products: Product[];
@@ -14,12 +14,27 @@ interface CarouselProps {
 const Carousel = ({ products, className }: CarouselProps) => {
   const [currentProduct, setCurrentProduct] = useState<Product>(products[0]);
   const [showDescription, setShowDescription] = useState(false);
-  const [shouldRender, animationTrigger, handleAnimationEnd] =
+  const [renderDescription, showDescriptionAnimate, handleAnimateDescription] =
     useAnimation(showDescription);
+  let timerId: NodeJS.Timeout;
 
-  const handleClickCardButton = (product: Product) => {
-    setCurrentProduct(product);
-  };
+  useEffect(() => {
+    const currentProductIdx = products.findIndex(
+      (product) => product.id === currentProduct.id,
+    );
+
+    timerId = setInterval(() => {
+      if (products[currentProductIdx + 1]) {
+        setCurrentProduct(products[currentProductIdx + 1]);
+      } else {
+        setCurrentProduct(products[0]);
+      }
+    }, 3000);
+
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [currentProduct]);
 
   if (products.length === 0) return null;
 
@@ -32,33 +47,28 @@ const Carousel = ({ products, className }: CarouselProps) => {
       onMouseEnter={() => setShowDescription(true)}
       onMouseLeave={() => setShowDescription(false)}
     >
-      <div className="relative size-full">
-        <Image
-          src={currentProduct?.image}
-          alt={String(currentProduct?.id)}
-          fill
-          className="object-cover"
-        />
-        {shouldRender && (
+      <div className={cn('relative size-full')}>
+        <Carousel.Image currentProduct={currentProduct} />
+        {renderDescription && (
           <div
             className={cn(
               'absolute inset-0 bg-gradient-to-t from-black/70 to-transparent',
-              animationTrigger ? 'animate-fadeIn' : 'animate-fadeOut',
+              showDescriptionAnimate ? 'animate-fadeIn' : 'animate-fadeOut',
             )}
           />
         )}
         <div className="absolute bottom-0 flex w-full flex-col overflow-hidden shadow-2xl">
-          {shouldRender && (
+          {renderDescription && (
             <>
               <Carousel.CardDescription
                 currentProduct={currentProduct}
-                animationTrigger={animationTrigger}
-                handleAnimationEnd={handleAnimationEnd}
+                showDescriptionAnimate={showDescriptionAnimate}
+                handleAnimateDescription={handleAnimateDescription}
               />
               <div className="flex h-[40px]">
                 <Carousel.List
-                  animationTrigger={animationTrigger}
-                  onMouseEnter={handleClickCardButton}
+                  showDescriptionAnimate={showDescriptionAnimate}
+                  onMouseEnter={(product) => setCurrentProduct(product)}
                   currentProduct={currentProduct}
                   products={products}
                 />
@@ -71,33 +81,44 @@ const Carousel = ({ products, className }: CarouselProps) => {
   );
 };
 
+Carousel.Image = ({ currentProduct }: { currentProduct: Product }) => {
+  return (
+    <Image
+      src={currentProduct?.image}
+      alt={String(currentProduct?.id)}
+      fill
+      className={cn('object-cover')}
+    />
+  );
+};
+
 Carousel.CardDescription = ({
   currentProduct,
-  animationTrigger,
-  handleAnimationEnd,
+  showDescriptionAnimate,
+  handleAnimateDescription,
 }: {
   currentProduct: Product;
-  animationTrigger: boolean;
-  handleAnimationEnd: () => void;
+  showDescriptionAnimate: boolean;
+  handleAnimateDescription: () => void;
 }) => {
   return (
     <Link href={`/detail/${currentProduct?.id}`}>
       <div
         className={cn(
           'flex animate-fadeIn cursor-pointer flex-col gap-[4px] p-[12px] font-semibold text-var-white',
-          animationTrigger ? 'animate-fadeIn' : 'animate-fadeOut',
+          showDescriptionAnimate ? 'animate-fadeIn' : 'animate-fadeOut',
         )}
-        onAnimationEnd={handleAnimationEnd}
+        onAnimationEnd={handleAnimateDescription}
       >
-        <p className="text-[24px]">{currentProduct.name}</p>
+        <p className="text-[24px]">{currentProduct?.name}</p>
         <div className="flex gap-[12px] font-light text-var-gray2">
           <div className="flex gap-[8px]">
             <Image src="/images/star.svg" alt="별점" width={12} height={12} />
-            <p>{fixedNumber(currentProduct.rating)}</p>
+            {currentProduct && <p>{fixedNumber(currentProduct.rating)}</p>}
           </div>
           <div className="flex gap-[8px]">
             <Image src="/images/heart.svg" alt="별점" width={12} height={12} />
-            <p>{currentProduct.favoriteCount}</p>
+            <p>{currentProduct?.favoriteCount}</p>
           </div>
           <div className="flex gap-[8px]">
             <Image
@@ -106,7 +127,7 @@ Carousel.CardDescription = ({
               width={12}
               height={12}
             />
-            <p>{currentProduct.reviewCount}</p>
+            <p>{currentProduct?.reviewCount}</p>
           </div>
         </div>
       </div>
@@ -115,12 +136,12 @@ Carousel.CardDescription = ({
 };
 
 Carousel.List = ({
-  animationTrigger,
+  showDescriptionAnimate,
   onMouseEnter,
   currentProduct,
   products,
 }: {
-  animationTrigger: boolean;
+  showDescriptionAnimate: boolean;
   onMouseEnter: (product: Product) => void;
   currentProduct: Product;
   products: Product[];
@@ -132,7 +153,7 @@ Carousel.List = ({
       className={cn(
         'flex w-full items-center justify-center border-r border-var-black2 bg-var-black3 text-[12px] text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
         currentProduct?.name === product?.name && 'bg-var-black2',
-        animationTrigger ? 'animate-fadeIn' : 'animate-fadeOut',
+        showDescriptionAnimate ? 'animate-fadeIn' : 'animate-fadeOut',
       )}
       onMouseEnter={() => onMouseEnter(product)}
     >
