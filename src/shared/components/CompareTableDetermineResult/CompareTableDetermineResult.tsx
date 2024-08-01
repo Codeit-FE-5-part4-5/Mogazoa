@@ -1,40 +1,23 @@
+import getWinnerInfo from '@/models/product/getWinnerInfo';
 import React from 'react';
 
 // 0 일경우 무승부, 양수 일경우 상품1 승리, 음수일 경우 상품2 승리
-const tableDetermineResult = (
+const CompareTableDetermineResult = (
   winnerCount: number[],
   product: {
     productName1: string | undefined;
     productName2: string | undefined;
   },
 ) => {
-  const productWinner1 = winnerCount[0];
-  const productWinner2 = winnerCount[1];
+  const [productWinner1, productWinner2] = winnerCount;
   const drawCount = productWinner1 - productWinner2;
 
-  const getWinnerInfo = () => {
-    if (drawCount === 0) {
-      return {
-        text: '무승부 입니다!',
-        color: 'text-var-white',
-        description: '',
-      };
-    }
-    if (drawCount > 0) {
-      return {
-        text: `${product.productName1 ?? ''}`,
-        color: 'text-var-pink',
-        description: `${Math.abs(productWinner1)}가지`,
-      };
-    }
-    return {
-      text: `${product.productName2 ?? ''}`,
-      color: 'text-var-green',
-      description: `${Math.abs(productWinner2)}가지`,
-    };
-  };
-
-  const { text, color, description } = getWinnerInfo();
+  const { text, color, description } = getWinnerInfo(
+    productWinner1,
+    productWinner2,
+    drawCount,
+    product,
+  );
   const isNotDraw = drawCount !== 0;
   const winOrLoseCon = isNotDraw && (
     <span>
@@ -58,4 +41,4 @@ const tableDetermineResult = (
   );
 };
 
-export default tableDetermineResult;
+export default CompareTableDetermineResult;

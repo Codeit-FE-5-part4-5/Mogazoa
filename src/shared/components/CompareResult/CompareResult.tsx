@@ -1,5 +1,5 @@
-import tableDetermineResult from '@/models/product/tableDetermineResult';
 import { Product } from '@/shared/types/product/product';
+import CompareTableDetermineResult from '../CompareTableDetermineResult/CompareTableDetermineResult';
 
 interface Props {
   winnerCount: number[];
@@ -15,7 +15,7 @@ const CompareResult = ({ winnerCount, integratedData }: Props) => {
     productName2: integratedData.product2?.name,
   };
 
-  return tableDetermineResult(winnerCount, product);
+  return CompareTableDetermineResult(winnerCount, product);
 };
 
 export default CompareResult;
