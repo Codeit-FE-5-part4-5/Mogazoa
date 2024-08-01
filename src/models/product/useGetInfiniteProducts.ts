@@ -14,6 +14,10 @@ interface InfiniteProductsProps {
   order?: string;
 }
 
+type TGetProducts = (
+  params: InfiniteProductsProps,
+) => UseInfiniteQueryResult<InfiniteData<ItemListResponse>, Error>;
+
 export const ProductsQueryOption = (params: InfiniteProductsProps) =>
   infiniteQueryOptions({
     queryKey: ['products', params.categoryId, params.order, params.keyword],
@@ -43,11 +47,7 @@ export const ProductsQueryOption = (params: InfiniteProductsProps) =>
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 
-const useGetInfiniteProducts: (
-  params: InfiniteProductsProps,
-) => UseInfiniteQueryResult<InfiniteData<ItemListResponse>, Error> = (
-  params: InfiniteProductsProps,
-) => {
+const useGetInfiniteProducts: TGetProducts = (params) => {
   return useInfiniteQuery(ProductsQueryOption(params));
 };
 

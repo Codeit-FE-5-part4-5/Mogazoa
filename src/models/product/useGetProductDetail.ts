@@ -1,11 +1,16 @@
+import { ProductDetail } from '@/shared/types/product/productDetail';
 import axios from '@/shared/utils/axios';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 interface UseGetProductDetailProps {
   productId: number;
 }
 
-const useGetProductDetail = ({ productId }: UseGetProductDetailProps) => {
+type TGetProductDetail = (
+  params: UseGetProductDetailProps,
+) => UseQueryResult<ProductDetail, Error>;
+
+const useGetProductDetail: TGetProductDetail = ({ productId }) => {
   return useQuery({
     queryKey: ['productDetail'],
     queryFn: async () => {

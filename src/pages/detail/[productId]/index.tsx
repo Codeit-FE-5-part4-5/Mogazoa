@@ -79,6 +79,10 @@ const ProductDetails = () => {
     }
   };
 
+  if (!productDetail) {
+    return null;
+  }
+
   return (
     <MogazoaLayout>
       <div className="px-[20px] xl:container md:px-[30px] md:pt-[20px] xl:mx-auto">
