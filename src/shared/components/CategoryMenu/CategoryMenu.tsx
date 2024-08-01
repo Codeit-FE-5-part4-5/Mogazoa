@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils';
 import { CATEGORY_LIST } from '@/shared/constants/category';
 import { Category } from '@/shared/types/category/category';
-import { memo } from 'react';
 
 interface SlideMenuProps {
   isVisible?: boolean;
@@ -61,4 +60,4 @@ const CategoryMenu = ({
   );
 };
 
-export default memo(CategoryMenu);
+export default CategoryMenu;

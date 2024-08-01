@@ -7,9 +7,9 @@ const useGetFollowersRanking = () => {
     queryKey: ['users/ranking'],
     queryFn: async () => {
       const { data } = await axios.get('users/ranking');
-
       return data;
     },
+    staleTime: 60 * 1000 * 10,
   });
 };
 

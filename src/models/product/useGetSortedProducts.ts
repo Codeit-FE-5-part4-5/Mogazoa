@@ -1,5 +1,5 @@
 import { ORDER_VARIANTS } from '@/shared/constants/products';
-import { SortedItemListResponse } from '@/shared/types/product/product';
+
 import axios from '@/shared/utils/axios';
 import sortConverter from '@/shared/utils/sortConverter';
 import { isServer, queryOptions, useQueries } from '@tanstack/react-query';
@@ -21,7 +21,7 @@ export const sortedProductsQueryOption = (sortOrder: string) =>
     staleTime: 60 * 1000 * 10,
   });
 
-const useGetSortedProducts = (): SortedItemListResponse => {
+const useGetSortedProducts = () => {
   const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
 
   return useQueries({

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import cookie from 'cookie';
@@ -90,18 +90,24 @@ const Home = () => {
   const { data: bestProducts } = useGetBestProducts(
     Number(currentQuery.categoryId),
   );
-  const sliceBestProducts = bestProducts?.slice(0, 6);
+  const sliceBestProducts = useMemo(
+    () => bestProducts?.slice(0, 6),
+    [bestProducts],
+  );
 
   const [ref, isIntersect] = useIntersect<HTMLDivElement>(isProductLoading);
   // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
-  const sliceRankingData = rankingData?.slice(0, 5);
+  const sliceRankingData = useMemo(
+    () => rankingData?.slice(0, 5),
+    [rankingData],
+  );
 
   useEffect(() => {
     if (hasNextPage && isIntersect) {
       fetchNextPage();
     }
-  }, [isIntersect, fetchNextPage]);
+  }, [isIntersect, fetchNextPage, hasNextPage]);
 
   return (
     <MogazoaLayout>
