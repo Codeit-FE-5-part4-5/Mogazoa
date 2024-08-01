@@ -1,7 +1,7 @@
 import { isServer, queryOptions, useQuery } from '@tanstack/react-query';
 import axios from '@/shared/utils/axios';
 
-const bestProductsQueryOption = (categoryId: number) =>
+export const bestProductsQueryOption = (categoryId: number) =>
   queryOptions({
     queryKey: ['bestProduct', categoryId],
     queryFn: async () => {

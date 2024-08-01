@@ -26,7 +26,9 @@ import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
-import useGetBestProducts from '@/models/product/useGetProducts';
+import useGetBestProducts, {
+  bestProductsQueryOption,
+} from '@/models/product/useGetProducts';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -56,6 +58,7 @@ export const getServerSideProps = async (
     await queryClient.prefetchInfiniteQuery(
       ProductsQueryOption({ keyword, categoryId, order }),
     );
+    await queryClient.prefetchQuery(bestProductsQueryOption(categoryId));
   } else {
     await Promise.all([
       queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[0])),
@@ -75,6 +78,7 @@ const Home = () => {
   const { currentQuery, updateQueryParam, appendQueryParam } =
     useChangeRouter();
   const { searchQuery } = useSearchRouter();
+  // 카테고리 상품
   const {
     fetchNextPage,
     hasNextPage,
@@ -85,8 +89,11 @@ const Home = () => {
     order: castArray(currentQuery.order),
     keyword: searchQuery,
   });
+  // 각 정렬별 베스트 상품
   const { data: sortedProducts, isLoading: isSortedProductsLoading } =
     useGetSortedProducts();
+  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isProductLoading);
+  // 각 카테고리별 베스트 상품
   const { data: bestProducts } = useGetBestProducts(
     Number(currentQuery.categoryId),
   );
@@ -94,8 +101,6 @@ const Home = () => {
     () => bestProducts?.slice(0, 6),
     [bestProducts],
   );
-
-  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isProductLoading);
   // 리뷰어 랭킹
   const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = useMemo(
