@@ -6,11 +6,21 @@ export const meQueryOption = (token: string) =>
   queryOptions({
     queryKey: ['me'],
     queryFn: async () => {
-      const requestUri = isServer
-        ? 'https://mogazoa-api.vercel.app/5-5/users/me'
-        : 'users/me';
-      const { data } = await axios.get(requestUri);
-      return data;
+      let result;
+      if (isServer) {
+        result = await axios.get(
+          `https://mogazoa-api.vercel.app/5-5/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+      } else {
+        result = await axios.get(`users/me`);
+      }
+
+      return result.data;
     },
     enabled: !!token,
   });
