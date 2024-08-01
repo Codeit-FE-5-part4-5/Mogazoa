@@ -1,6 +1,8 @@
 import { cn } from '@/lib/utils';
 import { CATEGORY_LIST } from '@/shared/constants/category';
+import useIsMobile from '@/shared/hooks/useIsMobile';
 import { Category } from '@/shared/types/category/category';
+import SlideMenuBar from '../SlideMenuBar/SlideMenuBar';
 
 interface SlideMenuProps {
   isVisible?: boolean;
@@ -15,10 +17,23 @@ const CategoryMenu = ({
   currentCategoryName,
   handleClickCategory,
 }: SlideMenuProps) => {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <div className="flex border-b border-var-black3">
+        <SlideMenuBar
+          currentCategory={currentCategoryName}
+          onClick={handleClickCategory}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn(
-        'mx-[20px] w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white',
+        'mx-[20px] hidden w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white md:flex',
         isVisible ? 'my-[20px]' : 'mt-[45px]',
       )}
     >

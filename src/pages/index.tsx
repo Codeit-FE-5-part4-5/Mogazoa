@@ -21,7 +21,6 @@ import useIntersect from '@/shared/hooks/useIntersect';
 
 import RankingList from '@/shared/components/RankingList/RankingList';
 import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
-import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
@@ -37,7 +36,7 @@ export const getServerSideProps = async (
   const cookies = cookie.parse(cookieHeader);
   const { accessToken } = cookies;
   const { query } = context;
-  const categoryId = castArray(query.categoryId) || '';
+  const categoryId = Number(query.categoryId) || 0;
   const keyword = castArray(query.search) || '';
   const order = castArray(query.order) || '';
   const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
@@ -78,65 +77,45 @@ const Home = () => {
   const { currentQuery, updateQueryParam, appendQueryParam } =
     useChangeRouter();
   const { searchQuery } = useSearchRouter();
-  // 카테고리 상품
-  const {
-    fetchNextPage,
-    hasNextPage,
-    data: products,
-    isLoading: isProductLoading,
-  } = useGetInfiniteProducts({
+  const sortedProducts = useGetSortedProducts();
+  const bestProducts = useGetBestProducts(Number(currentQuery.categoryId));
+  const rankingData = useGetFollowersRanking();
+  const products = useGetInfiniteProducts({
     categoryId: Number(currentQuery.categoryId),
     order: castArray(currentQuery.order),
     keyword: searchQuery,
   });
-  // 각 정렬별 베스트 상품
-  const { data: sortedProducts, isLoading: isSortedProductsLoading } =
-    useGetSortedProducts();
-  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isProductLoading);
-  // 각 카테고리별 베스트 상품
-  const { data: bestProducts } = useGetBestProducts(
-    Number(currentQuery.categoryId),
-  );
   const sliceBestProducts = useMemo(
-    () => bestProducts?.slice(0, 6),
+    () => bestProducts?.data?.slice(0, 6),
     [bestProducts],
   );
-  // 리뷰어 랭킹
-  const { data: rankingData } = useGetFollowersRanking();
   const sliceRankingData = useMemo(
-    () => rankingData?.slice(0, 5),
+    () => rankingData?.data?.slice(0, 5),
     [rankingData],
   );
+  const [ref, isIntersect] = useIntersect<HTMLDivElement>(products.isLoading);
 
   useEffect(() => {
-    if (hasNextPage && isIntersect) {
-      fetchNextPage();
+    if (products.hasNextPage && isIntersect) {
+      products.fetchNextPage();
     }
-  }, [isIntersect, fetchNextPage, hasNextPage]);
+  }, [isIntersect, products, products.fetchNextPage, products.hasNextPage]);
 
   return (
     <MogazoaLayout>
-      <div className="flex border-b border-var-black3 md:hidden">
-        <SlideMenuBar
-          currentCategory={castArray(currentQuery.category)}
-          onClick={updateQueryParam}
+      <div className="flex flex-col justify-center md:flex-row">
+        <CategoryMenu
+          currentCategoryName={castArray(currentQuery.category)}
+          handleClickCategory={updateQueryParam}
         />
-      </div>
-      <div className="flex justify-center">
-        <div className="hidden md:flex">
-          <CategoryMenu
-            currentCategoryName={castArray(currentQuery.category)}
-            handleClickCategory={updateQueryParam}
-          />
-        </div>
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <RankingList rankingData={sliceRankingData} />
           <div className="flex-1">
             {currentQuery.category || searchQuery ? (
               <ProductSection
                 targetRef={ref}
-                isLoading={isSortedProductsLoading || isProductLoading}
-                products={products?.pages}
+                isLoading={sortedProducts.isLoading || products.isLoading}
+                products={products?.data?.pages}
                 bestProducts={sliceBestProducts}
                 searchQuery={searchQuery}
                 currentCategoryName={castArray(currentQuery.category)}
@@ -147,8 +126,8 @@ const Home = () => {
             ) : (
               <FetchBoundary variant="productsCard">
                 <SortedProductList
-                  sortedProducts={sortedProducts}
-                  isLoading={isSortedProductsLoading}
+                  sortedProducts={sortedProducts.data}
+                  isLoading={sortedProducts.isLoading}
                 />
               </FetchBoundary>
             )}
