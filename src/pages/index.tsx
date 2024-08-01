@@ -1,27 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
-import axios from 'axios';
 import cookie from 'cookie';
 
 import useGetFollowersRanking from '@/models/user/follow/followers/useGetFollowersRanking';
-import useGetCategory from '@/models/category/useGetCategory';
-import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
+import useGetInfiniteProducts, {
+  ProductsQueryOption,
+} from '@/models/product/useGetInfiniteProducts';
+import useGetSortedProducts, {
+  sortedProductsQueryOption,
+} from '@/models/product/useGetSortedProducts';
+import { meQueryOption } from '@/models/auth/useGetMe';
 
+import { ORDER_VARIANTS } from '@/shared/constants/products';
 import sortConverter from '@/shared/utils/sortConverter';
 import castArray from '@/shared/utils/castArray';
-import { ORDER_VARIANTS } from '@/shared/constants/products';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
 import useIntersect from '@/shared/hooks/useIntersect';
 
 import RankingList from '@/shared/components/RankingList/RankingList';
 import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
-import SlideMenuBar from '@/shared/components/SlideMenuBar/SlideMenuBar';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
+import useGetBestProducts, {
+  bestProductsQueryOption,
+} from '@/models/product/useGetProducts';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -29,32 +35,36 @@ export const getServerSideProps = async (
   const cookieHeader = context.req.headers.cookie || '';
   const cookies = cookie.parse(cookieHeader);
   const { accessToken } = cookies;
+  const { query } = context;
+  const categoryId = Number(query.categoryId) || 0;
+  const keyword = castArray(query.search) || '';
+  const order = castArray(query.order) || '';
+  const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
 
-  if (!accessToken) {
-    return {
-      props: {
-        dehydratedState: {},
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 30 * 1000,
       },
-    };
+    },
+  });
+
+  if (accessToken) {
+    await queryClient.prefetchQuery(meQueryOption(accessToken));
   }
 
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ['me'],
-    queryFn: async () => {
-      const response = await axios.get(
-        `https://mogazoa-api.vercel.app/5-5/users/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-      return response.data;
-    },
-    staleTime: 60 * 1000 * 30,
-    gcTime: 60 * 1000 * 30,
-  });
+  if (categoryId) {
+    await queryClient.prefetchInfiniteQuery(
+      ProductsQueryOption({ keyword, categoryId, order }),
+    );
+    await queryClient.prefetchQuery(bestProductsQueryOption(categoryId));
+  } else {
+    await Promise.all([
+      queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[0])),
+      queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[1])),
+      queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[2])),
+    ]);
+  }
 
   return {
     props: {
@@ -64,73 +74,61 @@ export const getServerSideProps = async (
 };
 
 const Home = () => {
-  const { currentQuery, handleRouterPush } = useChangeRouter();
+  const { currentQuery, updateQueryParam, appendQueryParam } =
+    useChangeRouter();
   const { searchQuery } = useSearchRouter();
-  const [currentSortOrder, setCurrentSortOrder] = useState(
-    sortConverter(ORDER_VARIANTS[0]),
-  );
-  // 카테고리 상품
-  const { data: categories } = useGetCategory();
-  const {
-    isFetching,
-    fetchNextPage,
-    hasNextPage,
-    data: products,
-    isLoading,
-  } = useGetInfiniteProducts({
+  const sortedProducts = useGetSortedProducts();
+  const bestProducts = useGetBestProducts(Number(currentQuery.categoryId));
+  const rankingData = useGetFollowersRanking();
+  const products = useGetInfiniteProducts({
     categoryId: Number(currentQuery.categoryId),
-    order: currentSortOrder,
+    order: castArray(currentQuery.order),
     keyword: searchQuery,
   });
-  const [ref, isIntersect] = useIntersect<HTMLDivElement>(isFetching);
-  const productsList = products?.pages.flatMap((page) => page.list) || [];
-
-  // 리뷰어 랭킹
-  const { data: rankingData } = useGetFollowersRanking();
-  const sliceRankingData = rankingData?.slice(0, 5);
+  const sliceBestProducts = useMemo(
+    () => bestProducts?.data?.slice(0, 6),
+    [bestProducts],
+  );
+  const sliceRankingData = useMemo(
+    () => rankingData?.data?.slice(0, 5),
+    [rankingData],
+  );
+  const [ref, isIntersect] = useIntersect<HTMLDivElement>(products.isLoading);
 
   useEffect(() => {
-    if (hasNextPage && isIntersect) {
-      fetchNextPage();
+    if (products.hasNextPage && isIntersect) {
+      products.fetchNextPage();
     }
-  }, [hasNextPage, isIntersect, fetchNextPage]);
+  }, [isIntersect, products, products.fetchNextPage, products.hasNextPage]);
 
   return (
     <MogazoaLayout>
-      <div className="flex border-b border-var-black3 md:hidden">
-        <SlideMenuBar
-          categories={categories}
-          currentCategory={castArray(currentQuery.category)}
-          onClick={handleRouterPush}
+      <div className="flex flex-col justify-center md:flex-row">
+        <CategoryMenu
+          currentCategoryName={castArray(currentQuery.category)}
+          handleClickCategory={updateQueryParam}
         />
-      </div>
-      <div className="flex justify-center">
-        <div className="hidden md:flex">
-          <CategoryMenu
-            categories={categories}
-            currentCategoryName={castArray(currentQuery.category)}
-            handleClickCategory={handleRouterPush}
-          />
-        </div>
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <RankingList rankingData={sliceRankingData} />
           <div className="flex-1">
             {currentQuery.category || searchQuery ? (
-              <>
-                <ProductSection
-                  isLoading={isLoading}
-                  products={productsList}
-                  searchQuery={searchQuery}
-                  currentCategoryName={castArray(currentQuery.category)}
-                  changeSortOrder={(order) =>
-                    setCurrentSortOrder(sortConverter(order))
-                  }
-                />
-                {productsList && <div className="h-[50px] w-full" ref={ref} />}
-              </>
+              <ProductSection
+                targetRef={ref}
+                isLoading={sortedProducts.isLoading || products.isLoading}
+                products={products?.data?.pages}
+                bestProducts={sliceBestProducts}
+                searchQuery={searchQuery}
+                currentCategoryName={castArray(currentQuery.category)}
+                changeSortOrder={(order) =>
+                  appendQueryParam({ order: sortConverter(order) })
+                }
+              />
             ) : (
               <FetchBoundary variant="productsCard">
-                <SortedProductList />
+                <SortedProductList
+                  sortedProducts={sortedProducts.data}
+                  isLoading={sortedProducts.isLoading}
+                />
               </FetchBoundary>
             )}
           </div>

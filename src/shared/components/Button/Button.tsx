@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, memo } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
 import Spinner from '../Spinner/Spinner';
 
@@ -67,4 +67,4 @@ const Button = ({
   );
 };
 
-export default memo(Button);
+export default Button;
