@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getCookie } from '@/utils/cookie';
+import { getCookie } from '@/lib/cookie';
 
 import { meService } from '@/models/auth/useGetMe';
 import useAnimation from '@/hooks/useAnimation';

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie } from './cookie';
+import { getCookie } from '../cookie';
 
 const apiInstance = axios.create({
   baseURL: 'https://mogazoa-api.vercel.app/5-5/',

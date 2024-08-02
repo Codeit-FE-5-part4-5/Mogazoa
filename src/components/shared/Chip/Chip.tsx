@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 import useHexToRgb from '@/hooks/useHexToRgb';
 
 export const CATEGORY_LIST = [

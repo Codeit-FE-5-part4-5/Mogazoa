@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 import useAnimation from '@/hooks/useAnimation';
 import useClickOutside from '@/hooks/useClickOutside';
 

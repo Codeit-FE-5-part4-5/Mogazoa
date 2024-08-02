@@ -1,6 +1,6 @@
 import { isServer, queryOptions, useQuery } from '@tanstack/react-query';
-import axios from '@/utils/axios';
-import { getCookie } from '@/utils/cookie';
+import axios from '@/lib/axios';
+import { getCookie } from '@/lib/cookie';
 
 export const meService = {
   queryKey: ['me'],

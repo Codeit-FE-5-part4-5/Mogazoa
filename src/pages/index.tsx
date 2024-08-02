@@ -7,8 +7,8 @@ import { bestProductsService } from '@/models/product/useGetProducts';
 import { sortedProductsService } from '@/models/product/useGetSortedProducts';
 
 import queryClient from '@/lib/query';
-import getServerToken from '@/utils/getServerToken';
-import getServerQuery from '@/utils/getServerQuery';
+import getServerToken from '@/lib/getServerToken';
+import getServerQuery from '@/lib/getServerQuery';
 import { ORDER_VARIANTS } from '@/constants/products';
 import sortConverter from '@/utils/sortConverter';
 import castArray from '@/utils/castArray';

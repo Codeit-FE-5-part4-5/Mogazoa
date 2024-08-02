@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import appendErrorToQuery from '@/utils/appendErrorToQuery';
+import appendErrorToQuery from '@/lib/auth/appendErrorToQuery';
 import castArray from '@/utils/castArray';
 
 const signupRequest = async (code: string, state: string) => {

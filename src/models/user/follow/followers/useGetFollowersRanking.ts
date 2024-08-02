@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import { FollowerRanking } from '@/types/follow/followers/followers-type';
-import axios from '@/utils/axios';
+import axios from '@/lib/axios';
 
 export const followersRankingService = {
   queryKey: ['users/ranking'],

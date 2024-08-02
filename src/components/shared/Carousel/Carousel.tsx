@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 import fixedNumber from '@/utils/fixedNumber';
 import { Product } from '@/types/product/product';
 import useAnimation from '@/hooks/useAnimation';

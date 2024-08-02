@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import accessKakao from '@/utils/accessKakao';
+import accessKakao from '@/lib/auth/accessKakao';
 
 interface Props {
   nickname?: string;

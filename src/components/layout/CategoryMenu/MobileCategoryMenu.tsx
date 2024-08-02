@@ -37,12 +37,15 @@ const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
   },
 );
 
-interface Props {
+interface MobileCategoryMenuProps {
   currentCategory: string;
   onClick: (value: string | Record<string, string | string[]>) => void;
 }
 
-const MobileCategoryMenu = ({ currentCategory, onClick }: Props) => {
+const MobileCategoryMenu = ({
+  currentCategory,
+  onClick,
+}: MobileCategoryMenuProps) => {
   const [leftRef, isMoreLeft] = useInView();
   const [rightRef, isMoreRight] = useInView();
 

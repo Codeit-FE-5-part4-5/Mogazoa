@@ -11,7 +11,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import axios from 'axios';
-import apiInstance from '@/utils/axios';
+import apiInstance from '@/lib/axios';
 import useModal from '@/store/use-modal-store';
 
 import useGetProductDetail from '@/models/product/useGetProductDetail';

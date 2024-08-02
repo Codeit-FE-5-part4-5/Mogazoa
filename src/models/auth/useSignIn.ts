@@ -1,6 +1,6 @@
 import useChangeRouter from '@/hooks/useChangeRouter';
-import axios from '@/utils/axios';
-import { setCookie } from '@/utils/cookie';
+import axios from '@/lib/axios';
+import { setCookie } from '@/lib/cookie';
 import { useMutation } from '@tanstack/react-query';
 
 const signInRequest = (params: { email: string; password: string }) => {

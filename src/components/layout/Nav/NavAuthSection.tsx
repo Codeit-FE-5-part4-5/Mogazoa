@@ -2,18 +2,22 @@ import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
 import useChangeRouter from '@/hooks/useChangeRouter';
 import useSearchRouter from '@/hooks/useSearchRouter';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 import { Me } from '@/types/user/user';
 import castArray from '@/utils/castArray';
 import { SearchInput } from '@/components/shared';
 
-interface Props {
+interface NavAuthSectionProps {
   me: Me;
   isSearchOpen: boolean;
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const NavAuthSection = ({ me, isSearchOpen, setIsSearchOpen }: Props) => {
+const NavAuthSection = ({
+  me,
+  isSearchOpen,
+  setIsSearchOpen,
+}: NavAuthSectionProps) => {
   const { currentPath, currentQuery } = useChangeRouter();
   const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();

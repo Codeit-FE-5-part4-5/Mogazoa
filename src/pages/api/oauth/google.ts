@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import appendErrorToQuery from '@/utils/appendErrorToQuery';
+import appendErrorToQuery from '@/lib/auth/appendErrorToQuery';
 import castArray from '@/utils/castArray';
-import getGoogleIdToken from '@/utils/getGoogleIdToken';
+import getGoogleIdToken from '@/lib/auth/getGoogleIdToken';
 
 const signupRequest = async (params: { code: string; nickname: string }) => {
   const result = await axios.post(

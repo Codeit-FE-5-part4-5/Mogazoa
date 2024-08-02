@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import accessGoogle from '@/utils/accessGoogle';
+import accessGoogle from '@/lib/auth/accessGoogle';
 
 const GoogleButton = ({ children }: PropsWithChildren) => {
   return (

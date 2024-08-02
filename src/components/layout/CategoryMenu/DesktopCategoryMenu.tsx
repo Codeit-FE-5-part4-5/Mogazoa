@@ -1,8 +1,8 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 import { CATEGORY_LIST } from '@/constants/category';
 import { Category } from '@/types/category/category';
 
-interface Props {
+interface DesktopCategoryMenuProps {
   isVisible?: boolean;
   currentCategory: string;
   handleClickCategory: (
@@ -14,7 +14,7 @@ const DesktopCategoryMenu = ({
   isVisible = false,
   currentCategory,
   handleClickCategory,
-}: Props) => {
+}: DesktopCategoryMenuProps) => {
   return (
     <div
       className={cn(

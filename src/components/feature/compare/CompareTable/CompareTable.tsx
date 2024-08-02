@@ -1,5 +1,5 @@
 import React from 'react';
-import compareProducts from '@/utils/compareProducts';
+import compareProducts from '@/lib/compare/compareProducts';
 import { Product } from '@/types/product/product';
 
 interface Props {

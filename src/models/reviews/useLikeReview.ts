@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from '@/utils/axios';
+import axios from '@/lib/axios';
 import { Review } from '@/types/reviews/reviews';
 
 interface UseLikeReviewProps {

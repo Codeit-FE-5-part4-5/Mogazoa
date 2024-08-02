@@ -2,7 +2,7 @@ import { useIsMobile } from '@/hooks';
 import MobileCategoryMenu from './MobileCategoryMenu';
 import DesktopCategoryMenu from './DesktopCategoryMenu';
 
-interface Props {
+interface CategoryMenuProps {
   isVisible?: boolean;
   currentCategory: string;
   handleClickCategory: (
@@ -14,7 +14,7 @@ const CategoryMenu = ({
   currentCategory,
   handleClickCategory,
   isVisible = false,
-}: Props) => {
+}: CategoryMenuProps) => {
   const isMobile = useIsMobile();
 
   if (isMobile) {

@@ -5,7 +5,7 @@ import {
   SetStateAction,
   useEffect,
 } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 
 interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   isOpen: boolean;

@@ -59,14 +59,7 @@ const middleware = (req: NextRequest) => {
  * @summary 본 미들웨어를 적용시킬 페이지 목록입니다.
  */
 export const config = {
-  matcher: [
-    '/signin',
-    '/signup',
-    '/oauth/kakao',
-    '/oauth/google',
-    '/mypage',
-    '/compare',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
 
 export default middleware;

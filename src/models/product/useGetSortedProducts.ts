@@ -1,5 +1,5 @@
 import { isServer, queryOptions, useQueries } from '@tanstack/react-query';
-import axios from '@/utils/axios';
+import axios from '@/lib/axios';
 import sortConverter from '@/utils/sortConverter';
 import { ORDER_VARIANTS } from '@/constants/products';
 

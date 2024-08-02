@@ -9,7 +9,7 @@ import {
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, useState, SetStateAction, useEffect } from 'react';
 import axios from 'axios';
-import apiInstance from '@/utils/axios';
+import apiInstance from '@/lib/axios';
 import useModal from '@/store/use-modal-store';
 
 import useGetProductDetail from '@/models/product/useGetProductDetail';

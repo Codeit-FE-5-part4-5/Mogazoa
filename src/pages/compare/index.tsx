@@ -3,7 +3,7 @@ import React, { SetStateAction, useEffect, useState } from 'react';
 import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
 import useProduct from '@/models/product/useProduct';
 import { Product } from '@/types/product/product';
-import onClickCompare from '@/utils/onClickCompare';
+import onClickCompare from '@/lib/compare/onClickCompare';
 
 import CompareResult from '@/components/feature/compare/CompareResult/CompareResult';
 import CompareTable from '@/components/feature/compare/CompareTable/CompareTable';

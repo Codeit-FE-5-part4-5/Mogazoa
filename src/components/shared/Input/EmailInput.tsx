@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 
 interface EmailInputProps extends InputHTMLAttributes<HTMLInputElement> {
   register: UseFormRegisterReturn;

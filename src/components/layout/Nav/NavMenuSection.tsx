@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 import { Me } from '@/types/user/user';
 import Image from 'next/image';
 import Link from 'next/link';

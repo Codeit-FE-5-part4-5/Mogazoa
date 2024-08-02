@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import apiInstance from '@/utils/axios';
+import apiInstance from '@/lib/axios';
 import { useToast } from '@/components/shared/ui/use-toast';
 
 const useUpdateProfile = () => {

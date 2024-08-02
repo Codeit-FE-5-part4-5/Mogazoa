@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from '@/utils/axios';
+import axios from '@/lib/axios';
+import { setCookie } from '@/lib/cookie';
 import useChangeRouter from '@/hooks/useChangeRouter';
-import { setCookie } from '@/utils/cookie';
 
 const signUpRequest = (params: {
   email: string;

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
-import apiInstance from '@/utils/axios';
+import apiInstance from '@/lib/axios';
 
 type ImageInputProps = {
   onChange: (image: string | null) => void;
