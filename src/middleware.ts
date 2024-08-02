@@ -7,6 +7,14 @@ import type { NextRequest } from 'next/server';
  * 쿠키의 accessToken여부로 로그인을 판단합니다.
  */
 
+const protectedRoutes = ['/mypage', '/compare'];
+const authRestrictedRoutes = [
+  '/signup',
+  '/signin',
+  '/oauth/kakao',
+  '/oauth/google',
+];
+
 const checkLogin = (req: NextRequest) => {
   const token = req.cookies.get('accessToken');
   return token;
@@ -19,14 +27,8 @@ const redirectIfLoggedIn = (req: NextRequest) => {
    * 메인페이지로 리다이렉션 합니다.
    * 정상적인 접근일 경우, 해당 함수는 200 상태코드를 포함한 req를 다음 미들웨어로 패스합니다.
    */
-  const redirectedPaths = [
-    '/signup',
-    '/signin',
-    '/oauth/kakao',
-    '/oauth/google',
-  ];
 
-  if (checkLogin(req) && redirectedPaths.includes(req.nextUrl.pathname)) {
+  if (checkLogin(req) && authRestrictedRoutes.includes(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/', req.url));
   }
   return NextResponse.next();
@@ -39,9 +41,8 @@ const redirectIfNotLoggedIn = (req: NextRequest) => {
    * 로그인 페이지로 내쫒는 로직을 포함합니다.
    * 정상적인 접근일 경우, 해당 함수는 200 상태코드를 포함한 req를 다음 미들웨어로 패스합니다.
    */
-  const restrictedPaths = ['/mypage', '/compare'];
 
-  if (!checkLogin(req) && restrictedPaths.includes(req.nextUrl.pathname)) {
+  if (!checkLogin(req) && protectedRoutes.includes(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/signin', req.url));
   }
   return NextResponse.next();
