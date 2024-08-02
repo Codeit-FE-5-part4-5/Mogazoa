@@ -1,5 +1,5 @@
-import axios from '@/shared/utils/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import axios from '@/utils/axios';
 
 const useGetCreatedProducts = (
   userId: number | null | undefined | string | string[],

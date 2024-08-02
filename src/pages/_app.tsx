@@ -1,14 +1,17 @@
 import type { AppProps } from 'next/app';
 import { CookiesProvider } from 'react-cookie';
-import GlobalBoundary from '@/shared/components/Boundary/GlobalBoundary';
-import ModalProvider from '@/shared/providers/modal-provider';
-import { Toaster } from '@/components/ui/toaster';
-import '@/styles/globals.css';
 import { HydrationBoundary, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import Portal from '@/shared/components/Portal/Portal';
-import Floating from '@/shared/components/Floating/Floating';
+
 import queryClient from '@/lib/query';
+import ModalProvider from '@/providers/modal-provider';
+
+import { Toaster } from '@/components/ui/toaster';
+import GlobalBoundary from '@/components/shared/Boundary/GlobalBoundary';
+import Portal from '@/components/shared/Portal/Portal';
+import Floating from '@/components/shared/Floating/Floating';
+
+import '@/styles/globals.css';
 
 declare global {
   interface Window {

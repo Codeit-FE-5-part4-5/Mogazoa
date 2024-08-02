@@ -1,6 +1,6 @@
-import axios from '@/shared/utils/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ReviewDetail } from '@/shared/types/reviews/reviews';
+import axios from '@/utils/axios';
+import { ReviewDetail } from '@/types/reviews/reviews';
 
 interface UseGetProductDetailReviewsProps {
   productId: number | undefined;

@@ -1,6 +1,6 @@
-import apiInstance from '@/shared/utils/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import apiInstance from '@/utils/axios';
 
 const usePostFollow = () => {
   const queryClient = useQueryClient();

@@ -1,6 +1,6 @@
-import axios from '@/shared/utils/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Review } from '@/shared/types/reviews/reviews';
+import axios from '@/utils/axios';
+import { Review } from '@/types/reviews/reviews';
 
 interface EditImage {
   id?: number | null;

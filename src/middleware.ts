@@ -1,11 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-/**
- * @summary 로그인 여부에 따른 리다이렉션 로직을 포함합니다.
- *
- * 쿠키의 accessToken여부로 로그인을 판단합니다.
- */
 const protectedRoutes = ['/mypage', '/compare'];
 const authRestrictedRoutes = [
   '/signup',
@@ -14,6 +9,9 @@ const authRestrictedRoutes = [
   '/oauth/google',
 ];
 
+/**
+ * @summary 쿠키의 accessToken여부로 로그인을 판단합니다.
+ */
 const checkLogin = (req: NextRequest) => {
   const token = req.cookies.get('accessToken');
   return token;

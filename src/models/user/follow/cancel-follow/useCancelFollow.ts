@@ -1,6 +1,6 @@
-import { useToast } from '@/components/ui/use-toast';
-import apiInstance from '@/shared/utils/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import apiInstance from '@/utils/axios';
+import { useToast } from '@/components/ui/use-toast';
 
 const useCancelFollow = () => {
   const { toast } = useToast();

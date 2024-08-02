@@ -1,15 +1,17 @@
-import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
-import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
+
 import useGetMe from '@/models/auth/useGetMe';
 import useGetCreatedProducts from '@/models/user/products/created-products/useGetCreatedProducts';
 import useGetFavoriteProducts from '@/models/user/products/favorite-products/useGetFavoriteProducts';
 import useGetReviewedProducts from '@/models/user/products/reviewed-products/useGetReviewedProducts';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
-import { ChevronDown } from 'lucide-react';
-import { useInView } from 'react-intersection-observer';
-import Spinner from '@/shared/components/Spinner/Spinner';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
+
+import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileCard';
+import ActivityCard from '@/components/feature/product/ActivityCard/ActivityCard';
+import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
+import Spinner from '@/components/shared/Spinner/Spinner';
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 
 const MyPage = () => {
   const [ref, inView] = useInView();

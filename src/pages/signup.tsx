@@ -1,13 +1,15 @@
-import Button from '@/shared/components/Button/Button';
-import EmailInput from '@/shared/components/Input/EmailInput';
-import NicknameInput from '@/shared/components/Input/NicknameInput';
-import PasswordInput from '@/shared/components/Input/PasswordInput';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import useSignUp from '@/models/auth/useSignUp';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+import useSignUp from '@/models/auth/useSignUp';
+
+import Button from '@/components/shared/Button/Button';
+import EmailInput from '@/components/shared/Input/EmailInput';
+import NicknameInput from '@/components/shared/Input/NicknameInput';
+import PasswordInput from '@/components/shared/Input/PasswordInput';
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 
 export interface IAuthForm {
   email: string;

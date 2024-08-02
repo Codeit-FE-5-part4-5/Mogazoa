@@ -1,7 +1,7 @@
-import appendErrorToQuery from '@/shared/utils/appendErrorToQuery';
-import castArray from '@/shared/utils/castArray';
-import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
+import axios from 'axios';
+import appendErrorToQuery from '@/utils/appendErrorToQuery';
+import castArray from '@/utils/castArray';
 
 const signupRequest = async (code: string, state: string) => {
   const result = await axios.post(

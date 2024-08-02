@@ -5,8 +5,8 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
 } from '@tanstack/react-query';
-import axios from '@/shared/utils/axios';
-import { ItemListResponse } from '@/shared/types/product/product';
+import axios from '@/utils/axios';
+import { ItemListResponse } from '@/types/product/product';
 
 interface InfiniteProductsProps {
   keyword?: string;

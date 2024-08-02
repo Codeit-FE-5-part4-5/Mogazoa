@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
 import { z } from 'zod';
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 
 export const oAuthSchema = z.object({
   nickname: z

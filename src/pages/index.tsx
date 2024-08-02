@@ -6,21 +6,21 @@ import { productsService } from '@/models/product/useGetInfiniteProducts';
 import { bestProductsService } from '@/models/product/useGetProducts';
 import { sortedProductsService } from '@/models/product/useGetSortedProducts';
 
-import { ORDER_VARIANTS } from '@/shared/constants/products';
-import sortConverter from '@/shared/utils/sortConverter';
-import castArray from '@/shared/utils/castArray';
-import useChangeRouter from '@/shared/hooks/useChangeRouter';
-import useSearchRouter from '@/shared/hooks/useSearchRouter';
-
-import RankingList from '@/shared/components/RankingList/RankingList';
-import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
-import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
-import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import queryClient from '@/lib/query';
-import getServerToken from '@/shared/utils/getServerToken';
-import getServerQuery from '@/shared/utils/getServerQuery';
+import getServerToken from '@/utils/getServerToken';
+import getServerQuery from '@/utils/getServerQuery';
+import { ORDER_VARIANTS } from '@/constants/products';
+import sortConverter from '@/utils/sortConverter';
+import castArray from '@/utils/castArray';
+import useChangeRouter from '@/hooks/useChangeRouter';
+import useSearchRouter from '@/hooks/useSearchRouter';
+
+import RankingList from '@/components/feature/ranking/RankingList/RankingList';
+import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import FetchBoundary from '@/components/shared/Boundary/FetchBoundary';
+import SortedProductList from '@/components/feature/product/SortedProductList/SortedProductList';
+import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,

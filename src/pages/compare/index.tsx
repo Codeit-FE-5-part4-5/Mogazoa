@@ -1,13 +1,15 @@
-import Button from '@/shared/components/Button/Button';
-import CompareDropDownInput from '@/shared/components/DropDown/CompareDropDownInput';
+import React, { SetStateAction, useEffect, useState } from 'react';
+
 import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
 import useProduct from '@/models/product/useProduct';
-import React, { SetStateAction, useEffect, useState } from 'react';
-import { Product } from '@/shared/types/product/product';
-import onClickCompare from '@/shared/utils/onClickCompare';
-import CompareResult from '@/shared/components/CompareResult/CompareResult';
-import CompareTable from '@/shared/components/CompareTable/CompareTable';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
+import { Product } from '@/types/product/product';
+import onClickCompare from '@/utils/onClickCompare';
+
+import CompareDropDownInput from '@/components/shared/DropDown/CompareDropDownInput';
+import Button from '@/components/shared/Button/Button';
+import CompareResult from '@/components/feature/compare/CompareResult/CompareResult';
+import CompareTable from '@/components/feature/compare/CompareTable/CompareTable';
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 
 const Compare = () => {
   const [value1, setValue1] = useState('');

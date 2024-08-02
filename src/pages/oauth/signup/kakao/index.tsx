@@ -1,12 +1,14 @@
-import Button from '@/shared/components/Button/Button';
-import NicknameInput from '@/shared/components/Input/NicknameInput';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { IAuthForm } from '@/pages/signup';
-import accessKakao from '@/shared/utils/accessKakao';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import castArray from '@/shared/utils/castArray';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { IAuthForm } from '@/pages/signup';
+import accessKakao from '@/utils/accessKakao';
+import castArray from '@/utils/castArray';
+
+import Button from '@/components/shared/Button/Button';
+import NicknameInput from '@/components/shared/Input/NicknameInput';
 import OAuthSignUp, { oAuthSchema } from '../..';
 
 const KakaoAuth = () => {

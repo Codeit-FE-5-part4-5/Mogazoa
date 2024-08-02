@@ -1,6 +1,6 @@
-import { ProductDetail } from '@/shared/types/product/productDetail';
-import axios from '@/shared/utils/axios';
 import { queryOptions, useQuery, UseQueryResult } from '@tanstack/react-query';
+import axios from '@/utils/axios';
+import { ProductDetail } from '@/types/product/productDetail';
 
 interface UseGetProductDetailProps {
   productId: number;

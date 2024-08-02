@@ -1,8 +1,7 @@
-import { ORDER_VARIANTS } from '@/shared/constants/products';
-
-import axios from '@/shared/utils/axios';
-import sortConverter from '@/shared/utils/sortConverter';
 import { isServer, queryOptions, useQueries } from '@tanstack/react-query';
+import axios from '@/utils/axios';
+import sortConverter from '@/utils/sortConverter';
+import { ORDER_VARIANTS } from '@/constants/products';
 
 export const sortedProductsService = {
   queryKey: ['sortedProducts'],

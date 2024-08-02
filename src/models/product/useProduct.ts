@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from '@/shared/utils/axios';
-import { Product } from '@/shared/types/product/product';
+import axios from '@/utils/axios';
+import { Product } from '@/types/product/product';
 
 export default function useProduct({
   productId,

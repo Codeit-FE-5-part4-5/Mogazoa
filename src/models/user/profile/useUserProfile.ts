@@ -1,5 +1,5 @@
-import axios from '@/shared/utils/axios';
 import { useQuery } from '@tanstack/react-query';
+import axios from '@/utils/axios';
 
 const useUserProfile = (userId: number | null | undefined) => {
   return useQuery({

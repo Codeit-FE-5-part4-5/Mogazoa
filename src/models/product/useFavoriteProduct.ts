@@ -1,6 +1,6 @@
-import axios from '@/shared/utils/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ProductDetail } from '@/shared/types/product/productDetail';
+import axios from '@/utils/axios';
+import { ProductDetail } from '@/types/product/productDetail';
 
 interface UseFavoriteProductProps {
   productId: number;
