@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { IAuthForm } from '@/pages/signup';
+import accessKakao from '@/utils/accessKakao';
 import castArray from '@/utils/castArray';
 import signUpGoogle from '@/utils/signUpGoogle';
+import { IAuthForm } from '@/pages/signup';
 
 import { Button, NicknameInput } from '@/components/shared';
 import OAuthSignUp, { oAuthSchema } from '../..';
 
-const GoogleAuth = () => {
+const Auth = () => {
   const router = useRouter();
+  const params = useParams();
   const { errorCode, errorMessage } = router.query;
+  const { provider } = params;
   const {
     register,
     handleSubmit,
@@ -24,7 +28,11 @@ const GoogleAuth = () => {
   });
 
   const handleSubmitSignUp = (data: Pick<IAuthForm, 'nickname'>) => {
-    signUpGoogle(data.nickname);
+    if (provider === 'kakao') {
+      accessKakao(data.nickname);
+    } else if (provider === 'google') {
+      signUpGoogle(data.nickname);
+    }
   };
 
   useEffect(() => {
@@ -53,4 +61,4 @@ const GoogleAuth = () => {
   );
 };
 
-export default GoogleAuth;
+export default Auth;
