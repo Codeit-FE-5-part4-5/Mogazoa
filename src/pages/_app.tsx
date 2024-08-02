@@ -9,7 +9,7 @@ import ModalProvider from '@/providers/modal-provider';
 import { Toaster } from '@/components/shared/ui/toaster';
 import { GlobalBoundary, Portal, Floating } from '@/components/shared';
 
-import '@/styles/globals.css';
+import 'public/styles/globals.css';
 
 declare global {
   interface Window {
