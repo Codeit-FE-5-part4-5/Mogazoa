@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Product } from '@/types/product/product';
-import Spinner from '@/components/shared/Spinner/Spinner';
+import { Spinner } from '@/components/shared';
 import ProductCard from '../ProductCard/ProductCard';
 
 interface ProductCardListProps {

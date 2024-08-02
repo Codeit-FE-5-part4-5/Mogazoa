@@ -2,9 +2,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useModal from '@/store/use-modal-store';
 import { Review } from '@/types/reviews/reviews';
-import ThumbsChip from '@/components/shared/Chip/ThumbsChip';
-import ReviewDeleteModal from '@/components/shared/modals/review-delete-modal';
-import ReviewEditModal from '@/components/shared/modals/review-edit-modal';
+import {
+  ThumbsChip,
+  ReviewDeleteModal,
+  ReviewEditModal,
+} from '@/components/shared';
 
 interface Props {
   review: Review;

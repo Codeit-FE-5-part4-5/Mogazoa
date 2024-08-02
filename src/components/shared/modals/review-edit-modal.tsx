@@ -4,13 +4,13 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/shared/ui/dialog';
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Rating } from 'react-simple-star-rating';
-
 import useModal from '@/store/use-modal-store';
+
 import useEditReview from '@/models/reviews/useEditReview';
 import ImageInput from '../Input/ImageInput';
 import Button from '../Button/Button';

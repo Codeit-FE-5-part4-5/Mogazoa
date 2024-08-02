@@ -7,8 +7,7 @@ import { IAuthForm } from '@/pages/signup';
 import castArray from '@/utils/castArray';
 import signUpGoogle from '@/utils/signUpGoogle';
 
-import Button from '@/components/shared/Button/Button';
-import NicknameInput from '@/components/shared/Input/NicknameInput';
+import { Button, NicknameInput } from '@/components/shared';
 import OAuthSignUp, { oAuthSchema } from '../..';
 
 const GoogleAuth = () => {

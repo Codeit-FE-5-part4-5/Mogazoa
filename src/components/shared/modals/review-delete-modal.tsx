@@ -4,11 +4,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/shared/ui/dialog';
 
 import { useState } from 'react';
-
 import useModal from '@/store/use-modal-store';
+
 import useDeleteReview from '@/models/reviews/useDeleteReview';
 import Button from '../Button/Button';
 

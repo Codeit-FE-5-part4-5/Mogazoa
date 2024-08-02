@@ -8,11 +8,11 @@ import useGetMe from '@/models/auth/useGetMe';
 import useGetProductDetail from '@/models/product/useGetProductDetail';
 import useGetProductDetailReviews from '@/models/reviews/useGetProductReview';
 
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductDetailCard from '@/components/feature/product/ProductDetailCard/ProductDetailCard';
 import ProductDetailReview from '@/components/feature/product/ProductDetailReview/ProductDetailReview';
 import StatisticsCard from '@/components/feature/product/StatisticsCard/StatisticsCard';
-import Floating from '@/components/shared/Floating/Floating';
-import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import { Floating } from '@/components/shared';
 
 const ProductDetails = () => {
   const router = useRouter();

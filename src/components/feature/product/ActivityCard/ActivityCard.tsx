@@ -1,5 +1,5 @@
 import React from 'react';
-import Chip from '@/components/shared/Chip/Chip';
+import { Chip } from '@/components/shared';
 
 interface ActivityCardProps {
   status: 'averageLeft' | 'reviewsLeft' | 'interest';

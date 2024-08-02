@@ -1,13 +1,6 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
-type TextFieldInputProps = {
-  placeholder: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: () => void;
-};
-
-const TextFieldInput: React.FC<TextFieldInputProps> = ({
+const TextFieldInput: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({
   placeholder,
   value,
   onChange,

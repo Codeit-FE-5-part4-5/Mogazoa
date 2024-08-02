@@ -8,11 +8,9 @@ import { z } from 'zod';
 import useSignIn from '@/models/auth/useSignIn';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
-import Button from '@/components/shared/Button/Button';
 import GoogleButton from '@/components/feature/auth/GoogleButton/GoogleButton';
-import EmailInput from '@/components/shared/Input/EmailInput';
-import PasswordInput from '@/components/shared/Input/PasswordInput';
 import KakaoButton from '@/components/feature/auth/KakaoButton/KakaoButton';
+import { Button, EmailInput, PasswordInput } from '@/components/shared';
 
 export interface ILoginForm {
   email: string;

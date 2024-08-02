@@ -12,15 +12,14 @@ import getServerQuery from '@/utils/getServerQuery';
 import { ORDER_VARIANTS } from '@/constants/products';
 import sortConverter from '@/utils/sortConverter';
 import castArray from '@/utils/castArray';
-import useChangeRouter from '@/hooks/useChangeRouter';
-import useSearchRouter from '@/hooks/useSearchRouter';
+import { useChangeRouter, useSearchRouter } from '@/hooks';
 
-import RankingList from '@/components/feature/ranking/RankingList/RankingList';
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
-import FetchBoundary from '@/components/shared/Boundary/FetchBoundary';
+import RankingList from '@/components/feature/ranking/RankingList/RankingList';
 import SortedProductList from '@/components/feature/product/SortedProductList/SortedProductList';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
+import { FetchBoundary } from '@/components/shared';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,

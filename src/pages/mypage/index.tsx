@@ -7,11 +7,11 @@ import useGetCreatedProducts from '@/models/user/products/created-products/useGe
 import useGetFavoriteProducts from '@/models/user/products/favorite-products/useGetFavoriteProducts';
 import useGetReviewedProducts from '@/models/user/products/reviewed-products/useGetReviewedProducts';
 
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileCard';
 import ActivityCard from '@/components/feature/product/ActivityCard/ActivityCard';
 import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
-import Spinner from '@/components/shared/Spinner/Spinner';
-import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import { Spinner } from '@/components/shared';
 
 const MyPage = () => {
   const [ref, inView] = useInView();

@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
-
-import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
-import Floating from '@/shared/components/Floating/Floating';
-import ProductCardList from '@/shared/components/ProductCardList/ProductCardList';
-import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
+import { ChevronDown } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
 
 import useGetMe from '@/models/auth/useGetMe';
 import useGetCreatedProducts from '@/models/user/products/created-products/useGetCreatedProducts';
@@ -12,10 +9,11 @@ import useGetFavoriteProducts from '@/models/user/products/favorite-products/use
 import useGetReviewedProducts from '@/models/user/products/reviewed-products/useGetReviewedProducts';
 import useUserProfile from '@/models/user/profile/useUserProfile';
 
-import { ChevronDown } from 'lucide-react';
-import { useInView } from 'react-intersection-observer';
-import Spinner from '@/shared/components/Spinner/Spinner';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import ActivityCard from '@/components/feature/product/ActivityCard/ActivityCard';
+import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
+import ProfileCard from '@/components/feature/profile/ProfileCard/ProfileCard';
+import { Floating, Spinner } from '@/components/shared';
 
 const UserProfile = () => {
   const [ref, inView] = useInView();

@@ -4,15 +4,15 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/shared/ui/dialog';
 
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, useState, SetStateAction, useEffect } from 'react';
 import axios from 'axios';
 import apiInstance from '@/utils/axios';
+import useModal from '@/store/use-modal-store';
 
 import useGetProductDetail from '@/models/product/useGetProductDetail';
-import useModal from '@/store/use-modal-store';
 import DropDown from '../DropDown/DropDown';
 import TextFieldInput from '../Input/TextFieldInput';
 import ImageInput from '../Input/ImageInput';

@@ -5,11 +5,13 @@ import { z } from 'zod';
 
 import useSignUp from '@/models/auth/useSignUp';
 
-import Button from '@/components/shared/Button/Button';
-import EmailInput from '@/components/shared/Input/EmailInput';
-import NicknameInput from '@/components/shared/Input/NicknameInput';
-import PasswordInput from '@/components/shared/Input/PasswordInput';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import {
+  Button,
+  EmailInput,
+  NicknameInput,
+  PasswordInput,
+} from '@/components/shared';
 
 export interface IAuthForm {
   email: string;

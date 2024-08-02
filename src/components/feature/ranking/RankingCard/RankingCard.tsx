@@ -1,9 +1,9 @@
-import React from 'react';
-import Image from 'next/image';
-import { FollowerRanking } from '@/types/follow/followers/followers-type';
 import Link from 'next/link';
+import Image from 'next/image';
+import React from 'react';
 import convertToK from '@/utils/convertToK';
-import Ranking from '@/components/shared/Chip/Ranking';
+import { FollowerRanking } from '@/types/follow/followers/followers-type';
+import { Ranking } from '@/components/shared';
 
 type RankingCardType = Omit<
   FollowerRanking,

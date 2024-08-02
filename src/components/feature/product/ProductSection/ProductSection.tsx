@@ -4,9 +4,8 @@ import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
 import useGetBestProducts from '@/models/product/useGetProducts';
 import { ORDER_VARIANTS } from '@/constants/products';
 import castArray from '@/utils/castArray';
-import useIntersect from '@/hooks/useIntersect';
-import DropDown from '@/components/shared/DropDown/DropDown';
-import Carousel from '@/components/shared/Carousel/Carousel';
+import { useIntersect } from '@/hooks';
+import { DropDown, Carousel } from '@/components/shared';
 import ProductCardList from '../ProductCardList/ProductCardList';
 
 interface ProductSectionProps {

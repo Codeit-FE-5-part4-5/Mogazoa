@@ -5,11 +5,10 @@ import useProduct from '@/models/product/useProduct';
 import { Product } from '@/types/product/product';
 import onClickCompare from '@/utils/onClickCompare';
 
-import CompareDropDownInput from '@/components/shared/DropDown/CompareDropDownInput';
-import Button from '@/components/shared/Button/Button';
 import CompareResult from '@/components/feature/compare/CompareResult/CompareResult';
 import CompareTable from '@/components/feature/compare/CompareTable/CompareTable';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import { CompareDropDownInput, Button } from '@/components/shared';
 
 const Compare = () => {
   const [value1, setValue1] = useState('');

@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import { useQueryClient } from '@tanstack/react-query';
+import { useToast } from '@/components/ui/use-toast';
 import { UserType } from '@/types/user/user-type';
 import useModal from '@/store/use-modal-store';
 import usePostFollow from '@/models/user/follow/post-follow/usePostFollow';
 import useCancelFollow from '@/models/user/follow/cancel-follow/useCancelFollow';
-import { useToast } from '@/components/ui/use-toast';
-import Button from '@/components/shared/Button/Button';
+import { Button } from '@/components/shared';
 
 interface ProfileCardProps {
   user: UserType;

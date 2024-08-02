@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { forwardRef } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { CATEGORY_LIST } from '@/constants/category';
 import { Category } from '@/types/category/category';
+import { CATEGORY_LIST } from '@/constants/category';
 
 interface CategoryButtonProps {
   category: Category;

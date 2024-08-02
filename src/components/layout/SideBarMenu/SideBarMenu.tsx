@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
-import logout from '@/utils/logout';
 import Image from 'next/image';
+import { Dispatch, SetStateAction } from 'react';
+import logout from '@/utils/logout';
 
 interface SideBarMenuProps {
   setOpenMenu: Dispatch<SetStateAction<boolean>>;

@@ -6,10 +6,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import queryClient from '@/lib/query';
 import ModalProvider from '@/providers/modal-provider';
 
-import { Toaster } from '@/components/ui/toaster';
-import GlobalBoundary from '@/components/shared/Boundary/GlobalBoundary';
-import Portal from '@/components/shared/Portal/Portal';
-import Floating from '@/components/shared/Floating/Floating';
+import { Toaster } from '@/components/shared/ui/toaster';
+import { GlobalBoundary, Portal, Floating } from '@/components/shared';
 
 import '@/styles/globals.css';
 

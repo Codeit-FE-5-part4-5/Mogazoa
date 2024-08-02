@@ -1,11 +1,7 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import accessGoogle from '@/utils/accessGoogle';
 
-interface GoogleButtonProps {
-  children: ReactNode;
-}
-
-const GoogleButton = ({ children }: GoogleButtonProps) => {
+const GoogleButton = ({ children }: PropsWithChildren) => {
   return (
     <button
       type="button"

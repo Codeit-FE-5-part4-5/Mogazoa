@@ -4,13 +4,13 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/shared/ui/dialog';
+import { useToast } from '@/components/shared/ui/use-toast';
 
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
-
-import { useToast } from '@/components/ui/use-toast';
 import useModal from '@/store/use-modal-store';
+
 import useGetMe from '@/models/auth/useGetMe';
 import useUpdateProfile from '@/models/user/profile/useUpdateProfile';
 import ImageInput from '../Input/ImageInput';

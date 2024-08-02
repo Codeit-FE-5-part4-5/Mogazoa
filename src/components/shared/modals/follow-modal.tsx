@@ -4,13 +4,18 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+} from '@/components/shared/ui/dialog';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/shared/ui/avatar';
 
 import { useRouter } from 'next/router';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
 import useModal from '@/store/use-modal-store';
+
 import useGetMe from '@/models/auth/useGetMe';
 import useGetUserFollowers from '@/models/user/follow/followers/useGetUserFollowers';
 import { FollowerItem } from '@/types/follow/followers/followers-type';

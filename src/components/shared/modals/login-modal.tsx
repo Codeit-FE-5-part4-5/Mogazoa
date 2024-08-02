@@ -4,11 +4,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/shared/ui/dialog';
 
 import { useRouter } from 'next/router';
-
 import useModal from '@/store/use-modal-store';
+
 import Button from '../Button/Button';
 
 const LoginModal = () => {

@@ -1,12 +1,11 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import accessKakao from '@/utils/accessKakao';
 
-interface KakaoButtonProps {
-  children: ReactNode;
+interface Props {
   nickname?: string;
 }
 
-const KakaoButton = ({ children, nickname }: KakaoButtonProps) => {
+const KakaoButton = ({ children, nickname }: PropsWithChildren<Props>) => {
   return (
     <button
       type="button"

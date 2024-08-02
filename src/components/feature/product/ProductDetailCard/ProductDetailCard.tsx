@@ -3,9 +3,7 @@ import Image from 'next/image';
 import useModal from '@/store/use-modal-store';
 import useFavoriteProduct from '@/models/product/useFavoriteProduct';
 import { ProductDetail } from '@/types/product/productDetail';
-import Chip from '@/components/shared/Chip/Chip';
-import Button from '@/components/shared/Button/Button';
-import CompareModal from '@/components/shared/modals/compare-modal';
+import { Chip, Button, CompareModal } from '@/components/shared';
 
 interface Props {
   ProductDetailData: ProductDetail;
