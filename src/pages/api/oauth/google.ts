@@ -1,8 +1,8 @@
-import getGoogleIdToken from '@/models/auth/getGoogleIdToken';
+import { NextApiRequest, NextApiResponse } from 'next';
+import axios from 'axios';
 import appendErrorToQuery from '@/shared/utils/appendErrorToQuery';
 import castArray from '@/shared/utils/castArray';
-import axios from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
+import getGoogleIdToken from '@/shared/utils/getGoogleIdToken';
 
 const signupRequest = async (params: { code: string; nickname: string }) => {
   const result = await axios.post(
@@ -27,6 +27,15 @@ const signinRequest = async (code: string) => {
   return result;
 };
 
+/**
+ *  구글 로그인 || 회원가입 로직
+ * 1. 구글 인가코드를 받기 위해 리다이렉트 URI와 필요한 값을 넘긴다.
+ * 2. 리다이렉트 URI의 데이터 처리 로직을 실행시킨다.
+ * 3. 받은 인가코드를 이용해 idToken을 받는다.
+ * 4. idToken으로 로그인 요청을 보낸다.
+ * 5. 미가입 회원이라면 idToken으로 가입 요청을 보낸다
+ * 6. 엑세스 토큰을 쿠키에 저장한뒤 메인 페이지로 리다이렉션 한다.
+ */
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { code, nickname } = req.query;
 
@@ -77,13 +86,3 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default handler;
-
-/**
- *  구글 로그인 || 회원가입 로직
- * 1. 구글 인가코드를 받기 위해 리다이렉트 URI와 필요한 값을 넘긴다.
- * 2. 리다이렉트 URI의 데이터 처리 로직을 실행시킨다.
- * 3. 받은 인가코드를 이용해 idToken을 받는다.
- * 4. idToken으로 로그인 요청을 보낸다.
- * 5. 미가입 회원이라면 idToken으로 가입 요청을 보낸다
- * 6. 엑세스 토큰을 쿠키에 저장한뒤 메인 페이지로 리다이렉션 한다.
- */
