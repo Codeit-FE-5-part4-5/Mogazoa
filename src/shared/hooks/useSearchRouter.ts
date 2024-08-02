@@ -12,6 +12,10 @@ type TSearchRouter = () => {
   ) => void;
 };
 
+/**
+ *
+ * @todo 검색 관련 로직 수정 예정 (기능은 함)
+ */
 const useSearchRouter: TSearchRouter = () => {
   const router = useRouter();
   const currentPath = router.pathname;

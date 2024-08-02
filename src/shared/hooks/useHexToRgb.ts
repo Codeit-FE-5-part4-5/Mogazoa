@@ -3,7 +3,6 @@
  * @param hexString rgb로 변환시킬 헥스값 문자열
  * @returns [r, g, b]
  */
-
 const useHexToRgb = (hexString: string): number[] => {
   const hex = hexString?.replace('#', '');
 

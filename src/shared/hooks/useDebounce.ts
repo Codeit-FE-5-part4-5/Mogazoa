@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 
+/**
+ *
+ * @param {string} value 디바운스를 걸 요소
+ * @param {number} time 디바운스를 줄 시간
+ * @returns {string} deBounceValue - 디바운스 결과값
+ */
 const useDebounce = (value: string, time: number): string => {
   const [deBounceValue, setDeBounceValue] = useState(value);
   useEffect(() => {

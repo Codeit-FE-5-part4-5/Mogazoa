@@ -9,6 +9,12 @@ type THandleIntersect = (
   observer: IntersectionObserver,
 ) => void;
 
+/**
+ *
+ * @param {boolean} once 관찰을 한번만 할지 정하는 불리언, true면 한번만, false면 무한
+ * @returns {RefObject} target - 관찰할 요소에 걸 ref
+ * @returns {boolean} isIntersecting - 관찰 되고 있는지 여부를 알려주는 불리언
+ */
 const useIntersect: TIntersect = (once = false) => {
   const [isIntersecting, setIntersecting] = useState(false);
   const target = useRef(null);

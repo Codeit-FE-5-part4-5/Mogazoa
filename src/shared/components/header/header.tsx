@@ -3,15 +3,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-import Portal from '@/shared/components/Portal/Portal';
 import useGetMe from '@/models/auth/useGetMe';
+import castArray from '@/shared/utils/castArray';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useClickOutside from '@/shared/hooks/useClickOutside';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
-import castArray from '@/shared/utils/castArray';
-import SearchInput from '../Input/SearchInput';
-import SideBarMenu from '../SideBarMenu/SideBarMenu';
+
+import Portal from '@/shared/components/Portal/Portal';
+import SearchInput from '@/shared/components/Input/SearchInput';
+import SideBarMenu from '@/shared/components/SideBarMenu/SideBarMenu';
 
 const Header = () => {
   const { data: me } = useGetMe();
