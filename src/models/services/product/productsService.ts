@@ -1,12 +1,6 @@
-import {
-  InfiniteData,
-  infiniteQueryOptions,
-  isServer,
-  useInfiniteQuery,
-  UseInfiniteQueryResult,
-} from '@tanstack/react-query';
+import { infiniteQueryOptions } from '@tanstack/react-query';
+import isServer from '@/utils/isServer';
 import axios from '@/lib/axios';
-import { ItemListResponse } from '@/types/product/product';
 
 interface InfiniteProductsProps {
   keyword?: string;
@@ -14,11 +8,7 @@ interface InfiniteProductsProps {
   order?: string;
 }
 
-type TGetProducts = (
-  params: InfiniteProductsProps,
-) => UseInfiniteQueryResult<InfiniteData<ItemListResponse>, Error>;
-
-export const productsService = {
+const productsService = {
   queryKey: ['products'],
   queryOptions: (params: InfiniteProductsProps) =>
     infiniteQueryOptions({
@@ -50,8 +40,4 @@ export const productsService = {
     }),
 };
 
-const useGetInfiniteProducts: TGetProducts = (params) => {
-  return useInfiniteQuery(productsService.queryOptions(params));
-};
-
-export default useGetInfiniteProducts;
+export default productsService;

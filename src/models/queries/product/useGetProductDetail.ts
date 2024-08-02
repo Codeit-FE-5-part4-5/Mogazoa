@@ -1,4 +1,4 @@
-import { queryOptions, useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { ProductDetail } from '@/types/product/productDetail';
 
@@ -10,10 +10,8 @@ type TGetProductDetail = (
   params: UseGetProductDetailProps,
 ) => UseQueryResult<ProductDetail, Error>;
 
-export const getProductDetailOption = ({
-  productId,
-}: UseGetProductDetailProps) =>
-  queryOptions({
+const useGetProductDetail: TGetProductDetail = ({ productId }) => {
+  return useQuery({
     queryKey: ['productDetail'],
     queryFn: async () => {
       const { data } = await axios.get(`/products/${productId}`);
@@ -21,9 +19,6 @@ export const getProductDetailOption = ({
     },
     enabled: !!productId && !Number.isNaN(productId),
   });
-
-const useGetProductDetail: TGetProductDetail = ({ productId }) => {
-  return useQuery(getProductDetailOption({ productId }));
 };
 
 export default useGetProductDetail;

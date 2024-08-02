@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { signInSchema } from '@/lib/validators/authValidator';
-import useSignIn from '@/models/auth/useSignIn';
+import useSignIn from '@/models/queries/auth/useSignIn';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import GoogleButton from '@/components/feature/auth/GoogleButton/GoogleButton';

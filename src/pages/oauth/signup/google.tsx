@@ -5,10 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import castArray from '@/utils/castArray';
 import signUpGoogle from '@/lib/auth/signUpGoogle';
+import { oAuthSchema } from '@/lib/validators/authValidator';
 import { IAuthForm } from '@/pages/signup';
 
 import { Button, NicknameInput } from '@/components/shared';
-import OAuthSignUp, { oAuthSchema } from '..';
+import OAuthSignUp from '..';
 
 const GoogleAuth = () => {
   const router = useRouter();

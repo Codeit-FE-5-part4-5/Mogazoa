@@ -1,4 +1,4 @@
-import useGetSortedProducts from '@/models/product/useGetSortedProducts';
+import useGetSortedProducts from '@/models/queries/product/useGetSortedProducts';
 import { Product } from '@/types/product/product';
 import sortConverter from '@/utils/sortConverter';
 import Spinner from '@/components/shared/Spinner/Spinner';

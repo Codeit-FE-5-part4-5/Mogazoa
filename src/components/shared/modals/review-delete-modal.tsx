@@ -9,7 +9,7 @@ import {
 import { useState } from 'react';
 import useModal from '@/store/use-modal-store';
 
-import useDeleteReview from '@/models/reviews/useDeleteReview';
+import useDeleteReview from '@/models/queries/reviews/useDeleteReview';
 import Button from '../Button/Button';
 
 interface Props {

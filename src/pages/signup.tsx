@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { signUpSchema } from '@/lib/validators/authValidator';
-import useSignUp from '@/models/auth/useSignUp';
+import useSignUp from '@/models/queries/auth/useSignUp';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import {

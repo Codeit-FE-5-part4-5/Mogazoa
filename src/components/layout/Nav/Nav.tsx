@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getCookie } from '@/lib/cookie';
 
-import { meService } from '@/models/auth/useGetMe';
+import meService from '@/models/services/auth/meService';
 import useAnimation from '@/hooks/useAnimation';
 import useClickOutside from '@/hooks/useClickOutside';
 

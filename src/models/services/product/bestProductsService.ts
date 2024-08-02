@@ -1,7 +1,8 @@
-import { isServer, queryOptions, useQuery } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import isServer from '@/utils/isServer';
 
-export const bestProductsService = {
+const bestProductsService = {
   queryKey: ['bestProduct'],
   queryOptions: (categoryId: number) =>
     queryOptions({
@@ -20,8 +21,4 @@ export const bestProductsService = {
     }),
 };
 
-const useGetBestProducts = (categoryId: number) => {
-  return useQuery(bestProductsService.queryOptions(categoryId));
-};
-
-export default useGetBestProducts;
+export default bestProductsService;

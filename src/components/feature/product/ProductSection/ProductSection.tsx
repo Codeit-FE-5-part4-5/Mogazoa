@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { ParsedUrlQuery } from 'querystring';
-import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
-import useGetBestProducts from '@/models/product/useGetProducts';
+import useGetInfiniteProducts from '@/models/queries/product/useGetInfiniteProducts';
+import useGetBestProducts from '@/models/queries/product/useGetProducts';
 import { ORDER_VARIANTS } from '@/constants/products';
 import castArray from '@/utils/castArray';
 import { useIntersect } from '@/hooks';

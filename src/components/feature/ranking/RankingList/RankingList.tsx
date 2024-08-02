@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { followersRankingService } from '@/models/user/follow/followers/useGetFollowersRanking';
+import { followersRankingService } from '@/models/queries/user/follow/followers/useGetFollowersRanking';
 import RankingCard from '../RankingCard/RankingCard';
 
 const RankingList = () => {

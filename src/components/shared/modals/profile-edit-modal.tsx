@@ -11,8 +11,8 @@ import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import useModal from '@/store/use-modal-store';
 
-import useGetMe from '@/models/auth/useGetMe';
-import useUpdateProfile from '@/models/user/profile/useUpdateProfile';
+import useGetMe from '@/models/queries/auth/useGetMe';
+import useUpdateProfile from '@/models/queries/user/profile/useUpdateProfile';
 import ImageInput from '../Input/ImageInput';
 import TextAreaInput from '../Input/TextAreaInput';
 import Button from '../Button/Button';

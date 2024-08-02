@@ -2,10 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 
-import useGetMe from '@/models/auth/useGetMe';
-import useGetCreatedProducts from '@/models/user/products/created-products/useGetCreatedProducts';
-import useGetFavoriteProducts from '@/models/user/products/favorite-products/useGetFavoriteProducts';
-import useGetReviewedProducts from '@/models/user/products/reviewed-products/useGetReviewedProducts';
+import useGetMe from '@/models/queries/auth/useGetMe';
+import useGetCreatedProducts from '@/models/queries/user/products/created-products/useGetCreatedProducts';
+import useGetFavoriteProducts from '@/models/queries/user/products/favorite-products/useGetFavoriteProducts';
+import useGetReviewedProducts from '@/models/queries/user/products/reviewed-products/useGetReviewedProducts';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileCard';

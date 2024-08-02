@@ -3,11 +3,11 @@ import { useParams } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 
-import useGetMe from '@/models/auth/useGetMe';
-import useGetCreatedProducts from '@/models/user/products/created-products/useGetCreatedProducts';
-import useGetFavoriteProducts from '@/models/user/products/favorite-products/useGetFavoriteProducts';
-import useGetReviewedProducts from '@/models/user/products/reviewed-products/useGetReviewedProducts';
-import useUserProfile from '@/models/user/profile/useUserProfile';
+import useGetMe from '@/models/queries/auth/useGetMe';
+import useGetCreatedProducts from '@/models/queries/user/products/created-products/useGetCreatedProducts';
+import useGetFavoriteProducts from '@/models/queries/user/products/favorite-products/useGetFavoriteProducts';
+import useGetReviewedProducts from '@/models/queries/user/products/reviewed-products/useGetReviewedProducts';
+import useUserProfile from '@/models/queries/user/profile/useUserProfile';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ActivityCard from '@/components/feature/product/ActivityCard/ActivityCard';

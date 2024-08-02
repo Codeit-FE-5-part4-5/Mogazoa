@@ -4,11 +4,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import accessKakao from '@/lib/auth/accessKakao';
+import { oAuthSchema } from '@/lib/validators/authValidator';
 import castArray from '@/utils/castArray';
 import { IAuthForm } from '@/pages/signup';
 
 import { Button, NicknameInput } from '@/components/shared';
-import OAuthSignUp, { oAuthSchema } from '..';
+import OAuthSignUp from '..';
 
 const KakaoAuth = () => {
   const router = useRouter();

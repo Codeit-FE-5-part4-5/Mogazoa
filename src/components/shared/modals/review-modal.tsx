@@ -14,7 +14,7 @@ import axios from 'axios';
 import apiInstance from '@/lib/axios';
 import useModal from '@/store/use-modal-store';
 
-import useGetProductDetail from '@/models/product/useGetProductDetail';
+import useGetProductDetail from '@/models/queries/product/useGetProductDetail';
 import Button from '../Button/Button';
 import TextAreaInput from '../Input/TextAreaInput';
 import ImageInput from '../Input/ImageInput';

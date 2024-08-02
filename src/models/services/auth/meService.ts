@@ -1,8 +1,8 @@
-import { isServer, queryOptions, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
-import { getCookie } from '@/lib/cookie';
+import isServer from '@/utils/isServer';
+import { queryOptions } from '@tanstack/react-query';
 
-export const meService = {
+const meService = {
   queryKey: ['me'],
   queryOptions: (token: string) =>
     queryOptions({
@@ -28,10 +28,4 @@ export const meService = {
     }),
 };
 
-const useGetMe = () => {
-  const token = getCookie('accessToken');
-
-  return useQuery(meService.queryOptions(token));
-};
-
-export default useGetMe;
+export default meService;

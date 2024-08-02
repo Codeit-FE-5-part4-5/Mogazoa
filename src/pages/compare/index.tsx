@@ -1,7 +1,7 @@
 import React, { SetStateAction, useEffect, useState } from 'react';
 
-import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
-import useProduct from '@/models/product/useProduct';
+import useGetInfiniteProducts from '@/models/queries/product/useGetInfiniteProducts';
+import useProduct from '@/models/queries/product/useProduct';
 import { Product } from '@/types/product/product';
 import onClickCompare from '@/lib/compare/onClickCompare';
 

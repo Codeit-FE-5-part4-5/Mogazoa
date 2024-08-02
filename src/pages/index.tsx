@@ -1,10 +1,10 @@
 import { dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 
-import { meService } from '@/models/auth/useGetMe';
-import { productsService } from '@/models/product/useGetInfiniteProducts';
-import { bestProductsService } from '@/models/product/useGetProducts';
-import { sortedProductsService } from '@/models/product/useGetSortedProducts';
+import meService from '@/models/services/auth/meService';
+import productsService from '@/models/services/product/productsService';
+import bestProductsService from '@/models/services/product/bestProductsService';
+import sortedProductsService from '@/models/services/product/sortedProductsService';
 
 import queryClient from '@/lib/query';
 import getServerToken from '@/lib/getServerToken';

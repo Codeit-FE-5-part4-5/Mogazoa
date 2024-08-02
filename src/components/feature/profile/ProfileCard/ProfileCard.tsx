@@ -3,8 +3,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/components/shared/ui/use-toast';
 import { UserType } from '@/types/user/user-type';
 import useModal from '@/store/use-modal-store';
-import usePostFollow from '@/models/user/follow/post-follow/usePostFollow';
-import useCancelFollow from '@/models/user/follow/cancel-follow/useCancelFollow';
+import usePostFollow from '@/models/queries/user/follow/post-follow/usePostFollow';
+import useCancelFollow from '@/models/queries/user/follow/cancel-follow/useCancelFollow';
 import { Button } from '@/components/shared';
 
 interface ProfileCardProps {

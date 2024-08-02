@@ -16,8 +16,8 @@ import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
 import useModal from '@/store/use-modal-store';
 
-import useGetMe from '@/models/auth/useGetMe';
-import useGetUserFollowers from '@/models/user/follow/followers/useGetUserFollowers';
+import useGetMe from '@/models/queries/auth/useGetMe';
+import useGetUserFollowers from '@/models/queries/user/follow/followers/useGetUserFollowers';
 import { FollowerItem } from '@/types/follow/followers/followers-type';
 import Spinner from '../Spinner/Spinner';
 

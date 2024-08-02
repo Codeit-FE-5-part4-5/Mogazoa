@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import useModal from '@/store/use-modal-store';
-import useGetMe from '@/models/auth/useGetMe';
-import useGetProductDetail from '@/models/product/useGetProductDetail';
-import useGetProductDetailReviews from '@/models/reviews/useGetProductReview';
+import useGetMe from '@/models/queries/auth/useGetMe';
+import useGetProductDetail from '@/models/queries/product/useGetProductDetail';
+import useGetProductDetailReviews from '@/models/queries/reviews/useGetProductReview';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductDetailCard from '@/components/feature/product/ProductDetailCard/ProductDetailCard';

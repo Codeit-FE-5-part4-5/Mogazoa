@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { cn } from '@/lib/cn';
 import useModal from '@/store/use-modal-store';
-import useLikeReview from '@/models/reviews/useLikeReview';
+import useLikeReview from '@/models/queries/reviews/useLikeReview';
 
 interface ThumbsChipProps {
   count: number;
