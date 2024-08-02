@@ -34,7 +34,6 @@ const productsService = {
         const { data } = await axios.get(
           `${requestUri}${orderParam}${keywordParam}${categoryParam}${cursorParam}`,
         );
-
         return {
           list: data.list,
           nextCursor: data.nextCursor,

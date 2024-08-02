@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+// import { lazy } from 'react';
 import { dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 
@@ -18,10 +18,13 @@ import { useChangeRouter, useSearchRouter } from '@/hooks';
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import { FetchBoundary } from '@/components/shared';
+import RankingList from '@/components/feature/ranking/RankingList/RankingList';
+import SortedProductList from '@/components/feature/product/SortedProductList/SortedProductList';
+import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
 
-const RankingList = lazy(() => import('@/components/feature/ranking/RankingList/RankingList')); // prettier-ignore
-const SortedProductList = lazy(() => import('@/components/feature/product/SortedProductList/SortedProductList')); // prettier-ignore
-const ProductSection = lazy(() => import('@/components/feature/product/ProductSection/ProductSection')); // prettier-ignore
+// const RankingList = lazy(() => import('@/components/feature/ranking/RankingList/RankingList')); // prettier-ignore
+// const SortedProductList = lazy(() => import('@/components/feature/product/SortedProductList/SortedProductList')); // prettier-ignore
+// const ProductSection = lazy(() => import('@/components/feature/product/ProductSection/ProductSection')); // prettier-ignore
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
