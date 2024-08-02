@@ -2,13 +2,15 @@ import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 
-const useChangeRouter = (): {
+type TChangeRouter = () => {
   currentPath: string;
   currentQuery: ParsedUrlQuery;
   updateQueryParam: (value: string | Record<string, string | string[]>) => void;
   appendQueryParam: (value: Record<string, string | string[]>) => void;
   handleRedirect: (value: string) => void;
-} => {
+};
+
+const useChangeRouter: TChangeRouter = () => {
   const router = useRouter();
   const currentPath = useMemo(() => router.pathname, [router.pathname]);
   const currentQuery = useMemo(() => router.query, [router.query]);

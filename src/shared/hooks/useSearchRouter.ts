@@ -3,20 +3,21 @@ import { ChangeEvent, useEffect } from 'react';
 import useInput from './useInput';
 import castArray from '../utils/castArray';
 
-const useSearchRouter = (): {
+type TSearchRouter = () => {
   searchKeyword: string;
+  initKeyword: () => void;
+  searchQuery: string;
   onChangeSearchKeyword: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
-  initKeyword: () => void;
-  searchQuery: string;
-} => {
+};
+
+const useSearchRouter: TSearchRouter = () => {
   const router = useRouter();
   const currentPath = router.pathname;
   const currentQuery = router.query;
   const { search } = router.query;
-  const [searchKeyword, onChangeSearchKeyword, initKeyword] =
-    useInput<string>('');
+  const [searchKeyword, onChangeSearchKeyword, initKeyword] = useInput('');
 
   let searchTimerId: NodeJS.Timeout;
 

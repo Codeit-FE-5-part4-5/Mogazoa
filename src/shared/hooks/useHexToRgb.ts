@@ -1,9 +1,10 @@
 /**
  *
  * @param hexString rgb로 변환시킬 헥스값 문자열
- * @returns
+ * @returns [r, g, b]
  */
-const useHexToRgb = (hexString: string) => {
+
+const useHexToRgb = (hexString: string): number[] => {
   const hex = hexString?.replace('#', '');
 
   const r = parseInt(hex?.substring(0, 2), 16);

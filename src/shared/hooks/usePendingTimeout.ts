@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
-const usePendingTimeout = (isLoading?: boolean) => {
+type TPendingTimeout = (isLoading?: boolean) => boolean;
+
+const usePendingTimeout: TPendingTimeout = (isLoading) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -17,7 +19,7 @@ const usePendingTimeout = (isLoading?: boolean) => {
     };
   }, [isLoading]);
 
-  return [loading];
+  return loading;
 };
 
 export default usePendingTimeout;

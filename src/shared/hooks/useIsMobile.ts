@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const useIsMobile = () => {
+const useIsMobile = (): boolean => {
   const [isMobileSize, setMobileSize] = useState(false);
 
   const ChangeIsMobileSize = useCallback(() => {

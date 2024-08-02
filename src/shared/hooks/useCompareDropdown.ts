@@ -1,6 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-const useCompareDropdown = () => {
+type TCompareDropdown = () => {
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  dropDownElementRef: RefObject<HTMLDivElement>;
+};
+
+const useCompareDropdown: TCompareDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const dropDownElementRef = useRef<HTMLDivElement>(null);
