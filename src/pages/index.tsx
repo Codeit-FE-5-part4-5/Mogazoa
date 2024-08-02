@@ -69,7 +69,7 @@ const Home = () => {
     <MogazoaLayout>
       <div className="flex flex-col justify-center md:flex-row">
         <CategoryMenu
-          currentCategoryName={castArray(currentQuery.category)}
+          currentCategory={castArray(currentQuery.category)}
           handleClickCategory={updateQueryParam}
         />
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">

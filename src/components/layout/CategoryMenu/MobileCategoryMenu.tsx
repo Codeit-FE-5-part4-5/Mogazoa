@@ -37,12 +37,12 @@ const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
   },
 );
 
-interface SlideMenuBarProps {
+interface Props {
   currentCategory: string;
   onClick: (value: string | Record<string, string | string[]>) => void;
 }
 
-const SlideMenuBar = ({ currentCategory, onClick }: SlideMenuBarProps) => {
+const MobileCategoryMenu = ({ currentCategory, onClick }: Props) => {
   const [leftRef, isMoreLeft] = useInView();
   const [rightRef, isMoreRight] = useInView();
 
@@ -112,4 +112,4 @@ const SlideMenuBar = ({ currentCategory, onClick }: SlideMenuBarProps) => {
   );
 };
 
-export default SlideMenuBar;
+export default MobileCategoryMenu;
