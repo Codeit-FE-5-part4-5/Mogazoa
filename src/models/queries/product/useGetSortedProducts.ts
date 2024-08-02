@@ -1,4 +1,4 @@
-import { useQueries } from '@tanstack/react-query';
+import { useSuspenseQueries } from '@tanstack/react-query';
 import sortConverter from '@/utils/sortConverter';
 import { ORDER_VARIANTS } from '@/constants/products';
 import sortedProductsService from '@/models/services/product/sortedProductsService';
@@ -6,7 +6,7 @@ import sortedProductsService from '@/models/services/product/sortedProductsServi
 const useGetSortedProducts = () => {
   const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
 
-  return useQueries({
+  return useSuspenseQueries({
     queries: orderVariants.map((sortOrder) =>
       sortedProductsService.queryOptions(sortOrder),
     ),

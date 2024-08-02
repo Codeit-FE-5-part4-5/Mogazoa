@@ -21,13 +21,13 @@ interface Props {
 
 const FetchBoundary = ({ children, variant }: PropsWithChildren<Props>) => {
   const renderedErrorFallback = errorFallbackVariants.get(variant)!;
-  const renderedSuspenseFallback = suspenseFallbackVariants.get(variant) ?? (
-    <Spinner isLoading />
-  );
+  const renderedSuspenseFallback = suspenseFallbackVariants.get(variant)!;
 
   return (
     <ErrorBoundary FallbackComponent={renderedErrorFallback}>
-      <Suspense fallback={renderedSuspenseFallback}>{children}</Suspense>
+      <Suspense fallback={renderedSuspenseFallback ?? <Spinner isLoading />}>
+        {children}
+      </Suspense>
     </ErrorBoundary>
   );
 };

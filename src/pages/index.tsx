@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import { dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 
@@ -16,10 +17,11 @@ import { useChangeRouter, useSearchRouter } from '@/hooks';
 
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
-import RankingList from '@/components/feature/ranking/RankingList/RankingList';
-import SortedProductList from '@/components/feature/product/SortedProductList/SortedProductList';
-import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
 import { FetchBoundary } from '@/components/shared';
+
+const RankingList = lazy(() => import('@/components/feature/ranking/RankingList/RankingList')); // prettier-ignore
+const SortedProductList = lazy(() => import('@/components/feature/product/SortedProductList/SortedProductList')); // prettier-ignore
+const ProductSection = lazy(() => import('@/components/feature/product/ProductSection/ProductSection')); // prettier-ignore
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -32,13 +34,13 @@ export const getServerSideProps = async (
     await queryClient.prefetchQuery(meService.queryOptions(accessToken));
   }
 
-  if (categoryId) {
-    await queryClient.prefetchInfiniteQuery(
-      productsService.queryOptions({ keyword, categoryId, order }),
-    );
-    await queryClient.prefetchQuery(
-      bestProductsService.queryOptions(categoryId),
-    );
+  if (!categoryId) {
+    await Promise.all([
+      queryClient.prefetchInfiniteQuery(
+        productsService.queryOptions({ keyword, categoryId, order }),
+      ),
+      queryClient.prefetchQuery(bestProductsService.queryOptions(categoryId)),
+    ]);
   } else {
     await Promise.all([
       queryClient.prefetchQuery(
@@ -78,14 +80,16 @@ const Home = () => {
           </FetchBoundary>
           <div className="flex-1">
             {currentQuery.category || searchQuery ? (
-              <ProductSection
-                searchQuery={searchQuery}
-                currentQuery={currentQuery}
-                currentCategoryName={castArray(currentQuery.category)}
-                changeSortOrder={(order) =>
-                  appendQueryParam({ order: sortConverter(order) })
-                }
-              />
+              <FetchBoundary variant="productsCard">
+                <ProductSection
+                  searchQuery={searchQuery}
+                  currentQuery={currentQuery}
+                  currentCategoryName={castArray(currentQuery.category)}
+                  changeSortOrder={(order) =>
+                    appendQueryParam({ order: sortConverter(order) })
+                  }
+                />
+              </FetchBoundary>
             ) : (
               <FetchBoundary variant="productsCard">
                 <SortedProductList />

@@ -12,7 +12,12 @@ const productsService = {
   queryKey: ['products'],
   queryOptions: (params: InfiniteProductsProps) =>
     infiniteQueryOptions({
-      queryKey: ['products', params.categoryId, params.order, params.keyword],
+      queryKey: [
+        'products',
+        params.categoryId ?? null,
+        params.order ?? null,
+        params.keyword ?? null,
+      ],
       queryFn: async ({ pageParam = 0 }) => {
         const categoryParam = params.categoryId
           ? `&category=${params.categoryId}`

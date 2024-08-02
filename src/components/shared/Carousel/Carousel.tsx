@@ -107,32 +107,27 @@ const Carousel = ({ products, className }: CarouselProps) => {
         )}
         <div className="absolute bottom-0 flex w-full flex-col overflow-hidden shadow-2xl">
           {renderDescription && (
-            <>
-              <CardDescription
-                currentProduct={currentProduct}
-                showDescriptionAnimate={showDescriptionAnimate}
-                handleAnimateDescription={handleAnimateDescription}
-              />
-              <div className="flex h-[40px]">
-                {products.map((product) => (
-                  <Link
-                    key={product.id}
-                    href={`/detail/${product?.id}`}
-                    className={cn(
-                      'flex w-full items-center justify-center border-r border-var-black2 bg-var-black3 text-[12px] text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
-                      currentProduct?.name === product?.name && 'bg-var-black2',
-                      showDescriptionAnimate
-                        ? 'animate-fadeIn'
-                        : 'animate-fadeOut',
-                    )}
-                    onMouseEnter={() => setCurrentProduct(product)}
-                  >
-                    {product.name}
-                  </Link>
-                ))}
-              </div>
-            </>
+            <CardDescription
+              currentProduct={currentProduct}
+              showDescriptionAnimate={showDescriptionAnimate}
+              handleAnimateDescription={handleAnimateDescription}
+            />
           )}
+          <div className="flex h-[40px]">
+            {products.map((product) => (
+              <Link
+                key={product.id}
+                href={`/detail/${product?.id}`}
+                className={cn(
+                  'flex w-full items-center justify-center border-r border-var-black2 bg-var-black3 text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
+                  currentProduct?.name === product?.name && 'bg-var-black2',
+                )}
+                onMouseEnter={() => setCurrentProduct(product)}
+              >
+                <span className="text-[12px]">{product.name}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -1,15 +1,10 @@
 import useGetSortedProducts from '@/models/queries/product/useGetSortedProducts';
 import { Product } from '@/types/product/product';
 import sortConverter from '@/utils/sortConverter';
-import Spinner from '@/components/shared/Spinner/Spinner';
 import ProductCard from '../ProductCard/ProductCard';
 
 const SortedProductList = () => {
-  const { data: sortedProducts, isLoading } = useGetSortedProducts();
-
-  if (isLoading) {
-    return <Spinner isLoading />;
-  }
+  const { data: sortedProducts } = useGetSortedProducts();
 
   return sortedProducts.map((products) => (
     <div

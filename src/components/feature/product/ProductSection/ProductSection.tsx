@@ -1,7 +1,11 @@
+import {
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { ParsedUrlQuery } from 'querystring';
-import useGetInfiniteProducts from '@/models/queries/product/useGetInfiniteProducts';
-import useGetBestProducts from '@/models/queries/product/useGetProducts';
+import productsService from '@/models/services/product/productsService';
+import bestProductsService from '@/models/services/product/bestProductsService';
 import { ORDER_VARIANTS } from '@/constants/products';
 import castArray from '@/utils/castArray';
 import { useIntersect } from '@/hooks';
@@ -21,12 +25,16 @@ const ProductSection = ({
   searchQuery,
   currentQuery,
 }: ProductSectionProps) => {
-  const bestProducts = useGetBestProducts(Number(currentQuery.categoryId));
-  const products = useGetInfiniteProducts({
-    categoryId: Number(currentQuery.categoryId),
-    order: castArray(currentQuery.order),
-    keyword: searchQuery,
-  });
+  const bestProducts = useSuspenseQuery(
+    bestProductsService.queryOptions(Number(currentQuery.categoryId)),
+  );
+  const products = useSuspenseInfiniteQuery(
+    productsService.queryOptions({
+      categoryId: Number(currentQuery.categoryId),
+      order: castArray(currentQuery.order),
+      keyword: searchQuery,
+    }),
+  );
   const [ref, isIntersect] = useIntersect<HTMLDivElement>(products.isLoading);
   const sliceBestProducts = bestProducts?.data?.slice(0, 6);
 
