@@ -1,4 +1,4 @@
-export default function sortConverter(sortOrder: string) {
+const sortConverter = (sortOrder: string) => {
   switch (sortOrder) {
     case '최신순': {
       return 'recent';
@@ -21,4 +21,6 @@ export default function sortConverter(sortOrder: string) {
     default:
       return sortOrder;
   }
-}
+};
+
+export default sortConverter;

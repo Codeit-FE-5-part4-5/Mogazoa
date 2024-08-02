@@ -14,7 +14,7 @@ interface SpinerProps {
 }
 
 const Spinner = ({ isLoading, isTimeout = false, size = 30 }: SpinerProps) => {
-  const [loading] = usePendingTimeout(isLoading);
+  const loading = usePendingTimeout(isLoading);
 
   return (
     <ClipLoader

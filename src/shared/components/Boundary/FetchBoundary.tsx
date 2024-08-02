@@ -1,24 +1,33 @@
-import { ReactElement } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import ProductsFetchErrorFallback from './Fallback/ProductsFetchErrorFallback';
+import Spinner from '../Spinner/Spinner';
 
 const errorFallbackVariants = new Map([
   ['productsCard', ProductsFetchErrorFallback],
+  ['rankingList', null],
 ]);
 
-type Variant = 'productsCard';
+const suspenseFallbackVariants = new Map([
+  ['productsCard', null],
+  ['rankingList', null],
+]);
 
-interface FetchBoundaryProps {
-  children: ReactElement;
-  variant: Variant;
+type TFallback = 'productsCard' | 'rankingList';
+
+interface Props {
+  variant: TFallback;
 }
 
-const FetchBoundary = ({ children, variant }: FetchBoundaryProps) => {
-  const renderedFallback = errorFallbackVariants.get(variant)!;
+const FetchBoundary = ({ children, variant }: PropsWithChildren<Props>) => {
+  const renderedErrorFallback = errorFallbackVariants.get(variant)!;
+  const renderedSuspenseFallback = suspenseFallbackVariants.get(variant) ?? (
+    <Spinner isLoading />
+  );
 
   return (
-    <ErrorBoundary FallbackComponent={renderedFallback}>
-      {children}
+    <ErrorBoundary FallbackComponent={renderedErrorFallback}>
+      <Suspense fallback={renderedSuspenseFallback}>{children}</Suspense>
     </ErrorBoundary>
   );
 };

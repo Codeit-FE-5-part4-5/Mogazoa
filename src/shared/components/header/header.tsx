@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-import Portal from '@/Portal';
+import Portal from '@/shared/components/Portal/Portal';
 import useGetMe from '@/models/auth/useGetMe';
 import useAnimation from '@/shared/hooks/useAnimation';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';

@@ -1,68 +1,56 @@
-import { useEffect, useMemo } from 'react';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
-import cookie from 'cookie';
 
-import useGetFollowersRanking from '@/models/user/follow/followers/useGetFollowersRanking';
-import useGetInfiniteProducts, {
-  ProductsQueryOption,
-} from '@/models/product/useGetInfiniteProducts';
-import useGetSortedProducts, {
-  sortedProductsQueryOption,
-} from '@/models/product/useGetSortedProducts';
-import { meQueryOption } from '@/models/auth/useGetMe';
+import { meService } from '@/models/auth/useGetMe';
+import { productsService } from '@/models/product/useGetInfiniteProducts';
+import { bestProductsService } from '@/models/product/useGetProducts';
+import { sortedProductsService } from '@/models/product/useGetSortedProducts';
 
 import { ORDER_VARIANTS } from '@/shared/constants/products';
 import sortConverter from '@/shared/utils/sortConverter';
 import castArray from '@/shared/utils/castArray';
 import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import useSearchRouter from '@/shared/hooks/useSearchRouter';
-import useIntersect from '@/shared/hooks/useIntersect';
 
 import RankingList from '@/shared/components/RankingList/RankingList';
 import CategoryMenu from '@/shared/components/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import ProductSection from '@/shared/components/ProductSection/ProductSection';
 import FetchBoundary from '@/shared/components/Boundary/FetchBoundary';
 import SortedProductList from '@/shared/components/SortedProductList/SortedProductList';
-import useGetBestProducts, {
-  bestProductsQueryOption,
-} from '@/models/product/useGetProducts';
+import ProductSection from '@/shared/components/ProductSection/ProductSection';
+import queryClient from '@/lib/query';
+import getServerToken from '@/shared/utils/getServerToken';
+import getServerQuery from '@/shared/utils/getServerQuery';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
-  const cookieHeader = context.req.headers.cookie || '';
-  const cookies = cookie.parse(cookieHeader);
-  const { accessToken } = cookies;
-  const { query } = context;
-  const categoryId = Number(query.categoryId) || 0;
-  const keyword = castArray(query.search) || '';
-  const order = castArray(query.order) || '';
+  const accessToken = getServerToken(context);
+  const { categoryId, keyword, order } = getServerQuery(context);
   const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 30 * 1000,
-      },
-    },
-  });
-
   if (accessToken) {
-    await queryClient.prefetchQuery(meQueryOption(accessToken));
+    await queryClient.prefetchQuery(meService.queryOptions(accessToken));
   }
 
   if (categoryId) {
     await queryClient.prefetchInfiniteQuery(
-      ProductsQueryOption({ keyword, categoryId, order }),
+      productsService.queryOptions({ keyword, categoryId, order }),
     );
-    await queryClient.prefetchQuery(bestProductsQueryOption(categoryId));
+    await queryClient.prefetchQuery(
+      bestProductsService.queryOptions(categoryId),
+    );
   } else {
     await Promise.all([
-      queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[0])),
-      queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[1])),
-      queryClient.prefetchQuery(sortedProductsQueryOption(orderVariants[2])),
+      queryClient.prefetchQuery(
+        sortedProductsService.queryOptions(orderVariants[0]),
+      ),
+      queryClient.prefetchQuery(
+        sortedProductsService.queryOptions(orderVariants[1]),
+      ),
+      queryClient.prefetchQuery(
+        sortedProductsService.queryOptions(orderVariants[2]),
+      ),
     ]);
   }
 
@@ -77,29 +65,6 @@ const Home = () => {
   const { currentQuery, updateQueryParam, appendQueryParam } =
     useChangeRouter();
   const { searchQuery } = useSearchRouter();
-  const sortedProducts = useGetSortedProducts();
-  const bestProducts = useGetBestProducts(Number(currentQuery.categoryId));
-  const rankingData = useGetFollowersRanking();
-  const products = useGetInfiniteProducts({
-    categoryId: Number(currentQuery.categoryId),
-    order: castArray(currentQuery.order),
-    keyword: searchQuery,
-  });
-  const sliceBestProducts = useMemo(
-    () => bestProducts?.data?.slice(0, 6),
-    [bestProducts],
-  );
-  const sliceRankingData = useMemo(
-    () => rankingData?.data?.slice(0, 5),
-    [rankingData],
-  );
-  const [ref, isIntersect] = useIntersect<HTMLDivElement>(products.isLoading);
-
-  useEffect(() => {
-    if (products.hasNextPage && isIntersect) {
-      products.fetchNextPage();
-    }
-  }, [isIntersect, products, products.fetchNextPage, products.hasNextPage]);
 
   return (
     <MogazoaLayout>
@@ -109,15 +74,14 @@ const Home = () => {
           handleClickCategory={updateQueryParam}
         />
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
-          <RankingList rankingData={sliceRankingData} />
+          <FetchBoundary variant="rankingList">
+            <RankingList />
+          </FetchBoundary>
           <div className="flex-1">
             {currentQuery.category || searchQuery ? (
               <ProductSection
-                targetRef={ref}
-                isLoading={sortedProducts.isLoading || products.isLoading}
-                products={products?.data?.pages}
-                bestProducts={sliceBestProducts}
                 searchQuery={searchQuery}
+                currentQuery={currentQuery}
                 currentCategoryName={castArray(currentQuery.category)}
                 changeSortOrder={(order) =>
                   appendQueryParam({ order: sortConverter(order) })
@@ -125,10 +89,7 @@ const Home = () => {
               />
             ) : (
               <FetchBoundary variant="productsCard">
-                <SortedProductList
-                  sortedProducts={sortedProducts.data}
-                  isLoading={sortedProducts.isLoading}
-                />
+                <SortedProductList />
               </FetchBoundary>
             )}
           </div>

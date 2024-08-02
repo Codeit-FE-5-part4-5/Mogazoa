@@ -1,13 +1,11 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-const Portal = ({
-  children,
-  portalName,
-}: {
-  children: ReactElement;
+interface PortalProps {
   portalName: string;
-}) => {
+}
+
+const Portal = ({ children, portalName }: PropsWithChildren<PortalProps>) => {
   const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
 
   useEffect(() => {

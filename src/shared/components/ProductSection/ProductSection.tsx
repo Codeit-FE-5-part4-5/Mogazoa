@@ -1,32 +1,45 @@
-import { RefObject } from 'react';
+import { useEffect } from 'react';
 import { ORDER_VARIANTS } from '@/shared/constants/products';
-import { ItemListResponse, Product } from '@/shared/types/product/product';
+import useGetBestProducts from '@/models/product/useGetProducts';
+import useGetInfiniteProducts from '@/models/product/useGetInfiniteProducts';
+import castArray from '@/shared/utils/castArray';
+import { ParsedUrlQuery } from 'querystring';
+import useIntersect from '@/shared/hooks/useIntersect';
 import DropDown from '../DropDown/DropDown';
 import ProductCardList from '../ProductCardList/ProductCardList';
 import Carousel from '../Carousel/Carousel';
 
 interface ProductSectionProps {
-  targetRef: RefObject<HTMLDivElement>;
-  products?: ItemListResponse[];
-  bestProducts: Product[];
   currentCategoryName?: string;
-  searchQuery: string;
   changeSortOrder: (order: string) => void;
-  isLoading: boolean;
+  searchQuery: string;
+  currentQuery: ParsedUrlQuery;
 }
 
 const ProductSection = ({
-  targetRef,
-  products = [],
-  bestProducts = [],
   currentCategoryName,
-  searchQuery,
   changeSortOrder,
-  isLoading,
+  searchQuery,
+  currentQuery,
 }: ProductSectionProps) => {
+  const bestProducts = useGetBestProducts(Number(currentQuery.categoryId));
+  const products = useGetInfiniteProducts({
+    categoryId: Number(currentQuery.categoryId),
+    order: castArray(currentQuery.order),
+    keyword: searchQuery,
+  });
+  const [ref, isIntersect] = useIntersect<HTMLDivElement>(products.isLoading);
+  const sliceBestProducts = bestProducts?.data?.slice(0, 6);
+
+  useEffect(() => {
+    if (products.hasNextPage && isIntersect) {
+      products.fetchNextPage();
+    }
+  }, [isIntersect, products, products.fetchNextPage, products.hasNextPage]);
+
   return (
     <div className="mx-[20px] mb-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
-      {bestProducts?.length !== 0 && (
+      {sliceBestProducts?.length !== 0 && (
         <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
           {`${currentCategoryName}의`}&nbsp;
           <span className="bg-gradient-custom bg-clip-text text-transparent">
@@ -35,8 +48,8 @@ const ProductSection = ({
         </h1>
       )}
       <Carousel
-        products={bestProducts}
-        key={bestProducts[0]?.id}
+        products={sliceBestProducts}
+        key={sliceBestProducts[0]?.id}
         className="mb-[30px]"
       />
       <div className="mb-[30px]">
@@ -55,14 +68,14 @@ const ProductSection = ({
           </div>
         </div>
       </div>
-      {products.map((product) => (
+      {products.data?.pages.map((product) => (
         <ProductCardList
           key={product.nextCursor}
           products={product?.list}
-          isLoading={isLoading}
+          isLoading={products.isLoading}
         />
       ))}
-      <div ref={targetRef} />
+      {products.isSuccess && <div ref={ref} />}
     </div>
   );
 };
