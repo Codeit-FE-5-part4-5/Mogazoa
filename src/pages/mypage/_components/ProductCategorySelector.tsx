@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { ProductCategory } from '..';
+import { ProductCategory } from '@/pages/user/[userId]';
 
 interface ProductCategorySelectorProps {
   selectedCategory: ProductCategory;

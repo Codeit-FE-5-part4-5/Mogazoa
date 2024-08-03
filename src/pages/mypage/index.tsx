@@ -1,17 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { useInView } from 'react-intersection-observer';
-
 import useGetMe from '@/models/queries/auth/useGetMe';
-import useGetCreatedProducts from '@/models/queries/user/products/created-products/useGetCreatedProducts';
-import useGetFavoriteProducts from '@/models/queries/user/products/favorite-products/useGetFavoriteProducts';
-import useGetReviewedProducts from '@/models/queries/user/products/reviewed-products/useGetReviewedProducts';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileCard';
-import ActivityCard from '@/components/feature/product/ActivityCard/ActivityCard';
-import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
-import { Spinner } from '@/components/shared';
+import { useState } from 'react';
+import ActivitySection from './_components/ActivitySection';
+import ProductCategorySelector from './_components/ProductCategorySelector';
+import ProductList from './_components/ProductList';
+import { ProductCategory } from '../user/[userId]';
 
 const MyPage = () => {
   const { data: user } = useGetMe();

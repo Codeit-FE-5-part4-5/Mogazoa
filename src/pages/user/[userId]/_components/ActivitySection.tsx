@@ -1,6 +1,6 @@
 import { useParams } from 'next/navigation';
-import useUserProfile from '@/models/user/profile/useUserProfile';
-import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
+import useUserProfile from '@/models/queries/user/profile/useUserProfile';
+import ActivityCard from '@/components/feature/product/ActivityCard/ActivityCard';
 
 const ActivitySection = () => {
   const params = useParams();

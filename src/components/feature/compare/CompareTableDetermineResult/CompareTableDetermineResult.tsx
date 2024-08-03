@@ -1,5 +1,5 @@
-import getWinnerInfo from '@/models/product/getWinnerInfo';
 import React from 'react';
+import getWinnerInfo from '@/lib/compare/getWinnerInfo';
 
 // 0 일경우 무승부, 양수 일경우 상품1 승리, 음수일 경우 상품2 승리
 const CompareTableDetermineResult = (

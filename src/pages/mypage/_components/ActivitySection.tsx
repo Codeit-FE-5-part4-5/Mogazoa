@@ -1,5 +1,5 @@
-import useGetMe from '@/models/auth/useGetMe';
-import ActivityCard from '@/shared/components/ActivityCard/ActivityCard';
+import useGetMe from '@/models/queries/auth/useGetMe';
+import ActivityCard from '@/components/feature/product/ActivityCard/ActivityCard';
 
 const ActivitySection = () => {
   const { data: user } = useGetMe();
