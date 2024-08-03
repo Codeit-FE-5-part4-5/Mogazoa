@@ -18,7 +18,7 @@ export const getCookie = (name: string) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const removeCookie = (
   name: string,
-  options?: Record<string, string | number>,
+  options?: Record<string, string | number | boolean>,
 ) => {
   return cookies.remove(name, { ...options });
 };
