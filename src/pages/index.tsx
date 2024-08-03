@@ -1,4 +1,3 @@
-// import { lazy } from 'react';
 import { dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 
@@ -21,10 +20,6 @@ import { FetchBoundary } from '@/components/shared';
 import RankingList from '@/components/feature/ranking/RankingList/RankingList';
 import SortedProductList from '@/components/feature/product/SortedProductList/SortedProductList';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
-
-// const RankingList = lazy(() => import('@/components/feature/ranking/RankingList/RankingList')); // prettier-ignore
-// const SortedProductList = lazy(() => import('@/components/feature/product/SortedProductList/SortedProductList')); // prettier-ignore
-// const ProductSection = lazy(() => import('@/components/feature/product/ProductSection/ProductSection')); // prettier-ignore
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
