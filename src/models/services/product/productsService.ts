@@ -41,6 +41,7 @@ const productsService = {
       },
       initialPageParam: 0,
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+      staleTime: 5 * 1000,
     }),
 };
 

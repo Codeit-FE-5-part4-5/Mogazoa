@@ -10,30 +10,30 @@ const override: CSSProperties = {
 };
 
 interface SpinerProps {
-  variants?: 'clip' | 'sync';
+  variant?: 'clip' | 'sync';
   isLoading: boolean;
   isTimeout?: boolean;
   size?: number;
 }
 
 const Spinner = ({
-  variants = 'sync',
+  variant = 'clip',
   isLoading,
   isTimeout = false,
-  size = 15,
+  size,
 }: SpinerProps) => {
   const loading = usePendingTimeout(isLoading);
 
   if (isServer) return null;
 
-  switch (variants) {
+  switch (variant) {
     case 'clip': {
       return (
         <ClipLoader
           color="#ffffff"
           loading={isTimeout ? loading : isLoading}
           cssOverride={override}
-          size={size}
+          size={size ?? 30}
         />
       );
     }
@@ -43,7 +43,8 @@ const Spinner = ({
           color="#ffffff"
           loading={isTimeout ? loading : isLoading}
           cssOverride={override}
-          size={size}
+          margin={4}
+          size={size ?? 15}
         />
       );
     }

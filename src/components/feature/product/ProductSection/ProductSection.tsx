@@ -76,11 +76,7 @@ const ProductSection = ({
         </div>
       </div>
       {products.data?.pages.map((product) => (
-        <ProductCardList
-          key={product.nextCursor}
-          products={product?.list}
-          isLoading={products.isLoading}
-        />
+        <ProductCardList key={product.nextCursor} products={product?.list} />
       ))}
       {products.isSuccess && <div ref={ref} />}
     </div>

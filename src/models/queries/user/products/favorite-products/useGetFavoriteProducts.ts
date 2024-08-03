@@ -1,10 +1,10 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 
 const useGetFavoriteProducts = (
   userId: number | null | undefined | string | string[],
 ) => {
-  return useInfiniteQuery({
+  return useSuspenseInfiniteQuery({
     queryKey: ['userFavoriteProducts', userId],
     queryFn: async ({ pageParam = 0 }) => {
       const cursorParam = pageParam ? `cursor=${pageParam}` : '';
@@ -22,7 +22,6 @@ const useGetFavoriteProducts = (
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 60 * 1000 * 30,
     gcTime: 60 * 1000 * 30,
-    enabled: userId !== undefined,
   });
 };
 

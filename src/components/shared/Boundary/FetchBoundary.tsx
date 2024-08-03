@@ -3,21 +3,25 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ProductsFetchErrorFallback from './Fallback/ProductsFetchErrorFallback';
 import Spinner from '../Spinner/Spinner';
 
+type TFallback = 'productsCard' | 'rankingList' | 'navMenu' | 'navAuth';
+
+interface Props {
+  variant: TFallback;
+}
+
 const errorFallbackVariants = new Map([
   ['productsCard', ProductsFetchErrorFallback],
   ['rankingList', null],
+  ['navMenu', null],
+  ['navAuth', null],
 ]);
 
 const suspenseFallbackVariants = new Map([
   ['productsCard', null],
   ['rankingList', null],
+  ['navMenu', null],
+  ['navAuth', null],
 ]);
-
-type TFallback = 'productsCard' | 'rankingList';
-
-interface Props {
-  variant: TFallback;
-}
 
 const FetchBoundary = ({ children, variant }: PropsWithChildren<Props>) => {
   const renderedErrorFallback = errorFallbackVariants.get(variant)!;

@@ -1,40 +1,36 @@
-import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
-import { Spinner } from '@/components/shared';
-import useGetMe from '@/models/queries/auth/useGetMe';
-import useGetCreatedProducts from '@/models/queries/user/products/created-products/useGetCreatedProducts';
-import useGetFavoriteProducts from '@/models/queries/user/products/favorite-products/useGetFavoriteProducts';
-import useGetReviewedProducts from '@/models/queries/user/products/reviewed-products/useGetReviewedProducts';
-import { ProductCategory } from '@/pages/user/[userId]';
-
 import { useEffect, useMemo, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import useGetCreatedProducts from '@/models/queries/user/products/created-products/useGetCreatedProducts';
+import useGetFavoriteProducts from '@/models/queries/user/products/favorite-products/useGetFavoriteProducts';
+import useGetReviewedProducts from '@/models/queries/user/products/reviewed-products/useGetReviewedProducts';
+import { Me } from '@/types/user/user';
+import { ProductCategory } from '@/pages/user/[userId]';
+import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
+
 interface ProductListProps {
   selectedCategory: ProductCategory;
+  user: Me;
 }
 
-const ProductList = ({ selectedCategory }: ProductListProps) => {
+const ProductList = ({ selectedCategory, user }: ProductListProps) => {
   const [ref, inView] = useInView();
-  const { data: user } = useGetMe();
 
   const {
     fetchNextPage: fetchNextCreatedPage,
     hasNextPage: hasNextCreatedPage,
-    isFetching: isCreatedFetching,
     data: createdProducts,
   } = useGetCreatedProducts(user?.id);
 
   const {
     fetchNextPage: fetchNextFavoritePage,
     hasNextPage: hasNextFavoritePage,
-    isFetching: isFavoriteFetching,
     data: favoriteProducts,
   } = useGetFavoriteProducts(user?.id);
 
   const {
     fetchNextPage: fetchNextReviewedPage,
     hasNextPage: hasNextReviewedPage,
-    isFetching: isReviewedFetching,
     data: reviewedProducts,
   } = useGetReviewedProducts(user?.id);
 
@@ -52,9 +48,6 @@ const ProductList = ({ selectedCategory }: ProductListProps) => {
     () => reviewedProducts?.pages.flatMap((page) => page.list) || [],
     [reviewedProducts],
   );
-
-  const isLoading =
-    isCreatedFetching || isFavoriteFetching || isReviewedFetching;
 
   const getProducts = useCallback(() => {
     switch (selectedCategory) {
@@ -91,11 +84,7 @@ const ProductList = ({ selectedCategory }: ProductListProps) => {
 
   return (
     <>
-      {isLoading ? (
-        <Spinner isLoading={isLoading} />
-      ) : (
-        <ProductCardList products={getProducts()} />
-      )}
+      <ProductCardList products={getProducts()} />
       <div ref={ref} />
     </>
   );

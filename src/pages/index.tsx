@@ -1,13 +1,10 @@
 import { dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 
-import meService from '@/models/services/auth/meService';
 import productsService from '@/models/services/product/productsService';
 import bestProductsService from '@/models/services/product/bestProductsService';
 import sortedProductsService from '@/models/services/product/sortedProductsService';
 
-import queryClient from '@/lib/query';
-import getServerToken from '@/lib/getServerToken';
 import getServerQuery from '@/lib/getServerQuery';
 import { ORDER_VARIANTS } from '@/constants/products';
 import sortConverter from '@/utils/sortConverter';
@@ -20,17 +17,13 @@ import { FetchBoundary } from '@/components/shared';
 import RankingList from '@/components/feature/ranking/RankingList/RankingList';
 import SortedProductList from '@/components/feature/product/SortedProductList/SortedProductList';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
+import queryClient from '@/lib/query';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
-  const accessToken = getServerToken(context);
   const { categoryId, keyword, order } = getServerQuery(context);
   const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
-
-  if (accessToken) {
-    await queryClient.prefetchQuery(meService.queryOptions(accessToken));
-  }
 
   if (!categoryId) {
     await Promise.all([
@@ -77,8 +70,8 @@ const Home = () => {
             <RankingList />
           </FetchBoundary>
           <div className="flex-1">
-            {currentQuery.category || searchQuery ? (
-              <FetchBoundary variant="productsCard">
+            <FetchBoundary variant="productsCard">
+              {currentQuery.category || searchQuery ? (
                 <ProductSection
                   searchQuery={searchQuery}
                   currentQuery={currentQuery}
@@ -87,12 +80,10 @@ const Home = () => {
                     appendQueryParam({ order: sortConverter(order) })
                   }
                 />
-              </FetchBoundary>
-            ) : (
-              <FetchBoundary variant="productsCard">
+              ) : (
                 <SortedProductList />
-              </FetchBoundary>
-            )}
+              )}
+            </FetchBoundary>
           </div>
         </div>
       </div>

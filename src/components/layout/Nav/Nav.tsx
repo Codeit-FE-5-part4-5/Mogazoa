@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getCookie } from '@/lib/cookie';
 
-import meService from '@/models/services/auth/meService';
+import useGetMe from '@/models/queries/auth/useGetMe';
 import useAnimation from '@/hooks/useAnimation';
 import useClickOutside from '@/hooks/useClickOutside';
 
-import Portal from '@/components/shared/Portal/Portal';
+import { Portal } from '@/components/shared';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
 import NavAuthSection from './NavAuthSection';
 import NavMenuSection from './NavMenuSection';
 
 const Nav = () => {
+  const { data: me } = useGetMe();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
-  const accessToken = getCookie('accessToken');
-  const { data: me } = useQuery(meService.queryOptions(accessToken));
   const searchBarRef = useClickOutside<HTMLDivElement>(setIsSearchOpen);
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
     useAnimation(isOpenMenu);

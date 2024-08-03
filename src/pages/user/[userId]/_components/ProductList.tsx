@@ -6,7 +6,6 @@ import useGetCreatedProducts from '@/models/queries/user/products/created-produc
 import useGetFavoriteProducts from '@/models/queries/user/products/favorite-products/useGetFavoriteProducts';
 import useGetReviewedProducts from '@/models/queries/user/products/reviewed-products/useGetReviewedProducts';
 
-import { Spinner } from '@/components/shared';
 import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
 import { ProductCategory } from '..';
 
@@ -22,21 +21,18 @@ const ProductList = ({ selectedCategory }: ProductListProps) => {
   const {
     fetchNextPage: fetchNextCreatedPage,
     hasNextPage: hasNextCreatedPage,
-    isFetching: isCreatedFetching,
     data: createdProducts,
   } = useGetCreatedProducts(params?.userId);
 
   const {
     fetchNextPage: fetchNextFavoritePage,
     hasNextPage: hasNextFavoritePage,
-    isFetching: isFavoriteFetching,
     data: favoriteProducts,
   } = useGetFavoriteProducts(params?.userId);
 
   const {
     fetchNextPage: fetchNextReviewedPage,
     hasNextPage: hasNextReviewedPage,
-    isFetching: isReviewedFetching,
     data: reviewedProducts,
   } = useGetReviewedProducts(params?.userId);
 
@@ -54,9 +50,6 @@ const ProductList = ({ selectedCategory }: ProductListProps) => {
     () => reviewedProducts?.pages.flatMap((page) => page.list) || [],
     [reviewedProducts],
   );
-
-  const isLoading =
-    isCreatedFetching || isFavoriteFetching || isReviewedFetching;
 
   const getProducts = useCallback(() => {
     switch (selectedCategory) {
@@ -93,11 +86,7 @@ const ProductList = ({ selectedCategory }: ProductListProps) => {
 
   return (
     <>
-      {isLoading ? (
-        <Spinner isLoading={isLoading} />
-      ) : (
-        <ProductCardList products={getProducts()} />
-      )}
+      <ProductCardList products={getProducts()} />
       <div ref={ref} />
     </>
   );
