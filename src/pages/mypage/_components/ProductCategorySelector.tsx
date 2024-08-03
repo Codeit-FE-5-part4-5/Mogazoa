@@ -61,7 +61,7 @@ const ProductCategorySelector = ({
       <div className="hidden space-x-10 text-var-gray1 xl:flex">
         <button
           type="button"
-          className={`hover:text-var-white ${
+          className={`transition-all duration-300 hover:text-var-white ${
             selectedCategory === ProductCategory.REVIEWED
               ? 'text-var-white'
               : ''
@@ -72,7 +72,7 @@ const ProductCategorySelector = ({
         </button>
         <button
           type="button"
-          className={`hover:text-var-white ${
+          className={`transition-all duration-300 hover:text-var-white ${
             selectedCategory === ProductCategory.CREATED ? 'text-var-white' : ''
           }`}
           onClick={() => setSelectedCategory(ProductCategory.CREATED)}
@@ -81,7 +81,7 @@ const ProductCategorySelector = ({
         </button>
         <button
           type="button"
-          className={`hover:text-var-white ${
+          className={`transition-all duration-300 hover:text-var-white ${
             selectedCategory === ProductCategory.FAVORITE
               ? 'text-var-white'
               : ''
