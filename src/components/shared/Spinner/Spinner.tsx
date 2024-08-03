@@ -1,4 +1,5 @@
 import usePendingTimeout from '@/hooks/usePendingTimeout';
+import isServer from '@/utils/isServer';
 import { CSSProperties } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import SyncLoader from 'react-spinners/SyncLoader';
@@ -9,19 +10,21 @@ const override: CSSProperties = {
 };
 
 interface SpinerProps {
-  variants: 'clip' | 'sync';
+  variants?: 'clip' | 'sync';
   isLoading: boolean;
   isTimeout?: boolean;
   size?: number;
 }
 
 const Spinner = ({
-  variants = 'clip',
+  variants = 'sync',
   isLoading,
   isTimeout = false,
-  size = 30,
+  size = 15,
 }: SpinerProps) => {
   const loading = usePendingTimeout(isLoading);
+
+  if (isServer) return null;
 
   switch (variants) {
     case 'clip': {
@@ -39,6 +42,7 @@ const Spinner = ({
         <SyncLoader
           color="#ffffff"
           loading={isTimeout ? loading : isLoading}
+          cssOverride={override}
           size={size}
         />
       );
