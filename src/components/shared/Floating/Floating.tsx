@@ -20,7 +20,7 @@ const Floating = () => {
       <button
         type="button"
         className={cn(
-          "flex size-[60px] items-center justify-center rounded-[50%] shadow-xl gradient-button hover:animate-bg-gradient", 
+          "flex size-[60px] items-center justify-center shadow-lg rounded-[50%] gradient-button hover:animate-bg-gradient", 
           !me && 'disabled-gradient'
         )} // prettier-ignore
         onClick={handleClickFloating}
