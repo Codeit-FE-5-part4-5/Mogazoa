@@ -14,7 +14,7 @@ const TextFieldInput: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        className="placeholder-var-gray1::placeholder h-full w-full rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 p-5 text-var-white focus:border-[1px] focus:border-var-indigo focus:outline-none"
+        className="h-full w-full rounded-lg border border-var-black3 bg-var-black2 p-5 text-var-white placeholder-var-gray1 outline-none transition-all duration-300 hover:bg-[#17171c] hover:border-gradient-custom focus:border-gradient-custom xl:h-[70px]"
       />
     </div>
   );

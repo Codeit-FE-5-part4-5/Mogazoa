@@ -59,7 +59,8 @@ const ProductCategorySelector = ({
         )}
       </div>
       <div className="hidden space-x-10 text-var-gray1 xl:flex">
-        <div
+        <button
+          type="button"
           className={`hover:text-var-white ${
             selectedCategory === ProductCategory.REVIEWED
               ? 'text-var-white'
@@ -68,16 +69,18 @@ const ProductCategorySelector = ({
           onClick={() => setSelectedCategory(ProductCategory.REVIEWED)}
         >
           {ProductCategory.REVIEWED}
-        </div>
-        <div
+        </button>
+        <button
+          type="button"
           className={`hover:text-var-white ${
             selectedCategory === ProductCategory.CREATED ? 'text-var-white' : ''
           }`}
           onClick={() => setSelectedCategory(ProductCategory.CREATED)}
         >
           {ProductCategory.CREATED}
-        </div>
-        <div
+        </button>
+        <button
+          type="button"
           className={`hover:text-var-white ${
             selectedCategory === ProductCategory.FAVORITE
               ? 'text-var-white'
@@ -86,7 +89,7 @@ const ProductCategorySelector = ({
           onClick={() => setSelectedCategory(ProductCategory.FAVORITE)}
         >
           {ProductCategory.FAVORITE}
-        </div>
+        </button>
       </div>
     </div>
   );

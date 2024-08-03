@@ -20,7 +20,7 @@ const NicknameInput: React.FC<NicknameInputProps> = ({
         maxLength={20}
         placeholder={placeholder}
         className={cn(
-          'placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none transition-all duration-300 hover:bg-[#17171C] focus:border-gradient-custom',
+          'w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white placeholder-var-gray1 outline-none transition-all duration-300 hover:bg-[#17171C] hover:border-gradient-custom focus:border-gradient-custom',
           error && 'border-var-red',
         )}
         {...register}

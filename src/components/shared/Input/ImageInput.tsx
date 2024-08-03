@@ -55,48 +55,52 @@ const ImageInput: React.FC<ImageInputProps> = ({
   };
 
   return (
-    <div className="relative h-full w-full rounded-lg border-[2px] border-var-black3 p-2 hover:border-var-indigo">
-      {!imageUrl ? (
-        <div className="flex h-full w-full items-center justify-center">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="flex cursor-pointer items-center">
-            <Image src="/images/file.png" width={50} height={50} alt="file" />
-            <input
-              id="imageInput"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-            />
-          </label>
-        </div>
-      ) : (
-        <div className="relative h-full w-full">
-          <div className="absolute right-0 top-0 m-2">
-            <button
-              type="button"
-              onClick={handleRemoveImage}
-              className="flex items-center justify-center rounded-full bg-black bg-opacity-50 p-1 text-white"
-            >
-              <Image
-                src="/images/close.png"
-                alt="Close"
-                className="h-8 w-8"
-                width={32}
-                height={32}
+    <div className="relative h-full w-full rounded-lg border border-var-black3 bg-var-black2 transition-all duration-300 hover:border-gradient-custom">
+      <label htmlFor="imageInput" className="flex h-full w-full cursor-pointer">
+        {!imageUrl ? (
+          <div className="flex h-full w-full items-center justify-center">
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <div className="flex items-center">
+              <Image src="/images/file.svg" width={25} height={25} alt="file" />
+              <input
+                id="imageInput"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
               />
-            </button>
+            </div>
           </div>
-          <Image
-            src={imageUrl}
-            alt="Preview"
-            className="h-full w-full rounded-lg object-cover"
-            width={100000}
-            height={100000}
-          />
-        </div>
-      )}
-      {errorMessage && <div className="mt-2 text-red-500">{errorMessage}</div>}
+        ) : (
+          <div className="relative h-full w-full">
+            <div className="absolute right-0 top-0 m-2">
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="flex items-center justify-center rounded-full bg-black bg-opacity-50 p-1 text-white"
+              >
+                <Image
+                  src="/close.svg"
+                  alt="Close"
+                  className="h-8 w-8"
+                  width={16}
+                  height={16}
+                />
+              </button>
+            </div>
+            <Image
+              src={imageUrl}
+              alt="Preview"
+              className="h-full w-full rounded-lg object-cover"
+              width={100000}
+              height={100000}
+            />
+          </div>
+        )}
+        {errorMessage && (
+          <div className="mt-2 text-red-500">{errorMessage}</div>
+        )}
+      </label>
     </div>
   );
 };

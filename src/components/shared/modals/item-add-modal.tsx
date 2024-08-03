@@ -16,6 +16,7 @@ import DropDown from '../DropDown/DropDown';
 import ImageInput from '../Input/ImageInput';
 import TextFieldInput from '../Input/TextFieldInput';
 import Button from '../Button/Button';
+import TextAreaInput from '../Input/TextAreaInput';
 
 const frameworks = [
   '음악',
@@ -36,19 +37,10 @@ const ItemAddModal = () => {
   const isModalOpen = isOpen && type === 'itemAdd';
   const [text, setText] = useState<string>('');
   const [selectedItem, setSelectedItem] = useState('');
-  // const { data: keywordList } = useGetProducts({ keyword: selectedItem });
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [image, setImage] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  // const {
-  //   fetchNextPage: fetchNextPage1,
-  //   hasNextPage: hasNextPage1,
-  //   isFetchingNextPage: isFetchingNextPage1,
-  //   isFetching: isFetching1,
-  //   data: keywordList1,
-  // } = useGetInfiniteProducts({ keyword: selectedItem });
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -101,7 +93,6 @@ const ItemAddModal = () => {
     try {
       const response = await apiInstance.post('/products', requestBody);
       onClose();
-      // router.reload();
       router.push(`/detail/${response.data.id}`);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -133,14 +124,14 @@ const ItemAddModal = () => {
           <DialogTitle className="mb-10 self-start text-2xl">
             상품 추가
           </DialogTitle>
-          <DialogDescription className="flex flex-col gap-y-5 text-center">
-            <div className="flex flex-col gap-x-5 md:flex-row md:items-start">
-              <div className="h-[140px] w-[140px] md:order-2 md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+          <DialogDescription className="flex flex-col gap-[20px] text-center">
+            <div className="flex flex-col gap-[20px] md:flex-row md:items-start">
+              <div className="size-[140px] md:order-2 xl:h-[160px] xl:w-[160px]">
+                <div className="size-[140px] xl:size-[160px]">
                   <ImageInput onChange={(image2) => setImage(image2 || '')} />
                 </div>
               </div>
-              <div className="w-full md:order-1">
+              <div className="flex h-full w-full flex-col justify-between gap-[20px] md:order-1">
                 <TextFieldInput
                   placeholder="상품명을 입력하세요"
                   value={selectedItem}
@@ -148,36 +139,23 @@ const ItemAddModal = () => {
                     onChangeEvent(e, setSelectedItem)
                   }
                 />
-
                 <DropDown
                   itemList={frameworks}
                   onClick={handleCategorySelect}
                 />
               </div>
             </div>
-            <div className="flex flex-col items-end rounded-md bg-[#252530]">
-              <textarea
-                className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
+            <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
+              <TextAreaInput
                 placeholder="상품을 추가해 주세요."
                 value={text}
-                maxLength={500}
                 onChange={handleTextChange}
+                textLength={300}
               />
-              <div className="mb-5 mr-5">{text.length} / 500</div>
             </div>
             {errorMessage && (
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
-            {/* <button
-              type="button"
-              className={`mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white ${
-                isSubmitting ? 'cursor-not-allowed opacity-80' : ''
-              }`}
-              onClick={handleSave}
-              disabled={isSubmitting}
-            >
-              추가하기
-            </button> */}
             <Button
               text="추가하기"
               onClick={handleSave}

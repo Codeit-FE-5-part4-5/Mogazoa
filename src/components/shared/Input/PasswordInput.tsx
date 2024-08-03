@@ -1,3 +1,4 @@
+import { cn } from '@/lib/cn';
 import Image from 'next/image';
 import { InputHTMLAttributes, useState } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
@@ -30,7 +31,10 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         <input
           type={inputType ? 'password' : 'text'}
           placeholder={placeholder}
-          className={`${error && 'border-var-red'} placeholder-var-gray1::placeholder w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white outline-none transition-all duration-300 hover:bg-[#17171C] focus:border-gradient-custom`}
+          className={cn(
+            'w-full rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[26px] text-var-white placeholder-var-gray1 outline-none transition-all duration-300 hover:bg-[#17171C] hover:border-gradient-custom focus:border-gradient-custom',
+            error && 'border-var-red',
+          )}
           {...register}
         />
         <button

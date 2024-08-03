@@ -128,7 +128,7 @@ const ReviewModal = () => {
                 />
               </div>
             </div>
-            <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
+            <div className="h-[120px] items-end rounded-md bg-[#252530] md:h-[160px]">
               <TextAreaInput
                 placeholder="리뷰를 작성해 주세요."
                 value={review}
@@ -141,22 +141,22 @@ const ReviewModal = () => {
             {errorMessage && (
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
-            <div className="flex space-x-4">
-              <div className="flex h-[140px] w-fit gap-5 md:h-[135px] xl:h-[160px]">
-                <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+            <div className="space-x-4 overflow-x-auto">
+              <div className="grid grid-cols-3 gap-5 md:flex md:flex-wrap">
+                <div className="h-[140px] md:size-[140px] xl:size-[160px]">
                   <ImageInput
                     onChange={(image: string | null) => setImage1(image)}
                   />
                 </div>
                 {image1 && (
-                  <div className="md:h/[135px] md:w/[135px] xl:h/[160px] xl:w/[160px] flex h-[140px] w-[140px]">
+                  <div className="h-[140px] md:size-[140px] xl:size-[160px]">
                     <ImageInput
                       onChange={(image: string | null) => setImage2(image)}
                     />
                   </div>
                 )}
                 {image2 && (
-                  <div className="md:h/[135px] md:w/[135px] xl:h/[160px] xl:w/[160px] flex h-[140px] w-[140px]">
+                  <div className="h-[140px] md:size-[140px] xl:size-[160px]">
                     <ImageInput
                       onChange={(image: string | null) => setImage3(image)}
                     />
