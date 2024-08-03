@@ -1,16 +1,18 @@
-import ProductDetailCard from '@/shared/components/ProductDetailCard/ProductDetailCard';
-import ProductDetailReview from '@/shared/components/ProductDetailReview/ProductDetailReview';
-import StatisticsCard from '@/shared/components/StatisticsCard/StatisticsCard';
-import useGetProductDetail from '@/models/product/useGetProductDetail';
-import useGetProductDetailReviews from '@/models/reviews/useGetProductReview';
 import { useRouter } from 'next/router';
-import useGetMe from '@/models/auth/useGetMe';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import Floating from '@/shared/components/Floating/Floating';
-import useModal from '@/shared/store/use-modal-store';
 import { useInView } from 'react-intersection-observer';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
+
+import useModal from '@/store/use-modal-store';
+import useGetMe from '@/models/queries/auth/useGetMe';
+import useGetProductDetail from '@/models/queries/product/useGetProductDetail';
+import useGetProductDetailReviews from '@/models/queries/reviews/useGetProductReview';
+
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import ProductDetailCard from '@/components/feature/product/ProductDetailCard/ProductDetailCard';
+import ProductDetailReview from '@/components/feature/product/ProductDetailReview/ProductDetailReview';
+import StatisticsCard from '@/components/feature/product/StatisticsCard/StatisticsCard';
+import { Floating } from '@/components/shared';
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -78,6 +80,10 @@ const ProductDetails = () => {
       onOpen('login');
     }
   };
+
+  if (!productDetail) {
+    return null;
+  }
 
   return (
     <MogazoaLayout>

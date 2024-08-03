@@ -1,16 +1,34 @@
+import { GetServerSidePropsContext } from 'next';
 import { useState } from 'react';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import MyProfileCard from '@/shared/components/MyProfileCard/MyProfileCard';
-import useGetMe from '@/models/auth/useGetMe';
-import ActivitySection from './_components/ActivitySection';
-import ProductList from './_components/ProductList';
-import ProductCategorySelector from './_components/ProductCategorySelector';
+import { dehydrate } from '@tanstack/react-query';
 
-export enum ProductCategory {
-  REVIEWED = '리뷰 남긴 상품',
-  CREATED = '등록한 상품',
-  FAVORITE = '찜한 상품',
-}
+import queryClient from '@/lib/query';
+import getServerToken from '@/lib/getServerToken';
+import meService from '@/models/services/auth/meService';
+import useGetMe from '@/models/queries/auth/useGetMe';
+
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileCard';
+import ActivitySection from './_components/ActivitySection';
+import ProductCategorySelector from './_components/ProductCategorySelector';
+import ProductList from './_components/ProductList';
+import { ProductCategory } from '../user/[userId]';
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const accessToken = getServerToken(context);
+
+  if (accessToken) {
+    await queryClient.prefetchQuery(meService.queryOptions(accessToken));
+  }
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
 const MyPage = () => {
   const { data: user } = useGetMe();

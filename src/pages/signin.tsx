@@ -1,29 +1,21 @@
-import Link from 'next/link';
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import Button from '@/shared/components/Button/Button';
-import GoogleButton from '@/shared/components/OAuthButton/GoogleButton/GoogleButton';
-import EmailInput from '@/shared/components/Input/EmailInput';
-import PasswordInput from '@/shared/components/Input/PasswordInput';
-import KakaoButton from '@/shared/components/OAuthButton/KakaoButton/KakaoButton';
-import useSignIn from '@/models/auth/useSignIn';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import Image from 'next/image';
+import Link from 'next/link';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { signInSchema } from '@/lib/validators/authValidator';
+import useSignIn from '@/models/queries/auth/useSignIn';
+
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import GoogleButton from '@/components/feature/auth/GoogleButton/GoogleButton';
+import KakaoButton from '@/components/feature/auth/KakaoButton/KakaoButton';
+import { Button, EmailInput, PasswordInput } from '@/components/shared';
 
 export interface ILoginForm {
   email: string;
   password: string;
 }
-
-const signInSchema = z.object({
-  email: z
-    .string()
-    .min(1, '이메일을 입력해 주세요.')
-    .email('올바른 이메일 주소가 아닙니다.'),
-  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
-});
 
 const SignIn = () => {
   const { mutate } = useSignIn();

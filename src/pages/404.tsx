@@ -1,7 +1,7 @@
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import Button from '@/shared/components/Button/Button';
-import useChangeRouter from '@/shared/hooks/useChangeRouter';
 import Image from 'next/image';
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import { useChangeRouter } from '@/hooks';
+import { Button } from '@/components/shared';
 
 const Custom404 = () => {
   const { handleRedirect } = useChangeRouter();

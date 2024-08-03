@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 
-import MogazoaLayout from '@/shared/components/App/MogazoaLayout';
-import ProfileCard from '@/shared/components/ProfileCard/ProfileCard';
-import useGetMe from '@/models/auth/useGetMe';
-import useUserProfile from '@/models/user/profile/useUserProfile';
+import useGetMe from '@/models/queries/auth/useGetMe';
+import useUserProfile from '@/models/queries/user/profile/useUserProfile';
+
+import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
+import ProfileCard from '@/components/feature/profile/ProfileCard/ProfileCard';
 import ActivitySection from './_components/ActivitySection';
 import ProductCategorySelector from './_components/ProductCategorySelector';
 import ProductList from './_components/ProductList';
