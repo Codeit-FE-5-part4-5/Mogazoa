@@ -9,6 +9,7 @@ import useIntersect from './useIntersect';
 import useIsMobile from './useIsMobile';
 import usePendingTimeout from './usePendingTimeout';
 import useSearchRouter from './useSearchRouter';
+import useSticky from './useSticky';
 
 export {
   useAnimation,
@@ -22,4 +23,5 @@ export {
   useIsMobile,
   usePendingTimeout,
   useSearchRouter,
+  useSticky,
 };

@@ -10,7 +10,7 @@ import getServerQuery from '@/lib/getServerQuery';
 import { ORDER_VARIANTS } from '@/constants/products';
 import sortConverter from '@/utils/sortConverter';
 import castArray from '@/utils/castArray';
-import { useChangeRouter, useSearchRouter } from '@/hooks';
+import { useChangeRouter, useSearchRouter, useSticky } from '@/hooks';
 
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
@@ -54,6 +54,7 @@ const Home = () => {
   const { currentQuery, updateQueryParam, appendQueryParam } =
     useChangeRouter();
   const { searchQuery } = useSearchRouter();
+  const isSticky = useSticky();
 
   return (
     <MogazoaLayout>
@@ -62,7 +63,7 @@ const Home = () => {
           currentCategory={castArray(currentQuery.category)}
           handleClickCategory={updateQueryParam}
         />
-        <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
+        <main className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <div className="flex flex-col xl:order-1">
             <FetchBoundary variant="rankingList">
               <RankingList />
@@ -81,7 +82,7 @@ const Home = () => {
               />
             </FetchBoundary>
           </div>
-        </div>
+        </main>
       </div>
     </MogazoaLayout>
   );
