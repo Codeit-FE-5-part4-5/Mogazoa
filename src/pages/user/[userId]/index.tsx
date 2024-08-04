@@ -36,7 +36,7 @@ const UserProfile = () => {
     <MogazoaLayout>
       <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
-          <ProfileCard user={user?.data} />
+          <ProfileCard user={user} />
         </div>
         <div className="w-full space-y-20 xl:w-[940px]">
           <ActivitySection />

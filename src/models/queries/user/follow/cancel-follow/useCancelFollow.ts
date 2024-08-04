@@ -14,8 +14,8 @@ const useCancelFollow = () => {
 
       return res.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile', data.id] });
     },
     onError: () => {
       toast({

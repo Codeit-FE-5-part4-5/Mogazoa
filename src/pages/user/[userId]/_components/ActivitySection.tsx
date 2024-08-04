@@ -11,21 +11,15 @@ const ActivitySection = () => {
       <div>활동 내역</div>
       <div className="flex space-x-2.5 xl:space-x-5">
         <div className="w-full">
-          <ActivityCard
-            status="averageLeft"
-            conScore={user?.data.averageRating}
-          />
+          <ActivityCard status="averageLeft" conScore={user?.averageRating} />
         </div>
         <div className="w-full">
-          <ActivityCard
-            status="reviewsLeft"
-            conScore={user?.data.reviewCount}
-          />
+          <ActivityCard status="reviewsLeft" conScore={user?.reviewCount} />
         </div>
         <div className="w-full">
           <ActivityCard
             status="interest"
-            text={user?.data.mostFavoriteCategory?.name}
+            text={user?.mostFavoriteCategory?.name}
             color="#23b581"
           />
         </div>

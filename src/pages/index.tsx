@@ -1,5 +1,6 @@
-import { dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
+import { dehydrate } from '@tanstack/react-query';
+import queryClient from '@/lib/query';
 
 import productsService from '@/models/services/product/productsService';
 import bestProductsService from '@/models/services/product/bestProductsService';
@@ -13,11 +14,10 @@ import { useChangeRouter, useSearchRouter } from '@/hooks';
 
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
-import { FetchBoundary } from '@/components/shared';
-import RankingList from '@/components/feature/ranking/RankingList/RankingList';
 import SortedProductList from '@/components/feature/product/SortedProductList/SortedProductList';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
-import queryClient from '@/lib/query';
+import RankingList from '@/components/feature/ranking/RankingList/RankingList';
+import { FetchBoundary } from '@/components/shared';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
