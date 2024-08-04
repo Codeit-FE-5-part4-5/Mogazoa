@@ -34,7 +34,7 @@ const FollowingButton = ({
         buttonText === '내 프로필' && 'hidden',
         buttonText === '팔로잉' && 'bg-var-black3 text-var-gray1',
         buttonText === '팔로우' &&
-          'border-var-gray1 hover:border-var-indigo hover:bg-var-indigo',
+          'border-var-gray1 hover:border-var-indigo hover:bg-var-indigo hover:text-var-white',
         buttonText === '언팔로우' &&
           'hover:border-var-red hover:bg-var-red/5 hover:text-var-red',
       )}

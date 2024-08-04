@@ -14,10 +14,10 @@ import { useChangeRouter, useSearchRouter } from '@/hooks';
 
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
-import SortedProductList from '@/components/feature/product/SortedProductList/SortedProductList';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
 import RankingList from '@/components/feature/ranking/RankingList/RankingList';
 import { FetchBoundary } from '@/components/shared';
+import BestProductList from '@/components/feature/product/BestRankingList/BestRankingList';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -34,9 +34,6 @@ export const getServerSideProps = async (
     ]);
   } else {
     await Promise.all([
-      queryClient.prefetchQuery(
-        sortedProductsService.queryOptions(orderVariants[0]),
-      ),
       queryClient.prefetchQuery(
         sortedProductsService.queryOptions(orderVariants[1]),
       ),
@@ -66,23 +63,22 @@ const Home = () => {
           handleClickCategory={updateQueryParam}
         />
         <div className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
-          <FetchBoundary variant="rankingList">
-            <RankingList />
-          </FetchBoundary>
+          <div className="flex flex-col xl:order-1">
+            <FetchBoundary variant="rankingList">
+              <RankingList />
+              <BestProductList />
+            </FetchBoundary>
+          </div>
           <div className="flex-1">
             <FetchBoundary variant="productsCard">
-              {currentQuery.category || searchQuery ? (
-                <ProductSection
-                  searchQuery={searchQuery}
-                  currentQuery={currentQuery}
-                  currentCategoryName={castArray(currentQuery.category)}
-                  changeSortOrder={(order) =>
-                    appendQueryParam({ order: sortConverter(order) })
-                  }
-                />
-              ) : (
-                <SortedProductList />
-              )}
+              <ProductSection
+                searchQuery={searchQuery}
+                currentQuery={currentQuery}
+                currentCategoryName={castArray(currentQuery.category)}
+                changeSortOrder={(order) =>
+                  appendQueryParam({ order: sortConverter(order) })
+                }
+              />
             </FetchBoundary>
           </div>
         </div>

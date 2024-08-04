@@ -100,7 +100,7 @@ const RankingCard = ({
 
   return (
     <Link href={`/user/${id}`} className="flex-shrink-0 xl:w-full">
-      <div className="flex w-full items-center gap-[8px] rounded-2xl px-[20px] py-[10px] transition-all duration-300 hover:bg-[#252530]">
+      <div className="flex w-full items-center gap-[8px] rounded-2xl px-[20px] py-[10px] text-var-white transition-all duration-300 hover:bg-[#252530]">
         <div className="relative flex size-[40px] flex-shrink-0 overflow-hidden rounded-full border border-var-gray1">
           <Image
             src={image || 'images/user-no-image.svg'}
@@ -116,7 +116,7 @@ const RankingCard = ({
           <div className="flex flex-col gap-2">
             <div className="flex gap-2">
               <Ranking ranking={ranking} />
-              <div className="line-clamp-1 flex-1 text-[14px] font-normal text-var-white">
+              <div className="line-clamp-1 flex-1 text-[14px] font-semibold">
                 {nickname}
               </div>
             </div>

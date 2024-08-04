@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { cn } from '@/lib/cn';
 
 import useGetMe from '@/models/queries/auth/useGetMe';
 import useAnimation from '@/hooks/useAnimation';
@@ -10,13 +12,30 @@ import NavAuthSection from './NavAuthSection';
 import NavMenuSection from './NavMenuSection';
 
 const Nav = () => {
+  const { pathname } = useRouter();
   const { data: me } = useGetMe();
+  const [isSticky, setSticky] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const searchBarRef = useClickOutside<HTMLDivElement>(setIsSearchOpen);
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
     useAnimation(isOpenMenu);
 
+  const handleNavigation = () => {
+    setSticky(window.scrollY > 3);
+  };
+
+  useEffect(() => {
+    const scrollEvent = setInterval(() => {
+      window.addEventListener('scroll', handleNavigation);
+    }, 100);
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      clearInterval(scrollEvent);
+      window.removeEventListener('scroll', handleNavigation);
+    };
+  }, [pathname]);
   return (
     <>
       {shouldOpenMenu && (
@@ -30,7 +49,10 @@ const Nav = () => {
       )}
       <nav
         ref={searchBarRef}
-        className="sticky flex w-full flex-col items-start gap-[10px] bg-[#1C1C22] stroke-[#252530] stroke-[1px] px-[20px] py-[23px] md:border-b md:border-var-black3 md:px-[30px] xl:px-[120px]"
+        className={cn(
+          'fixed z-50 flex w-full flex-col items-start gap-[10px] border-b border-b-[#1c1c22] bg-[#1C1C22] px-[20px] py-[4px] transition-all duration-300 md:px-[30px] xl:px-[120px]',
+          isSticky && 'border-b-var-black3',
+        )}
       >
         <div className="flex h-[66px] w-full items-center justify-between py-[20px]">
           <NavMenuSection

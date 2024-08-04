@@ -20,7 +20,7 @@ interface ProductSectionProps {
 }
 
 const ProductSection = ({
-  currentCategoryName,
+  currentCategoryName = '전체 상품',
   changeSortOrder,
   searchQuery,
   currentQuery,

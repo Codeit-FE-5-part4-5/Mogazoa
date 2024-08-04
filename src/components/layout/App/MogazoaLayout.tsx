@@ -5,7 +5,7 @@ const MogazoaLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Nav />
-      {children}
+      <div className="pt-[80px]">{children}</div>
     </>
   );
 };
