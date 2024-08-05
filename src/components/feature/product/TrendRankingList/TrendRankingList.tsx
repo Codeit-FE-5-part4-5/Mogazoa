@@ -1,9 +1,9 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Product } from '@/types/product/product';
 import productsService from '@/models/services/product/productsService';
-import TrendRankingCard from './TrendRankingCard/TrendRankingCard';
+import TrendRankingCard from '../TrendRankingCard/TrendRankingCard';
 
-const BestProductList = () => {
+const TrendRankingList = () => {
   const { data: sortedProducts } = useSuspenseQuery(
     productsService.queryOptions({ order: 'reviewCount' }),
   );
@@ -19,4 +19,4 @@ const BestProductList = () => {
   );
 };
 
-export default BestProductList;
+export default TrendRankingList;

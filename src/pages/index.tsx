@@ -13,8 +13,8 @@ import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
 import RankingList from '@/components/feature/ranking/RankingList/RankingList';
+import TrendRankingList from '@/components/feature/product/TrendRankingList/TrendRankingList';
 import { FetchBoundary } from '@/components/shared';
-import BestProductList from '@/components/feature/product/BestRankingList/BestRankingList';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -65,7 +65,7 @@ const Home = () => {
           <div className="flex flex-col xl:order-1">
             <FetchBoundary variant="rankingList">
               <RankingList />
-              <BestProductList />
+              <TrendRankingList />
             </FetchBoundary>
           </div>
           <div className="flex-1">

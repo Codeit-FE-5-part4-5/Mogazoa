@@ -118,16 +118,17 @@ const ProductDetailCard = ({
     <>
       <div className="gap-[50px] text-var-white md:flex">
         <div className="flex items-center justify-center">
-          <div className="relative mb-5 h-[249px] w-[289px] md:m-0 md:h-full md:w-[280px] xl:w-[355px]">
+          <div className="relative mb-5 size-[400px] md:m-0 md:w-[300px]">
             <Image
               className="rounded-lg"
               src={ProductDetailData?.image}
               alt="리뷰이미지"
+              style={{ objectFit: 'contain' }}
               layout="fill"
             />
           </div>
         </div>
-        <div className="w-full">
+        <div className="flex flex-1 flex-col gap-[20px]">
           <div className="grid grid-cols-2 items-center">
             <div className="md:order-1 md:col-span-2">
               <Chip
@@ -170,7 +171,7 @@ const ProductDetailCard = ({
             </ul>
 
             <div className="col-span-2 flex items-center justify-between md:order-2 md:col-span-1 md:justify-normal md:gap-[15px]">
-              <h3 className="my-[10px] text-[20px] xl:text-[24px]">
+              <h3 className="mt-[10px] text-[20px] xl:text-[24px]">
                 {ProductDetailData?.name}
               </h3>
               <button type="button" onClick={handleToggleFavorite}>
@@ -187,11 +188,11 @@ const ProductDetailCard = ({
               </button>
             </div>
           </div>
-          <div className="mt-[20px] text-[14px] leading-[20px] xl:text-[16px] xl:leading-[22px]">
+          <div className="flex-grow text-[14px] leading-[20px] xl:text-[16px] xl:leading-[22px]">
             {ProductDetailData?.description}
           </div>
           {userId === ProductDetailData?.writerId ? (
-            <div className="mt-[40px] flex flex-col gap-[15px] md:mt-[60px] md:flex-row xl:gap-[20px]">
+            <div className="flex flex-col gap-[15px] md:flex-row xl:gap-[20px]">
               <Button text="리뷰 작성하기" onClick={() => onOpen('review')} />
               <Button
                 text="비교하기"
