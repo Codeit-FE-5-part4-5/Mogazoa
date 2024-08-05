@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { TextareaHTMLAttributes } from 'react';
 
-type TextAreaInputProps = {
-  placeholder: string;
-  value: string;
+interface TextAreaInputProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   textLength: number;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-};
+}
 
 const TextAreaInput: React.FC<TextAreaInputProps> = ({
   placeholder,
@@ -14,18 +12,19 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
   onChange,
 }) => {
   return (
-    <div className="flex h-full w-full flex-col items-end rounded-lg border-[1px] border-solid border-var-black3 bg-var-black2 p-4 text-var-white focus-within:border-var-indigo">
+    <label htmlFor="textArea" className="relative size-full">
       <textarea
+        id="textArea"
         placeholder={placeholder}
         maxLength={textLength}
         value={value}
         onChange={onChange}
-        className="h-full w-full resize-none bg-var-black2 placeholder-var-gray1 outline-none"
+        className="size-full resize-none rounded-lg border border-var-black3 bg-var-black2 px-[20px] py-[20px] text-var-white placeholder-var-gray1 outline-none transition-all duration-300 hover:bg-[#17171c] hover:border-gradient-custom focus:border-gradient-custom"
       />
-      <div className="text-sm text-var-gray2">
-        {value.length}/{textLength}
+      <div className="absolute bottom-[8px] right-[12px] text-sm text-var-gray2">
+        {typeof value === 'string' ? value?.length : 0}/{textLength}
       </div>
-    </div>
+    </label>
   );
 };
 

@@ -1,19 +1,22 @@
-import { cn } from '@/lib/cn';
-import { Me } from '@/types/user/user';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
+import { cn } from '@/lib/cn';
+
+import { useIsMobile } from '@/hooks';
 
 interface Props {
-  me: Me;
+  me?: number;
   isSearchOpen: boolean;
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
 }
 
 const NavMenuSection = ({ me, isSearchOpen, setOpenMenu }: Props) => {
+  const isMobile = useIsMobile();
+
   return (
     <>
-      {me ? (
+      {isMobile && me ? (
         <button
           type="button"
           onClick={() => setOpenMenu((prev) => !prev)}
@@ -22,12 +25,17 @@ const NavMenuSection = ({ me, isSearchOpen, setOpenMenu }: Props) => {
           <Image src="/images/menu.svg" alt="MenuIcon" width={24} height={24} />
         </button>
       ) : (
-        <Link href="/signin" className="flex h-[42px] md:hidden">
-          <button type="button" className="text-var-gray2 hover:text-var-white">
-            <Image src="/me.svg" alt="로그인" width={24} height={24} />
-          </button>
-        </Link>
+        <button
+          type="button"
+          className="flex text-var-gray2 hover:text-var-white md:hidden"
+          onClick={() => {
+            window.location.href = '/signin';
+          }}
+        >
+          <Image src="/me.svg" alt="로그인" width={24} height={24} />
+        </button>
       )}
+
       <div
         className={cn(
           'absolute left-[50%] -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0',

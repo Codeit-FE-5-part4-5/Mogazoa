@@ -1,12 +1,18 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 
 const useGetCreatedProducts = (
   userId: number | null | undefined | string | string[],
 ) => {
-  return useInfiniteQuery({
-    queryKey: ['userCreatedProducts', userId],
+  return useSuspenseInfiniteQuery({
+    queryKey: ['userCreatedProducts', userId ?? null],
     queryFn: async ({ pageParam = 0 }) => {
+      if (!userId)
+        return {
+          list: {},
+          nextCursor: null,
+        };
+
       const cursorParam = pageParam ? `cursor=${pageParam}` : '';
 
       const { data } = await axios.get(
@@ -19,10 +25,9 @@ const useGetCreatedProducts = (
       };
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
     staleTime: 60 * 1000 * 30,
     gcTime: 60 * 1000 * 30,
-    enabled: userId !== undefined,
   });
 };
 

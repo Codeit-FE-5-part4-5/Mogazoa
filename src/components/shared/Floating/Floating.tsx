@@ -2,10 +2,14 @@ import Image from 'next/image';
 import { cn } from '@/lib/cn';
 import useModal from '@/store/use-modal-store';
 import useGetMe from '@/models/queries/auth/useGetMe';
+import { useChangeRouter } from '@/hooks';
 
 const Floating = () => {
+  const { currentPath } = useChangeRouter();
   const { onOpen } = useModal();
   const { data: me } = useGetMe();
+
+  if (currentPath.includes('/sign')) return null;
 
   const handleClickFloating = () => {
     if (me) {

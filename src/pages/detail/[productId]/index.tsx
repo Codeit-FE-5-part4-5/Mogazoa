@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import useModal from '@/store/use-modal-store';
 import useGetMe from '@/models/queries/auth/useGetMe';
 import useGetProductDetail from '@/models/queries/product/useGetProductDetail';
 import useGetProductDetailReviews from '@/models/queries/reviews/useGetProductReview';
@@ -12,7 +11,6 @@ import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductDetailCard from '@/components/feature/product/ProductDetailCard/ProductDetailCard';
 import ProductDetailReview from '@/components/feature/product/ProductDetailReview/ProductDetailReview';
 import StatisticsCard from '@/components/feature/product/StatisticsCard/StatisticsCard';
-import { Floating } from '@/components/shared';
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -69,16 +67,6 @@ const ProductDetails = () => {
     setSort(value);
     setSelectedOption(label);
     setIsDropdownOpen(false);
-  };
-
-  const { onOpen } = useModal();
-
-  const handleReviewEdit = () => {
-    if (isLogin) {
-      onOpen('review');
-    } else {
-      onOpen('login');
-    }
   };
 
   if (!productDetail) {
@@ -209,13 +197,6 @@ const ProductDetails = () => {
             </p>
           </div>
         )}
-      </div>
-      <div
-        className="fixed"
-        style={{ bottom: '10%', right: '10%' }}
-        onClick={handleReviewEdit}
-      >
-        <Floating />
       </div>
     </MogazoaLayout>
   );

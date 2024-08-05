@@ -14,14 +14,17 @@ const useCancelFollow = () => {
 
       return res.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile', data.id] });
     },
     onError: () => {
       toast({
         variant: 'destructive',
         title: '팔로우를 취소하는 데 에러가 발생했습니다.',
       });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['followers'] });
     },
   });
 };

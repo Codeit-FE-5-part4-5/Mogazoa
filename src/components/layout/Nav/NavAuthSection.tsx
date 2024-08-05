@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
+import { cn } from '@/lib/cn';
+import castArray from '@/utils/castArray';
 import useChangeRouter from '@/hooks/useChangeRouter';
 import useSearchRouter from '@/hooks/useSearchRouter';
-import { cn } from '@/lib/cn';
-import { Me } from '@/types/user/user';
-import castArray from '@/utils/castArray';
 import { SearchInput } from '@/components/shared';
 
 interface NavAuthSectionProps {
-  me: Me;
+  me?: number;
   isSearchOpen: boolean;
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -21,6 +20,7 @@ const NavAuthSection = ({
   const { currentPath, currentQuery } = useChangeRouter();
   const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();
+  const linkStyle = 'transition-colors duration-300 hover:text-var-gray2';
 
   return (
     <div
@@ -46,17 +46,11 @@ const NavAuthSection = ({
         />
       )}
       <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-semibold text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
-        <Link
-          href={me ? '/compare' : '/signin'}
-          className="transition-colors duration-300 hover:text-var-gray2"
-        >
-          {me ? '비교하기' : '로그인'}
+        <Link href={me ? '/compare' : '/signup'} className={linkStyle}>
+          {me ? '비교하기' : '회원가입'}
         </Link>
-        <Link
-          href={me ? '/mypage' : '/signup'}
-          className="transition-colors duration-300 hover:text-var-gray2"
-        >
-          {me ? '내 프로필' : '회원가입'}
+        <Link href={me ? '/mypage' : '/signin'} className={linkStyle}>
+          {me ? '내 프로필' : '로그인'}
         </Link>
       </div>
     </div>

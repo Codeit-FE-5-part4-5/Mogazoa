@@ -13,8 +13,8 @@ const usePostFollow = () => {
 
       return res.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile', data.id] });
     },
     onError: (error: unknown) => {
       let errorMessage = '팔로우 시 에러가 발생했습니다.';
@@ -44,6 +44,9 @@ const usePostFollow = () => {
       }
 
       throw new Error(errorMessage);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['followers'] });
     },
   });
 };

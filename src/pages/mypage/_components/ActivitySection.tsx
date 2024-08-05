@@ -5,7 +5,7 @@ const ActivitySection = () => {
   const { data: user } = useGetMe();
 
   return (
-    <div className="mt-[50px] space-y-[30px] xl:mt-0">
+    <div className="mt-[52px] space-y-[30px] xl:mt-0">
       <div>활동 내역</div>
       <div className="flex space-x-2.5 xl:space-x-5">
         <div className="w-full">

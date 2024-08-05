@@ -4,7 +4,10 @@ import axios from '@/lib/axios';
 const useUserProfile = (userId: number | null | undefined) => {
   return useQuery({
     queryKey: ['userProfile', userId],
-    queryFn: () => axios.get(`users/${userId}`),
+    queryFn: async () => {
+      const { data } = await axios.get(`users/${userId}`);
+      return data;
+    },
     staleTime: 60 * 1000 * 30,
     gcTime: 60 * 1000 * 30,
     enabled: !!userId && !Number.isNaN(userId),

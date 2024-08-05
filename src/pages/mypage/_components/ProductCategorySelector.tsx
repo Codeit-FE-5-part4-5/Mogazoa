@@ -18,7 +18,7 @@ const ProductCategorySelector = ({
   };
 
   return (
-    <div className="space-y-[30px]">
+    <div className="mb-[30px] mt-[52px]">
       <div className="relative xl:hidden">
         <div className="flex w-[130px] cursor-pointer items-center justify-between">
           <div onClick={handleDropdown}>{selectedCategory}</div>
@@ -59,8 +59,9 @@ const ProductCategorySelector = ({
         )}
       </div>
       <div className="hidden space-x-10 text-var-gray1 xl:flex">
-        <div
-          className={`hover:text-var-white ${
+        <button
+          type="button"
+          className={`transition-all duration-300 hover:text-var-white ${
             selectedCategory === ProductCategory.REVIEWED
               ? 'text-var-white'
               : ''
@@ -68,17 +69,19 @@ const ProductCategorySelector = ({
           onClick={() => setSelectedCategory(ProductCategory.REVIEWED)}
         >
           {ProductCategory.REVIEWED}
-        </div>
-        <div
-          className={`hover:text-var-white ${
+        </button>
+        <button
+          type="button"
+          className={`transition-all duration-300 hover:text-var-white ${
             selectedCategory === ProductCategory.CREATED ? 'text-var-white' : ''
           }`}
           onClick={() => setSelectedCategory(ProductCategory.CREATED)}
         >
           {ProductCategory.CREATED}
-        </div>
-        <div
-          className={`hover:text-var-white ${
+        </button>
+        <button
+          type="button"
+          className={`transition-all duration-300 hover:text-var-white ${
             selectedCategory === ProductCategory.FAVORITE
               ? 'text-var-white'
               : ''
@@ -86,7 +89,7 @@ const ProductCategorySelector = ({
           onClick={() => setSelectedCategory(ProductCategory.FAVORITE)}
         >
           {ProductCategory.FAVORITE}
-        </div>
+        </button>
       </div>
     </div>
   );

@@ -1,41 +1,41 @@
-import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
-import { Spinner } from '@/components/shared';
-import useGetMe from '@/models/queries/auth/useGetMe';
+import { useEffect, useMemo, useCallback } from 'react';
+
 import useGetCreatedProducts from '@/models/queries/user/products/created-products/useGetCreatedProducts';
 import useGetFavoriteProducts from '@/models/queries/user/products/favorite-products/useGetFavoriteProducts';
 import useGetReviewedProducts from '@/models/queries/user/products/reviewed-products/useGetReviewedProducts';
+import { Me } from '@/types/user/user';
 import { ProductCategory } from '@/pages/user/[userId]';
-
-import { useEffect, useMemo, useCallback } from 'react';
-import { useInView } from 'react-intersection-observer';
+import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
+import { useIntersect } from '@/hooks';
 
 interface ProductListProps {
   selectedCategory: ProductCategory;
+  user: Me;
 }
 
-const ProductList = ({ selectedCategory }: ProductListProps) => {
-  const [ref, inView] = useInView();
-  const { data: user } = useGetMe();
-
+const ProductList = ({ selectedCategory, user }: ProductListProps) => {
   const {
     fetchNextPage: fetchNextCreatedPage,
     hasNextPage: hasNextCreatedPage,
-    isFetching: isCreatedFetching,
     data: createdProducts,
+    isLoading: createdLoading,
+    isSuccess: createdSuccess,
   } = useGetCreatedProducts(user?.id);
 
   const {
     fetchNextPage: fetchNextFavoritePage,
     hasNextPage: hasNextFavoritePage,
-    isFetching: isFavoriteFetching,
     data: favoriteProducts,
+    isLoading: favoriteLoading,
+    isSuccess: favoriteSuccess,
   } = useGetFavoriteProducts(user?.id);
 
   const {
     fetchNextPage: fetchNextReviewedPage,
     hasNextPage: hasNextReviewedPage,
-    isFetching: isReviewedFetching,
     data: reviewedProducts,
+    isLoading: reviewedLoading,
+    isSuccess: reviewedSuccess,
   } = useGetReviewedProducts(user?.id);
 
   const createdProductsList = useMemo(
@@ -52,9 +52,6 @@ const ProductList = ({ selectedCategory }: ProductListProps) => {
     () => reviewedProducts?.pages.flatMap((page) => page.list) || [],
     [reviewedProducts],
   );
-
-  const isLoading =
-    isCreatedFetching || isFavoriteFetching || isReviewedFetching;
 
   const getProducts = useCallback(() => {
     switch (selectedCategory) {
@@ -73,6 +70,9 @@ const ProductList = ({ selectedCategory }: ProductListProps) => {
     favoriteProductsList,
     reviewedProductsList,
   ]);
+  const isLoading = createdLoading || favoriteLoading || reviewedLoading;
+  const isSuccess = createdSuccess || favoriteSuccess || reviewedSuccess;
+  const [ref, inView] = useIntersect<HTMLDivElement>(isLoading);
 
   useEffect(() => {
     if (inView && hasNextCreatedPage) fetchNextCreatedPage();
@@ -91,12 +91,8 @@ const ProductList = ({ selectedCategory }: ProductListProps) => {
 
   return (
     <>
-      {isLoading ? (
-        <Spinner isLoading={isLoading} />
-      ) : (
-        <ProductCardList products={getProducts()} />
-      )}
-      <div ref={ref} />
+      <ProductCardList products={getProducts()} />
+      {isSuccess && <div ref={ref} />}
     </>
   );
 };

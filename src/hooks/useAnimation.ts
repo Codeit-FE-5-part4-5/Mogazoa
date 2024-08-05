@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type TAnimation = (condition: boolean) => [boolean, boolean, () => void];
 
@@ -18,8 +18,14 @@ const useAnimation: TAnimation = (condition) => {
     }
   }, [condition]);
 
-  const shouldRender = condition || isComplete;
-  const animationTrigger = condition && isComplete;
+  const shouldRender = useMemo(
+    () => condition || isComplete,
+    [condition, isComplete],
+  );
+  const animationTrigger = useMemo(
+    () => condition && isComplete,
+    [condition, isComplete],
+  );
 
   const handleAnimationEnd = useCallback(() => {
     if (!condition) {

@@ -17,6 +17,7 @@ import DropDown from '../DropDown/DropDown';
 import TextFieldInput from '../Input/TextFieldInput';
 import ImageInput from '../Input/ImageInput';
 import Button from '../Button/Button';
+import TextAreaInput from '../Input/TextAreaInput';
 
 const frameworks = [
   '음악',
@@ -139,10 +140,10 @@ const ItemEditModal = () => {
           <DialogTitle className="mb-10 self-start text-2xl">
             상품 편집
           </DialogTitle>
-          <DialogDescription className="flex flex-col gap-y-5 text-center">
-            <div className="flex flex-col gap-x-5 md:flex-row md:items-start">
-              <div className="h-[140px] w-[140px] md:order-2 md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
-                <div className="h-[140px] w-[140px] md:h-[135px] md:w-[135px] xl:h-[160px] xl:w-[160px]">
+          <DialogDescription className="flex flex-col gap-[20px] text-center">
+            <div className="flex flex-col gap-[20px] md:flex-row md:items-start">
+              <div className="size-[140px] md:order-2 xl:size-[160px]">
+                <div className="size-[140px] xl:size-[160px]">
                   <ImageInput
                     initialImageUrl={productDetail?.image}
                     onChange={(newImage: string | null) => {
@@ -151,7 +152,7 @@ const ItemEditModal = () => {
                   />
                 </div>
               </div>
-              <div className="w-full md:order-1">
+              <div className="flex h-full w-full flex-col justify-between gap-[20px] md:order-1">
                 <TextFieldInput
                   placeholder={productDetail?.name}
                   value={selectedItem}
@@ -165,28 +166,17 @@ const ItemEditModal = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-col items-end rounded-md bg-[#252530]">
-              <textarea
-                className="h-full w-full resize-none rounded-md bg-[#252530] p-5 text-var-white outline-none"
+            <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
+              <TextAreaInput
+                value={text}
                 placeholder={productDetail?.description}
-                maxLength={500}
                 onChange={handleTextChange}
+                textLength={500}
               />
-              <div className="mb-5 mr-5">{text.length} / 500</div>
             </div>
             {errorMessage && (
               <div className="mb-5 text-red-500">{errorMessage}</div>
             )}
-            {/* <button
-              type="button"
-              className={`mt-5 cursor-pointer rounded-md border border-[#353542] bg-gradient-to-r from-var-blue to-var-indigo py-6 text-lg text-var-white ${
-                isSubmitting ? 'cursor-not-allowed opacity-80' : ''
-              }`}
-              onClick={handleSave}
-              disabled={isSubmitting}
-            >
-              저장하기
-            </button> */}
             <Button
               text="저장하기"
               onClick={handleSave}

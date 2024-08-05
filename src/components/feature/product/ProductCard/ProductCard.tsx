@@ -21,8 +21,8 @@ const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <Link href={`/detail/${id}`}>
-      <div className="group cursor-pointer rounded-[8px] border border-[#353542] bg-[#252530] px-[10px] py-[10px] transition-all duration-300 hover:border-gradient-custom md:py-[20px] xl:rounded-[12px] xl:px-[20px] xl:py-[25px]">
-        <div className="relative h-[98px] overflow-hidden rounded-[8px] md:h-[160px] xl:h-[200px]">
+      <div className="group cursor-pointer overflow-hidden rounded-[8px] border border-[#353542] bg-[#252530] transition-all duration-300 hover:border-gradient-custom xl:rounded-[12px]">
+        <div className="relative h-[120px] overflow-hidden md:h-[160px] xl:h-[200px]">
           <Image
             fill
             src={image}
@@ -30,8 +30,8 @@ const ProductCard = ({
             className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-125"
           />
         </div>
-        <div className="mt-[10px] md:mt-[20px] xl:mt-[25px]">
-          <h3 className="text-[14px] font-medium text-var-white md:text-[16px] xl:text-[18px]">
+        <div className="px-[12px] py-[12px]">
+          <h3 className="text-[12px] font-medium text-var-white md:text-[16px]">
             {name}
           </h3>
           <div className="flex flex-col md:mt-[10px] md:flex-row md:justify-between">
@@ -39,7 +39,7 @@ const ProductCard = ({
               <li>리뷰 {reviewCount}</li>
               <li>찜 {favoriteCount}</li>
             </ul>
-            <div className="flex items-center gap-[2px]">
+            <div className="flex items-center gap-[4px]">
               <div className="relative size-[12px] md:size-[16px]">
                 <Image src="/images/star.svg" alt="별점" fill />
               </div>

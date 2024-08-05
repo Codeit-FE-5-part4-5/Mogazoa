@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 
 type TChangeRouter = () => {
@@ -20,8 +20,7 @@ type TChangeRouter = () => {
  */
 const useChangeRouter: TChangeRouter = () => {
   const router = useRouter();
-  const currentPath = useMemo(() => router.pathname, [router.pathname]);
-  const currentQuery = useMemo(() => router.query, [router.query]);
+  const { pathname: currentPath, query: currentQuery } = router;
 
   const updateQueryParam = useCallback(
     (value: string | Record<string, string | string[]>) => {

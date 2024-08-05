@@ -1,24 +1,17 @@
 import Image from 'next/image';
 import { Product } from '@/types/product/product';
-import { Spinner } from '@/components/shared';
 import ProductCard from '../ProductCard/ProductCard';
 
 interface ProductCardListProps {
   products: Product[];
-  isLoading?: boolean;
 }
 
 const ProductCardList: React.FC<ProductCardListProps> = ({
   products = [],
-  isLoading = false,
 }: ProductCardListProps) => {
-  if (isLoading) {
-    return <Spinner isLoading />;
-  }
-
   if (!products || products.length === 0) {
     return (
-      <div className="mb-[120px] mt-[80px] flex flex-col items-center gap-[20px]">
+      <div className="mb-[120px] mt-[30px] flex flex-col items-center gap-[20px]">
         <div className="relative h-[32px] w-[39px] xl:h-[40px] xl:w-[49px]">
           <Image
             src="/images/firstComment.svg"

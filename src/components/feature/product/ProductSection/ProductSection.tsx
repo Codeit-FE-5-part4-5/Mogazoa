@@ -5,7 +5,6 @@ import {
 import { useEffect } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import productsService from '@/models/services/product/productsService';
-import bestProductsService from '@/models/services/product/bestProductsService';
 import { ORDER_VARIANTS } from '@/constants/products';
 import castArray from '@/utils/castArray';
 import { useIntersect } from '@/hooks';
@@ -13,23 +12,26 @@ import { DropDown, Carousel } from '@/components/shared';
 import ProductCardList from '../ProductCardList/ProductCardList';
 
 interface ProductSectionProps {
-  currentCategoryName?: string;
-  changeSortOrder: (order: string) => void;
+  currentCategory?: string;
+  onChangeSortOrder: (order: string) => void;
   searchQuery: string;
   currentQuery: ParsedUrlQuery;
 }
 
 const ProductSection = ({
-  currentCategoryName,
-  changeSortOrder,
+  currentCategory = '전체 상품',
+  onChangeSortOrder,
   searchQuery,
   currentQuery,
 }: ProductSectionProps) => {
   const bestProducts = useSuspenseQuery(
-    bestProductsService.queryOptions(Number(currentQuery.categoryId)),
+    productsService.queryOptions({
+      categoryId: Number(currentQuery.categoryId),
+      order: 'rating',
+    }),
   );
   const products = useSuspenseInfiniteQuery(
-    productsService.queryOptions({
+    productsService.infiniteQueryOptions({
       categoryId: Number(currentQuery.categoryId),
       order: castArray(currentQuery.order),
       keyword: searchQuery,
@@ -48,7 +50,7 @@ const ProductSection = ({
     <div className="mx-[20px] mb-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
       {sliceBestProducts?.length !== 0 && (
         <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
-          {`${currentCategoryName}의`}&nbsp;
+          {`${currentCategory}의`}&nbsp;
           <span className="bg-gradient-custom bg-clip-text text-transparent">
             TOP 6
           </span>
@@ -64,23 +66,19 @@ const ProductSection = ({
           <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
             {searchQuery
               ? `${searchQuery}의 검색 결과`
-              : `${currentCategoryName}의 모든 상품`}
+              : `${currentCategory}의 모든 상품`}
           </h1>
           <div className="w-[110px] flex-shrink-0">
             <DropDown
               isOrder
               itemList={ORDER_VARIANTS}
-              onClick={changeSortOrder}
+              onClick={onChangeSortOrder}
             />
           </div>
         </div>
       </div>
       {products.data?.pages.map((product) => (
-        <ProductCardList
-          key={product.nextCursor}
-          products={product?.list}
-          isLoading={products.isLoading}
-        />
+        <ProductCardList key={product.nextCursor} products={product?.list} />
       ))}
       {products.isSuccess && <div ref={ref} />}
     </div>

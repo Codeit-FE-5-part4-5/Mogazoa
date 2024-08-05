@@ -6,6 +6,7 @@ import useUserProfile from '@/models/queries/user/profile/useUserProfile';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProfileCard from '@/components/feature/profile/ProfileCard/ProfileCard';
+import { FetchBoundary } from '@/components/shared';
 import ActivitySection from './_components/ActivitySection';
 import ProductCategorySelector from './_components/ProductCategorySelector';
 import ProductList from './_components/ProductList';
@@ -29,19 +30,23 @@ const UserProfile = () => {
     window.location.replace('/mypage');
   }
 
+  if (!user && !me) return null;
+
   return (
     <MogazoaLayout>
       <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
         <div className="w-full max-w-[940px] xl:w-[340px]">
-          <ProfileCard user={user?.data} />
+          <ProfileCard user={user} />
         </div>
-        <div className="w-full space-y-20 xl:w-[940px]">
+        <div className="w-full xl:w-[940px]">
           <ActivitySection />
           <ProductCategorySelector
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
           />
-          <ProductList selectedCategory={selectedCategory} />
+          <FetchBoundary variant="productsCard">
+            <ProductList selectedCategory={selectedCategory} />
+          </FetchBoundary>
         </div>
       </div>
     </MogazoaLayout>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/cn';
@@ -59,25 +59,26 @@ const Carousel = ({ products, className }: CarouselProps) => {
   const [showDescription, setShowDescription] = useState(false);
   const [renderDescription, showDescriptionAnimate, handleAnimateDescription] =
     useAnimation(showDescription);
-  let timerId: NodeJS.Timeout;
+  const timerIdRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const currentProductIdx = products.findIndex(
-      (product) => product.id === currentProduct.id,
-    );
+    const updateProduct = () => {
+      setCurrentProduct((prevProduct) => {
+        const currentProductIdx = products.findIndex(
+          (product) => product.id === prevProduct.id,
+        );
+        return products[currentProductIdx + 1] || products[0];
+      });
+    };
 
-    timerId = setInterval(() => {
-      if (products[currentProductIdx + 1]) {
-        setCurrentProduct(products[currentProductIdx + 1]);
-      } else {
-        setCurrentProduct(products[0]);
-      }
-    }, 3000);
+    timerIdRef.current = setInterval(updateProduct, 3000);
 
     return () => {
-      clearInterval(timerId);
+      if (timerIdRef.current) {
+        clearInterval(timerIdRef.current);
+      }
     };
-  }, [currentProduct]);
+  }, [products]);
 
   if (products.length === 0) return null;
 
@@ -119,12 +120,19 @@ const Carousel = ({ products, className }: CarouselProps) => {
                 key={product.id}
                 href={`/detail/${product?.id}`}
                 className={cn(
-                  'flex w-full items-center justify-center border-r border-var-black2 bg-var-black3 text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
+                  'group flex w-full items-center justify-center border-r border-var-black2 bg-var-black3 text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
                   currentProduct?.name === product?.name && 'bg-var-black2',
                 )}
                 onMouseEnter={() => setCurrentProduct(product)}
               >
-                <span className="text-[12px]">{product.name}</span>
+                <span
+                  className={cn(
+                    'text-[12px] transition-all duration-300 group-hover:text-var-white',
+                    currentProduct?.name === product?.name && 'text-var-white',
+                  )}
+                >
+                  {product.name}
+                </span>
               </Link>
             ))}
           </div>
