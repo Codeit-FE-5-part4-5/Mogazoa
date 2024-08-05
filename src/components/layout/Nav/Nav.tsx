@@ -34,8 +34,8 @@ const Nav = () => {
       <nav
         ref={searchBarRef}
         className={cn(
-          'fixed z-50 flex w-full flex-col items-start gap-[10px] border-b border-b-[#1c1c22] bg-[#1C1C22] px-[20px] py-[4px] backdrop-blur-xl transition-all duration-300 md:px-[30px] xl:px-[120px]',
-          isSticky && 'border-b-var-black3',
+          'fixed flex w-full flex-col items-start gap-[10px] border-b border-b-[#1c1c22] bg-[#1C1C22] px-[20px] py-[4px] backdrop-blur-xl transition-all duration-300 md:px-[30px] xl:px-[120px]',
+          isSticky && 'z-50 border-b-var-black3',
           isSticky && 'bg-var-black1/80',
         )}
       >
