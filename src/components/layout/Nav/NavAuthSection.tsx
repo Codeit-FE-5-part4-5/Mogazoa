@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
 import { cn } from '@/lib/cn';
-import { Me } from '@/types/user/user';
 import castArray from '@/utils/castArray';
 import useChangeRouter from '@/hooks/useChangeRouter';
 import useSearchRouter from '@/hooks/useSearchRouter';
 import { SearchInput } from '@/components/shared';
 
 interface NavAuthSectionProps {
-  me?: Me;
+  me?: number;
   isSearchOpen: boolean;
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
 }

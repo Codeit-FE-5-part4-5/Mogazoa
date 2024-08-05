@@ -41,12 +41,12 @@ const Nav = () => {
       >
         <div className="flex h-[66px] w-full items-center justify-between py-[20px]">
           <NavMenuSection
-            me={me}
+            me={me?.id}
             isSearchOpen={isSearchOpen}
             setOpenMenu={setOpenMenu}
           />
           <NavAuthSection
-            me={me}
+            me={me?.id}
             isSearchOpen={isSearchOpen}
             setIsSearchOpen={setIsSearchOpen}
           />

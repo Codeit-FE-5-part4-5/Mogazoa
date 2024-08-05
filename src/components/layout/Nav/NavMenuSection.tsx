@@ -4,10 +4,9 @@ import { Dispatch, SetStateAction } from 'react';
 import { cn } from '@/lib/cn';
 
 import { useIsMobile } from '@/hooks';
-import { Me } from '@/types/user/user';
 
 interface Props {
-  me?: Me;
+  me?: number;
   isSearchOpen: boolean;
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
 }
