@@ -54,7 +54,7 @@ const MobileCategoryMenu = ({
       {!isMoreLeft && (
         <button
           type="button"
-          className="absolute left-[10px] top-[118px] animate-bounceRight"
+          className="absolute left-[10px] top-[86px] animate-bounceRight"
         >
           <Image
             src="/arrow.svg"
@@ -100,7 +100,7 @@ const MobileCategoryMenu = ({
       {!isMoreRight && (
         <button
           type="button"
-          className="absolute right-[10px] top-[118px] animate-bounceRight"
+          className="absolute right-[10px] top-[86px] animate-bounceRight"
         >
           <Image
             src="/arrow.svg"

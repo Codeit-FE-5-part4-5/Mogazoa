@@ -15,7 +15,7 @@ const TrendRankingCard = ({ product }: TrendRankingCardProps) => {
   };
   return (
     <Link href={`/detail/${product.id}`} className="flex-shrink-0 xl:w-full">
-      <div className="flex w-full flex-col items-start gap-[8px] rounded-[16px] px-[20px] py-[8px] text-var-white transition-all duration-300 hover:bg-[#252530]">
+      <div className="flex w-full flex-col items-start gap-[8px] rounded-[16px] px-[12px] py-[8px] text-var-white transition-all duration-300 hover:bg-[#252530] xl:px-[20px]">
         <div className="text-[12px] text-var-gray1">
           {convertCategory()?.name} 카테고리
         </div>

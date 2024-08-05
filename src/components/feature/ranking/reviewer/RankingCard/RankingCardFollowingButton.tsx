@@ -30,7 +30,7 @@ const FollowingButton = ({
         }
       }}
       className={cn(
-        'flex flex-shrink-0 rounded-[16px] border border-var-black3 px-[8px] py-[4px] text-[12px] transition-colors duration-300 active:bg-var-blue xl:ml-auto',
+        'flex flex-shrink-0 self-end rounded-[16px] border border-var-black3 px-[8px] py-[4px] text-[12px] transition-colors duration-300 active:bg-var-blue xl:ml-auto xl:self-center',
         buttonText === '내 프로필' && 'hidden',
         buttonText === '팔로잉' && 'bg-var-black3 text-var-gray1',
         buttonText === '팔로우' &&

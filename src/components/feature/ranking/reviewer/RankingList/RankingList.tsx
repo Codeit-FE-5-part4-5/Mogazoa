@@ -7,9 +7,9 @@ const RankingList = () => {
   const sliceRankingData = rankingData?.data?.slice(0, 5);
 
   return (
-    <div className="mt-[45px] flex flex-shrink-0 flex-col gap-[20px] overflow-x-auto bg-[#1C1C22] text-[#F1F1F5] no-scrollbar xl:w-[300px]">
+    <div className="mt-[45px] flex flex-shrink-0 flex-col gap-[20px] bg-[#1C1C22] text-[#F1F1F5] xl:w-[300px]">
       <div className="ml-[20px] text-[14px] font-bold">리뷰어 랭킹</div>
-      <div className="flex xl:flex xl:flex-col xl:items-start xl:gap-[10px]">
+      <div className="flex overflow-x-auto no-scrollbar xl:flex xl:flex-col xl:items-start xl:gap-[10px]">
         {sliceRankingData?.map((item, index) => {
           const {
             image,

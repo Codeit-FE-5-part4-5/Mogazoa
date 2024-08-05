@@ -12,10 +12,10 @@ import { useChangeRouter, useSearchRouter } from '@/hooks';
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
-import RankingList from '@/components/feature/ranking/RankingList/RankingList';
-import TrendRankingList from '@/components/feature/product/TrendRankingList/TrendRankingList';
+import RankingList from '@/components/feature/ranking/reviewer/RankingList/RankingList';
 import { FetchBoundary } from '@/components/shared';
 import { useCallback } from 'react';
+import TrendRankingList from '@/components/feature/ranking/product/TrendRankingList/TrendRankingList';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
