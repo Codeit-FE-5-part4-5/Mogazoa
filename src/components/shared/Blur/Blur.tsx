@@ -6,21 +6,28 @@ interface BlurProps {
   className?: string;
 }
 
-const Blur = ({ image, className, size = 800 }: BlurProps) => {
+const Blur = ({ image, className, size = 600 }: BlurProps) => {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={image}
-      alt="blur이미지"
-      className={cn('absolute opacity-15 blur-[160px]', className)}
+    <div
+      className="absolute animate-fadeIn"
       style={{
-        width: size,
-        height: size,
-        top: `-${size / 4}`,
-        objectFit: 'cover',
+        top: 0,
         pointerEvents: 'none',
       }}
-    />
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={image}
+        alt="blur이미지"
+        className={cn('opacity-15 blur-[100px]', className)}
+        style={{
+          width: size,
+          height: size,
+          objectFit: 'cover',
+          pointerEvents: 'none',
+        }}
+      />
+    </div>
   );
 };
 
