@@ -6,6 +6,7 @@ import useModal from '@/store/use-modal-store';
 import usePostFollow from '@/models/queries/user/follow/post-follow/usePostFollow';
 import useCancelFollow from '@/models/queries/user/follow/cancel-follow/useCancelFollow';
 import { Button } from '@/components/shared';
+import Blur from '@/components/shared/Blur/Blur';
 
 interface ProfileCardProps {
   user: UserType;
@@ -102,6 +103,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
       ) : (
         <Button text="팔로우" onClick={handleFollowButton} />
       )}
+      {user?.image && <Blur image={user?.image} />}
     </div>
   );
 };

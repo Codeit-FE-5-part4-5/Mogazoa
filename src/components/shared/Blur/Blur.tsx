@@ -6,18 +6,19 @@ interface BlurProps {
   className?: string;
 }
 
-const Blur = ({ image, className, size = 400 }: BlurProps) => {
+const Blur = ({ image, className, size = 800 }: BlurProps) => {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={image}
       alt="blur이미지"
-      className={cn('absolute opacity-15 blur-3xl', className)}
+      className={cn('absolute opacity-15 blur-[160px]', className)}
       style={{
         width: size,
         height: size,
-        top: `-${size / 3}px`,
+        top: `-${size / 4}`,
         objectFit: 'cover',
+        pointerEvents: 'none',
       }}
     />
   );

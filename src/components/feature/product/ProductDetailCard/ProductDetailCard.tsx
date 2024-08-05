@@ -129,7 +129,7 @@ const ProductDetailCard = ({
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-[20px]">
-          <div className="grid grid-cols-2 items-center">
+          <div className="grid grid-cols-2 items-center gap-[20px]">
             <div className="md:order-1 md:col-span-2">
               <Chip
                 text={ProductDetailData?.category.name}
@@ -171,7 +171,7 @@ const ProductDetailCard = ({
             </ul>
 
             <div className="col-span-2 flex items-center justify-between md:order-2 md:col-span-1 md:justify-normal md:gap-[15px]">
-              <h3 className="mt-[10px] text-[20px] xl:text-[24px]">
+              <h3 className="text-[20px] xl:text-[24px]">
                 {ProductDetailData?.name}
               </h3>
               <button type="button" onClick={handleToggleFavorite}>

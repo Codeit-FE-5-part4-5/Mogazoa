@@ -10,26 +10,23 @@ const MyProfileCard = ({ user }: { user: UserType }) => {
 
   return (
     <div className="flex flex-col items-center gap-[30px] rounded-[12px] border border-[#353542] bg-[#252530] px-[20px] py-[30px] text-[14px] text-var-white md:px-[30px] xl:gap-[40px] xl:px-[20px] xl:pt-[40px]">
-      <div className="relative flex size-full justify-center">
-        {user?.image ? (
-          <Image
-            src={user?.image}
-            alt="프로필 이미지"
-            width={120}
-            height={120}
-            className="rounded-[50%] border border-var-gray1"
-          />
-        ) : (
-          <Image
-            src="/images/user-no-image.svg"
-            alt="프로필 이미지"
-            width={120}
-            height={120}
-            className="rounded-[50%] border border-var-gray1"
-          />
-        )}
-        {user?.image && <Blur image={user?.image} size={600} />}
-      </div>
+      {user?.image ? (
+        <Image
+          src={user?.image}
+          alt="프로필 이미지"
+          width={120}
+          height={120}
+          className="rounded-[50%] border border-var-gray1"
+        />
+      ) : (
+        <Image
+          src="/images/user-no-image.svg"
+          alt="프로필 이미지"
+          width={120}
+          height={120}
+          className="rounded-[50%] border border-var-gray1"
+        />
+      )}
 
       <h1 className="text-[20px] font-semibold">{user?.nickname}</h1>
       <p className="text-var-gray1">{user?.description}</p>
@@ -53,6 +50,7 @@ const MyProfileCard = ({ user }: { user: UserType }) => {
         <Button text="프로필 편집" onClick={() => onOpen('profileEdit')} />
         <Button text="로그아웃" variant="tertiary" onClick={() => logout()} />
       </div>
+      {user?.image && <Blur image={user?.image} />}
     </div>
   );
 };
