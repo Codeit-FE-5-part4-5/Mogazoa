@@ -8,7 +8,7 @@ const useGetMe = () => {
     queryFn: async () => {
       const token = getCookie('accessToken');
       if (!token) {
-        return null;
+        return {};
       }
       const result = await axios.get(`users/me`);
       return result.data;

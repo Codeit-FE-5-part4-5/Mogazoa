@@ -5,7 +5,6 @@ import {
 import { useEffect } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import productsService from '@/models/services/product/productsService';
-import bestProductsService from '@/models/services/product/bestProductsService';
 import { ORDER_VARIANTS } from '@/constants/products';
 import castArray from '@/utils/castArray';
 import { useIntersect } from '@/hooks';
@@ -26,10 +25,13 @@ const ProductSection = ({
   currentQuery,
 }: ProductSectionProps) => {
   const bestProducts = useSuspenseQuery(
-    bestProductsService.queryOptions(Number(currentQuery.categoryId)),
+    productsService.queryOptions({
+      categoryId: Number(currentQuery.categoryId),
+      order: 'rating',
+    }),
   );
   const products = useSuspenseInfiniteQuery(
-    productsService.queryOptions({
+    productsService.infiniteQueryOptions({
       categoryId: Number(currentQuery.categoryId),
       order: castArray(currentQuery.order),
       keyword: searchQuery,

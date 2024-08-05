@@ -17,7 +17,7 @@ type TGetProducts = (
 ) => UseInfiniteQueryResult<InfiniteData<ItemListResponse>, Error>;
 
 const useGetInfiniteProducts: TGetProducts = (params) => {
-  return useInfiniteQuery(productsService.queryOptions(params));
+  return useInfiniteQuery(productsService.infiniteQueryOptions(params));
 };
 
 export default useGetInfiniteProducts;

@@ -17,8 +17,6 @@ const MyPage = () => {
     ProductCategory.REVIEWED,
   );
 
-  if (!user) return null;
-
   return (
     <MogazoaLayout>
       <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">

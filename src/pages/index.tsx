@@ -3,14 +3,11 @@ import { dehydrate } from '@tanstack/react-query';
 import queryClient from '@/lib/query';
 
 import productsService from '@/models/services/product/productsService';
-import bestProductsService from '@/models/services/product/bestProductsService';
-import sortedProductsService from '@/models/services/product/sortedProductsService';
-
 import getServerQuery from '@/lib/getServerQuery';
 import { ORDER_VARIANTS } from '@/constants/products';
 import sortConverter from '@/utils/sortConverter';
 import castArray from '@/utils/castArray';
-import { useChangeRouter, useSearchRouter, useSticky } from '@/hooks';
+import { useChangeRouter, useSearchRouter } from '@/hooks';
 
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
@@ -28,17 +25,19 @@ export const getServerSideProps = async (
   if (!categoryId) {
     await Promise.all([
       queryClient.prefetchInfiniteQuery(
-        productsService.queryOptions({ keyword, categoryId, order }),
+        productsService.infiniteQueryOptions({ keyword, categoryId, order }),
       ),
-      queryClient.prefetchQuery(bestProductsService.queryOptions(categoryId)),
+      queryClient.prefetchQuery(
+        productsService.queryOptions({ categoryId, order: 'rating' }),
+      ),
     ]);
   } else {
     await Promise.all([
       queryClient.prefetchQuery(
-        sortedProductsService.queryOptions(orderVariants[1]),
+        productsService.queryOptions({ order: orderVariants[1] }),
       ),
       queryClient.prefetchQuery(
-        sortedProductsService.queryOptions(orderVariants[2]),
+        productsService.queryOptions({ order: orderVariants[2] }),
       ),
     ]);
   }
@@ -54,7 +53,6 @@ const Home = () => {
   const { currentQuery, updateQueryParam, appendQueryParam } =
     useChangeRouter();
   const { searchQuery } = useSearchRouter();
-  const isSticky = useSticky();
 
   return (
     <MogazoaLayout>

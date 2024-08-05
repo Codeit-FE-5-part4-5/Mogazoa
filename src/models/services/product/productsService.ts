@@ -1,8 +1,8 @@
-import { infiniteQueryOptions } from '@tanstack/react-query';
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import isServer from '@/utils/isServer';
 import axios from '@/lib/axios';
 
-interface InfiniteProductsProps {
+interface ProductsProps {
   keyword?: string;
   categoryId?: number;
   order?: string;
@@ -10,7 +10,32 @@ interface InfiniteProductsProps {
 
 const productsService = {
   queryKey: ['products'],
-  queryOptions: (params: InfiniteProductsProps) =>
+  queryOptions: (params: ProductsProps) =>
+    queryOptions({
+      queryKey: [
+        'commonProducts',
+        params.categoryId ?? null,
+        params.order ?? null,
+        params.keyword ?? null,
+      ],
+      queryFn: async () => {
+        const categoryParam = params.categoryId
+          ? `&category=${params.categoryId}`
+          : '';
+        const keywordParam = params.keyword ? `&keyword=${params.keyword}` : '';
+        const orderParam = params.order ? `order=${params.order}` : '';
+        const requestUri = isServer
+          ? 'https://mogazoa-api.vercel.app/5-5/products?'
+          : 'products?';
+
+        const { data } = await axios.get(
+          `${requestUri}${orderParam}${keywordParam}${categoryParam}`,
+        );
+        return data.list;
+      },
+      staleTime: 60 * 1000 * 10,
+    }),
+  infiniteQueryOptions: (params: ProductsProps) =>
     infiniteQueryOptions({
       queryKey: [
         'products',
@@ -25,12 +50,10 @@ const productsService = {
         const keywordParam = params.keyword ? `&keyword=${params.keyword}` : '';
         const cursorParam = pageParam ? `&cursor=${pageParam}` : '';
         const orderParam = params.order ? `order=${params.order}` : '';
-        let requestUri;
-        if (isServer) {
-          requestUri = 'https://mogazoa-api.vercel.app/5-5/products?';
-        } else {
-          requestUri = 'products?';
-        }
+        const requestUri = isServer
+          ? 'https://mogazoa-api.vercel.app/5-5/products?'
+          : 'products?';
+
         const { data } = await axios.get(
           `${requestUri}${orderParam}${keywordParam}${categoryParam}${cursorParam}`,
         );

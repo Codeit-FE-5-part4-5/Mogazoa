@@ -5,8 +5,14 @@ const useGetCreatedProducts = (
   userId: number | null | undefined | string | string[],
 ) => {
   return useSuspenseInfiniteQuery({
-    queryKey: ['userCreatedProducts', userId],
+    queryKey: ['userCreatedProducts', userId ?? null],
     queryFn: async ({ pageParam = 0 }) => {
+      if (!userId)
+        return {
+          list: {},
+          nextCursor: null,
+        };
+
       const cursorParam = pageParam ? `cursor=${pageParam}` : '';
 
       const { data } = await axios.get(
@@ -19,7 +25,7 @@ const useGetCreatedProducts = (
       };
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
     staleTime: 60 * 1000 * 30,
     gcTime: 60 * 1000 * 30,
   });
