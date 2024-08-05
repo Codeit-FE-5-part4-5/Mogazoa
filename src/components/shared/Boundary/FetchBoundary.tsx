@@ -1,7 +1,8 @@
 import { PropsWithChildren, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import ProductsFetchErrorFallback from './Fallback/ProductsFetchErrorFallback';
+import ProductsFetchErrorFallback from './Fallback/Error/ProductsFetchErrorFallback';
 import Spinner from '../Spinner/Spinner';
+import RankingSuspense from './Fallback/Suspense/RankingSkeleton';
 
 type TFallback = 'productsCard' | 'rankingList' | 'navMenu' | 'navAuth';
 
@@ -18,7 +19,7 @@ const errorFallbackVariants = new Map([
 
 const suspenseFallbackVariants = new Map([
   ['productsCard', null],
-  ['rankingList', null],
+  ['rankingList', <RankingSuspense key="rankingList" />],
   ['navMenu', null],
   ['navAuth', null],
 ]);

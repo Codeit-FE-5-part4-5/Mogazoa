@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { GetServerSidePropsContext } from 'next';
 import { dehydrate } from '@tanstack/react-query';
 import queryClient from '@/lib/query';
@@ -12,9 +13,10 @@ import { useChangeRouter, useSearchRouter } from '@/hooks';
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
-import RankingList from '@/components/feature/ranking/reviewer/RankingList/RankingList';
 import TrendRankingList from '@/components/feature/ranking/product/TrendRankingList/TrendRankingList';
 import { FetchBoundary } from '@/components/shared';
+
+const RankingList = dynamic(() => import('@/components/feature/ranking/reviewer/RankingList/RankingList')); // prettier-ignore
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,

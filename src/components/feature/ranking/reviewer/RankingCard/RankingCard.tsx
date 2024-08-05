@@ -48,7 +48,7 @@ const RankingCard = ({
   useEffect(() => {
     if (id === me?.id) {
       setButtonStatus(FOLLOWING_STATUS.ME);
-    } else if (user?.isFollowing) {
+    } else if (user.isFollowing) {
       setButtonStatus(FOLLOWING_STATUS.FOLLOWING);
     } else {
       setButtonStatus(FOLLOWING_STATUS.FOLLOW);

@@ -10,24 +10,23 @@ const MyProfileCard = ({ user }: { user: UserType }) => {
 
   return (
     <div className="flex flex-col items-center gap-[30px] rounded-[12px] border border-[#353542] bg-[#252530] px-[20px] py-[30px] text-[14px] text-var-white md:px-[30px] xl:gap-[40px] xl:px-[20px] xl:pt-[40px]">
-      {user?.image ? (
-        <Image
-          src={user?.image}
-          alt="프로필 이미지"
-          width={120}
-          height={120}
-          className="rounded-[50%] border border-var-gray1"
-        />
-      ) : (
-        <Image
-          src="/images/user-no-image.svg"
-          alt="프로필 이미지"
-          width={120}
-          height={120}
-          className="rounded-[50%] border border-var-gray1"
-        />
-      )}
-
+      <div className="relative size-[120px]">
+        {user?.image ? (
+          <Image
+            src={user?.image}
+            alt="프로필 이미지"
+            fill
+            className="rounded-[50%] border border-var-gray1"
+          />
+        ) : (
+          <Image
+            src="/images/user-no-image.svg"
+            alt="프로필 이미지"
+            fill
+            className="rounded-[50%] border border-var-gray1"
+          />
+        )}
+      </div>
       <h1 className="text-[20px] font-semibold">{user?.nickname}</h1>
       <p className="text-var-gray1">{user?.description}</p>
       <div className="flex w-full">
