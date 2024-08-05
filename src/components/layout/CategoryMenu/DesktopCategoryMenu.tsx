@@ -5,15 +5,13 @@ import { Category } from '@/types/category/category';
 interface DesktopCategoryMenuProps {
   isVisible?: boolean;
   currentCategory: string;
-  handleClickCategory: (
-    value: string | Record<string, string | string[]>,
-  ) => void;
+  onCategoryClick: (value: string | Record<string, string | string[]>) => void;
 }
 
 const DesktopCategoryMenu = ({
   isVisible = false,
   currentCategory,
-  handleClickCategory,
+  onCategoryClick,
 }: DesktopCategoryMenuProps) => {
   return (
     <div
@@ -43,9 +41,9 @@ const DesktopCategoryMenu = ({
             )}
             onClick={() => {
               if (item.name === currentCategory) {
-                handleClickCategory({});
+                onCategoryClick({});
               } else {
-                handleClickCategory({
+                onCategoryClick({
                   category: item.name,
                   categoryId: String(item.id),
                 });

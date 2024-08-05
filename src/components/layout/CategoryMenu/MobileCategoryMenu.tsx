@@ -7,11 +7,11 @@ import { CATEGORY_LIST } from '@/constants/category';
 interface CategoryButtonProps {
   category: Category;
   currentCategory: string;
-  onClick: (value: string | Record<string, string | string[]>) => void;
+  onCategoryClick: (value: string | Record<string, string | string[]>) => void;
 }
 
 const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
-  ({ category, currentCategory, onClick }, ref) => {
+  ({ category, currentCategory, onCategoryClick }, ref) => {
     return (
       <li
         ref={ref}
@@ -21,9 +21,9 @@ const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
           type="button"
           onClick={() => {
             if (category.name === currentCategory) {
-              return onClick({});
+              return onCategoryClick({});
             }
-            return onClick({
+            return onCategoryClick({
               category: category.name,
               categoryId: String(category.id),
             });
@@ -39,12 +39,12 @@ const CategoryButton = forwardRef<HTMLLIElement, CategoryButtonProps>(
 
 interface MobileCategoryMenuProps {
   currentCategory: string;
-  onClick: (value: string | Record<string, string | string[]>) => void;
+  onCategoryClick: (value: string | Record<string, string | string[]>) => void;
 }
 
 const MobileCategoryMenu = ({
   currentCategory,
-  onClick,
+  onCategoryClick,
 }: MobileCategoryMenuProps) => {
   const [leftRef, isMoreLeft] = useInView();
   const [rightRef, isMoreRight] = useInView();
@@ -72,7 +72,7 @@ const MobileCategoryMenu = ({
               key={category.id}
               category={category}
               currentCategory={currentCategory}
-              onClick={onClick}
+              onCategoryClick={onCategoryClick}
               ref={rightRef}
             />
           );
@@ -83,7 +83,7 @@ const MobileCategoryMenu = ({
               key={category.id}
               category={category}
               currentCategory={currentCategory}
-              onClick={onClick}
+              onCategoryClick={onCategoryClick}
               ref={leftRef}
             />
           );
@@ -93,7 +93,7 @@ const MobileCategoryMenu = ({
             key={category.id}
             category={category}
             currentCategory={currentCategory}
-            onClick={onClick}
+            onCategoryClick={onCategoryClick}
           />
         );
       })}

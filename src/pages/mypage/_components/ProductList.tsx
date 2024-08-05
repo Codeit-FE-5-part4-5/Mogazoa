@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useCallback } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 import useGetCreatedProducts from '@/models/queries/user/products/created-products/useGetCreatedProducts';
 import useGetFavoriteProducts from '@/models/queries/user/products/favorite-products/useGetFavoriteProducts';
@@ -7,6 +6,7 @@ import useGetReviewedProducts from '@/models/queries/user/products/reviewed-prod
 import { Me } from '@/types/user/user';
 import { ProductCategory } from '@/pages/user/[userId]';
 import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
+import { useIntersect } from '@/hooks';
 
 interface ProductListProps {
   selectedCategory: ProductCategory;
@@ -14,24 +14,28 @@ interface ProductListProps {
 }
 
 const ProductList = ({ selectedCategory, user }: ProductListProps) => {
-  const [ref, inView] = useInView();
-
   const {
     fetchNextPage: fetchNextCreatedPage,
     hasNextPage: hasNextCreatedPage,
     data: createdProducts,
+    isLoading: createdLoading,
+    isSuccess: createdSuccess,
   } = useGetCreatedProducts(user?.id);
 
   const {
     fetchNextPage: fetchNextFavoritePage,
     hasNextPage: hasNextFavoritePage,
     data: favoriteProducts,
+    isLoading: favoriteLoading,
+    isSuccess: favoriteSuccess,
   } = useGetFavoriteProducts(user?.id);
 
   const {
     fetchNextPage: fetchNextReviewedPage,
     hasNextPage: hasNextReviewedPage,
     data: reviewedProducts,
+    isLoading: reviewedLoading,
+    isSuccess: reviewedSuccess,
   } = useGetReviewedProducts(user?.id);
 
   const createdProductsList = useMemo(
@@ -66,6 +70,9 @@ const ProductList = ({ selectedCategory, user }: ProductListProps) => {
     favoriteProductsList,
     reviewedProductsList,
   ]);
+  const isLoading = createdLoading || favoriteLoading || reviewedLoading;
+  const isSuccess = createdSuccess || favoriteSuccess || reviewedSuccess;
+  const [ref, inView] = useIntersect<HTMLDivElement>(isLoading);
 
   useEffect(() => {
     if (inView && hasNextCreatedPage) fetchNextCreatedPage();
@@ -85,7 +92,7 @@ const ProductList = ({ selectedCategory, user }: ProductListProps) => {
   return (
     <>
       <ProductCardList products={getProducts()} />
-      <div ref={ref} />
+      {isSuccess && <div ref={ref} />}
     </>
   );
 };

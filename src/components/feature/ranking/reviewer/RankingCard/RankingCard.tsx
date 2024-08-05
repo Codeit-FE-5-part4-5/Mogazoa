@@ -1,17 +1,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { MouseEvent, useEffect, useState } from 'react';
-import convertToK from '@/utils/convertToK';
-import { FollowerRanking } from '@/types/follow/followers/followers-type';
-import { Ranking } from '@/components/shared';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import queryClient from '@/lib/query';
-import { useToast } from '@/components/shared/ui/use-toast';
+
 import usePostFollow from '@/models/queries/user/follow/post-follow/usePostFollow';
 import useCancelFollow from '@/models/queries/user/follow/cancel-follow/useCancelFollow';
-import { Me } from '@/types/user/user';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import userProfileService from '@/models/services/profile/userProfileService';
 import { useChangeRouter } from '@/hooks';
+import convertToK from '@/utils/convertToK';
+import { FOLLOWING_STATUS, FollowingStatus } from '@/constants/following';
+import { FollowerRanking } from '@/types/follow/followers/followers-type';
+import { Me } from '@/types/user/user';
+
+import { Ranking } from '@/components/shared';
 import FollowingButton from './RankingCardFollowingButton';
 
 type RankingCardType = Omit<
@@ -21,7 +23,7 @@ type RankingCardType = Omit<
   ranking: number;
 };
 
-export type TButtonText = '언팔로우' | '팔로우' | '팔로잉' | '내 프로필';
+export type TButtonStatus = FollowingStatus;
 
 const RankingCard = ({
   image,
@@ -32,9 +34,10 @@ const RankingCard = ({
   ranking,
   id,
 }: RankingCardType) => {
-  const [buttonText, setButtonText] = useState<TButtonText>('팔로우');
+  const [buttonStatus, setButtonStatus] = useState<TButtonStatus>(
+    FOLLOWING_STATUS.FOLLOW,
+  );
   const { handleRedirect } = useChangeRouter();
-  const { toast } = useToast();
   const followMutation = usePostFollow();
   const unfollowMutation = useCancelFollow();
   const me = queryClient.getQueryData<Me>(['me']);
@@ -44,57 +47,34 @@ const RankingCard = ({
 
   useEffect(() => {
     if (id === me?.id) {
-      setButtonText('내 프로필');
+      setButtonStatus(FOLLOWING_STATUS.ME);
     } else if (user?.isFollowing) {
-      setButtonText('팔로잉');
+      setButtonStatus(FOLLOWING_STATUS.FOLLOWING);
     } else {
-      setButtonText('팔로우');
+      setButtonStatus(FOLLOWING_STATUS.FOLLOW);
     }
   }, [user, me?.id, id]);
 
-  const postFollow = async () => {
-    try {
-      await unfollowMutation.mutateAsync({
-        userId: id,
-      });
-      queryClient.invalidateQueries({ queryKey: ['followers'] });
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: '에러가 발생했습니다.',
-      });
-    }
+  const postFollow = () => {
+    unfollowMutation.mutateAsync({
+      userId: id,
+    });
   };
 
-  const removeFollow = async () => {
-    try {
-      await followMutation.mutateAsync({
-        userId: id,
-      });
-      queryClient.invalidateQueries({ queryKey: ['followers'] });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast({
-          variant: 'destructive',
-          title: error.message,
-        });
-      } else {
-        toast({
-          variant: 'destructive',
-          title: '알 수 없는 에러가 발생했습니다.',
-        });
-      }
-    }
+  const removeFollow = () => {
+    followMutation.mutateAsync({
+      userId: id,
+    });
   };
 
-  const handleClickFollow = async (e: MouseEvent<HTMLButtonElement>) => {
+  const handleClickFollow = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (buttonText === '내 프로필') {
+    if (buttonStatus === FOLLOWING_STATUS.ME) {
       handleRedirect('/mypage');
     } else if (user?.isFollowing) {
-      await postFollow();
+      postFollow();
     } else {
-      await removeFollow();
+      removeFollow();
     }
   };
 
@@ -126,11 +106,17 @@ const RankingCard = ({
             </ul>
           </div>
           <FollowingButton
-            isFollowing={user?.isFollowing}
-            buttonText={buttonText}
-            setButtonText={setButtonText}
-            handleClickFollow={handleClickFollow}
-          />
+            buttonStatus={buttonStatus}
+            onMouseEnter={() => {
+              if (user.isFollowing) setButtonStatus(FOLLOWING_STATUS.UNFOLLOW);
+            }}
+            onMouseLeave={() => {
+              if (user.isFollowing) setButtonStatus(FOLLOWING_STATUS.FOLLOWING);
+            }}
+            onClick={handleClickFollow}
+          >
+            {buttonStatus}
+          </FollowingButton>
         </div>
       </div>
     </Link>

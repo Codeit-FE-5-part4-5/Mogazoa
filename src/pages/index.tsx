@@ -13,9 +13,8 @@ import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
 import RankingList from '@/components/feature/ranking/reviewer/RankingList/RankingList';
-import { FetchBoundary } from '@/components/shared';
-import { useCallback } from 'react';
 import TrendRankingList from '@/components/feature/ranking/product/TrendRankingList/TrendRankingList';
+import { FetchBoundary } from '@/components/shared';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -55,19 +54,12 @@ const Home = () => {
     useChangeRouter();
   const { searchQuery } = useSearchRouter();
 
-  const changeSortOrder = useCallback(
-    (order: string) => {
-      appendQueryParam({ order: sortConverter(order) });
-    },
-    [appendQueryParam],
-  );
-
   return (
     <MogazoaLayout>
       <div className="flex flex-col justify-center md:flex-row">
         <CategoryMenu
           currentCategory={castArray(currentQuery.category)}
-          handleClickCategory={updateQueryParam}
+          onCategoryClick={updateQueryParam}
         />
         <main className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <div className="flex flex-col xl:order-1">
@@ -81,8 +73,10 @@ const Home = () => {
               <ProductSection
                 searchQuery={searchQuery}
                 currentQuery={currentQuery}
-                currentCategoryName={castArray(currentQuery.category)}
-                changeSortOrder={changeSortOrder}
+                currentCategory={castArray(currentQuery.category)}
+                onChangeSortOrder={(order) =>
+                  appendQueryParam({ order: sortConverter(order) })
+                }
               />
             </FetchBoundary>
           </div>

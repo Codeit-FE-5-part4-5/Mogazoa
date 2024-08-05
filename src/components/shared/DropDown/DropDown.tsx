@@ -70,14 +70,10 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
     [onClick],
   );
 
-  const toggleMenuList = useCallback(() => {
-    setShowMenuList((prev) => !prev);
-  }, []);
-
   return (
     <div
       ref={ref}
-      onClick={toggleMenuList}
+      onClick={() => setShowMenuList((prev) => !prev)}
       className={cn(
         'group relative w-full cursor-pointer select-none items-center rounded-[6px] border bg-var-black2 px-[18px] py-[17px] text-[14px] transition-all duration-300 hover:border-gradient-custom xl:text-[14px]',
         isOrder ? 'border-var-black2 py-[6px]' : 'md:py-[18px] xl:py-[22px]',

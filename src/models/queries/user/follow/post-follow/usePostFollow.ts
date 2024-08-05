@@ -45,6 +45,9 @@ const usePostFollow = () => {
 
       throw new Error(errorMessage);
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['followers'] });
+    },
   });
 };
 
