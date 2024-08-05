@@ -18,7 +18,7 @@ const ProductCategorySelector = ({
   };
 
   return (
-    <div className="space-y-[30px]">
+    <div className="mb-[30px] mt-[52px]">
       <div className="relative xl:hidden">
         <div className="flex w-[130px] cursor-pointer items-center justify-between">
           <div onClick={handleDropdown}>{selectedCategory}</div>

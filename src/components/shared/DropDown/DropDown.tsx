@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { cn } from '@/lib/cn';
 import useAnimation from '@/hooks/useAnimation';
 import useClickOutside from '@/hooks/useClickOutside';
@@ -13,34 +13,39 @@ interface ItemListProps {
   handleAnimationEnd: () => void;
 }
 
-const ItemList = ({
-  itemList,
-  onClick,
-  isOrder,
-  animationTrigger,
-  handleAnimationEnd,
-}: ItemListProps) => {
-  return (
-    <div
-      onAnimationEnd={handleAnimationEnd}
-      className={cn(
-        'absolute left-0 z-10 flex w-full flex-col gap-[5px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg',
-        isOrder ? 'top-[44px]' : 'top-[76px]',
-        animationTrigger ? 'animate-slideDown' : 'animate-slideUp',
-      )}
-    >
-      {itemList.map((item) => (
-        <div
-          key={item}
-          onClick={() => onClick(item)}
-          className="select-none rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2"
-        >
-          {item}
-        </div>
-      ))}
-    </div>
-  );
-};
+const ItemList = memo(
+  ({
+    itemList,
+    onClick,
+    isOrder,
+    animationTrigger,
+    handleAnimationEnd,
+  }: ItemListProps) => {
+    return (
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        onAnimationEnd={handleAnimationEnd}
+        className={cn(
+          'absolute left-0 z-10 flex w-full flex-col gap-[4px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg',
+          isOrder ? 'top-[44px]' : 'top-[76px]',
+          animationTrigger ? 'animate-slideDown' : 'animate-slideUp',
+        )}
+      >
+        {itemList.map((item) => (
+          <div
+            key={item}
+            onClick={() => onClick(item)}
+            className="select-none rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2"
+          >
+            {item}
+          </div>
+        ))}
+      </div>
+    );
+  },
+);
 
 interface DropDownProps {
   itemList: string[];
@@ -60,17 +65,22 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
     (item: string) => {
       onClick(item);
       setSelectMenu(item);
+      setShowMenuList(false);
     },
     [onClick],
   );
 
+  const toggleMenuList = useCallback(() => {
+    setShowMenuList((prev) => !prev);
+  }, []);
+
   return (
     <div
       ref={ref}
-      onClick={() => setShowMenuList((prev) => !prev)}
+      onClick={toggleMenuList}
       className={cn(
-        'group relative w-full cursor-pointer select-none items-center rounded-[6px] border bg-var-black2 px-[20px] py-[17px] text-[14px] transition-all duration-300 hover:border-gradient-custom xl:text-[16px]',
-        isOrder ? 'border-var-black2 py-[6px]' : 'md:py-[19px] xl:py-[22px]',
+        'group relative w-full cursor-pointer select-none items-center rounded-[6px] border bg-var-black2 px-[18px] py-[17px] text-[14px] transition-all duration-300 hover:border-gradient-custom xl:text-[14px]',
+        isOrder ? 'border-var-black2 py-[6px]' : 'md:py-[18px] xl:py-[22px]',
         showMenuList ? 'border-gradient-custom' : 'border-var-black3',
       )}
     >

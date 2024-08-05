@@ -11,7 +11,7 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
 }: ProductCardListProps) => {
   if (!products || products.length === 0) {
     return (
-      <div className="mb-[120px] mt-[80px] flex flex-col items-center gap-[20px]">
+      <div className="mb-[120px] mt-[30px] flex flex-col items-center gap-[20px]">
         <div className="relative h-[32px] w-[39px] xl:h-[40px] xl:w-[49px]">
           <Image
             src="/images/firstComment.svg"

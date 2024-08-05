@@ -38,7 +38,7 @@ const UserProfile = () => {
         <div className="w-full max-w-[940px] xl:w-[340px]">
           <ProfileCard user={user} />
         </div>
-        <div className="w-full space-y-20 xl:w-[940px]">
+        <div className="w-full xl:w-[940px]">
           <ActivitySection />
           <ProductCategorySelector
             selectedCategory={selectedCategory}

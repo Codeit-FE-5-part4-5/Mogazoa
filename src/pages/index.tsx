@@ -15,6 +15,7 @@ import ProductSection from '@/components/feature/product/ProductSection/ProductS
 import RankingList from '@/components/feature/ranking/RankingList/RankingList';
 import TrendRankingList from '@/components/feature/product/TrendRankingList/TrendRankingList';
 import { FetchBoundary } from '@/components/shared';
+import { useCallback } from 'react';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -54,6 +55,13 @@ const Home = () => {
     useChangeRouter();
   const { searchQuery } = useSearchRouter();
 
+  const changeSortOrder = useCallback(
+    (order: string) => {
+      appendQueryParam({ order: sortConverter(order) });
+    },
+    [appendQueryParam],
+  );
+
   return (
     <MogazoaLayout>
       <div className="flex flex-col justify-center md:flex-row">
@@ -74,9 +82,7 @@ const Home = () => {
                 searchQuery={searchQuery}
                 currentQuery={currentQuery}
                 currentCategoryName={castArray(currentQuery.category)}
-                changeSortOrder={(order) =>
-                  appendQueryParam({ order: sortConverter(order) })
-                }
+                changeSortOrder={changeSortOrder}
               />
             </FetchBoundary>
           </div>
