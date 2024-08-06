@@ -5,10 +5,13 @@ const getServerCookie = (
   context: GetServerSidePropsContext,
   cookieName: string,
 ) => {
-  const cookies = cookie.parse(context.req.headers.cookie!);
-  const cookieValue = cookies[cookieName];
-
-  return cookieValue;
+  const cookieHeader = context.req.headers.cookie;
+  if (cookieHeader) {
+    const cookies = cookie.parse(cookieHeader);
+    const cookieValue = cookies[cookieName];
+    return cookieValue;
+  }
+  return null;
 };
 
 export default getServerCookie;

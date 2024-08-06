@@ -2,7 +2,7 @@ const TrendRankingSkeleton = () => {
   return (
     <div className="mt-[45px] flex animate-pulse flex-col gap-[20px] xl:w-[300px]">
       <div className="skeleton-base ml-[20px] h-[18px] w-[100px]" />
-      <div className="flex flex-col xl:gap-[10px]">
+      <div className="flex xl:flex-col xl:gap-[10px]">
         <TrendRankingSkeleton.Card />
         <TrendRankingSkeleton.Card />
         <TrendRankingSkeleton.Card />

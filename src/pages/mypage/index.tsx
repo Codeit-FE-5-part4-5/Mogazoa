@@ -22,7 +22,9 @@ export const getServerSideProps = async (
 ) => {
   const accessToken = getServerCookie(context, 'accessToken');
 
-  await queryClient.prefetchQuery(meService.queryOptions(accessToken));
+  if (accessToken) {
+    await queryClient.prefetchQuery(meService.queryOptions(accessToken));
+  }
 
   return {
     props: {

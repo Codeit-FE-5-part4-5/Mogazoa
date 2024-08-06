@@ -23,8 +23,7 @@ const meService = {
         });
         return data;
       },
-      enabled: !!token,
-      staleTime: 3 * 1000,
+      staleTime: 2 * 1000,
     }),
 };
 

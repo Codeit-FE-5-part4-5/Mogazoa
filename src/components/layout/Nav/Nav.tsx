@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { getCookie } from '@/lib/cookie';
 import { cn } from '@/lib/cn';
 
+import useGetMe from '@/models/queries/auth/useGetMe';
 import useAnimation from '@/hooks/useAnimation';
 import useClickOutside from '@/hooks/useClickOutside';
 import useSticky from '@/hooks/useSticky';
-import meService from '@/models/services/auth/meService';
 
 import { Portal } from '@/components/shared';
 import SideBarMenu from '../SideBarMenu/SideBarMenu';
@@ -14,8 +12,7 @@ import NavAuthSection from './NavAuthSection';
 import NavMenuSection from './NavMenuSection';
 
 const Nav = () => {
-  const token = getCookie('accessToken');
-  const { data: me } = useSuspenseQuery(meService.queryOptions(token));
+  const { data: me } = useGetMe();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const searchBarRef = useClickOutside<HTMLDivElement>(setIsSearchOpen);
