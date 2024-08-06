@@ -14,8 +14,8 @@ import { FollowerRanking } from '@/types/follow/followers/followers-type';
 import { Me } from '@/types/user/user';
 
 import { Ranking } from '@/components/shared';
-import FollowingButton from './RankingCardFollowingButton';
 import useModal from '@/store/use-modal-store';
+import FollowingButton from './RankingCardFollowingButton';
 
 type RankingCardType = Omit<
   FollowerRanking,

@@ -19,7 +19,6 @@ declare global {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
-  console.log(pageProps.dehydratedState);
   return (
     <QueryClientProvider client={queryClient}>
       <HydrationBoundary state={pageProps.dehydratedState}>
