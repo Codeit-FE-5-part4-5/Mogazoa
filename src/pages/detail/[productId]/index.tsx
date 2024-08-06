@@ -1,16 +1,36 @@
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { dehydrate } from '@tanstack/react-query';
+import queryClient from '@/lib/query';
 
 import useGetMe from '@/models/queries/auth/useGetMe';
 import useGetProductDetail from '@/models/queries/product/useGetProductDetail';
 import useGetProductDetailReviews from '@/models/queries/reviews/useGetProductReview';
+import productDetailService from '@/models/services/product/productDetailService';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductDetailCard from '@/components/feature/product/ProductDetailCard/ProductDetailCard';
 import ProductDetailReview from '@/components/feature/product/ProductDetailReview/ProductDetailReview';
 import StatisticsCard from '@/components/feature/product/StatisticsCard/StatisticsCard';
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const { productId } = context.params!;
+
+  await queryClient.prefetchQuery(
+    productDetailService.queryOptions(Number(productId)),
+  );
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
 const ProductDetails = () => {
   const router = useRouter();
