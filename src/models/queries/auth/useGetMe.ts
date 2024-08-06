@@ -1,17 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from '@/lib/axios';
 import { getCookie } from '@/lib/cookie';
+import meService from '@/models/services/auth/meService';
 
 const useGetMe = () => {
   const token = getCookie('accessToken');
-  return useQuery({
-    queryKey: ['me'],
-    queryFn: async () => {
-      const result = await axios.get(`users/me`);
-      return result.data;
-    },
-    enabled: !!token,
-  });
+  return useQuery(meService.queryOptions(token));
 };
 
 export default useGetMe;

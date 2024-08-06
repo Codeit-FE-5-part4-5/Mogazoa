@@ -1,7 +1,12 @@
 import dynamic from 'next/dynamic';
+import { GetServerSidePropsContext } from 'next';
 import { useState } from 'react';
+import { dehydrate, useSuspenseQuery } from '@tanstack/react-query';
+import getServerCookie from '@/lib/getServerCookie';
+import queryClient from '@/lib/query';
+import { getCookie } from '@/lib/cookie';
 
-import useGetMe from '@/models/queries/auth/useGetMe';
+import meService from '@/models/services/auth/meService';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileCard';
@@ -11,8 +16,23 @@ import { ProductCategory } from '../user/[userId]';
 
 const ProductList = dynamic(() => import('./_components/ProductList'), { ssr: false }); // prettier-ignore
 
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const { accessToken } = getServerCookie(context, 'accessToken');
+
+  await queryClient.prefetchQuery(meService.queryOptions(accessToken));
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
+
 const MyPage = () => {
-  const { data: user } = useGetMe();
+  const token = getCookie('accessToken');
+  const { data: user } = useSuspenseQuery(meService.queryOptions(token));
 
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory>(
     ProductCategory.REVIEWED,
