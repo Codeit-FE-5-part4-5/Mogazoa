@@ -14,7 +14,8 @@ export type ModalType =
   | 'reviewEdit'
   | 'reviewDelete'
   | 'login'
-  | 'compareNotice';
+  | 'compareNotice'
+  | 'unfollow';
 
 interface ModalData {
   followers?: Followers;
@@ -23,6 +24,8 @@ interface ModalData {
   initialRating?: number;
   initialImages?: EditImage[];
   initialReviewContent?: string;
+  userName?: string;
+  userId?: number;
 }
 
 export interface ModalStore {

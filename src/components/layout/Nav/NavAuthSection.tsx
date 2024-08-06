@@ -12,6 +12,8 @@ interface NavAuthSectionProps {
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
 }
 
+const linkStyle = 'transition-colors duration-300 hover:text-var-gray2';
+
 const NavAuthSection = ({
   me,
   isSearchOpen,
@@ -20,7 +22,6 @@ const NavAuthSection = ({
   const { currentPath, currentQuery } = useChangeRouter();
   const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();
-  const linkStyle = 'transition-colors duration-300 hover:text-var-gray2';
 
   return (
     <div

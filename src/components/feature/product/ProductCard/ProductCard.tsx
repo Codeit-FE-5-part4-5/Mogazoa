@@ -21,7 +21,7 @@ const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <Link href={`/detail/${id}`}>
-      <div className="group cursor-pointer overflow-hidden rounded-[8px] border border-[#353542] bg-[#252530] transition-all duration-300 hover:border-gradient-custom xl:rounded-[12px]">
+      <div className="group animate-fadeIn cursor-pointer overflow-hidden rounded-[8px] border border-[#353542] bg-[#252530] transition-all duration-300 hover:border-gradient-custom xl:rounded-[12px]">
         <div className="relative h-[120px] overflow-hidden md:h-[160px] xl:h-[200px]">
           <Image
             fill

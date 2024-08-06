@@ -7,7 +7,7 @@ import Spinner from './Spinner/Spinner';
 
 // Boundary
 import GlobalBoundary from './Boundary/GlobalBoundary';
-import FetchBoundary from './Boundary/FetchBoundary';
+import withFetchBoundary from './Boundary/FetchBoundary';
 
 // Chip
 import CategoryFilter from './Chip/CategoryFilter';
@@ -43,12 +43,13 @@ import ProfileEditModal from './modals/profile-edit-modal';
 import ReviewDeleteModal from './modals/review-delete-modal';
 import ReviewEditModal from './modals/review-edit-modal';
 import ReviewModal from './modals/review-modal';
+import UnFollowModal from './modals/unfollow-modal';
 
 // Common Export
 export { Button, Carousel, Floating, Portal, Spinner };
 
 // Boundary Export
-export { GlobalBoundary, FetchBoundary };
+export { GlobalBoundary, withFetchBoundary };
 
 // Chip Export
 export { CategoryFilter, Chip, CompareChip, Ranking, ThumbsChip };
@@ -81,4 +82,5 @@ export {
   ReviewDeleteModal,
   ReviewEditModal,
   ReviewModal,
+  UnFollowModal,
 };

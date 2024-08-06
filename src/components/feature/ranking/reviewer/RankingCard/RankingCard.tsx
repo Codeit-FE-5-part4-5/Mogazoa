@@ -1,18 +1,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { MouseEvent, useEffect, useState } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import queryClient from '@/lib/query';
+import { useQuery } from '@tanstack/react-query';
 
 import usePostFollow from '@/models/queries/user/follow/post-follow/usePostFollow';
-import useCancelFollow from '@/models/queries/user/follow/cancel-follow/useCancelFollow';
 import userProfileService from '@/models/services/profile/userProfileService';
-import { useChangeRouter } from '@/hooks';
+import useGetMe from '@/models/queries/auth/useGetMe';
 import convertToK from '@/utils/convertToK';
-import { FOLLOWING_STATUS, FollowingStatus } from '@/constants/following';
+import { FOLLOWING_STATUS } from '@/constants/following';
 import { FollowerRanking } from '@/types/follow/followers/followers-type';
-import { Me } from '@/types/user/user';
 
+import useModal from '@/store/use-modal-store';
 import { Ranking } from '@/components/shared';
 import FollowingButton from './RankingCardFollowingButton';
 
@@ -22,6 +20,9 @@ type RankingCardType = Omit<
 > & {
   ranking: number;
 };
+
+export type FollowingStatus =
+  (typeof FOLLOWING_STATUS)[keyof typeof FOLLOWING_STATUS];
 
 export type TButtonStatus = FollowingStatus;
 
@@ -37,44 +38,30 @@ const RankingCard = ({
   const [buttonStatus, setButtonStatus] = useState<TButtonStatus>(
     FOLLOWING_STATUS.FOLLOW,
   );
-  const { handleRedirect } = useChangeRouter();
-  const followMutation = usePostFollow();
-  const unfollowMutation = useCancelFollow();
-  const me = queryClient.getQueryData<Me>(['me']);
-  const { data: user } = useSuspenseQuery(
-    userProfileService.queryOptions(Number(id)),
-  );
+  const { onOpen } = useModal();
+  const { mutate: followMutation } = usePostFollow();
+  const { data: me } = useGetMe();
+  const { data: user } = useQuery(userProfileService.queryOptions(Number(id)));
 
   useEffect(() => {
-    if (id === me?.id) {
-      setButtonStatus(FOLLOWING_STATUS.ME);
-    } else if (user?.isFollowing) {
+    if (user?.isFollowing) {
       setButtonStatus(FOLLOWING_STATUS.FOLLOWING);
     } else {
       setButtonStatus(FOLLOWING_STATUS.FOLLOW);
     }
   }, [user, me?.id, id]);
 
-  const postFollow = () => {
-    unfollowMutation.mutateAsync({
-      userId: id,
-    });
-  };
-
-  const removeFollow = () => {
-    followMutation.mutateAsync({
-      userId: id,
-    });
-  };
-
   const handleClickFollow = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (buttonStatus === FOLLOWING_STATUS.ME) {
-      handleRedirect('/mypage');
-    } else if (user?.isFollowing) {
-      postFollow();
+
+    if (me?.id) {
+      if (user?.isFollowing) {
+        onOpen('unfollow', { userName: nickname, userId: id });
+      } else {
+        followMutation({ userId: id });
+      }
     } else {
-      removeFollow();
+      onOpen('login');
     }
   };
 
@@ -105,18 +92,22 @@ const RankingCard = ({
               <li>리뷰 {convertToK(reviewCount)}</li>
             </ul>
           </div>
-          <FollowingButton
-            buttonStatus={buttonStatus}
-            onMouseEnter={() => {
-              if (user.isFollowing) setButtonStatus(FOLLOWING_STATUS.UNFOLLOW);
-            }}
-            onMouseLeave={() => {
-              if (user.isFollowing) setButtonStatus(FOLLOWING_STATUS.FOLLOWING);
-            }}
-            onClick={handleClickFollow}
-          >
-            {buttonStatus}
-          </FollowingButton>
+          {me?.id !== id && (
+            <FollowingButton
+              buttonStatus={buttonStatus}
+              onMouseEnter={() => {
+                if (user?.isFollowing)
+                  setButtonStatus(FOLLOWING_STATUS.UNFOLLOW);
+              }}
+              onMouseLeave={() => {
+                if (user?.isFollowing)
+                  setButtonStatus(FOLLOWING_STATUS.FOLLOWING);
+              }}
+              onClick={handleClickFollow}
+            >
+              {buttonStatus}
+            </FollowingButton>
+          )}
         </div>
       </div>
     </Link>

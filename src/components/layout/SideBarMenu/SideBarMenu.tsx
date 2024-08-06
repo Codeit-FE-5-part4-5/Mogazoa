@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
-import logout from '@/lib/auth/logout';
+import useLogout from '@/models/queries/auth/useLogout';
 
 interface SideBarMenuProps {
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
@@ -14,6 +14,8 @@ const SideBarMenu = ({
   animationOpenMenu,
   handleOpenMenuEnd,
 }: SideBarMenuProps) => {
+  const { mutate: logout } = useLogout();
+
   return (
     <div className="fixed left-0 top-0 z-50 h-screen w-full">
       <div

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { FallbackProps } from 'react-error-boundary';
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 import useChangeRouter from '@/hooks/useChangeRouter';
-import Button from '../../Button/Button';
+import Button from '../../../Button/Button';
 
 const GlobalErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   const { handleRedirect } = useChangeRouter();

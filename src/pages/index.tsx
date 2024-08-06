@@ -1,9 +1,10 @@
+import dynamic from 'next/dynamic';
 import { GetServerSidePropsContext } from 'next';
 import { dehydrate } from '@tanstack/react-query';
 import queryClient from '@/lib/query';
+import getServerQuery from '@/lib/getServerQuery';
 
 import productsService from '@/models/services/product/productsService';
-import getServerQuery from '@/lib/getServerQuery';
 import { ORDER_VARIANTS } from '@/constants/products';
 import sortConverter from '@/utils/sortConverter';
 import castArray from '@/utils/castArray';
@@ -12,9 +13,11 @@ import { useChangeRouter, useSearchRouter } from '@/hooks';
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
-import RankingList from '@/components/feature/ranking/reviewer/RankingList/RankingList';
-import TrendRankingList from '@/components/feature/ranking/product/TrendRankingList/TrendRankingList';
-import { FetchBoundary } from '@/components/shared';
+import UserRankingSkeleton from '@/components/shared/Boundary/Fallback/Suspense/UserRankingSkeleton';
+import TrendRankingSkeleton from '@/components/shared/Boundary/Fallback/Suspense/TrendRankingSkeleton';
+
+const RankingList = dynamic(() => import('@/components/feature/ranking/reviewer/RankingList/RankingList'), { ssr: false, loading: () => <UserRankingSkeleton /> }); // prettier-ignore
+const TrendRankingList = dynamic(() => import('@/components/feature/ranking/product/TrendRankingList/TrendRankingList'), { ssr: false, loading: () => <TrendRankingSkeleton /> }); // prettier-ignore
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -28,16 +31,16 @@ export const getServerSideProps = async (
         productsService.infiniteQueryOptions({ keyword, categoryId, order }),
       ),
       queryClient.prefetchQuery(
-        productsService.queryOptions({ categoryId, order: 'rating' }),
+        productsService.queryOptions({ categoryId, order: orderVariants[1] }) /** 별점순(rating) */, // prettier-ignore
       ),
     ]);
   } else {
     await Promise.all([
       queryClient.prefetchQuery(
-        productsService.queryOptions({ order: orderVariants[1] }),
+        productsService.queryOptions({ order: orderVariants[1] }) /** 별점순(rating) */, // prettier-ignore
       ),
       queryClient.prefetchQuery(
-        productsService.queryOptions({ order: orderVariants[2] }),
+        productsService.queryOptions({ order: orderVariants[2] }) /** 리뷰순(reviewCount) */, // prettier-ignore
       ),
     ]);
   }
@@ -63,22 +66,18 @@ const Home = () => {
         />
         <main className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <div className="flex flex-col xl:order-1">
-            <FetchBoundary variant="rankingList">
-              <RankingList />
-              <TrendRankingList />
-            </FetchBoundary>
+            <RankingList />
+            <TrendRankingList />
           </div>
           <div className="flex-1">
-            <FetchBoundary variant="productsCard">
-              <ProductSection
-                searchQuery={searchQuery}
-                currentQuery={currentQuery}
-                currentCategory={castArray(currentQuery.category)}
-                onChangeSortOrder={(order) =>
-                  appendQueryParam({ order: sortConverter(order) })
-                }
-              />
-            </FetchBoundary>
+            <ProductSection
+              searchQuery={searchQuery}
+              currentQuery={currentQuery}
+              currentCategory={castArray(currentQuery.category)}
+              onChangeSortOrder={(order) =>
+                appendQueryParam({ order: sortConverter(order) })
+              }
+            />
           </div>
         </main>
       </div>

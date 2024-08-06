@@ -74,18 +74,20 @@ const CompareModal = ({ ProductDetailData }: Props) => {
             지금 보신 {ProductDetailData?.name} <br /> 어떤 상품과 비교할까요?
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-y-5 text-center">
-            <div
-              className={`rounded-md border border-[#353542] py-6 text-lg hover:border-var-pink hover:text-var-pink ${isChoiceProduct1 ? 'border-var-pink text-var-pink' : ''}`}
+            <button
+              type="button"
+              className={`rounded-md border border-[#353542] py-6 text-lg transition-all duration-300 hover:border-var-pink hover:text-var-pink ${isChoiceProduct1 ? 'border-var-pink text-var-pink' : ''}`}
               onClick={handleChoiceProduct1}
             >
               {firstDataName}
-            </div>
-            <div
-              className={`rounded-md border border-[#353542] py-6 text-lg hover:border-var-pink hover:text-var-pink ${isChoiceProduct2 ? 'border-var-pink text-var-pink' : ''}`}
+            </button>
+            <button
+              type="button"
+              className={`rounded-md border border-[#353542] py-6 text-lg transition-all duration-300 hover:border-var-pink hover:text-var-pink ${isChoiceProduct2 ? 'border-var-pink text-var-pink' : ''}`}
               onClick={handleChoiceProduct2}
             >
               {secondDataName}
-            </div>
+            </button>
             <Button text="교체하기" onClick={handleChangeButton} />
           </DialogDescription>
         </DialogHeader>

@@ -9,7 +9,7 @@ interface BlurProps {
 const Blur = ({ image, className, size = 600 }: BlurProps) => {
   return (
     <div
-      className="absolute animate-fadeIn"
+      className="absolute animate-pulse"
       style={{
         top: 0,
         pointerEvents: 'none',

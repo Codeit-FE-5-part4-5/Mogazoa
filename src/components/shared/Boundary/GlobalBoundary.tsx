@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import GlobalErrorFallback from './Fallback/GlobalErrorFallback';
+import GlobalErrorFallback from './Fallback/Error/GlobalErrorFallback';
 
 interface GlobalBoundaryProps {
   children: ReactNode;

@@ -8,7 +8,7 @@ import productsService from '@/models/services/product/productsService';
 import { ORDER_VARIANTS } from '@/constants/products';
 import castArray from '@/utils/castArray';
 import { useIntersect } from '@/hooks';
-import { DropDown, Carousel } from '@/components/shared';
+import { withFetchBoundary, DropDown, Carousel } from '@/components/shared';
 import ProductCardList from '../ProductCardList/ProductCardList';
 
 interface ProductSectionProps {
@@ -77,12 +77,20 @@ const ProductSection = ({
           </div>
         </div>
       </div>
-      {products.data?.pages.map((product) => (
-        <ProductCardList key={product.nextCursor} products={product?.list} />
+      {products?.data?.pages.map((product, idx) => (
+        <ProductCardList
+          key={product?.list?.[idx]?.id}
+          products={product?.list}
+        />
       ))}
       {products.isSuccess && <div ref={ref} />}
     </div>
   );
 };
 
-export default ProductSection;
+const ProductSectionWithBoundary = withFetchBoundary(
+  ProductSection,
+  'productsCardWithCarousel',
+);
+
+export default ProductSectionWithBoundary;

@@ -12,7 +12,7 @@ type TGetProductDetail = (
 
 const useGetProductDetail: TGetProductDetail = ({ productId }) => {
   return useQuery({
-    queryKey: ['productDetail'],
+    queryKey: ['productDetail', productId ?? null],
     queryFn: async () => {
       const { data } = await axios.get(`/products/${productId}`);
       return data;

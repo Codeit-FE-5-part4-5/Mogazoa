@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const useSticky = (px: number = 30) => {
+const useSticky = (startPointPx: number = 30) => {
   const [isSticky, setSticky] = useState(false);
 
   const handleNavigation = useCallback(() => {
-    setSticky(window.scrollY > px);
-  }, [px]);
+    setSticky(window.scrollY > startPointPx);
+  }, [startPointPx]);
 
   useEffect(() => {
     const scrollEvent = setInterval(() => {

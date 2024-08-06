@@ -1,13 +1,19 @@
-import { PropsWithChildren, Suspense } from 'react';
+import { ComponentType, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import ProductsFetchErrorFallback from './Fallback/ProductsFetchErrorFallback';
+import ProductsFetchErrorFallback from './Fallback/Error/ProductsFetchErrorFallback';
 import Spinner from '../Spinner/Spinner';
+import ProductCardListSkeleton from './Fallback/Suspense/ProductCardListSkeleton';
+import UserRankingSkeleton from './Fallback/Suspense/UserRankingSkeleton';
+import TrendRankingSkeleton from './Fallback/Suspense/TrendRankingSkeleton';
+import GlobalErrorFallback from './Fallback/Error/GlobalErrorFallback';
 
-type TFallback = 'productsCard' | 'rankingList' | 'navMenu' | 'navAuth';
-
-interface Props {
-  variant: TFallback;
-}
+type TFallback =
+  | 'productsCard'
+  | 'productsCardWithCarousel'
+  | 'userRankingList'
+  | 'trendRankingList'
+  | 'navMenu'
+  | 'navAuth';
 
 const errorFallbackVariants = new Map([
   ['productsCard', ProductsFetchErrorFallback],
@@ -17,23 +23,33 @@ const errorFallbackVariants = new Map([
 ]);
 
 const suspenseFallbackVariants = new Map([
-  ['productsCard', null],
-  ['rankingList', null],
+  ['productsCard', <ProductCardListSkeleton key="productsCard" />],
+  [
+    'productsCardWithCarousel',
+    <ProductCardListSkeleton hasCarousel key="productsCardWithCarousel" />,
+  ],
+  ['userRankingList', <UserRankingSkeleton key="userRankingList" />],
+  ['trendRankingList', <TrendRankingSkeleton key="trendRankingList" />],
   ['navMenu', null],
   ['navAuth', null],
 ]);
 
-const FetchBoundary = ({ children, variant }: PropsWithChildren<Props>) => {
+const withFetchBoundary = <P extends object>(
+  Component: ComponentType<P>,
+  variant: TFallback,
+) => {
   const renderedErrorFallback = errorFallbackVariants.get(variant)!;
   const renderedSuspenseFallback = suspenseFallbackVariants.get(variant)!;
 
-  return (
-    <ErrorBoundary FallbackComponent={renderedErrorFallback}>
+  return (props: P) => (
+    <ErrorBoundary
+      FallbackComponent={renderedErrorFallback ?? GlobalErrorFallback}
+    >
       <Suspense fallback={renderedSuspenseFallback ?? <Spinner isLoading />}>
-        {children}
+        <Component {...props} />
       </Suspense>
     </ErrorBoundary>
   );
 };
 
-export default FetchBoundary;
+export default withFetchBoundary;

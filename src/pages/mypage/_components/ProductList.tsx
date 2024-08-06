@@ -5,7 +5,9 @@ import useGetFavoriteProducts from '@/models/queries/user/products/favorite-prod
 import useGetReviewedProducts from '@/models/queries/user/products/reviewed-products/useGetReviewedProducts';
 import { Me } from '@/types/user/user';
 import { ProductCategory } from '@/pages/user/[userId]';
+
 import ProductCardList from '@/components/feature/product/ProductCardList/ProductCardList';
+import { withFetchBoundary } from '@/components/shared';
 import { useIntersect } from '@/hooks';
 
 interface ProductListProps {
@@ -97,4 +99,6 @@ const ProductList = ({ selectedCategory, user }: ProductListProps) => {
   );
 };
 
-export default ProductList;
+const ProductListWithBoundary = withFetchBoundary(ProductList, 'productsCard');
+
+export default ProductListWithBoundary;
