@@ -15,6 +15,7 @@ import { Me } from '@/types/user/user';
 
 import { Ranking } from '@/components/shared';
 import FollowingButton from './RankingCardFollowingButton';
+import useModal from '@/store/use-modal-store';
 
 type RankingCardType = Omit<
   FollowerRanking,
@@ -37,6 +38,7 @@ const RankingCard = ({
   const [buttonStatus, setButtonStatus] = useState<TButtonStatus>(
     FOLLOWING_STATUS.FOLLOW,
   );
+  const { onOpen } = useModal();
   const { handleRedirect } = useChangeRouter();
   const followMutation = usePostFollow();
   const unfollowMutation = useCancelFollow();
@@ -69,12 +71,16 @@ const RankingCard = ({
 
   const handleClickFollow = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (buttonStatus === FOLLOWING_STATUS.ME) {
-      handleRedirect('/mypage');
-    } else if (user?.isFollowing) {
-      postFollow();
+    if (me?.id) {
+      if (buttonStatus === FOLLOWING_STATUS.ME) {
+        handleRedirect('/mypage');
+      } else if (user?.isFollowing) {
+        postFollow();
+      } else {
+        removeFollow();
+      }
     } else {
-      removeFollow();
+      onOpen('login');
     }
   };
 

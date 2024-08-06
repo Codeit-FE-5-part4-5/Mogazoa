@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
 import useGetMe from '@/models/queries/auth/useGetMe';
@@ -7,8 +8,9 @@ import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileC
 import { FetchBoundary } from '@/components/shared';
 import ActivitySection from './_components/ActivitySection';
 import ProductCategorySelector from './_components/ProductCategorySelector';
-import ProductList from './_components/ProductList';
 import { ProductCategory } from '../user/[userId]';
+
+const ProductList = dynamic(() => import('./_components/ProductList'), { ssr: false }); // prettier-ignore
 
 const MyPage = () => {
   const { data: user } = useGetMe();

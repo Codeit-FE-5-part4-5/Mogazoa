@@ -1,7 +1,7 @@
 export const FOLLOWING_STATUS = {
   ME: '나',
   FOLLOW: '팔로우',
-  FOLLOWING: '팔로잉',
+  FOLLOWING: '팔로잉',
   UNFOLLOW: '언팔로우',
 };
 
