@@ -1,12 +1,7 @@
 import dynamic from 'next/dynamic';
-import { GetServerSidePropsContext } from 'next';
 import { useState } from 'react';
-import { dehydrate, useQuery } from '@tanstack/react-query';
-import getServerCookie from '@/lib/getServerCookie';
-import queryClient from '@/lib/query';
-import { getCookie } from '@/lib/cookie';
 
-import meService from '@/models/services/auth/meService';
+import useGetMe from '@/models/queries/auth/useGetMe';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileCard';
@@ -14,7 +9,6 @@ import ProductCardListSkeleton from '@/components/shared/Boundary/Fallback/Suspe
 import ActivitySection from './_components/ActivitySection';
 import ProductCategorySelector from './_components/ProductCategorySelector';
 import { ProductCategory } from '../user/[userId]';
-import useGetMe from '@/models/queries/auth/useGetMe';
 
 const ProductList = dynamic(() => import('./_components/ProductList'), { ssr: false, loading: () => <ProductCardListSkeleton />}); // prettier-ignore
 
