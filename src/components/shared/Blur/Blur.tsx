@@ -9,7 +9,7 @@ interface BlurProps {
 const Blur = ({ image, className, size = 400 }: BlurProps) => {
   return (
     <div
-      className="animate-pulseSlowly absolute"
+      className="absolute animate-pulseSlowly"
       style={{
         top: 0,
         pointerEvents: 'none',
