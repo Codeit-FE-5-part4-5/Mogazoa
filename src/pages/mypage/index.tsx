@@ -14,28 +14,12 @@ import ProductCardListSkeleton from '@/components/shared/Boundary/Fallback/Suspe
 import ActivitySection from './_components/ActivitySection';
 import ProductCategorySelector from './_components/ProductCategorySelector';
 import { ProductCategory } from '../user/[userId]';
+import useGetMe from '@/models/queries/auth/useGetMe';
 
 const ProductList = dynamic(() => import('./_components/ProductList'), { ssr: false, loading: () => <ProductCardListSkeleton />}); // prettier-ignore
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  const accessToken = getServerCookie(context, 'accessToken');
-
-  if (accessToken) {
-    await queryClient.prefetchQuery(meService.queryOptions(accessToken));
-  }
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
-
 const MyPage = () => {
-  const token = getCookie('accessToken');
-  const { data: user } = useQuery(meService.queryOptions(token));
+  const { data: user } = useGetMe();
 
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory>(
     ProductCategory.REVIEWED,
