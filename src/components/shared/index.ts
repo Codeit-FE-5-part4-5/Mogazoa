@@ -43,6 +43,7 @@ import ProfileEditModal from './modals/profile-edit-modal';
 import ReviewDeleteModal from './modals/review-delete-modal';
 import ReviewEditModal from './modals/review-edit-modal';
 import ReviewModal from './modals/review-modal';
+import UnFollowModal from './modals/unfollow-modal';
 
 // Common Export
 export { Button, Carousel, Floating, Portal, Spinner };
@@ -81,4 +82,5 @@ export {
   ReviewDeleteModal,
   ReviewEditModal,
   ReviewModal,
+  UnFollowModal,
 };

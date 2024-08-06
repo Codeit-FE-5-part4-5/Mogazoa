@@ -9,6 +9,7 @@ import {
   FollowModal,
   FollowingModal,
   ProfileEditModal,
+  UnFollowModal,
 } from '@/components/shared';
 
 const ModalProvider = () => {
@@ -33,6 +34,7 @@ const ModalProvider = () => {
       <ProfileEditModal />
       <LoginModal />
       <CompareNoticeModal />
+      <UnFollowModal />
     </>
   );
 };

@@ -5,6 +5,7 @@ import Spinner from '../Spinner/Spinner';
 import ProductCardListSkeleton from './Fallback/Suspense/ProductCardListSkeleton';
 import UserRankingSkeleton from './Fallback/Suspense/UserRankingSkeleton';
 import TrendRankingSkeleton from './Fallback/Suspense/TrendRankingSkeleton';
+import GlobalErrorFallback from './Fallback/Error/GlobalErrorFallback';
 
 type TFallback =
   | 'productsCard'
@@ -41,7 +42,9 @@ const withFetchBoundary = <P extends object>(
   const renderedSuspenseFallback = suspenseFallbackVariants.get(variant)!;
 
   return (props: P) => (
-    <ErrorBoundary FallbackComponent={renderedErrorFallback}>
+    <ErrorBoundary
+      FallbackComponent={renderedErrorFallback ?? GlobalErrorFallback}
+    >
       <Suspense fallback={renderedSuspenseFallback ?? <Spinner isLoading />}>
         <Component {...props} />
       </Suspense>
