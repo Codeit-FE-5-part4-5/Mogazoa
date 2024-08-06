@@ -7,10 +7,6 @@ const userProfileService = {
     queryOptions({
       queryKey: ['userProfile', userId ?? null],
       queryFn: async () => {
-        if (!userId) {
-          return {};
-        }
-
         const { data } = await axios.get(`users/${userId}`);
         return data;
       },

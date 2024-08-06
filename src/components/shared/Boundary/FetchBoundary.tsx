@@ -2,15 +2,17 @@ import { ComponentType, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import ProductsFetchErrorFallback from './Fallback/Error/ProductsFetchErrorFallback';
 import Spinner from '../Spinner/Spinner';
-import RankingSuspense from './Fallback/Suspense/RankingSkeleton';
 import ProductCardListSkeleton from './Fallback/Suspense/ProductCardListSkeleton';
+import UserRankingSkeleton from './Fallback/Suspense/UserRankingSkeleton';
+import TrendRankingSkeleton from './Fallback/Suspense/TrendRankingSkeleton';
 
 type TFallback =
   | 'productsCard'
-  | 'rankingList'
+  | 'productsCardWithCarousel'
+  | 'userRankingList'
+  | 'trendRankingList'
   | 'navMenu'
-  | 'navAuth'
-  | 'productsCardWithCarousel';
+  | 'navAuth';
 
 const errorFallbackVariants = new Map([
   ['productsCard', ProductsFetchErrorFallback],
@@ -25,7 +27,8 @@ const suspenseFallbackVariants = new Map([
     'productsCardWithCarousel',
     <ProductCardListSkeleton hasCarousel key="productsCardWithCarousel" />,
   ],
-  ['rankingList', <RankingSuspense key="rankingList" />],
+  ['userRankingList', <UserRankingSkeleton key="userRankingList" />],
+  ['trendRankingList', <TrendRankingSkeleton key="trendRankingList" />],
   ['navMenu', null],
   ['navAuth', null],
 ]);

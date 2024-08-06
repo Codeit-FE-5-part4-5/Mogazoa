@@ -10,6 +10,7 @@ import { Toaster } from '@/components/shared/ui/toaster';
 import { GlobalBoundary, Portal, Floating } from '@/components/shared';
 
 import '@/styles/globals.css';
+import { useState } from 'react';
 
 declare global {
   interface Window {
@@ -19,8 +20,9 @@ declare global {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const [newQueryClient] = useState(queryClient);
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={newQueryClient}>
       <HydrationBoundary state={pageProps.dehydratedState}>
         <CookiesProvider defaultSetOptions={{ path: '/' }}>
           <ModalProvider />

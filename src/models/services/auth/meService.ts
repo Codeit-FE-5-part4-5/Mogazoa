@@ -15,6 +15,7 @@ const meService = {
         const requestUri = isServer
           ? 'https://mogazoa-api.vercel.app/5-5/users/me'
           : 'users/me';
+
         const { data } = await axios.get(requestUri, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -23,6 +24,7 @@ const meService = {
         return data;
       },
       enabled: !!token,
+      staleTime: 3 * 1000,
     }),
 };
 

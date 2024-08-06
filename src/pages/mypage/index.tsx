@@ -19,7 +19,7 @@ const ProductList = dynamic(() => import('./_components/ProductList'), { ssr: fa
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
-  const { accessToken } = getServerCookie(context, 'accessToken');
+  const accessToken = getServerCookie(context, 'accessToken');
 
   await queryClient.prefetchQuery(meService.queryOptions(accessToken));
 

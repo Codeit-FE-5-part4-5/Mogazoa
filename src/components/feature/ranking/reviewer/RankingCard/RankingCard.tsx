@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { MouseEvent, useEffect, useState } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import queryClient from '@/lib/query';
 
 import usePostFollow from '@/models/queries/user/follow/post-follow/usePostFollow';
@@ -43,14 +43,12 @@ const RankingCard = ({
   const followMutation = usePostFollow();
   const unfollowMutation = useCancelFollow();
   const me = queryClient.getQueryData<Me>(['me']);
-  const { data: user } = useSuspenseQuery(
-    userProfileService.queryOptions(Number(id)),
-  );
+  const { data: user } = useQuery(userProfileService.queryOptions(Number(id)));
 
   useEffect(() => {
     if (id === me?.id) {
       setButtonStatus(FOLLOWING_STATUS.ME);
-    } else if (user.isFollowing) {
+    } else if (user?.isFollowing) {
       setButtonStatus(FOLLOWING_STATUS.FOLLOWING);
     } else {
       setButtonStatus(FOLLOWING_STATUS.FOLLOW);
@@ -114,10 +112,11 @@ const RankingCard = ({
           <FollowingButton
             buttonStatus={buttonStatus}
             onMouseEnter={() => {
-              if (user.isFollowing) setButtonStatus(FOLLOWING_STATUS.UNFOLLOW);
+              if (user?.isFollowing) setButtonStatus(FOLLOWING_STATUS.UNFOLLOW);
             }}
             onMouseLeave={() => {
-              if (user.isFollowing) setButtonStatus(FOLLOWING_STATUS.FOLLOWING);
+              if (user?.isFollowing)
+                setButtonStatus(FOLLOWING_STATUS.FOLLOWING);
             }}
             onClick={handleClickFollow}
           >

@@ -9,7 +9,6 @@ interface TrendRankingCardProps {
 }
 
 const TrendRankingCard = ({ product }: TrendRankingCardProps) => {
-  if (!product) return null;
   const convertCategory = () => {
     return CATEGORY_LIST.find((category) => category.id === product.categoryId);
   };

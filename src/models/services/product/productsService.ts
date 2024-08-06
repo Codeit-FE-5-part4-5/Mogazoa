@@ -33,7 +33,6 @@ const productsService = {
         );
         return data.list;
       },
-      staleTime: 60 * 1000 * 10,
     }),
   infiniteQueryOptions: (params: ProductsProps) =>
     infiniteQueryOptions({
@@ -64,7 +63,7 @@ const productsService = {
       },
       initialPageParam: 0,
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
-      staleTime: 5 * 1000,
+      staleTime: 10 * 1000,
     }),
 };
 

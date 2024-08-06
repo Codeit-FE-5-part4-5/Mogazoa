@@ -9,7 +9,7 @@ const MyProfileCard = ({ user }: { user: UserType }) => {
   const { onOpen } = useModal();
 
   return (
-    <div className="flex flex-col items-center gap-[30px] rounded-[12px] border border-[#353542] bg-[#252530] px-[20px] py-[30px] text-[14px] text-var-white md:px-[30px] xl:gap-[40px] xl:px-[20px] xl:pt-[40px]">
+    <div className="flex animate-fadeIn flex-col items-center gap-[30px] rounded-[12px] border border-[#353542] bg-[#252530] px-[20px] py-[30px] text-[14px] text-var-white md:px-[30px] xl:gap-[40px] xl:px-[20px] xl:pt-[40px]">
       <div className="relative size-[120px]">
         {user?.image ? (
           <Image

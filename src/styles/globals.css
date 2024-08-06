@@ -75,6 +75,12 @@
   }
 }
 
+@layer components {
+  .skeleton-base {
+    @apply rounded-[12px] bg-var-black3;
+  }
+}
+
 @font-face {
   font-family: 'Pretendard';
   font-weight: 100;

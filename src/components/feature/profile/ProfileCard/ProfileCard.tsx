@@ -58,7 +58,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-[30px] rounded-[12px] border border-var-black3 bg-var-black2 px-[20px] py-[30px] text-[14px] text-var-white md:px-[30px] xl:gap-[40px] xl:px-[20px] xl:pt-[40px]">
+    <div className="flex animate-fadeIn flex-col items-center gap-[30px] rounded-[12px] border border-var-black3 bg-var-black2 px-[20px] py-[30px] text-[14px] text-var-white md:px-[30px] xl:gap-[40px] xl:px-[20px] xl:pt-[40px]">
       <div className="relative size-[120px]">
         {user?.image ? (
           <Image

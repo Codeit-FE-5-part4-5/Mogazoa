@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { GetServerSidePropsContext } from 'next';
 import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import { dehydrate, useQuery } from '@tanstack/react-query';
+import queryClient from '@/lib/query';
 
+import castArray from '@/utils/castArray';
 import useGetMe from '@/models/queries/auth/useGetMe';
-import useUserProfile from '@/models/queries/user/profile/useUserProfile';
+import userProfileService from '@/models/services/profile/userProfileService';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProfileCard from '@/components/feature/profile/ProfileCard/ProfileCard';
+import ProductCardListSkeleton from '@/components/shared/Boundary/Fallback/Suspense/ProductCardListSkeleton';
 import ActivitySection from './_components/ActivitySection';
 import ProductCategorySelector from './_components/ProductCategorySelector';
-import ProductList from './_components/ProductList';
+
+const ProductList = dynamic(() => import('./_components/ProductList'), { ssr: false, loading: () => <ProductCardListSkeleton /> }); // prettier-ignore
 
 export enum ProductCategory {
   REVIEWED = '리뷰 남긴 상품',
@@ -16,20 +23,38 @@ export enum ProductCategory {
   FAVORITE = '찜한 상품',
 }
 
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const { userId } = context.params!;
+
+  if (userId) {
+    await queryClient.prefetchQuery(
+      userProfileService.queryOptions(castArray(Number(userId))),
+    );
+  }
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
+
 const UserProfile = () => {
-  const params = useParams();
+  const { userId } = useParams();
   const { data: me } = useGetMe();
-  const { data: user } = useUserProfile(Number(params?.userId));
+  const { data: user } = useQuery(
+    userProfileService.queryOptions(castArray(Number(userId))),
+  );
 
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory>(
     ProductCategory.REVIEWED,
   );
 
-  if (me?.id === Number(params?.userId)) {
+  if (me?.id === Number(userId)) {
     window.location.replace('/mypage');
   }
-
-  if (!user && !me) return null;
 
   return (
     <MogazoaLayout>

@@ -2,9 +2,11 @@ import dynamic from 'next/dynamic';
 import { GetServerSidePropsContext } from 'next';
 import { dehydrate } from '@tanstack/react-query';
 import queryClient from '@/lib/query';
+import getServerCookie from '@/lib/getServerCookie';
+import getServerQuery from '@/lib/getServerQuery';
 
 import productsService from '@/models/services/product/productsService';
-import getServerQuery from '@/lib/getServerQuery';
+import meService from '@/models/services/auth/meService';
 import { ORDER_VARIANTS } from '@/constants/products';
 import sortConverter from '@/utils/sortConverter';
 import castArray from '@/utils/castArray';
@@ -13,15 +15,22 @@ import { useChangeRouter, useSearchRouter } from '@/hooks';
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
-import TrendRankingList from '@/components/feature/ranking/product/TrendRankingList/TrendRankingList';
+import UserRankingSkeleton from '@/components/shared/Boundary/Fallback/Suspense/UserRankingSkeleton';
+import TrendRankingSkeleton from '@/components/shared/Boundary/Fallback/Suspense/TrendRankingSkeleton';
 
-const RankingList = dynamic(() => import('@/components/feature/ranking/reviewer/RankingList/RankingList')); // prettier-ignore
+const RankingList = dynamic(() => import('@/components/feature/ranking/reviewer/RankingList/RankingList'), { ssr: false, loading: () => <UserRankingSkeleton /> }); // prettier-ignore
+const TrendRankingList = dynamic(() => import('@/components/feature/ranking/product/TrendRankingList/TrendRankingList'), { ssr: false, loading: () => <TrendRankingSkeleton /> }); // prettier-ignore
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
   const { categoryId, keyword, order } = getServerQuery(context);
+  const accessToken = getServerCookie(context, 'accessToken');
   const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
+
+  if (accessToken) {
+    await queryClient.prefetchQuery(meService.queryOptions(accessToken));
+  }
 
   if (!categoryId) {
     await Promise.all([
@@ -29,16 +38,16 @@ export const getServerSideProps = async (
         productsService.infiniteQueryOptions({ keyword, categoryId, order }),
       ),
       queryClient.prefetchQuery(
-        productsService.queryOptions({ categoryId, order: 'rating' }),
+        productsService.queryOptions({ categoryId, order: orderVariants[1] }) /** 별점순(rating) */, // prettier-ignore
       ),
     ]);
   } else {
     await Promise.all([
       queryClient.prefetchQuery(
-        productsService.queryOptions({ order: orderVariants[1] }),
+        productsService.queryOptions({ order: orderVariants[1] }) /** 별점순(rating) */, // prettier-ignore
       ),
       queryClient.prefetchQuery(
-        productsService.queryOptions({ order: orderVariants[2] }),
+        productsService.queryOptions({ order: orderVariants[2] }) /** 리뷰순(reviewCount) */, // prettier-ignore
       ),
     ]);
   }

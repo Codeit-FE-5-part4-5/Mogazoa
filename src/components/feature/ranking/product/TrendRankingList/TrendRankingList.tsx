@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Product } from '@/types/product/product';
 import productsService from '@/models/services/product/productsService';
+import { withFetchBoundary } from '@/components/shared';
 import TrendRankingCard from '../TrendRankingCard/TrendRankingCard';
 
 const TrendRankingList = () => {
@@ -20,4 +21,9 @@ const TrendRankingList = () => {
   );
 };
 
-export default TrendRankingList;
+const TrendRankingListWithBoundary = withFetchBoundary(
+  TrendRankingList,
+  'trendRankingList',
+);
+
+export default TrendRankingListWithBoundary;

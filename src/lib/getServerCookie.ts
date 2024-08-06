@@ -1,14 +1,14 @@
-import cookie from 'cookie';
 import { GetServerSidePropsContext } from 'next';
+import cookie from 'cookie';
 
 const getServerCookie = (
   context: GetServerSidePropsContext,
   cookieName: string,
 ) => {
-  const someCookie = context.req.cookies[cookieName];
-  const cookies = cookie.parse(someCookie!);
+  const cookies = cookie.parse(context.req.headers.cookie!);
+  const cookieValue = cookies[cookieName];
 
-  return cookies;
+  return cookieValue;
 };
 
 export default getServerCookie;
