@@ -1,26 +1,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { cn } from '@/lib/cn';
-
-import { useIsMobile } from '@/hooks';
 
 interface Props {
   me?: number;
   isSearchOpen: boolean;
-  setOpenMenu: Dispatch<SetStateAction<boolean>>;
+  setOpenSideBarMenu: Dispatch<SetStateAction<boolean>>;
 }
 
-const NavMenuSection = ({ me, isSearchOpen, setOpenMenu }: Props) => {
-  const isMobile = useIsMobile();
-
+const NavMenuSection = ({ me, isSearchOpen, setOpenSideBarMenu }: Props) => {
+  const [isLoggedIn] = useState(!!me);
   return (
     <>
-      {isMobile && me ? (
+      {isLoggedIn ? (
         <button
           type="button"
-          onClick={() => setOpenMenu((prev) => !prev)}
-          className="flex cursor-pointer items-center space-x-4 md:hidden"
+          onClick={() => setOpenSideBarMenu((prev) => !prev)}
+          className="flex items-center space-x-4 md:hidden"
         >
           <Image src="/images/menu.svg" alt="MenuIcon" width={24} height={24} />
         </button>

@@ -14,10 +14,10 @@ import NavMenuSection from './NavMenuSection';
 const Nav = () => {
   const { data: me } = useGetMe();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isOpenMenu, setOpenMenu] = useState(false);
+  const [isOpenSideBarMenu, setOpenSideBarMenu] = useState(false);
   const searchBarRef = useClickOutside<HTMLDivElement>(setIsSearchOpen);
   const [shouldOpenMenu, animationOpenMenu, handleOpenMenuEnd] =
-    useAnimation(isOpenMenu);
+    useAnimation(isOpenSideBarMenu);
   const isSticky = useSticky();
 
   return (
@@ -25,7 +25,7 @@ const Nav = () => {
       {shouldOpenMenu && (
         <Portal portalName="sideBar">
           <SideBarMenu
-            setOpenMenu={setOpenMenu}
+            setOpenMenu={setOpenSideBarMenu}
             animationOpenMenu={animationOpenMenu}
             handleOpenMenuEnd={handleOpenMenuEnd}
           />
@@ -42,11 +42,13 @@ const Nav = () => {
         <div className="flex h-[66px] w-full items-center justify-between py-[20px]">
           <NavMenuSection
             me={me?.id}
+            key={me?.id}
             isSearchOpen={isSearchOpen}
-            setOpenMenu={setOpenMenu}
+            setOpenSideBarMenu={setOpenSideBarMenu}
           />
           <NavAuthSection
             me={me?.id}
+            key={me?.id}
             isSearchOpen={isSearchOpen}
             setIsSearchOpen={setIsSearchOpen}
           />

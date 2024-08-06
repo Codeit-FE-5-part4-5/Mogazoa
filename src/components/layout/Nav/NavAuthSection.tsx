@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { cn } from '@/lib/cn';
 import castArray from '@/utils/castArray';
 import useChangeRouter from '@/hooks/useChangeRouter';
@@ -19,6 +19,7 @@ const NavAuthSection = ({
   isSearchOpen,
   setIsSearchOpen,
 }: NavAuthSectionProps) => {
+  const [isLoggedIn] = useState(!!me);
   const { currentPath, currentQuery } = useChangeRouter();
   const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();
@@ -47,11 +48,11 @@ const NavAuthSection = ({
         />
       )}
       <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-semibold text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
-        <Link href={me ? '/compare' : '/signup'} className={linkStyle}>
-          {me ? '비교하기' : '회원가입'}
+        <Link href={isLoggedIn ? '/compare' : '/signup'} className={linkStyle}>
+          {isLoggedIn ? '비교하기' : '회원가입'}
         </Link>
-        <Link href={me ? '/mypage' : '/signin'} className={linkStyle}>
-          {me ? '내 프로필' : '로그인'}
+        <Link href={isLoggedIn ? '/mypage' : '/signin'} className={linkStyle}>
+          {isLoggedIn ? '내 프로필' : '로그인'}
         </Link>
       </div>
     </div>
