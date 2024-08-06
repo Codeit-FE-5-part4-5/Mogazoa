@@ -90,7 +90,7 @@ const ProductSection = ({
 
 const ProductSectionWithBoundary = withFetchBoundary(
   ProductSection,
-  'productsCard',
+  'productsCardWithCarousel',
 );
 
 export default ProductSectionWithBoundary;

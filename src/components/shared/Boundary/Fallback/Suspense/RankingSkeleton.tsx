@@ -1,6 +1,8 @@
 import { cn } from '@/lib/cn';
 import { PropsWithChildren } from 'react';
 
+const baseStyle = 'bg-var-black3 rounded-[12px]';
+
 const RankingSkeleton = () => {
   return (
     <RankingSkeleton.Container>
@@ -32,25 +34,24 @@ RankingSkeleton.Container = ({ children }: PropsWithChildren) => {
 };
 
 RankingSkeleton.Card = () => {
-  const skeletonVariant = 'bg-var-black3 rounded-[12px]';
   return (
     <div className="flex flex-shrink-0 gap-[8px] py-[10px] xl:w-full xl:px-[20px]">
-      <div className={cn('size-[40px]', skeletonVariant, 'rounded-full')} />
+      <div className={cn(baseStyle, 'size-[40px] rounded-full')} />
       <div className="flex flex-1 flex-shrink-0 flex-col justify-between gap-[8px] xl:flex-row xl:items-center">
         <div className="flex flex-col gap-[8px]">
           <div className="flex gap-[8px]">
-            <div className={cn('h-[16px] w-[28px]', skeletonVariant)} />
-            <div className={cn('h-[16px] w-[50px]', skeletonVariant)} />
+            <div className={cn('h-[16px] w-[28px]', baseStyle)} />
+            <div className={cn('h-[16px] w-[50px]', baseStyle)} />
           </div>
           <div className="flex gap-[14px]">
-            <div className={cn('h-[14px] w-[50px]', skeletonVariant)} />
-            <div className={cn('h-[14px] w-[28px]', skeletonVariant)} />
+            <div className={cn('h-[14px] w-[50px]', baseStyle)} />
+            <div className={cn('h-[14px] w-[28px]', baseStyle)} />
           </div>
         </div>
         <div
           className={cn(
             'h-[24px] w-[48px] self-end xl:ml-auto xl:self-center',
-            skeletonVariant,
+            baseStyle,
           )}
         />
       </div>

@@ -3,8 +3,14 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ProductsFetchErrorFallback from './Fallback/Error/ProductsFetchErrorFallback';
 import Spinner from '../Spinner/Spinner';
 import RankingSuspense from './Fallback/Suspense/RankingSkeleton';
+import ProductCardListSkeleton from './Fallback/Suspense/ProductCardListSkeleton';
 
-type TFallback = 'productsCard' | 'rankingList' | 'navMenu' | 'navAuth';
+type TFallback =
+  | 'productsCard'
+  | 'rankingList'
+  | 'navMenu'
+  | 'navAuth'
+  | 'productsCardWithCarousel';
 
 const errorFallbackVariants = new Map([
   ['productsCard', ProductsFetchErrorFallback],
@@ -14,7 +20,11 @@ const errorFallbackVariants = new Map([
 ]);
 
 const suspenseFallbackVariants = new Map([
-  ['productsCard', null],
+  ['productsCard', <ProductCardListSkeleton key="productsCard" />],
+  [
+    'productsCardWithCarousel',
+    <ProductCardListSkeleton hasCarousel key="productsCardWithCarousel" />,
+  ],
   ['rankingList', <RankingSuspense key="rankingList" />],
   ['navMenu', null],
   ['navAuth', null],
