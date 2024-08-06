@@ -48,19 +48,14 @@ const ProductSection = ({
 
   return (
     <div className="mx-[20px] mb-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
-      {sliceBestProducts?.length !== 0 && (
-        <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
-          {`${currentCategory}의`}&nbsp;
-          <span className="bg-gradient-custom bg-clip-text text-transparent">
-            TOP 6
-          </span>
-        </h1>
+      {!searchQuery && sliceBestProducts?.length !== 0 && (
+        <Carousel
+          currentCategory={currentCategory}
+          products={sliceBestProducts}
+          key={sliceBestProducts[0]?.id}
+          className="mb-[30px]"
+        />
       )}
-      <Carousel
-        products={sliceBestProducts}
-        key={sliceBestProducts[0]?.id}
-        className="mb-[30px]"
-      />
       <div className="mb-[30px]">
         <div className="flex justify-between gap-[20px]">
           <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">

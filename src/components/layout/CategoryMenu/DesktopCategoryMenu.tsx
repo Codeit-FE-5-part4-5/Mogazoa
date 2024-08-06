@@ -20,14 +20,16 @@ const DesktopCategoryMenu = ({
         isVisible ? 'my-[20px]' : 'mt-[45px]',
       )}
     >
-      <div
+      <button
+        type="button"
+        onClick={() => onCategoryClick({})}
         className={cn(
-          'ml-[20px] pb-[15px] text-sm font-normal leading-normal text-white',
+          'ml-[20px] flex pb-[15px] text-sm font-normal leading-normal text-white',
           isVisible && 'hidden',
         )}
       >
         전체 카테고리
-      </div>
+      </button>
       <ul className="flex flex-col gap-[4px]">
         {CATEGORY_LIST.map((item: Category) => (
           <button

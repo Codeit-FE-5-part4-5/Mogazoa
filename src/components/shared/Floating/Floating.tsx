@@ -20,7 +20,7 @@ const Floating = () => {
   };
 
   return (
-    <div className="fixed bottom-[10%] right-[10%] z-40">
+    <div className="fixed bottom-[8%] right-[4%] z-40">
       <button
         type="button"
         className={cn(

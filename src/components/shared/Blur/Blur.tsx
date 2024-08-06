@@ -6,10 +6,10 @@ interface BlurProps {
   className?: string;
 }
 
-const Blur = ({ image, className, size = 600 }: BlurProps) => {
+const Blur = ({ image, className, size = 400 }: BlurProps) => {
   return (
     <div
-      className="absolute animate-pulse"
+      className="animate-pulseSlowly absolute"
       style={{
         top: 0,
         pointerEvents: 'none',
@@ -19,7 +19,7 @@ const Blur = ({ image, className, size = 600 }: BlurProps) => {
       <img
         src={image}
         alt="blur이미지"
-        className={cn('opacity-15 blur-[100px]', className)}
+        className={cn('opacity-20 blur-[80px]', className)}
         style={{
           width: size,
           height: size,

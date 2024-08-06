@@ -134,6 +134,11 @@ module.exports = {
           '0%': { backgroundPosition: '0% 50%' },
           '100%': { backgroundPosition: '100%' },
         },
+        pulseSlowly: {
+          '50%': {
+            opacity: '0.5',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -150,6 +155,7 @@ module.exports = {
         bounceRight: 'bounceRight 1s infinite',
         'bg-gradient': 'gradient 1s linear infinite',
         'border-gradient': 'gradient 1s linear infinite',
+        pulseSlowly: 'pulseSlowly 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },

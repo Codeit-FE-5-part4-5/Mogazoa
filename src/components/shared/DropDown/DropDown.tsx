@@ -1,51 +1,13 @@
 import Image from 'next/image';
-import { memo, useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { cn } from '@/lib/cn';
 import useAnimation from '@/hooks/useAnimation';
 import useClickOutside from '@/hooks/useClickOutside';
 
-interface ItemListProps {
-  itemList: string[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onClick: (arg: any) => void;
-  isOrder?: boolean;
+interface ItemListProps extends DropDownProps {
   animationTrigger: boolean;
   handleAnimationEnd: () => void;
 }
-
-const ItemList = memo(
-  ({
-    itemList,
-    onClick,
-    isOrder,
-    animationTrigger,
-    handleAnimationEnd,
-  }: ItemListProps) => {
-    return (
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        onAnimationEnd={handleAnimationEnd}
-        className={cn(
-          'absolute left-0 z-10 flex w-full flex-col gap-[4px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg',
-          isOrder ? 'top-[44px]' : 'top-[76px]',
-          animationTrigger ? 'animate-slideDown' : 'animate-slideUp',
-        )}
-      >
-        {itemList.map((item) => (
-          <div
-            key={item}
-            onClick={() => onClick(item)}
-            className="select-none rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2"
-          >
-            {item}
-          </div>
-        ))}
-      </div>
-    );
-  },
-);
 
 interface DropDownProps {
   itemList: string[];
@@ -70,6 +32,12 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
     [onClick],
   );
 
+  useEffect(() => {
+    if (!isOrder) {
+      setSelectMenu('카테고리 선택');
+    }
+  }, [isOrder]);
+
   return (
     <div
       ref={ref}
@@ -85,7 +53,7 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
           value={selectMenu}
           readOnly
           className={cn(
-            'w-full cursor-pointer outline-none group-hover:bg-[#17171c]',
+            'w-full cursor-pointer outline-none group-hover:bg-[#17171c] group-hover:text-var-gray2',
             isOrder && 'bg-[#1c1c22]',
             showMenuList
               ? 'bg-var-black1 text-var-gray2'
@@ -101,7 +69,7 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
         />
       </div>
       {shouldRender && (
-        <ItemList
+        <DropDown.ItemList
           itemList={itemList}
           onClick={handleClickEvent}
           isOrder={isOrder}
@@ -113,4 +81,35 @@ const DropDown = ({ itemList, onClick, isOrder = false }: DropDownProps) => {
   );
 };
 
+DropDown.ItemList = ({
+  itemList,
+  onClick,
+  isOrder,
+  animationTrigger,
+  handleAnimationEnd,
+}: ItemListProps) => {
+  return (
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+      onAnimationEnd={handleAnimationEnd}
+      className={cn(
+        'absolute left-0 z-10 flex w-full flex-col gap-[4px] rounded-[6px] border border-var-black3 bg-var-black2 p-[10px] shadow-lg',
+        isOrder ? 'top-[44px]' : 'top-[76px]',
+        animationTrigger ? 'animate-slideDown' : 'animate-slideUp',
+      )}
+    >
+      {itemList.map((item) => (
+        <div
+          key={item}
+          onClick={() => onClick(item)}
+          className="select-none rounded-[6px] bg-var-black2 px-[20px] py-[6px] text-var-gray1 hover:bg-var-black3 hover:text-var-gray2"
+        >
+          {item}
+        </div>
+      ))}
+    </div>
+  );
+};
 export default DropDown;

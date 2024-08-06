@@ -9,9 +9,107 @@ import useAnimation from '@/hooks/useAnimation';
 interface CarouselProps {
   products: Product[];
   className: string;
+  currentCategory: string;
 }
 
-const CardDescription = ({
+const Carousel = ({ products, currentCategory, className }: CarouselProps) => {
+  const [currentProduct, setCurrentProduct] = useState<Product>(products[0]);
+  const [showDescription, setShowDescription] = useState(false);
+  const [renderDescription, showDescriptionAnimate, handleAnimateDescription] =
+    useAnimation(showDescription);
+  const timerIdRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const updateProduct = () => {
+      setCurrentProduct((prevProduct) => {
+        const currentProductIdx = products.findIndex(
+          (product) => product.id === prevProduct.id,
+        );
+        return products[currentProductIdx + 1] || products[0];
+      });
+    };
+
+    timerIdRef.current = setInterval(updateProduct, 3000);
+
+    return () => {
+      if (timerIdRef.current) {
+        clearInterval(timerIdRef.current);
+      }
+    };
+  }, [products]);
+
+  if (products.length === 0) return null;
+
+  return (
+    <>
+      <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
+        {`${currentCategory}의`}&nbsp;
+        <span className="bg-gradient-custom bg-clip-text text-transparent">
+          TOP 6
+        </span>
+      </h1>
+      <div
+        className={cn(
+          'relative flex h-[300px] w-full flex-col overflow-hidden rounded-[8px]',
+          className,
+        )}
+        onMouseEnter={() => setShowDescription(true)}
+        onMouseLeave={() => setShowDescription(false)}
+      >
+        <div className={cn('relative size-full')}>
+          <Image
+            src={currentProduct?.image}
+            alt={String(currentProduct?.id)}
+            fill
+            className={cn('object-cover')}
+          />
+          {renderDescription && (
+            <div
+              className={cn(
+                'absolute inset-0 bg-gradient-to-t from-black/70 to-transparent',
+                showDescriptionAnimate ? 'animate-fadeIn' : 'animate-fadeOut',
+              )}
+            />
+          )}
+          <div className="absolute bottom-0 flex w-full flex-col overflow-hidden shadow-2xl">
+            {renderDescription && (
+              <Carousel.CardDescription
+                currentProduct={currentProduct}
+                showDescriptionAnimate={showDescriptionAnimate}
+                handleAnimateDescription={handleAnimateDescription}
+              />
+            )}
+            <div className="flex h-[40px]">
+              {products.map((product) => (
+                <Link
+                  key={product.id}
+                  href={`/detail/${product?.id}`}
+                  className={cn(
+                    'group flex w-full items-center justify-center border-r border-var-black2 bg-var-black3 text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
+                    currentProduct?.name === product?.name && 'bg-var-black2',
+                  )}
+                  onMouseEnter={() => setCurrentProduct(product)}
+                >
+                  <span
+                    className={cn(
+                      'text-[12px] transition-all duration-300 group-hover:text-var-white',
+                      currentProduct?.name === product?.name &&
+                        'text-var-white',
+                    )}
+                  >
+                    {product.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+Carousel.CardDescription = ({
   currentProduct,
   showDescriptionAnimate,
   handleAnimateDescription,
@@ -51,94 +149,6 @@ const CardDescription = ({
         </div>
       </div>
     </Link>
-  );
-};
-
-const Carousel = ({ products, className }: CarouselProps) => {
-  const [currentProduct, setCurrentProduct] = useState<Product>(products[0]);
-  const [showDescription, setShowDescription] = useState(false);
-  const [renderDescription, showDescriptionAnimate, handleAnimateDescription] =
-    useAnimation(showDescription);
-  const timerIdRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const updateProduct = () => {
-      setCurrentProduct((prevProduct) => {
-        const currentProductIdx = products.findIndex(
-          (product) => product.id === prevProduct.id,
-        );
-        return products[currentProductIdx + 1] || products[0];
-      });
-    };
-
-    timerIdRef.current = setInterval(updateProduct, 3000);
-
-    return () => {
-      if (timerIdRef.current) {
-        clearInterval(timerIdRef.current);
-      }
-    };
-  }, [products]);
-
-  if (products.length === 0) return null;
-
-  return (
-    <div
-      className={cn(
-        'relative flex h-[300px] w-full flex-col overflow-hidden rounded-[8px]',
-        className,
-      )}
-      onMouseEnter={() => setShowDescription(true)}
-      onMouseLeave={() => setShowDescription(false)}
-    >
-      <div className={cn('relative size-full')}>
-        <Image
-          src={currentProduct?.image}
-          alt={String(currentProduct?.id)}
-          fill
-          className={cn('object-cover')}
-        />
-        {renderDescription && (
-          <div
-            className={cn(
-              'absolute inset-0 bg-gradient-to-t from-black/70 to-transparent',
-              showDescriptionAnimate ? 'animate-fadeIn' : 'animate-fadeOut',
-            )}
-          />
-        )}
-        <div className="absolute bottom-0 flex w-full flex-col overflow-hidden shadow-2xl">
-          {renderDescription && (
-            <CardDescription
-              currentProduct={currentProduct}
-              showDescriptionAnimate={showDescriptionAnimate}
-              handleAnimateDescription={handleAnimateDescription}
-            />
-          )}
-          <div className="flex h-[40px]">
-            {products.map((product) => (
-              <Link
-                key={product.id}
-                href={`/detail/${product?.id}`}
-                className={cn(
-                  'group flex w-full items-center justify-center border-r border-var-black2 bg-var-black3 text-var-gray1 transition-colors duration-300 active:bg-var-black1 md:text-[16px]',
-                  currentProduct?.name === product?.name && 'bg-var-black2',
-                )}
-                onMouseEnter={() => setCurrentProduct(product)}
-              >
-                <span
-                  className={cn(
-                    'text-[12px] transition-all duration-300 group-hover:text-var-white',
-                    currentProduct?.name === product?.name && 'text-var-white',
-                  )}
-                >
-                  {product.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
   );
 };
 

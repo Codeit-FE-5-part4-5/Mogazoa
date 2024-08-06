@@ -147,7 +147,7 @@ const ItemAddModal = () => {
             </div>
             <div className="flex h-[120px] flex-col items-end rounded-md bg-[#252530] md:h-[160px]">
               <TextAreaInput
-                placeholder="상품을 추가해 주세요."
+                placeholder="상품 상세 설명을 입력하세요."
                 value={text}
                 onChange={handleTextChange}
                 textLength={300}
