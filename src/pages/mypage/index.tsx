@@ -1,6 +1,11 @@
 import dynamic from 'next/dynamic';
+import { GetServerSidePropsContext } from 'next';
 import { useState } from 'react';
+import { dehydrate } from '@tanstack/react-query';
+import queryClient from '@/lib/query';
 
+import getServerCookie from '@/lib/getServerCookie';
+import meService from '@/models/services/auth/meService';
 import useGetMe from '@/models/queries/auth/useGetMe';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
@@ -11,6 +16,24 @@ import ProductCategorySelector from './_components/ProductCategorySelector';
 import { ProductCategory } from '../user/[userId]';
 
 const ProductList = dynamic(() => import('./_components/ProductList'), { ssr: false, loading: () => <ProductCardListSkeleton />}); // prettier-ignore
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const accessToken = getServerCookie(context, 'accessToken');
+
+  if (accessToken) {
+    await queryClient.prefetchQuery(meService.queryOptions(accessToken!));
+  } else {
+    queryClient.removeQueries({ queryKey: ['me'] });
+  }
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
 const MyPage = () => {
   const { data: user } = useGetMe();

@@ -15,6 +15,8 @@ import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
 import UserRankingSkeleton from '@/components/shared/Boundary/Fallback/Suspense/UserRankingSkeleton';
 import TrendRankingSkeleton from '@/components/shared/Boundary/Fallback/Suspense/TrendRankingSkeleton';
+import getServerCookie from '@/lib/getServerCookie';
+import meService from '@/models/services/auth/meService';
 
 const RankingList = dynamic(() => import('@/components/feature/ranking/reviewer/RankingList/RankingList'), { ssr: false, loading: () => <UserRankingSkeleton /> }); // prettier-ignore
 const TrendRankingList = dynamic(() => import('@/components/feature/ranking/product/TrendRankingList/TrendRankingList'), { ssr: false, loading: () => <TrendRankingSkeleton /> }); // prettier-ignore
@@ -23,7 +25,14 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
   const { categoryId, keyword, order } = getServerQuery(context);
+  const accessToken = getServerCookie(context, 'accessToken');
   const orderVariants = ORDER_VARIANTS.map((item) => sortConverter(item));
+
+  if (accessToken) {
+    await queryClient.prefetchQuery(meService.queryOptions(accessToken));
+  } else {
+    queryClient.removeQueries({ queryKey: ['me'] });
+  }
 
   if (!categoryId) {
     await Promise.all([
