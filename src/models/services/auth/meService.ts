@@ -24,6 +24,7 @@ const meService = {
         return data;
       },
       staleTime: 2 * 1000,
+      enabled: !!token,
     }),
 };
 

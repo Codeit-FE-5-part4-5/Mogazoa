@@ -9,7 +9,7 @@ const useLogout = () => {
       removeCookie('accessToken', { path: '/' });
     },
     onSuccess: () => {
-      queryClient.clear();
+      queryClient.removeQueries({ queryKey: ['me'] });
       alert('로그아웃 하였습니다.');
       window.location.href = '/';
     },
