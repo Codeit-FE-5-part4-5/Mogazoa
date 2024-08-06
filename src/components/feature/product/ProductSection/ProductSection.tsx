@@ -8,7 +8,7 @@ import productsService from '@/models/services/product/productsService';
 import { ORDER_VARIANTS } from '@/constants/products';
 import castArray from '@/utils/castArray';
 import { useIntersect } from '@/hooks';
-import { DropDown, Carousel } from '@/components/shared';
+import { withFetchBoundary, DropDown, Carousel } from '@/components/shared';
 import ProductCardList from '../ProductCardList/ProductCardList';
 
 interface ProductSectionProps {
@@ -88,4 +88,9 @@ const ProductSection = ({
   );
 };
 
-export default ProductSection;
+const ProductSectionWithBoundary = withFetchBoundary(
+  ProductSection,
+  'productsCard',
+);
+
+export default ProductSectionWithBoundary;

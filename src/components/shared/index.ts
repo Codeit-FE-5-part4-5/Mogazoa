@@ -7,7 +7,7 @@ import Spinner from './Spinner/Spinner';
 
 // Boundary
 import GlobalBoundary from './Boundary/GlobalBoundary';
-import FetchBoundary from './Boundary/FetchBoundary';
+import withFetchBoundary from './Boundary/FetchBoundary';
 
 // Chip
 import CategoryFilter from './Chip/CategoryFilter';
@@ -48,7 +48,7 @@ import ReviewModal from './modals/review-modal';
 export { Button, Carousel, Floating, Portal, Spinner };
 
 // Boundary Export
-export { GlobalBoundary, FetchBoundary };
+export { GlobalBoundary, withFetchBoundary };
 
 // Chip Export
 export { CategoryFilter, Chip, CompareChip, Ranking, ThumbsChip };

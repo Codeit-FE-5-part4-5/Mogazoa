@@ -1,5 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import followersRankingService from '@/models/services/follow/followers/followersRankingService';
+import { withFetchBoundary } from '@/components/shared';
 import RankingCard from '../RankingCard/RankingCard';
 
 const RankingList = () => {
@@ -40,4 +41,6 @@ const RankingList = () => {
   );
 };
 
-export default RankingList;
+const RankingListWithBoundary = withFetchBoundary(RankingList, 'rankingList');
+
+export default RankingListWithBoundary;

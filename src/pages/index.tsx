@@ -14,7 +14,6 @@ import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductSection from '@/components/feature/product/ProductSection/ProductSection';
 import TrendRankingList from '@/components/feature/ranking/product/TrendRankingList/TrendRankingList';
-import { FetchBoundary } from '@/components/shared';
 
 const RankingList = dynamic(() => import('@/components/feature/ranking/reviewer/RankingList/RankingList')); // prettier-ignore
 
@@ -65,22 +64,18 @@ const Home = () => {
         />
         <main className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
           <div className="flex flex-col xl:order-1">
-            <FetchBoundary variant="rankingList">
-              <RankingList />
-              <TrendRankingList />
-            </FetchBoundary>
+            <RankingList />
+            <TrendRankingList />
           </div>
           <div className="flex-1">
-            <FetchBoundary variant="productsCard">
-              <ProductSection
-                searchQuery={searchQuery}
-                currentQuery={currentQuery}
-                currentCategory={castArray(currentQuery.category)}
-                onChangeSortOrder={(order) =>
-                  appendQueryParam({ order: sortConverter(order) })
-                }
-              />
-            </FetchBoundary>
+            <ProductSection
+              searchQuery={searchQuery}
+              currentQuery={currentQuery}
+              currentCategory={castArray(currentQuery.category)}
+              onChangeSortOrder={(order) =>
+                appendQueryParam({ order: sortConverter(order) })
+              }
+            />
           </div>
         </main>
       </div>

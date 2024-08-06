@@ -5,7 +5,6 @@ import useGetMe from '@/models/queries/auth/useGetMe';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileCard';
-import { FetchBoundary } from '@/components/shared';
 import ActivitySection from './_components/ActivitySection';
 import ProductCategorySelector from './_components/ProductCategorySelector';
 import { ProductCategory } from '../user/[userId]';
@@ -31,9 +30,7 @@ const MyPage = () => {
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
           />
-          <FetchBoundary variant="productsCard">
-            <ProductList selectedCategory={selectedCategory} user={user} />
-          </FetchBoundary>
+          <ProductList selectedCategory={selectedCategory} user={user} />
         </div>
       </div>
     </MogazoaLayout>

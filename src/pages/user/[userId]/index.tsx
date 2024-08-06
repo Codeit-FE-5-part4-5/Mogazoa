@@ -6,7 +6,6 @@ import useUserProfile from '@/models/queries/user/profile/useUserProfile';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProfileCard from '@/components/feature/profile/ProfileCard/ProfileCard';
-import { FetchBoundary } from '@/components/shared';
 import ActivitySection from './_components/ActivitySection';
 import ProductCategorySelector from './_components/ProductCategorySelector';
 import ProductList from './_components/ProductList';
@@ -44,9 +43,7 @@ const UserProfile = () => {
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
           />
-          <FetchBoundary variant="productsCard">
-            <ProductList selectedCategory={selectedCategory} />
-          </FetchBoundary>
+          <ProductList selectedCategory={selectedCategory} />
         </div>
       </div>
     </MogazoaLayout>
