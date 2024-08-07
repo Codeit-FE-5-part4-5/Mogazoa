@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
 import { ProductCategory } from '@/pages/user/[userId]';
+import { DropDown } from '@/components/shared';
 
 interface ProductCategorySelectorProps {
   selectedCategory: ProductCategory;
@@ -11,59 +10,25 @@ const ProductCategorySelector = ({
   selectedCategory,
   setSelectedCategory,
 }: ProductCategorySelectorProps) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const orderList = ['리뷰한 상품', '등록한 상품', '찜한 상품'];
 
-  const handleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const handleListClick = (item: ProductCategory) => {
+    setSelectedCategory(item);
   };
 
   return (
     <div className="mb-[30px] mt-[52px]">
       <div className="relative xl:hidden">
-        <div className="flex w-[130px] cursor-pointer items-center justify-between">
-          <div onClick={handleDropdown}>{selectedCategory}</div>
-          <ChevronDown
-            className={`${isDropdownOpen ? 'rotate-180 transform' : ''}`}
-          />
+        <div className="w-[150px]">
+          <DropDown isOrder itemList={orderList} onClick={handleListClick} />
         </div>
-        {isDropdownOpen && (
-          <div className="absolute z-10 inline-block cursor-pointer rounded-sm border border-var-gray1 bg-[#1c1c22] text-var-gray1">
-            <div
-              className="p-3 hover:text-var-white"
-              onClick={() => {
-                setSelectedCategory(ProductCategory.REVIEWED);
-                setIsDropdownOpen(false);
-              }}
-            >
-              {ProductCategory.REVIEWED}
-            </div>
-            <div
-              className="p-3 hover:text-var-white"
-              onClick={() => {
-                setSelectedCategory(ProductCategory.CREATED);
-                setIsDropdownOpen(false);
-              }}
-            >
-              {ProductCategory.CREATED}
-            </div>
-            <div
-              className="p-3 hover:text-var-white"
-              onClick={() => {
-                setSelectedCategory(ProductCategory.FAVORITE);
-                setIsDropdownOpen(false);
-              }}
-            >
-              {ProductCategory.FAVORITE}
-            </div>
-          </div>
-        )}
       </div>
-      <div className="hidden space-x-10 text-var-gray1 xl:flex">
+      <div className="hidden h-[20px] items-end space-x-10 font-semibold text-var-gray1 xl:flex">
         <button
           type="button"
           className={`transition-all duration-300 hover:text-var-white ${
             selectedCategory === ProductCategory.REVIEWED
-              ? 'text-var-white'
+              ? 'text-[18px] text-var-white'
               : ''
           }`}
           onClick={() => setSelectedCategory(ProductCategory.REVIEWED)}
@@ -73,7 +38,9 @@ const ProductCategorySelector = ({
         <button
           type="button"
           className={`transition-all duration-300 hover:text-var-white ${
-            selectedCategory === ProductCategory.CREATED ? 'text-var-white' : ''
+            selectedCategory === ProductCategory.CREATED
+              ? 'text-[18px] text-var-white'
+              : ''
           }`}
           onClick={() => setSelectedCategory(ProductCategory.CREATED)}
         >
@@ -83,7 +50,7 @@ const ProductCategorySelector = ({
           type="button"
           className={`transition-all duration-300 hover:text-var-white ${
             selectedCategory === ProductCategory.FAVORITE
-              ? 'text-var-white'
+              ? 'text-[18px] text-var-white'
               : ''
           }`}
           onClick={() => setSelectedCategory(ProductCategory.FAVORITE)}

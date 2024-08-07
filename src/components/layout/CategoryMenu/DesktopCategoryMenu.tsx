@@ -16,7 +16,7 @@ const DesktopCategoryMenu = ({
   return (
     <div
       className={cn(
-        'mx-[20px] hidden w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white md:flex',
+        'mx-[20px] hidden h-full w-[160px] flex-shrink-0 flex-col bg-[#1C1C22] text-white md:sticky md:top-[100px] md:flex',
         isVisible ? 'my-[20px]' : 'mt-[45px]',
       )}
     >

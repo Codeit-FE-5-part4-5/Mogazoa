@@ -74,7 +74,7 @@ const Home = () => {
           onCategoryClick={updateQueryParam}
         />
         <main className="flex w-full max-w-[1250px] flex-col gap-[60px] md:min-w-0 xl:flex-row xl:gap-0">
-          <div className="flex flex-col xl:order-1">
+          <div className="flex flex-col xl:sticky xl:top-[100px] xl:order-1 xl:h-full">
             <RankingList />
             <TrendRankingList />
           </div>

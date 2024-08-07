@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { cn } from '@/lib/cn';
 import castArray from '@/utils/castArray';
 import useChangeRouter from '@/hooks/useChangeRouter';
 import useSearchRouter from '@/hooks/useSearchRouter';
-import { SearchInput } from '@/components/shared';
+import { Search } from '@/components/shared';
 
 interface NavAuthSectionProps {
   me?: number;
@@ -13,6 +13,15 @@ interface NavAuthSectionProps {
 }
 
 const linkStyle = 'transition-colors duration-300 hover:text-var-gray2';
+
+const nonRenderedPaths = [
+  'signin',
+  'signup',
+  'mypage',
+  'detail',
+  'compare',
+  'user',
+];
 
 const NavAuthSection = ({
   me,
@@ -24,6 +33,10 @@ const NavAuthSection = ({
   const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
     useSearchRouter();
 
+  useEffect(() => {
+    if (!searchQuery) initKeyword();
+  }, [isSearchOpen, currentQuery]);
+
   return (
     <div
       className={cn(
@@ -31,11 +44,8 @@ const NavAuthSection = ({
         isSearchOpen && 'flex-1',
       )}
     >
-      {currentPath.includes('signin') ||
-      currentPath.includes('signup') ||
-      currentPath.includes('mypage') ||
-      currentPath.includes('compare') ? null : (
-        <SearchInput
+      {nonRenderedPaths.find((path) => currentPath.includes(path)) ? null : (
+        <Search
           value={searchKeyword}
           type="text"
           onChange={onChangeSearchKeyword}

@@ -15,6 +15,10 @@ import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import ProductDetailCard from '@/components/feature/product/ProductDetailCard/ProductDetailCard';
 import ProductDetailReview from '@/components/feature/product/ProductDetailReview/ProductDetailReview';
 import StatisticsCard from '@/components/feature/product/StatisticsCard/StatisticsCard';
+import { DropDown } from '@/components/shared';
+import { REVIEW_ORDER_LIST, REVIEW_SORT_ORDER } from '@/constants/review';
+
+type TSortOrder = (typeof REVIEW_SORT_ORDER)[keyof typeof REVIEW_SORT_ORDER];
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -51,11 +55,7 @@ const ProductDetails = () => {
     productId: Number(productId),
   });
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('최신순');
-  const [sort, setSort] = useState<
-    'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount'
-  >('recent');
+  const [sort, setSort] = useState<TSortOrder>('recent');
 
   const numericProductId =
     productId && !Array.isArray(productId) ? Number(productId) : undefined;
@@ -76,17 +76,9 @@ const ProductDetails = () => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleOptionSelect = (
-    value: 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount',
-    label: '최신순' | '평점 높은 순' | '평점 낮은 순' | '좋아요 순',
-  ) => {
-    setSort(value);
-    setSelectedOption(label);
-    setIsDropdownOpen(false);
+  const handleOrderClick = (item: keyof typeof REVIEW_SORT_ORDER) => {
+    const order = REVIEW_SORT_ORDER[item] as TSortOrder;
+    setSort(order);
   };
 
   if (!productDetail) {
@@ -133,58 +125,12 @@ const ProductDetails = () => {
           <h1 className="text-[18px] font-semibold leading-normal text-[#F1F1F5]">
             상품 리뷰
           </h1>
-          <div>
-            <div className="flex w-full items-center justify-between">
-              <div className="relative inline-block">
-                <div
-                  className="w-[120px] cursor-pointer appearance-none rounded-md border-2 border-none bg-transparent text-center text-[16px] font-normal text-white focus:outline-none"
-                  onClick={handleDropdownToggle}
-                >
-                  {selectedOption}
-                  <Image
-                    src="/arrow.svg"
-                    alt="정렬"
-                    width={8}
-                    height={4}
-                    className="ml-2 inline-block"
-                  />
-                </div>
-                {isDropdownOpen && (
-                  <div className="absolute z-10 mt-2 w-full rounded-md border border-var-gray1 bg-[#1c1c22] text-var-gray1">
-                    <div
-                      className="cursor-pointer p-3 hover:text-var-white"
-                      onClick={() => handleOptionSelect('recent', '최신순')}
-                    >
-                      최신순
-                    </div>
-                    <div
-                      className="cursor-pointer p-3 hover:text-var-white"
-                      onClick={() =>
-                        handleOptionSelect('ratingDesc', '평점 높은 순')
-                      }
-                    >
-                      평점 높은 순
-                    </div>
-                    <div
-                      className="cursor-pointer p-3 hover:text-var-white"
-                      onClick={() =>
-                        handleOptionSelect('ratingAsc', '평점 낮은 순')
-                      }
-                    >
-                      평점 낮은 순
-                    </div>
-                    <div
-                      className="cursor-pointer p-3 hover:text-var-white"
-                      onClick={() =>
-                        handleOptionSelect('likeCount', '좋아요 순')
-                      }
-                    >
-                      좋아요 순
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="w-[132px]">
+            <DropDown
+              isOrder
+              itemList={REVIEW_ORDER_LIST}
+              onClick={handleOrderClick}
+            />
           </div>
         </div>
         {reviews.length > 0 ? (
