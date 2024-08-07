@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  *
@@ -7,9 +7,9 @@ import { useCallback, useEffect, useState } from 'react';
 const useIsMobile = (): boolean => {
   const [isMobileSize, setMobileSize] = useState(false);
 
-  const ChangeIsMobileSize = useCallback(() => {
+  const ChangeIsMobileSize = () => {
     setMobileSize(window.innerWidth <= 767);
-  }, []);
+  };
 
   useEffect(() => {
     ChangeIsMobileSize();
@@ -18,7 +18,7 @@ const useIsMobile = (): boolean => {
     return () => {
       window.removeEventListener('resize', ChangeIsMobileSize);
     };
-  }, [ChangeIsMobileSize]);
+  }, []);
 
   return isMobileSize;
 };

@@ -1,12 +1,12 @@
 import dynamic from 'next/dynamic';
 import { GetServerSidePropsContext } from 'next';
 import { useState } from 'react';
-import { dehydrate, useQuery } from '@tanstack/react-query';
-import getServerCookie from '@/lib/getServerCookie';
+import { dehydrate } from '@tanstack/react-query';
 import queryClient from '@/lib/query';
-import { getCookie } from '@/lib/cookie';
 
+import getServerCookie from '@/lib/getServerCookie';
 import meService from '@/models/services/auth/meService';
+import useGetMe from '@/models/queries/auth/useGetMe';
 
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
 import MyProfileCard from '@/components/feature/profile/MyProfileCard/MyProfileCard';
@@ -23,7 +23,9 @@ export const getServerSideProps = async (
   const accessToken = getServerCookie(context, 'accessToken');
 
   if (accessToken) {
-    await queryClient.prefetchQuery(meService.queryOptions(accessToken));
+    await queryClient.prefetchQuery(meService.queryOptions(accessToken!));
+  } else {
+    queryClient.removeQueries({ queryKey: ['me'] });
   }
 
   return {
@@ -34,8 +36,7 @@ export const getServerSideProps = async (
 };
 
 const MyPage = () => {
-  const token = getCookie('accessToken');
-  const { data: user } = useQuery(meService.queryOptions(token));
+  const { data: user } = useGetMe();
 
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory>(
     ProductCategory.REVIEWED,
@@ -44,7 +45,7 @@ const MyPage = () => {
   return (
     <MogazoaLayout>
       <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
-        <div className="w-full max-w-[940px] xl:w-[340px]">
+        <div className="top-[96px] size-full max-w-[940px] xl:sticky xl:w-[340px]">
           <MyProfileCard user={user} />
         </div>
         <div className="w-full xl:w-[940px]">

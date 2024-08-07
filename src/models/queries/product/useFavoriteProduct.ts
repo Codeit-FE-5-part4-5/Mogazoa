@@ -12,6 +12,7 @@ const useFavoriteProduct = ({ productId }: UseFavoriteProductProps) => {
     mutationFn: () => {
       const productDetail = queryClient.getQueryData<ProductDetail>([
         'productDetail',
+        productId,
       ]);
       if (!productDetail) {
         throw new Error('Product detail not found');
@@ -23,27 +24,36 @@ const useFavoriteProduct = ({ productId }: UseFavoriteProductProps) => {
         : axios.delete(`/products/${productId}/favorite`);
     },
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['productDetail'] });
+      await queryClient.cancelQueries({
+        queryKey: ['productDetail', productId],
+      });
       const prevProductDetail = queryClient.getQueryData<ProductDetail>([
         'productDetail',
+        productId,
       ]);
       if (!prevProductDetail) {
         throw new Error('Product detail not found');
       }
 
-      queryClient.setQueryData<ProductDetail>(['productDetail'], (oldData) => ({
-        ...(oldData as ProductDetail),
-        isFavorite: !(oldData as ProductDetail).isFavorite,
-      }));
+      queryClient.setQueryData<ProductDetail>(
+        ['productDetail', productId],
+        (oldData) => ({
+          ...(oldData as ProductDetail),
+          isFavorite: !(oldData as ProductDetail).isFavorite,
+        }),
+      );
       return { prevProductDetail };
     },
     onError: (error, variables, context) => {
       if (context?.prevProductDetail) {
-        queryClient.setQueryData(['productDetail'], context.prevProductDetail);
+        queryClient.setQueryData(
+          ['productDetail', productId],
+          context.prevProductDetail,
+        );
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['productDetail'] });
+      queryClient.invalidateQueries({ queryKey: ['productDetail', productId] });
     },
   });
 };

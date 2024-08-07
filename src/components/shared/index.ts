@@ -26,9 +26,11 @@ import EmailInput from './Input/EmailInput';
 import ImageInput from './Input/ImageInput';
 import NicknameInput from './Input/NicknameInput';
 import PasswordInput from './Input/PasswordInput';
-import SearchInput from './Input/SearchInput';
 import TextAreaInput from './Input/TextAreaInput';
 import TextFieldInput from './Input/TextFieldInput';
+
+// Search
+import Search from './Search/Search';
 
 // Modal
 import CompareConfirmModal from './modals/compare-confirm-modal';
@@ -63,10 +65,12 @@ export {
   ImageInput,
   NicknameInput,
   PasswordInput,
-  SearchInput,
   TextAreaInput,
   TextFieldInput,
 };
+
+// Search Export
+export { Search };
 
 // Modal Export
 export {

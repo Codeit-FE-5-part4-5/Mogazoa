@@ -1,26 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Dispatch, SetStateAction } from 'react';
-import { cn } from '@/lib/cn';
-
-import { useIsMobile } from '@/hooks';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 interface Props {
   me?: number;
-  isSearchOpen: boolean;
-  setOpenMenu: Dispatch<SetStateAction<boolean>>;
+  setOpenSideBarMenu: Dispatch<SetStateAction<boolean>>;
 }
 
-const NavMenuSection = ({ me, isSearchOpen, setOpenMenu }: Props) => {
-  const isMobile = useIsMobile();
-
+const NavMenuSection = ({ me, setOpenSideBarMenu }: Props) => {
+  const [isLoggedIn] = useState(!!me);
   return (
     <>
-      {isMobile && me ? (
+      {isLoggedIn ? (
         <button
           type="button"
-          onClick={() => setOpenMenu((prev) => !prev)}
-          className="flex cursor-pointer items-center space-x-4 md:hidden"
+          onClick={() => setOpenSideBarMenu((prev) => !prev)}
+          className="flex items-center space-x-4 md:hidden"
         >
           <Image src="/images/menu.svg" alt="MenuIcon" width={24} height={24} />
         </button>
@@ -36,12 +31,7 @@ const NavMenuSection = ({ me, isSearchOpen, setOpenMenu }: Props) => {
         </button>
       )}
 
-      <div
-        className={cn(
-          'absolute left-[50%] -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0',
-          isSearchOpen ? 'hidden' : 'flex',
-        )}
-      >
+      <div className="absolute left-[50%] flex -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0">
         <Link href="/">
           <Image
             src="/images/logo.svg"

@@ -2,7 +2,7 @@ const TrendRankingSkeleton = () => {
   return (
     <div className="mt-[45px] flex animate-pulse flex-col gap-[20px] xl:w-[300px]">
       <div className="skeleton-base ml-[20px] h-[18px] w-[100px]" />
-      <div className="flex xl:flex-col xl:gap-[10px]">
+      <div className="flex overflow-x-scroll no-scrollbar xl:flex-col xl:gap-[10px]">
         <TrendRankingSkeleton.Card />
         <TrendRankingSkeleton.Card />
         <TrendRankingSkeleton.Card />
@@ -16,7 +16,7 @@ const TrendRankingSkeleton = () => {
 
 TrendRankingSkeleton.Card = () => {
   return (
-    <div className="flex flex-col gap-[8px] px-[12px] py-[8px] xl:px-[20px]">
+    <div className="flex flex-shrink-0 flex-col gap-[8px] px-[12px] py-[8px] xl:px-[20px]">
       <div className="skeleton-base h-[12px] w-[100px]" />
       <div className="flex items-center gap-[8px]">
         <div className="skeleton-base size-[40px]" />

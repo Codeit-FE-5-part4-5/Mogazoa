@@ -14,14 +14,12 @@ import ProductCardList from '../ProductCardList/ProductCardList';
 interface ProductSectionProps {
   currentCategory?: string;
   onChangeSortOrder: (order: string) => void;
-  searchQuery: string;
   currentQuery: ParsedUrlQuery;
 }
 
 const ProductSection = ({
   currentCategory = '전체 상품',
   onChangeSortOrder,
-  searchQuery,
   currentQuery,
 }: ProductSectionProps) => {
   const bestProducts = useSuspenseQuery(
@@ -34,7 +32,6 @@ const ProductSection = ({
     productsService.infiniteQueryOptions({
       categoryId: Number(currentQuery.categoryId),
       order: castArray(currentQuery.order),
-      keyword: searchQuery,
     }),
   );
   const [ref, isIntersect] = useIntersect<HTMLDivElement>(products.isLoading);
@@ -49,24 +46,17 @@ const ProductSection = ({
   return (
     <div className="mx-[20px] mb-[20px] flex-1 xl:mt-[60px] xl:border-var-black3">
       {sliceBestProducts?.length !== 0 && (
-        <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
-          {`${currentCategory}의`}&nbsp;
-          <span className="bg-gradient-custom bg-clip-text text-transparent">
-            TOP 6
-          </span>
-        </h1>
+        <Carousel
+          currentCategory={currentCategory}
+          products={sliceBestProducts}
+          key={sliceBestProducts[0]?.id}
+          className="mb-[30px]"
+        />
       )}
-      <Carousel
-        products={sliceBestProducts}
-        key={sliceBestProducts[0]?.id}
-        className="mb-[30px]"
-      />
       <div className="mb-[30px]">
         <div className="flex justify-between gap-[20px]">
           <h1 className="mb-[30px] text-[24px] font-semibold text-var-white">
-            {searchQuery
-              ? `${searchQuery}의 검색 결과`
-              : `${currentCategory}의 모든 상품`}
+            {`${currentCategory}의 모든 상품`}
           </h1>
           <div className="w-[110px] flex-shrink-0">
             <DropDown
