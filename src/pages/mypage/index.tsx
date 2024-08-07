@@ -45,7 +45,7 @@ const MyPage = () => {
   return (
     <MogazoaLayout>
       <div className="mt-10 flex flex-col items-center justify-center px-5 text-var-white xl:flex-row xl:place-items-start xl:space-x-10">
-        <div className="top-[80px] size-full max-w-[940px] xl:sticky xl:w-[340px]">
+        <div className="top-[96px] size-full max-w-[940px] xl:sticky xl:w-[340px]">
           <MyProfileCard user={user} />
         </div>
         <div className="w-full xl:w-[940px]">
