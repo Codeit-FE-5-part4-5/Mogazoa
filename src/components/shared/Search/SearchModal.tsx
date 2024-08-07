@@ -17,7 +17,6 @@ import { Product } from '@/types/product/product';
 
 import useSearch from '@/store/use-search-store';
 import TextFieldInput from '../Input/TextFieldInput';
-import Spinner from '../Spinner/Spinner';
 
 interface SearchResultProps {
   categoryId: number;
