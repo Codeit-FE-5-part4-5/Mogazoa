@@ -25,7 +25,7 @@ const ProductCategorySelector = ({
           <DropDown isOrder itemList={orderList} onClick={handleListClick} />
         </div>
       </div>
-      <div className="hidden space-x-10 font-semibold text-var-gray1 xl:flex">
+      <div className="hidden h-[20px] space-x-10 font-semibold text-var-gray1 xl:flex xl:items-end">
         <button
           type="button"
           className={`transition-all duration-300 hover:text-var-white ${
