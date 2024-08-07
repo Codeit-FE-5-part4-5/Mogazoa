@@ -218,7 +218,7 @@ SearchModal.RecentKeyword = ({
 
   return (
     <div className="flex flex-wrap">
-      {recentKeyword.length !== 0 && (
+      {recentKeyword && (
         <>
           <p>최근 찾으신 상품 :</p>&nbsp;
         </>
