@@ -10,18 +10,17 @@ interface DesktopCategoryMenuProps {
   onCategoryClick: (value: string | Record<string, string | string[]>) => void;
 }
 
-interface TotalCategoryButtonProps {
-  isVisible?: boolean;
-  onCategoryClick: (value: string | Record<string, string | string[]>) => void;
+type TotalCategoryButtonProps = Omit<
+  DesktopCategoryMenuProps,
+  'currentCategory'
+> & {
   isHover: boolean;
   setHover: Dispatch<SetStateAction<boolean>>;
-}
+};
 
-interface CategoryButtonProps {
+type CategoryButtonProps = Omit<DesktopCategoryMenuProps, 'isVisible'> & {
   item: Category;
-  currentCategory: string;
-  onCategoryClick: (value: string | Record<string, string | string[]>) => void;
-}
+};
 
 const DesktopCategoryMenu = ({
   isVisible = false,

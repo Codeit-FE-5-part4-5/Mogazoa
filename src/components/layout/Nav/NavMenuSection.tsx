@@ -1,15 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { cn } from '@/lib/cn';
 
 interface Props {
   me?: number;
-  isSearchOpen: boolean;
   setOpenSideBarMenu: Dispatch<SetStateAction<boolean>>;
 }
 
-const NavMenuSection = ({ me, isSearchOpen, setOpenSideBarMenu }: Props) => {
+const NavMenuSection = ({ me, setOpenSideBarMenu }: Props) => {
   const [isLoggedIn] = useState(!!me);
   return (
     <>
@@ -33,12 +31,7 @@ const NavMenuSection = ({ me, isSearchOpen, setOpenSideBarMenu }: Props) => {
         </button>
       )}
 
-      <div
-        className={cn(
-          'absolute left-[50%] -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0',
-          isSearchOpen ? 'hidden' : 'flex',
-        )}
-      >
+      <div className="absolute left-[50%] flex -translate-x-1/2 md:relative md:left-0 md:flex md:-translate-x-0">
         <Link href="/">
           <Image
             src="/images/logo.svg"

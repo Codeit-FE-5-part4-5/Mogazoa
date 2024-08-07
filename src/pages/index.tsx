@@ -8,7 +8,7 @@ import productsService from '@/models/services/product/productsService';
 import { ORDER_VARIANTS } from '@/constants/products';
 import sortConverter from '@/utils/sortConverter';
 import castArray from '@/utils/castArray';
-import { useChangeRouter, useSearchRouter } from '@/hooks';
+import { useChangeRouter } from '@/hooks';
 
 import CategoryMenu from '@/components/layout/CategoryMenu/CategoryMenu';
 import MogazoaLayout from '@/components/layout/App/MogazoaLayout';
@@ -64,7 +64,6 @@ export const getServerSideProps = async (
 const Home = () => {
   const { currentQuery, updateQueryParam, appendQueryParam } =
     useChangeRouter();
-  const { searchQuery } = useSearchRouter();
 
   return (
     <MogazoaLayout>
@@ -80,7 +79,6 @@ const Home = () => {
           </div>
           <div className="flex-1">
             <ProductSection
-              searchQuery={searchQuery}
               currentQuery={currentQuery}
               currentCategory={castArray(currentQuery.category)}
               onChangeSortOrder={(order) =>

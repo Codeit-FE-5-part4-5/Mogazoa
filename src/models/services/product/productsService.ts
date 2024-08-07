@@ -65,6 +65,38 @@ const productsService = {
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
       staleTime: 10 * 1000,
     }),
+  searchQueryOption: (params: ProductsProps) =>
+    infiniteQueryOptions({
+      queryKey: [
+        'products',
+        params.categoryId ?? null,
+        params.order ?? null,
+        params.keyword ?? null,
+      ],
+      queryFn: async ({ pageParam = 0 }) => {
+        const categoryParam = params.categoryId
+          ? `&category=${params.categoryId}`
+          : '';
+        const keywordParam = params.keyword ? `&keyword=${params.keyword}` : '';
+        const cursorParam = pageParam ? `&cursor=${pageParam}` : '';
+        const orderParam = params.order ? `order=${params.order}` : '';
+        const requestUri = isServer
+          ? 'https://mogazoa-api.vercel.app/5-5/products?'
+          : 'products?';
+
+        const { data } = await axios.get(
+          `${requestUri}${orderParam}${keywordParam}${categoryParam}${cursorParam}`,
+        );
+        return {
+          list: data.list,
+          nextCursor: data.nextCursor,
+        };
+      },
+      initialPageParam: 0,
+      getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+      staleTime: 10 * 1000,
+      enabled: !!params.keyword,
+    }),
 };
 
 export default productsService;

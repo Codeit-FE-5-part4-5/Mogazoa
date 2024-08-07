@@ -252,6 +252,25 @@ body::-webkit-scrollbar-thumb:hover {
   background: #6e6e82;
 }
 
+.search_modal_scrollbar::-webkit-scrollbar {
+  width: 14px;
+}
+
+.search_modal_scrollbar::-webkit-scrollbar-track {
+  background-color: #1c1c22;
+  border: 1px solid #2e2e3a;
+  border-radius: 8px;
+}
+
+.search_modal_scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #2e2e3a;
+}
+
+.search_modal_scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6e6e82;
+}
+
 * {
   font-family: 'Pretendard';
   line-height: normal;

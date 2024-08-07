@@ -11,6 +11,7 @@ import { GlobalBoundary, Portal, Floating } from '@/components/shared';
 
 import '@/styles/globals.css';
 import { useState } from 'react';
+import SearchProvider from '@/providers/search-provider';
 
 declare global {
   interface Window {
@@ -27,6 +28,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <CookiesProvider defaultSetOptions={{ path: '/' }}>
           <ModalProvider />
           <Toaster />
+          <SearchProvider />
           <Portal portalName="floating">
             <Floating />
           </Portal>

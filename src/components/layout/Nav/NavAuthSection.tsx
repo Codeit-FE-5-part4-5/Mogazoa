@@ -1,59 +1,23 @@
 import Link from 'next/link';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/cn';
-import castArray from '@/utils/castArray';
 import useChangeRouter from '@/hooks/useChangeRouter';
-import useSearchRouter from '@/hooks/useSearchRouter';
 import { Search } from '@/components/shared';
 
 interface NavAuthSectionProps {
   me?: number;
-  isSearchOpen: boolean;
-  setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const nonRenderedPaths = [
-  'signin',
-  'signup',
-  'mypage',
-  'detail',
-  'compare',
-  'user',
-];
+const nonRenderedPaths = ['signin', 'signup'];
 
-const NavAuthSection = ({
-  me,
-  isSearchOpen,
-  setIsSearchOpen,
-}: NavAuthSectionProps) => {
+const NavAuthSection = ({ me }: NavAuthSectionProps) => {
   const [isLoggedIn] = useState(!!me);
-  const { currentPath, currentQuery } = useChangeRouter();
-  const { onChangeSearchKeyword, initKeyword, searchKeyword, searchQuery } =
-    useSearchRouter();
-
-  useEffect(() => {
-    if (!searchQuery) initKeyword();
-  }, [isSearchOpen, currentQuery]);
+  const { currentPath } = useChangeRouter();
 
   return (
-    <div
-      className={cn(
-        'flex justify-end gap-[30px] xl:gap-[60px]',
-        isSearchOpen && 'flex-1',
-      )}
-    >
+    <div className={cn('flex justify-end gap-[30px] xl:gap-[60px]')}>
       {nonRenderedPaths.find((path) => currentPath.includes(path)) ? null : (
-        <Search
-          value={searchKeyword}
-          type="text"
-          onChange={onChangeSearchKeyword}
-          searchQuery={searchQuery}
-          currentQuery={castArray(currentQuery)}
-          initKeyword={initKeyword}
-          isOpen={isSearchOpen}
-          setOpen={setIsSearchOpen}
-          placeholder="상품 이름을 검색해 보세요"
-        />
+        <Search />
       )}
       <div className="hidden flex-shrink-0 items-center text-right font-sans text-[16px] font-semibold text-var-gray1 md:flex md:gap-[30px] xl:gap-[60px]">
         <Link
