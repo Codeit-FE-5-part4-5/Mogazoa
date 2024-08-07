@@ -108,11 +108,27 @@ const SearchModal = () => {
           </DialogDescription>
         </DialogHeader>
         <div className="search_modal_scrollbar flex h-full flex-grow flex-col items-start gap-[12px] overflow-y-auto">
-          {result?.pages?.map((page) =>
-            page.list.map((product: Product, idx: number) => {
-              if (page.list.length - 1 === idx) {
-                return (
-                  <>
+          {keyword
+            ? result?.pages?.map((page) =>
+                page.list.map((product: Product, idx: number) => {
+                  if (page.list.length - 1 === idx) {
+                    return (
+                      <>
+                        <SearchModal.SearchResult
+                          key={product.id}
+                          id={product.id}
+                          categoryId={product.categoryId}
+                          name={product.name}
+                          favoriteCount={product.favoriteCount}
+                          rating={product.rating}
+                          reviewCount={product.reviewCount}
+                          onRedirectProductPage={handleRedirectProductPage}
+                        />
+                        {isSuccess && <div ref={ref} />}
+                      </>
+                    );
+                  }
+                  return (
                     <SearchModal.SearchResult
                       key={product.id}
                       id={product.id}
@@ -123,24 +139,10 @@ const SearchModal = () => {
                       reviewCount={product.reviewCount}
                       onRedirectProductPage={handleRedirectProductPage}
                     />
-                    {isSuccess && <div ref={ref} />}
-                  </>
-                );
-              }
-              return (
-                <SearchModal.SearchResult
-                  key={product.id}
-                  id={product.id}
-                  categoryId={product.categoryId}
-                  name={product.name}
-                  favoriteCount={product.favoriteCount}
-                  rating={product.rating}
-                  reviewCount={product.reviewCount}
-                  onRedirectProductPage={handleRedirectProductPage}
-                />
-              );
-            }),
-          )}
+                  );
+                }),
+              )
+            : null}
         </div>
       </DialogContent>
     </Dialog>
