@@ -17,6 +17,7 @@ import { Product } from '@/types/product/product';
 
 import useSearch from '@/store/use-search-store';
 import TextFieldInput from '../Input/TextFieldInput';
+import Spinner from '../Spinner/Spinner';
 
 interface SearchResultProps {
   categoryId: number;
@@ -40,12 +41,12 @@ const SearchModal = () => {
   const [keyword, onChangeKeyword, initKeyword] = useInput('');
   const {
     data: result,
-    isLoading,
+    isFetching,
     isSuccess,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(productsService.searchQueryOption({ keyword }));
-  const [ref, inView] = useIntersect<HTMLDivElement>(isLoading);
+  const [ref, inView] = useIntersect<HTMLDivElement>(isFetching);
 
   const handleStorage = (productId: number, productName: string) => {
     let prevHistory = JSON.parse(localStorage.getItem('searchHistory')!);
@@ -92,7 +93,7 @@ const SearchModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="mx-auto h-[80%] w-full max-w-[calc(100%-40px)] grid-rows-[100px_1fr] gap-[24px] border-var-gray1 bg-[#1c1c22] text-var-white md:max-w-[70%]">
+      <DialogContent className="top-[16px] mx-auto max-h-[80%] w-full max-w-[calc(100%-40px)] translate-y-0 grid-rows-[100px_1fr] gap-[24px] border-var-gray1 bg-[#1c1c22] text-var-white md:max-w-[70%]">
         <DialogHeader className="px-[8px]">
           <DialogTitle>
             <SearchModal.SearchInput
@@ -220,7 +221,7 @@ SearchModal.RecentKeyword = ({
     <div className="flex flex-wrap">
       {recentKeyword && (
         <>
-          <p>최근 찾으신 상품 :</p>&nbsp;
+          <p>최근 검색 :</p>&nbsp;
         </>
       )}
       {recentKeyword?.map(
