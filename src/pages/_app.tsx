@@ -1,24 +1,45 @@
-import '@/styles/globals.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ModalProvider } from '@/shared/providers/modal-provider';
 import type { AppProps } from 'next/app';
+import { CookiesProvider } from 'react-cookie';
+import { HydrationBoundary, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: false,
-    },
-  },
-});
+import queryClient from '@/lib/query';
+import ModalProvider from '@/providers/modal-provider';
 
-export default function App({ Component, pageProps }: AppProps) {
+import { Toaster } from '@/components/shared/ui/toaster';
+import { GlobalBoundary, Portal, Floating } from '@/components/shared';
+
+import '@/styles/globals.css';
+import { useState } from 'react';
+import SearchProvider from '@/providers/search-provider';
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Kakao: any;
+  }
+}
+
+const App = ({ Component, pageProps }: AppProps) => {
+  const [newQueryClient] = useState(queryClient);
   return (
-    <QueryClientProvider client={queryClient}>
-      <ModalProvider />
-      <Component {...pageProps} />
-      <ReactQueryDevtools initialIsOpen={false} />
+    <QueryClientProvider client={newQueryClient}>
+      <HydrationBoundary state={pageProps.dehydratedState}>
+        <CookiesProvider defaultSetOptions={{ path: '/' }}>
+          <ModalProvider />
+          <Toaster />
+          <SearchProvider />
+          <Portal portalName="floating">
+            <Floating />
+          </Portal>
+          <GlobalBoundary>
+            <Component {...pageProps} />
+          </GlobalBoundary>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </CookiesProvider>
+      </HydrationBoundary>
     </QueryClientProvider>
   );
-}
+};
+
+export default App;

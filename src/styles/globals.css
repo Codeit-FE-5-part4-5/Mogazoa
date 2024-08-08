@@ -75,6 +75,12 @@
   }
 }
 
+@layer components {
+  .skeleton-base {
+    @apply rounded-[12px] bg-var-black3;
+  }
+}
+
 @font-face {
   font-family: 'Pretendard';
   font-weight: 100;
@@ -221,11 +227,52 @@
 }
 
 body {
-  font-family: 'Pretendard' sans-serif;
+  overflow-y: scroll;
+}
+
+body {
   background: #1c1c22;
 }
 
+body::-webkit-scrollbar {
+  width: 14px;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #1c1c22;
+  border: 1px solid #2e2e3a;
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #2e2e3a;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #6e6e82;
+}
+
+.search_modal_scrollbar::-webkit-scrollbar {
+  width: 14px;
+}
+
+.search_modal_scrollbar::-webkit-scrollbar-track {
+  background-color: #1c1c22;
+  border: 1px solid #2e2e3a;
+  border-radius: 8px;
+}
+
+.search_modal_scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #2e2e3a;
+}
+
+.search_modal_scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6e6e82;
+}
+
 * {
+  font-family: 'Pretendard';
   line-height: normal;
 }
 
@@ -234,4 +281,12 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition:
+    background-color 0s 600000s,
+    color 0s 600000s !important;
+  -webkit-text-fill-color: #fff !important;
 }
